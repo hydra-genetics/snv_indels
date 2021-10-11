@@ -47,7 +47,5 @@ wildcard_constraints:
 
 def compile_output_list(wildcards):
     return [
-        "snv_indels/dummy/{}_{}.dummy.txt".format(sample, t)
-        for sample in get_samples(samples)
-        for t in get_unit_types(units, sample)
+        "snv_indels/dummy/%s_%s.dummy.txt" % (sample, t) for sample in get_samples(samples) for t in get_unit_types(units, sample)
     ]
