@@ -9,6 +9,7 @@ __license__ = "GPL-3"
 
 include: "rules/common.smk"
 include: "rules/mutect2.smk"
+include: "rules/vardict.smk"
 
 
 report: "report/workflow.rst"
