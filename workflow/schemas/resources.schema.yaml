@@ -12,6 +12,16 @@ properties:
         type: string
         description: max execution time for the 'mutect2' rule
 
+  vardict:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'vardict' rule
+      time:
+        type: string
+        description: max execution time for the 'vardict' rule
+
   default_resources:
     type: object
     properties:

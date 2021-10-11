@@ -20,6 +20,7 @@ properties:
         description: fasta reference file
     required:
       - fasta
+
   mutect2:
     type: object
     properties:
@@ -35,6 +36,29 @@ properties:
           extra:
             type: string
             description: parameters that should be forwarded to mutect2
+
+  vardict:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for vardict
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      params:
+        type: object
+        properties:
+          extra:
+            type: string
+            description: parameters that should be forwarded to vardict
+          bed_columns:
+            type: string
+            description: columns to use in bed file
+          af_th:
+            type: string
+            description: allele frequency threshold
+
   required:
     - samples
     - units
