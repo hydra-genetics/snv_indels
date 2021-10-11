@@ -36,4 +36,4 @@ rule mutect2:
     message:
         "{rule}: Use mutect2 to call variants, snv_indels/{rule}/{wildcards.sample}_{wildcards.type}_{wildcards.chr}.input"
     wrapper:
-        "0.72.0/bio/gatk/mutect"
+        "0.78.0/bio/gatk/mutect"
