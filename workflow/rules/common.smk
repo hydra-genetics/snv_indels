@@ -47,5 +47,7 @@ wildcard_constraints:
 
 def compile_output_list(wildcards):
     return [
-        "snv_indels/dummy/%s_%s.dummy.txt" % (sample, t) for sample in get_samples(samples) for t in get_unit_types(units, sample)
+        "snv_indels/mutect2/%s_%s_%s.unfilt.vcf.gz" % (sample, t, "chr1")
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
     ]

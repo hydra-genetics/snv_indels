@@ -2,6 +2,16 @@ $schema: "http://json-schema.org/draft-04/schema#"
 description: snakemake configuration file
 type: object
 properties:
+  mutect2:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'mutect2' rule
+      time:
+        type: string
+        description: max execution time for the 'mutect2' rule
+
   default_resources:
     type: object
     properties:
