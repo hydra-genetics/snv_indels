@@ -6,22 +6,22 @@ __copyright__ = "Copyright 2021, Patrik Smeds"
 __email__ = "patrik.smeds@scilifelab.uu.se"
 __license__ = "GPL-3"
 
+
 include: "rules/common.smk"
+
 
 report: "report/workflow.rst"
 
-    
+
 rule dummy:
     output:
         "snv_indels/dummy/{sample}_{type}.dummy.txt",
     params:
         extra=config.get("dummy", {}).get("extra", ""),
     log:
-        "snv_indels/dummy/{sample}_{type}.output.log"
+        "snv_indels/dummy/{sample}_{type}.output.log",
     benchmark:
-        repeat(
-            "module/dummy/{sample}_{type}.output.benchmark.tsv", config.get("dummy", {}).get("benchmark_repeats", 1)
-        )
+        repeat("module/dummy/{sample}_{type}.output.benchmark.tsv", config.get("dummy", {}).get("benchmark_repeats", 1))
     threads: config.get("dummy", config["default_resources"])["threads"]
     container:
         config.get("dummy", {}).get("container", config["default_container"])
@@ -34,7 +34,7 @@ rule dummy:
         touch {output}
         """
 
-        
+
 rule all:
     input:
         unpack(compile_output_list),
