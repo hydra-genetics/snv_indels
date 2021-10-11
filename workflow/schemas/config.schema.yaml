@@ -12,9 +12,32 @@ properties:
   default_container:
     type: string
     description: name or path to a default docker/singularity container
+  reference:
+    type: object
+    properties:
+      fasta:
+        type: string
+        description: fasta reference file
+    required:
+      - fasta
+  mutect2:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for mutect2
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      params:
+        type: object
+        properties:
+          extra:
+            type: string
+            description: parameters that should be forwarded to mutect2
   required:
     - samples
     - units
+    - reference
     - resources
-    - containers
     - default_container

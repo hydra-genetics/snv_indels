@@ -6,31 +6,13 @@ __copyright__ = "Copyright 2021, Patrik Smeds"
 __email__ = "patrik.smeds@scilifelab.uu.se"
 __license__ = "GPL-3"
 
+
 include: "rules/common.smk"
+include: "rules/mutect2.smk"
+
 
 report: "report/workflow.rst"
 
-rule dummy:
-    output:
-        "snv_indels/dummy/{sample}_{unit}.dummy.txt"
-    params:
-        extra=config.get("dummy", {}).get("extra", ""),
-    log:
-        "snv_indels/dummy/{sample}_{unit}.output.log"
-    benchmark:
-       repeat("module/dummy/{sample}_{unit}.output.benchmark.tsv", config.get("dummy", {}).get("benchmark_repeats", 1),)
-    threads: # optional
-       config.get("dummy", config["default_resources"])["threads"]
-    container:
-       config.get("dummy", {}).get("container", config["default_container"])
-    conda:
-       "../envs/dummy.yaml"
-    message:
-       "{rule}: Do stuff on module/{rule}/{wildcards.sample}_{wildcards.unit}.input"
-    shell:
-        """
-        touch {output}
-        """
 
 rule all:
     input:
