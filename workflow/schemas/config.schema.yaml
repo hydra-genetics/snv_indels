@@ -46,6 +46,9 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
+      input:
+        type: list
+        description: list of chromosomes to skip
       params:
         type: object
         properties:

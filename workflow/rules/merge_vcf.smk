@@ -9,16 +9,21 @@ __license__ = "GPL-3"
 
 rule merge_vcf:
     input:
-        vcf=expand("snv_indels/{caller}/{sample}_{type}_{chr}.unfilt.vcf.gz", chr=wildcards.chr),
+        calls=expand(
+            "snv_indels/{{caller}}/{{sample}}_{{type}}_{chr}.unfilt.vcf.gz",
+            #"snv_indels/mutect2/{{sample}}_{{type}}_{chr}.unfilt.vcf.gz",
+            #chr=["chr1"],
+            chr=extract_chr("%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("merge_vcf", {}).get("skip_chrs", []))
+            ),
     output:
-        vcf=temp("snv_indels/{caller}/{sample}_{type}.unfilt.merged.vcf.gz"),
+        temp("snv_indels/{caller}/{sample}_{type}.unfilt.merged.vcf.gz"),
     params:
-        extra="-O z " + config.get("merge_vcf", {}).get("extra", "")
+        extra=config.get("merge_vcf", {}).get("extra", ""),
     log:
-        "snv_indels/{caller}/{sample}_{type}_{chr}.log",
+        "snv_indels/{caller}/{sample}_{type}.log",
     benchmark:
-        repeat("snv_indels/{caller}/{sample}_{type}_{chr}.benchmark.tsv", config.get("vardict", {}).get("benchmark_repeats", 1))
-    threads: config.get("merge_vcf", config["default_resources"]).get("threads", config["default_resources"]['threads'])
+        repeat("snv_indels/{caller}/{sample}_{type}.benchmark.tsv", config.get("vardict", {}).get("benchmark_repeats", 1))
+    threads: config.get("merge_vcf", config["default_resources"]).get("threads", config["default_resources"]["threads"])
     container:
         config.get("merge_vcf", {}).get("container", config["default_container"])
     conda:
@@ -26,4 +31,4 @@ rule merge_vcf:
     message:
         "{rule}: Merge vcf on snv_indels/{rule}/{wildcards.sample}_{wildcards.type}"
     wrapper:
-        "0.79.0/bio/bcftools/merge"
+        "0.79.0/bio/bcftools/concat"

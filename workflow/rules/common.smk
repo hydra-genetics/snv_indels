@@ -11,6 +11,7 @@ from snakemake.utils import validate
 from snakemake.utils import min_version
 
 from hydra_genetics.utils.resources import load_resources
+from hydra_genetics.utils.misc import extract_chr
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
 
@@ -47,7 +48,8 @@ wildcard_constraints:
 
 def compile_output_list(wildcards):
     return [
-        "snv_indels/mutect2/%s_%s_%s.unfilt.merged.vcf.gz" % (sample, t, "chr1")
+        "snv_indels/%s/%s_%s.unfilt.merged.vcf.gz" % (caller, sample, t)
+        for caller in ["mutect2"]
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]
