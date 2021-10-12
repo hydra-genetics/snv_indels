@@ -2,6 +2,10 @@ mutect2:
   threads: 1
   time: "24:00:00"
 
+vardict:
+  threads: 1
+  time: "24:00:00"
+
 default_resources:
   threads: 1
   time: "12:00:00"
