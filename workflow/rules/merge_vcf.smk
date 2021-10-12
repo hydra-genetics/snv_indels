@@ -11,8 +11,6 @@ rule merge_vcf:
     input:
         calls=expand(
             "snv_indels/{{caller}}/{{sample}}_{{type}}_{chr}.unfilt.vcf.gz",
-            #"snv_indels/mutect2/{{sample}}_{{type}}_{chr}.unfilt.vcf.gz",
-            #chr=["chr1"],
             chr=extract_chr("%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("merge_vcf", {}).get("skip_chrs", []))
             ),
     output:
