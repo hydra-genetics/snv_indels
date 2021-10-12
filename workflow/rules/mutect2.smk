@@ -28,7 +28,7 @@ rule mutect2:
         "snv_indels/mutect2/{sample}_{type}_{chr}.log",
     benchmark:
         repeat("snv_indels/mutect2/{sample}_{type}_{chr}.benchmark.tsv", config.get("mutect2", {}).get("benchmark_repeats", 1))
-    threads: config.get("mutect2", config["default_resources"])["threads"]
+    threads: config.get("mutect2", config["default_resources"]).get("threads", config["default_resources"]['threads'])
     container:
         config.get("mutect2", {}).get("container", config["default_container"])
     conda:
