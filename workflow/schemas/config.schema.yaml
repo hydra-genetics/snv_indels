@@ -20,6 +20,7 @@ properties:
         description: fasta reference file
     required:
       - fasta
+
   mutect2:
     type: object
     properties:
@@ -35,6 +36,23 @@ properties:
           extra:
             type: string
             description: parameters that should be forwarded to mutect2
+
+  merge_vcf:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for merge_vcf
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      params:
+        type: object
+        properties:
+          extra:
+            type: string
+            description: parameters that should be forwarded to merge_vcf
+
   required:
     - samples
     - units

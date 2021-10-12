@@ -12,6 +12,16 @@ properties:
         type: string
         description: max execution time for the 'mutect2' rule
 
+  merge_vcf:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'merge_vcf' rule
+      time:
+        type: string
+        description: max execution time for the 'merge_vcf' rule
+
   default_resources:
     type: object
     properties:
