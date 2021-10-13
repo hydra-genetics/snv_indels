@@ -53,6 +53,25 @@ properties:
             type: string
             description: parameters that should be forwarded to tabix_vcf
 
+  filter_vcf_on_format:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for filter_vcf_on_format
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      params:
+        type: object
+        properties:
+          extra:
+            type: string
+            description: extra parameters that should be forwarded to filter_vcf_on_format
+          filter:
+            type: string
+            description: filter parameters that should be forwarded to filter_vcf_on_format
+
   bgzip_vcf:
     type: object
     properties:

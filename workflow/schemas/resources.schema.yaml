@@ -13,11 +13,16 @@ properties:
         type: string
         description: max execution time for the 'mutect2' rule
 
+<<<<<<< HEAD
   merge_vcf:
+=======
+  filter_vcf_on_format:
+>>>>>>> Updated schemas
     type: object
     properties:
       threads:
         type: integer
+<<<<<<< HEAD
         description: number of threads that will be used by the 'merge_vcf' rule
       time:
         type: string
@@ -62,6 +67,12 @@ properties:
       time:
         type: string
         description: max execution time for the 'bgzip' rule
+=======
+        description: number of threads that will be used by the 'filter_vcf_on_format' rule
+      time:
+        type: string
+        description: max execution time for the 'filter_vcf_on_format' rule
+>>>>>>> Updated schemas
 
   default_resources:
     type: object
