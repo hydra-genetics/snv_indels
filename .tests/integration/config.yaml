@@ -6,3 +6,9 @@ default_container: "docker://marrip/common:1.1.0"
 
 reference:
   fasta: "reference/WASH7P.fna"
+
+mutect2:
+  container: "docker://gmsuppsala/somatic:develop"
+
+merge_vcf:
+  container: "docker://gmsuppsala/somatic:develop"
