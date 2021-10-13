@@ -9,6 +9,7 @@ reference:
 
 vardict:
   container: "docker://gmsuppsala/somatic:develop"
+  bed_columns: "-c 1 -S 2 -E 3"
 
 mutect2:
   container: "docker://gmsuppsala/somatic:develop"
