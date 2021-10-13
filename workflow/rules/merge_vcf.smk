@@ -14,7 +14,7 @@ rule merge_vcf:
             chr=extract_chr(
                 "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("merge_vcf", {}).get("skip_chrs", [])
                 ),
-            ),
+        ),
     output:
         temp("snv_indels/{caller}/{sample}_{type}.unfilt.merged.vcf.gz"),
     params:
