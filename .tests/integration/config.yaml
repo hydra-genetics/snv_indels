@@ -13,3 +13,6 @@ vardict:
 
 mutect2:
   container: "docker://gmsuppsala/somatic:develop"
+
+merge_vcf:
+  container: "docker://gmsuppsala/somatic:develop"

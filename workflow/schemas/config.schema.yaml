@@ -37,6 +37,25 @@ properties:
             type: string
             description: parameters that should be forwarded to mutect2
 
+  merge_vcf:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for merge_vcf
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      input:
+        type: list
+        description: list of chromosomes to skip
+      params:
+        type: object
+        properties:
+          extra:
+            type: string
+            description: parameters that should be forwarded to merge_vcf
+
   vardict:
     type: object
     properties:
@@ -55,7 +74,7 @@ properties:
           bed_columns:
             type: string
             description: columns to use in bed file
-          af_th:
+          allele_frequency_threshold:
             type: string
             description: allele frequency threshold
 
