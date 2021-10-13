@@ -49,7 +49,7 @@ wildcard_constraints:
 def compile_output_list(wildcards):
     return [
         "snv_indels/%s/%s_%s.unfilt.merged.vcf.gz" % (caller, sample, t)
-        for caller in ["mutect2"]
+        for caller in ["mutect2", "vardict"]
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]

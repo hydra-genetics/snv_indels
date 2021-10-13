@@ -7,6 +7,10 @@ default_container: "docker://marrip/common:1.1.0"
 reference:
   fasta: "reference/WASH7P.fna"
 
+vardict:
+  container: "docker://gmsuppsala/somatic:develop"
+  bed_columns: "-c 1 -S 2 -E 3"
+
 mutect2:
   container: "docker://gmsuppsala/somatic:develop"
 
