@@ -48,13 +48,8 @@ wildcard_constraints:
 
 def compile_output_list(wildcards):
     return [
-<<<<<<< HEAD
         "snv_indels/%s/%s_%s.unfilt.merged.vcf.gz" % (caller, sample, t)
         for caller in ["mutect2", "vardict"]
-=======
-        "snv_indels/%s/%s_%s.merged.format_filt.vcf.gz" % (caller, sample, t)
-        for caller in ["mutect2"]
->>>>>>> Updated Snakefile and common
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]
