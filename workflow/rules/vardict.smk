@@ -22,7 +22,7 @@ rule vardict:
         "snv_indels/vardict/{sample}_{type}_{chr}.log",
     benchmark:
         repeat("snv_indels/vardict/{sample}_{type}_{chr}.benchmark.tsv", config.get("vardict", {}).get("benchmark_repeats", 1))
-    threads: config.get("vardict", config["default_resources"]).get("threads", config["default_resources"]['threads'])
+    threads: config.get("vardict", config["default_resources"]).get("threads", config["default_resources"]["threads"])
     container:
         config.get("vardict", {}).get("container", config["default_container"])
     conda:
