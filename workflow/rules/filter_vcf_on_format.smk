@@ -13,8 +13,8 @@ rule filter_vcf_on_format:
     output:
         vcf="snv_indels/{caller}/{sample}_{type}.merged.format_filt.vcf.gz",
     params:
-        filter=config.get("filter_vcf_on_format", {}).get("filter","-i 'FORMAT/DP > 100 & FORMAT/AD > 20 & FORMAT/AF > 0.05'")
-        extra=config.get("filter_vcf_on_format", {}).get("extra", "-m + -s +")
+        filter=config.get("filter_vcf_on_format", {}).get("filter", "-i 'FORMAT/DP > 100 & FORMAT/AD > 20 & FORMAT/AF > 0.05'"),
+        extra=config.get("filter_vcf_on_format", {}).get("extra", "-m + -s +"),
     log:
         "snv_indels/filter_vcf_on_format/{sample}_{type}.log",
     benchmark:
