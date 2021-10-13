@@ -47,8 +47,8 @@ wildcard_constraints:
 
 def compile_output_list(wildcards):
     return [
-        "snv_indels/%s/%s_%s_%s.unfilt.vcf.gz" % (rule, sample, t, "chr1")
-        for rule in ["mutect2", "vardict"]
+        "snv_indels/%s/%s_%s_%s.unfilt.vcf.gz" % (caller, sample, t, "chr1")
+        for caller in ["mutect2", "vardict"]
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]
