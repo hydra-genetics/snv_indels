@@ -13,7 +13,6 @@ include: "rules/vardict.smk"
 include: "rules/merge_vcf.smk"
 
 
-
 report: "report/workflow.rst"
 
 
