@@ -19,3 +19,6 @@ merge_vcf:
 
 bgzip:
   container: "docker://gmsuppsala/somatic:develop"
+
+tabix_vcf:
+  container: "docker://gmsuppsala/somatic:develop"
