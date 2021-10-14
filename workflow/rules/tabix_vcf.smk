@@ -10,7 +10,7 @@ rule tabix_vcf:
         "snv_indels/{caller}/{file}.unfilt.vcf.gz.log",
     benchmark:
         repeat(
-            "tabix_vcf/{caller}/{file}.unfilt.vcf.gz.benchmark.tsv",
+            "snv_indels/{caller}/{file}.unfilt.vcf.gz.benchmark.tsv",
             config.get("tabix_vcf", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("tabix_vcf", config["default_resources"]).get("threads", config["default_resources"]["threads"])
