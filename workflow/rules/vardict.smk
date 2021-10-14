@@ -13,7 +13,7 @@ rule vardict:
         reference=config["reference"]["fasta"],
         regions="misc/bed_split/{sample}_{type}_{chr}.bed",
     output:
-        vcf=temp("snv_indels/vardict/{sample}_{type}_{chr}.unfilt.vcf.gz"),
+        vcf=temp("snv_indels/vardict/{sample}_{type}_{chr}.unfilt.vcf"),
     params:
         extra=config.get("vardict", {}).get("extra", ""),
         bed_columns=config.get("vardict", {}).get("bed_columns", "-c 1 -S 2 -E 3 -g 4"),
