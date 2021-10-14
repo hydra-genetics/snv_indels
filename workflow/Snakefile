@@ -10,6 +10,7 @@ __license__ = "GPL-3"
 include: "rules/common.smk"
 include: "rules/mutect2.smk"
 include: "rules/vardict.smk"
+include: "rules/tabix_vcf.smk"
 include: "rules/merge_vcf.smk"
 include: "rules/bgzip_vcf.smk"
 
