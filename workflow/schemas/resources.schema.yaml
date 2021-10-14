@@ -83,6 +83,16 @@ properties:
         type: string
         description: max execution time for the 'vardict' rule
 
+  freebayes:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'freebayes' rule
+      time:
+        type: string
+        description: max execution time for the 'freebayes' rule
+
   default_resources:
     type: object
     properties:

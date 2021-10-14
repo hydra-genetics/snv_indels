@@ -22,3 +22,6 @@ bgzip_vcf:
 
 tabix_vcf:
   container: "docker://gmsuppsala/somatic:develop"
+
+freebayes:
+  container: "docker://gmsuppsala/somatic:develop"

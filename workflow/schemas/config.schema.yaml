@@ -37,6 +37,22 @@ properties:
             type: string
             description: parameters that should be forwarded to mutect2
 
+  freebayes:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for freebayes
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      params:
+        type: object
+        properties:
+          extra:
+            type: string
+            description: parameters that should be forwarded to freebayes
+
   tabix_vcf:
     type: object
     properties:
