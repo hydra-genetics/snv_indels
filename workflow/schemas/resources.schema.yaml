@@ -32,6 +32,16 @@ properties:
         type: string
         description: max execution time for the 'vardict' rule
 
+  bgzip_vcf:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'bgzip' rule
+      time:
+        type: string
+        description: max execution time for the 'bgzip' rule
+
   default_resources:
     type: object
     properties:

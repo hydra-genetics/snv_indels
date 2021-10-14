@@ -16,3 +16,6 @@ mutect2:
 
 merge_vcf:
   container: "docker://gmsuppsala/somatic:develop"
+
+bgzip:
+  container: "docker://gmsuppsala/somatic:develop"

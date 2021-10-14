@@ -37,6 +37,16 @@ properties:
             type: string
             description: parameters that should be forwarded to mutect2
 
+  bgzip_vcf:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for bgzip
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
   merge_vcf:
     type: object
     properties:
