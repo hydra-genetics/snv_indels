@@ -23,6 +23,16 @@ properties:
         type: string
         description: max execution time for the 'merge_vcf' rule
 
+  filter_vcf_on_format:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'filter_vcf_on_format' rule
+      time:
+        type: string
+        description: max execution time for the 'filter_vcf_on_format' rule
+
   merge_vcf:
     type: object
     properties:
@@ -62,6 +72,16 @@ properties:
       time:
         type: string
         description: max execution time for the 'bgzip' rule
+
+  vardict:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'vardict' rule
+      time:
+        type: string
+        description: max execution time for the 'vardict' rule
 
   default_resources:
     type: object
