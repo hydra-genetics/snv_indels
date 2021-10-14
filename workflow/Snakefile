@@ -15,6 +15,9 @@ include: "rules/merge_vcf.smk"
 include: "rules/bgzip_vcf.smk"
 
 
+ruleorder: mutect2 > tabix_vcf
+
+
 report: "report/workflow.rst"
 
 
