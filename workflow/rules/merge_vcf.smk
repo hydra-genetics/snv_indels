@@ -15,6 +15,12 @@ rule merge_vcf:
                 "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("merge_vcf", {}).get("skip_chrs", [])
             ),
         ),
+        calls_index=expand(
+            "snv_indels/{{caller}}/{{sample}}_{{type}}_{chr}.unfilt.vcf.gz.tbi",
+            chr=extract_chr(
+                "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("merge_vcf", {}).get("skip_chrs", [])
+            ),
+        ),
     output:
         temp("snv_indels/{caller}/{sample}_{type}.unfilt.merged.vcf.gz"),
     params:
@@ -22,7 +28,7 @@ rule merge_vcf:
     log:
         "snv_indels/{caller}/{sample}_{type}.log",
     benchmark:
-        repeat("snv_indels/{caller}/{sample}_{type}.benchmark.tsv", config.get("vardict", {}).get("benchmark_repeats", 1))
+        repeat("snv_indels/{caller}/{sample}_{type}.benchmark.tsv", config.get("merge_vcf", {}).get("benchmark_repeats", 1))
     threads: config.get("merge_vcf", config["default_resources"]).get("threads", config["default_resources"]["threads"])
     container:
         config.get("merge_vcf", {}).get("container", config["default_container"])

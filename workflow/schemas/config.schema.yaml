@@ -37,6 +37,22 @@ properties:
             type: string
             description: parameters that should be forwarded to mutect2
 
+  tabix_vcf:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for tabix_vcf
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      params:
+        type: object
+        properties:
+          extra:
+            type: string
+            description: parameters that should be forwarded to tabix_vcf
+
   bgzip_vcf:
     type: object
     properties:
@@ -57,8 +73,11 @@ properties:
         type: string
         description: name or path to docker/singularity container
       input:
-        type: list
-        description: list of chromosomes to skip
+        type: object
+        properties:
+          skip_chrs:
+            type: list
+            description: list of chromosomes to skip
       params:
         type: object
         properties:
