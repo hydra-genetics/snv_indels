@@ -3,4 +3,5 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - vt=2015.11.10
+  - vt=2015.11.10|0.57721
+  - cryptography
