@@ -14,6 +14,9 @@ vardict:
 mutect2:
   container: "docker://gmsuppsala/somatic:develop"
 
+filter_vcf_on_format:
+  container: "docker://gmsuppsala/somatic:develop"
+
 merge_vcf:
   container: "docker://gmsuppsala/somatic:develop"
 
@@ -24,4 +27,13 @@ tabix_vcf:
   container: "docker://gmsuppsala/somatic:develop"
 
 freebayes:
+  container: "docker://gmsuppsala/somatic:develop"
+
+decompose:
+  container: "docker://gmsuppsala/somatic:develop"
+
+normalize:
+  container: "docker://gmsuppsala/somatic:develop"
+
+sort_vcf:
   container: "docker://gmsuppsala/somatic:develop"

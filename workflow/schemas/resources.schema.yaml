@@ -93,6 +93,36 @@ properties:
         type: string
         description: max execution time for the 'freebayes' rule
 
+decompose:
+  type: object
+  properties:
+    threads:
+      type: integer
+      description: number of threads that will be used by the 'decompose' rule
+    time:
+      type: string
+      description: max execution time for the 'decompose' rule
+
+  normalize:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'normalize' rule
+      time:
+        type: string
+        description: max execution time for the 'normalize' rule
+
+  sort_vcf:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'sort_vcf' rule
+      time:
+        type: string
+        description: max execution time for the 'sort_vcf' rule
+
   default_resources:
     type: object
     properties:
