@@ -17,6 +17,7 @@ include: "rules/filter_vcf_on_format.smk"
 include: "rules/decompose.smk"
 include: "rules/normalize.smk"
 include: "rules/sort_vcf.smk"
+include: "rules/ensemble_vcf.smk"
 
 
 ruleorder: mutect2 > tabix_vcf

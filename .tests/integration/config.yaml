@@ -34,3 +34,10 @@ normalize:
 
 sort_vcf:
   container: "docker://gmsuppsala/somatic:develop"
+
+ensemble_vcf:
+  container: "docker://gmsuppsala/somatic:develop"
+  callers:
+    - vardict
+    - mutect2
+  sort_order: "vardict,mutect2"

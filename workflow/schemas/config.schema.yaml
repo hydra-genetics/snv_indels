@@ -37,6 +37,35 @@ properties:
             type: string
             description: parameters that should be forwarded to mutect2
 
+  ensemble_vcf:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for ensemble_vcf
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      input:
+        type: object
+        properties:
+          callers:
+            type: list
+            description: list of callers that are included in the vcf ensemble
+          required:
+            - callers
+      params:
+        type: object
+        properties:
+          support:
+            type: integer
+            description: how many callers must support variant to be included in ensembled vcf
+          sort_order:
+            type: string
+            description: order which information about a variant should be kept ("vardict,mutect2")
+        required:
+          - sort_order
+
   tabix_vcf:
     type: object
     properties:
