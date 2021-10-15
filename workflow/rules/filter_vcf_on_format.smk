@@ -11,15 +11,15 @@ rule filter_vcf_on_format:
     input:
         vcf="snv_indels/{caller}/{sample}_{type}.unfilt.merged.vcf.gz",
     output:
-        vcf="snv_indels/{caller}/{sample}_{type}.merged.format_filt.vcf.gz",
+        vcf=temp("snv_indels/{caller}/{sample}_{type}.merged.format_filt.vcf.gz"),
     params:
         filter=config.get("filter_vcf_on_format", {}).get("filter", "-i 'FORMAT/DP > 100 & FORMAT/AD > 20 & FORMAT/AF > 0.05'"),
-        extra=config.get("filter_vcf_on_format", {}).get("extra", "-m + -s +"),
+        extra=config.get("filter_vcf_on_format", {}).get("extra", "--mode '+' --soft-filter 'DP_AD_AF'"),
     log:
-        "snv_indels/{caller}/{sample}_{type}.log",
+        "snv_indels/{caller}/{sample}_{type}.merged.format_filt.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/{caller}/{sample}_{type}.benchmark.tsv",
+            "snv_indels/{caller}/{sample}_{type}.merged.format_filt.vcf.gz.benchmark.tsv",
             config.get("filter_vcf_on_format", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("filter_vcf_on_format", config["default_resources"]).get("threads", config["default_resources"]["threads"])
@@ -28,6 +28,6 @@ rule filter_vcf_on_format:
     conda:
         "../envs/filter_vcf_on_format.yaml"
     message:
-        "{rule}: Filter vcf snv_indels/{wildcards.caller}/{wildcards.sample}_{wildcards.type}.merged.format_filt.vcf.gz based on format"
+        "{rule}: Filter vcf snv_indels/{wildcards.caller}/{wildcards.sample}_{wildcards.type}.unfilt.merged.vcf.gz based on format"
     wrapper:
-        "0.78.0/bio/bcftools/filter"
+        "0.72.0/bio/bcftools/filter"

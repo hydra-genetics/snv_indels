@@ -14,8 +14,9 @@ include: "rules/tabix_vcf.smk"
 include: "rules/merge_vcf.smk"
 include: "rules/bgzip_vcf.smk"
 include: "rules/filter_vcf_on_format.smk"
-include: "rules/vardict.smk"
-include: "rules/merge_vcf.smk"
+include: "rules/decompose.smk"
+include: "rules/normalize.smk"
+include: "rules/sort_vcf.smk"
 
 
 ruleorder: mutect2 > tabix_vcf
