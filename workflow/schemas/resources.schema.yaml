@@ -113,6 +113,16 @@ properties:
         type: string
         description: max execution time for the 'sort_vcf' rule
 
+  ensemble_vcf:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'ensemble_vcf' rule
+      time:
+        type: string
+        description: max execution time for the 'ensemble_vcf' rule
+
   default_resources:
     type: object
     properties:
