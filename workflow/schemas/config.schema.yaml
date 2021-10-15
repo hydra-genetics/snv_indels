@@ -126,6 +126,36 @@ properties:
             type: string
             description: allele frequency threshold
 
+  decompose:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for decompose
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
+  normalize:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for normalize
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
+  sort_vcf:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for sort_vcf
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
   required:
     - samples
     - units
