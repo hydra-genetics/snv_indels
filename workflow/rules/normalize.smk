@@ -9,15 +9,15 @@ __license__ = "GPL-3"
 
 rule normalize:
     input:
-        vcf="snv_indels/{caller}/{sample}_{type}.format_filt.decomposed.vcf.gz",
+        vcf="snv_indels/{caller}/{sample}_{type}.decomposed.vcf.gz",
         ref=config["reference"]["fasta"],
     output:
-        vcf=temp("snv_indels/{caller}/{sample}_{type}.format_filt.normalized.vcf.gz"),
+        vcf=temp("snv_indels/{caller}/{sample}_{type}.normalized.vcf.gz"),
     log:
-        "snv_indels/{caller}/{sample}_{type}.format_filt.normalized.vcf.gz.log",
+        "snv_indels/{caller}/{sample}_{type}.normalized.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/{caller}/{sample}_{type}.format_filt.normalized.vcf.gz.benchmark.tsv",
+            "snv_indels/{caller}/{sample}_{type}.normalized.vcf.gz.benchmark.tsv",
             config.get("normalize", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("normalize", config["default_resources"]).get("threads", config["default_resources"]["threads"])
@@ -26,6 +26,6 @@ rule normalize:
     conda:
         "../envs/normalize.yaml"
     message:
-        "{rule}: Normalize vcf snv_indels/{wildcards.caller}/{wildcards.sample}_{wildcards.type}.format_filt.decomposed.vcf.gz"
+        "{rule}: Normalize vcf snv_indels/{wildcards.caller}/{wildcards.sample}_{wildcards.type}.decomposed.vcf.gz"
     shell:
         "(vt normalize -n -r {input.ref} -o {output.vcf} {input.vcf} ) &> {log}"

@@ -9,17 +9,17 @@ __license__ = "GPL-3"
 
 rule filter_vcf_on_format:
     input:
-        vcf="snv_indels/{caller}/{sample}_{type}.unfilt.merged.vcf.gz",
+        vcf="snv_indels/{caller}/{sample}_{type}.merged.vcf.gz",
     output:
-        vcf=temp("snv_indels/{caller}/{sample}_{type}.merged.format_filt.vcf.gz"),
+        vcf=temp("snv_indels/{caller}/{sample}_{type}.format_filt.vcf.gz"),
     params:
         filter=config.get("filter_vcf_on_format", {}).get("filter", "-i 'FORMAT/DP > 100 & FORMAT/AD > 20 & FORMAT/AF > 0.05'"),
         extra=config.get("filter_vcf_on_format", {}).get("extra", "--mode '+' --soft-filter 'DP_AD_AF'"),
     log:
-        "snv_indels/{caller}/{sample}_{type}.merged.format_filt.vcf.gz.log",
+        "snv_indels/{caller}/{sample}_{type}.format_filt.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/{caller}/{sample}_{type}.merged.format_filt.vcf.gz.benchmark.tsv",
+            "snv_indels/{caller}/{sample}_{type}.format_filt.vcf.gz.benchmark.tsv",
             config.get("filter_vcf_on_format", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("filter_vcf_on_format", config["default_resources"]).get("threads", config["default_resources"]["threads"])
