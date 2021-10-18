@@ -123,6 +123,16 @@ properties:
         type: string
         description: max execution time for the 'ensemble_vcf' rule
 
+  annotate:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'annotate' rule
+      time:
+        type: string
+        description: max execution time for the 'annotate' rule
+
   default_resources:
     type: object
     properties:
