@@ -39,7 +39,7 @@ jobs:
           pip install -r requirements.test.txt
       - name: Create fake VEP folder
         run: |
-          mkdir -p /home/runner=data/ref_genomes/VEP/homo_sapiens
+          mkdir -p /home/runner/data/ref_genomes/VEP/homo_sapiens
       - name: snakemake dry run
         working-directory: .tests/integration
         run: |
