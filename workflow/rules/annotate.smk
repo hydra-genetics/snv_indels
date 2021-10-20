@@ -11,13 +11,13 @@ rule annotate:
     input:
         vcf="snv_indels/{caller}/{file}.vcf.gz",
         tabix="snv_indels/{caller}/{file}.vcf.gz.tbi",
-        cache=config["annotate"]["input"]["vep_cache"],
+        cache=config["annotate"]["vep_cache"],
         fasta=config["reference"]["fasta"],
     output:
         vcf=temp("snv_indels/{caller}/{file}.annotated.vcf"),
     params:
-        extra=config["annotate"]["params"]["extra"],
-        mode=config.get("annotate", {}).get("params", {}).get("mode", "--offline --cache"),
+        extra=config["annotate"]["extra"],
+        mode=config.get("annotate", {}).get("mode", "--offline --cache"),
     log:
         "snv_indels/{caller}/{file}.annotated.vcf.gz.log",
     benchmark:

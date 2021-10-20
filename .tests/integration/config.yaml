@@ -44,8 +44,6 @@ ensemble_vcf:
 
 annotate:
   container: "docker://ensemblorg/ensembl-vep:release_99.0"
-  input:
-    vep_cache:  /home/runner/data/ref_genomes/VEP/homo_sapiens
-  params:
-    mode: "--database"
-    extra: " --af  "
+  vep_cache:  VEP/homo_sapiens
+  mode: "--database"
+  extra: " --af  "

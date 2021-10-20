@@ -30,12 +30,9 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-      params:
-        type: object
-        properties:
-          extra:
-            type: string
-            description: parameters that should be forwarded to mutect2
+      extra:
+        type: string
+        description: parameters that should be forwarded to mutect2
 
   ensemble_vcf:
     type: object
@@ -46,25 +43,20 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-      input:
-        type: object
-        properties:
-          callers:
-            type: list
-            description: list of callers that are included in the vcf ensemble
-          required:
-            - callers
-      params:
-        type: object
-        properties:
-          support:
-            type: integer
-            description: how many callers must support variant to be included in ensembled vcf
-          sort_order:
+      callers:
+        type: array
+        items:
             type: string
-            description: order which information about a variant should be kept ("vardict,mutect2")
-        required:
-          - sort_order
+        description: list of callers that are included in the vcf ensemble
+      support:
+        type: integer
+        description: how many callers must support variant to be included in ensembled vcf
+      sort_order:
+        type: string
+        description: order which information about a variant should be kept ("vardict,mutect2")
+      required:
+        - sort_order
+        - callers
 
   annotate:
     type: object
@@ -75,25 +67,19 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-      input:
-        type: object
-        properties:
-          vep_cache:
-            type: string
-            description: path to vep cache directory
-          required:
-            - vep_cache
-      params:
-        type: object
-        properties:
-          extra:
-            type: string
-            description: parameters that should be forwarded to vep annotate
-          mode:
-            type: string
-            description: Used to make vep query online database, by setting mode to --database
-          required:
-            - extra
+      vep_cache:
+        type: string
+        description: path to vep cache directory
+      extra:
+        type: string
+        description: parameters that should be forwarded to vep annotate
+      mode:
+        type: string
+        description: Used to make vep query online database, by setting mode to --database
+      required:
+        - extra
+        - vep_cache
+
 
   tabix_vcf:
     type: object
@@ -104,12 +90,9 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-      params:
-        type: object
-        properties:
-          extra:
-            type: string
-            description: parameters that should be forwarded to tabix_vcf
+      extra:
+        type: string
+        description: parameters that should be forwarded to tabix_vcf
 
   filter_vcf_on_format:
     type: object
@@ -120,15 +103,12 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-      params:
-        type: object
-        properties:
-          extra:
-            type: string
-            description: extra parameters that should be forwarded to filter_vcf_on_format
-          filter:
-            type: string
-            description: filter parameters that should be forwarded to filter_vcf_on_format
+      extra:
+        type: string
+        description: extra parameters that should be forwarded to filter_vcf_on_format
+      filter:
+        type: string
+        description: filter parameters that should be forwarded to filter_vcf_on_format
 
   bgzip_vcf:
     type: object
@@ -149,18 +129,12 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-      input:
-        type: object
-        properties:
-          skip_chrs:
-            type: list
-            description: list of chromosomes to skip
-      params:
-        type: object
-        properties:
-          extra:
-            type: string
-            description: parameters that should be forwarded to merge_vcf
+      skip_chrs:
+        type: list
+        description: list of chromosomes to skip
+      extra:
+        type: string
+        description: parameters that should be forwarded to merge_vcf
 
   vardict:
     type: object
@@ -171,18 +145,15 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-      params:
-        type: object
-        properties:
-          extra:
-            type: string
-            description: parameters that should be forwarded to vardict
-          bed_columns:
-            type: string
-            description: columns to use in bed file
-          allele_frequency_threshold:
-            type: string
-            description: allele frequency threshold
+      extra:
+        type: string
+        description: parameters that should be forwarded to vardict
+      bed_columns:
+        type: string
+        description: columns to use in bed file
+      allele_frequency_threshold:
+        type: string
+        description: allele frequency threshold
 
   decompose:
     type: object
