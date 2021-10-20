@@ -17,6 +17,7 @@ rule annotate:
         vcf=temp("snv_indels/{caller}/{file}.annotated.vcf"),
     params:
         extra=config["annotate"]["params"]["extra"],
+        mode=config.get("annotate", {}).get("params", {}).get("mode", "--offline --cache"),
     log:
         "snv_indels/{caller}/{file}.annotated.vcf.gz.log",
     benchmark:
@@ -32,4 +33,4 @@ rule annotate:
     message:
         "{rule}: Sort vcf snv_indels/{wildcards.caller}/{wildcards.file}.vcf.gz"
     shell:
-        "(vep --vcf --no_stats -o {output.vcf} -i {input.vcf} --dir_cache {input.cache} --fork {threads} --cache --refseq --offline --fasta {input.fasta} {params} ) &> {log}"
+        "(vep --vcf --no_stats -o {output.vcf} -i {input.vcf} --dir_cache {input.cache} --fork {threads} --refseq {params.mode} --fasta {input.fasta} {params.extra} ) &> {log}"

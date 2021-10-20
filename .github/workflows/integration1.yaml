@@ -32,7 +32,7 @@ jobs:
           pip install -r requirements.txt
       - name: Create fake VEP folder
         run: |
-          mkdir -p /data/ref_genomes/VEP/homo_sapiens
+          mkdir -p /home/runner/data/ref_genomes/VEP/homo_sapiens
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
@@ -62,6 +62,9 @@ jobs:
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
+      - name: Create fake VEP folder
+        run: |
+          mkdir -p /home/runner/data/ref_genomes/VEP/homo_sapiens
       - name: Integration test - small dataset
         working-directory: .tests/integration
         run: |

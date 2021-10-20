@@ -43,8 +43,9 @@ ensemble_vcf:
   sort_order: "vardict,mutect2"
 
 annotate:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://ensemblorg/ensembl-vep:release_99.0"
   input:
     vep_cache:  /home/runner/data/ref_genomes/VEP/homo_sapiens
   params:
-    extra: "--check_existing --pick --sift b --polyphen b --ccds --uniprot --hgvs --symbol --numbers --domains --regulatory --canonical --protein --biotype --uniprot --tsl --appris --gene_phenotype --af --af_1kg --af_gnomad --max_af --pubmed --variant_class "
+    mode: "--database"
+    extra: " --af  "

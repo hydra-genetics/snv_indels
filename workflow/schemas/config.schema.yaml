@@ -89,6 +89,9 @@ properties:
           extra:
             type: string
             description: parameters that should be forwarded to vep annotate
+          mode:
+            type: string
+            description: Used to make vep query online database, by setting mode to --database
           required:
             - extra
 
