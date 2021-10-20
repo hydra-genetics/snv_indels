@@ -37,9 +37,6 @@ jobs:
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
-      - name: Create fake VEP folder
-        run: |
-          mkdir -p VEP/homo_sapiens
       - name: snakemake dry run
         working-directory: .tests/integration
         run: |
