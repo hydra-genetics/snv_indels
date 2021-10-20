@@ -9,14 +9,14 @@ __license__ = "GPL-3"
 
 rule decompose:
     input:
-        vcf="snv_indels/{caller}/{sample}_{type}.merged.format_filt.vcf.gz",
+        vcf="snv_indels/{caller}/{sample}_{type}.format_filt.vcf.gz",
     output:
-        vcf=temp("snv_indels/{caller}/{sample}_{type}.format_filt.decomposed.vcf.gz"),
+        vcf=temp("snv_indels/{caller}/{sample}_{type}.decomposed.vcf.gz"),
     log:
-        "snv_indels/{caller}/{sample}_{type}.format_filt.decomposed.vcf.gz.log",
+        "snv_indels/{caller}/{sample}_{type}.decomposed.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/{caller}/{sample}_{type}.format_filt.decomposed.vcf.gz.benchmark.tsv",
+            "snv_indels/{caller}/{sample}_{type}.decomposed.vcf.gz.benchmark.tsv",
             config.get("decompose", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("decompose", config["default_resources"]).get("threads", config["default_resources"]["threads"])
@@ -25,6 +25,6 @@ rule decompose:
     conda:
         "../envs/decompose.yaml"
     message:
-        "{rule}: Decompose vcf snv_indels/{wildcards.caller}/{wildcards.sample}_{wildcards.type}.merged.format_filt.vcf.gz"
+        "{rule}: Decompose vcf snv_indels/{wildcards.caller}/{wildcards.sample}_{wildcards.type}.format_filt.vcf.gz"
     shell:
         "(vt decompose -s {input.vcf} | vt decompose_blocksub -o {output.vcf} -) &> {log}"

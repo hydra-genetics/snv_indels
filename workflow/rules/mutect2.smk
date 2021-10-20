@@ -16,9 +16,9 @@ rule mutect2:
     output:
         bam=temp("snv_indels/mutect2/{sample}_{type}_{chr}.bam"),
         bai=temp("snv_indels/mutect2/{sample}_{type}_{chr}.bai"),
-        stats=temp("snv_indels/mutect2/{sample}_{type}_{chr}.unfilt.vcf.gz.stats"),
-        vcf=temp("snv_indels/mutect2/{sample}_{type}_{chr}.unfilt.vcf.gz"),
-        vcf_tbi=temp("snv_indels/mutect2/{sample}_{type}_{chr}.unfilt.vcf.gz.tbi"),
+        stats=temp("snv_indels/mutect2/{sample}_{type}_{chr}.vcf.gz.stats"),
+        vcf=temp("snv_indels/mutect2/{sample}_{type}_{chr}.vcf.gz"),
+        vcf_tbi=temp("snv_indels/mutect2/{sample}_{type}_{chr}.vcf.gz.tbi"),
         f1f2=temp("snv_indels/mutect2/{sample}_{type}_{chr}.f1f2.tar.gz"),
     params:
         extra=config.get("mutect2", {}).get("extra", "")

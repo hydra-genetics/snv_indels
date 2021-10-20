@@ -13,13 +13,13 @@ rule vardict:
         reference=config["reference"]["fasta"],
         regions="misc/bed_split/{sample}_{type}_{chr}.bed",
     output:
-        vcf=temp("snv_indels/vardict/{sample}_{type}_{chr}.unfilt.vcf"),
+        vcf=temp("snv_indels/vardict/{sample}_{type}_{chr}.vcf"),
     params:
         extra=config.get("vardict", {}).get("extra", ""),
         bed_columns=config.get("vardict", {}).get("bed_columns", "-c 1 -S 2 -E 3 -g 4"),
         allele_frequency_threshold=config.get("vardict", {}).get("allele_frequency_threshold", "0.01"),
     log:
-        "snv_indels/vardict/{sample}_{type}_{chr}.unfilt.vcf.log",
+        "snv_indels/vardict/{sample}_{type}_{chr}.vcf.log",
     benchmark:
         repeat("snv_indels/vardict/{sample}_{type}_{chr}.benchmark.tsv", config.get("vardict", {}).get("benchmark_repeats", 1))
     threads: config.get("vardict", config["default_resources"]).get("threads", config["default_resources"]["threads"])

@@ -48,14 +48,14 @@ wildcard_constraints:
 
 def compile_output_list(wildcards):
     output_files = [
-        "snv_indels/%s/%s_%s.format_filt.normalized.sorted.vcf.gz" % (caller, sample, t)
+        "snv_indels/%s/%s_%s.normalized.sorted.vcf.gz" % (caller, sample, t)
         for caller in ["mutect2", "vardict"]
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]
     output_files.append(
         [
-            "snv_indels/ensemble_vcf/%s_%s.unsorted.vcf.gz" % (sample, t)
+            "snv_indels/ensemble_vcf/%s_%s.ensembled.annotated.vcf.gz" % (sample, t)
             for sample in get_samples(samples)
             for t in get_unit_types(units, sample)
         ]
