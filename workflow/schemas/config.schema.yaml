@@ -18,6 +18,11 @@ properties:
       fasta:
         type: string
         description: fasta reference file
+      skip_chrs:
+        type: array
+        items:
+            type: string
+        description: list of chromosomes that should be skipped
     required:
       - fasta
 
@@ -129,9 +134,6 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-      skip_chrs:
-        type: list
-        description: list of chromosomes to skip
       extra:
         type: string
         description: parameters that should be forwarded to merge_vcf
