@@ -9,8 +9,8 @@ __license__ = "GPL-3"
 
 rule mutect2:
     input:
-        map="alignment/extract/{sample}_{type}_{chr}.bam",
-        bai="alignment/extract/{sample}_{type}_{chr}.bam.bai",
+        map="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
+        bai="alignment/mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         fasta=config["reference"]["fasta"],
         bed="misc/bed_split/{sample}_{type}_{chr}.bed",
     output:

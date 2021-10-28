@@ -12,13 +12,13 @@ rule merge_vcf:
         calls=expand(
             "snv_indels/{{caller}}/{{sample}}_{{type}}_{chr}.vcf.gz",
             chr=extract_chr(
-                "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("merge_vcf", {}).get("skip_chrs", [])
+                "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
             ),
         ),
         calls_index=expand(
             "snv_indels/{{caller}}/{{sample}}_{{type}}_{chr}.vcf.gz.tbi",
             chr=extract_chr(
-                "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("merge_vcf", {}).get("skip_chrs", [])
+                "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
             ),
         ),
     output:
