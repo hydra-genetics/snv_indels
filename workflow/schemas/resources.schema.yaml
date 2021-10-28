@@ -13,6 +13,16 @@ properties:
         type: string
         description: max execution time for the 'mutect2' rule
 
+  mutect2_gvcf:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'mutect2_gvcf' rule
+      time:
+        type: string
+        description: max execution time for the 'mutect2_gvcf' rule
+
   merge_vcf:
     type: object
     properties:

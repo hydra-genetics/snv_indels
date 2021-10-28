@@ -34,6 +34,6 @@ rule mutect2:
     conda:
         "../envs/mutect2.yaml"
     message:
-        "{rule}: Use mutect2 to call variants, snv_indels/{rule}/{wildcards.sample}_{wildcards.type}_{wildcards.chr}.input"
+        "{rule}: Use mutect2 to call variants, snv_indels/{rule}/{wildcards.sample}_{wildcards.type}_{wildcards.chr}"
     wrapper:
         "0.78.0/bio/gatk/mutect"

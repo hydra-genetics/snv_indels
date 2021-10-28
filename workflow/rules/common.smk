@@ -60,4 +60,11 @@ def compile_output_list(wildcards):
             for t in get_unit_types(units, sample)
         ]
     )
+    output_files.append(
+        [
+            "snv_indels/mutect2_gvcf/%s_%s_%s.gvcf.gz" % (sample, t, "chr1")
+            for sample in get_samples(samples)
+            for t in get_unit_types(units, sample)
+        ]
+    )
     return output_files
