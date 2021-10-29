@@ -62,7 +62,14 @@ def compile_output_list(wildcards):
     )
     output_files.append(
         [
-            "snv_indels/mutect2_gvcf/%s_%s_%s.gvcf.gz" % (sample, t, "chr1")
+            "snv_indels/mutect2_gvcf/%s_%s_%s.gvcf.gz"
+            % (
+                sample,
+                t,
+                extract_chr(
+                    "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
+                ),
+            )
             for sample in get_samples(samples)
             for t in get_unit_types(units, sample)
         ]
