@@ -12,7 +12,10 @@ vardict:
   bed_columns: "-c 1 -S 2 -E 3"
 
 mutect2:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+mutect2_gvcf:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 filter_vcf_on_format:
   container: "docker://gmsuppsala/somatic:develop"

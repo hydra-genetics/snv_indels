@@ -39,6 +39,19 @@ properties:
         type: string
         description: parameters that should be forwarded to mutect2
 
+  mutect2_gvcf:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for mutect2_gvcf
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded to mutect2_gvcf
+
   ensemble_vcf:
     type: object
     properties:

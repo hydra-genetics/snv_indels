@@ -60,4 +60,14 @@ def compile_output_list(wildcards):
             for t in get_unit_types(units, sample)
         ]
     )
+    output_files.append(
+        [
+            "snv_indels/mutect2_gvcf/%s_%s_%s.gvcf.gz" % (sample, t, chrom)
+            for chrom in extract_chr(
+                "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
+            )
+            for sample in get_samples(samples)
+            for t in get_unit_types(units, sample)
+        ]
+    )
     return output_files
