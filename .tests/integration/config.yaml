@@ -44,9 +44,3 @@ ensemble_vcf:
     - vardict
     - mutect2
   sort_order: "vardict,mutect2"
-
-annotate:
-  container: "docker://ensemblorg/ensembl-vep:release_99.0"
-  vep_cache:  VEP/homo_sapiens
-  mode: "--database"
-  extra: " --af  "

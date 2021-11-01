@@ -55,7 +55,7 @@ def compile_output_list(wildcards):
     ]
     output_files.append(
         [
-            "snv_indels/ensemble_vcf/%s_%s.ensembled.annotated.vcf.gz" % (sample, t)
+            "snv_indels/ensemble_vcf/%s_%s.ensembled.vcf.gz" % (sample, t)
             for sample in get_samples(samples)
             for t in get_unit_types(units, sample)
         ]
