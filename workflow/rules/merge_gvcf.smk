@@ -24,7 +24,7 @@ rule merge_gvcf:
     output:
         temp("snv_indels/{caller}/{sample}_{type}.merged.gvcf.gz"),
     params:
-        extra=config.get("merge_vcf", {}).get("extra", "")
+        extra=config.get("merge_gvcf", {}).get("extra", "")
         +" -O z",
     log:
         "snv_indels/{caller}/{sample}_{type}.merged.gvcf.log",
