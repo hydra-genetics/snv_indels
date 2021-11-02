@@ -19,7 +19,7 @@ rule mutect2_gvcf:
         vcf_tbi=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.gvcf.gz.tbi"),
     params:
         extra=config.get("mutect2_gvcf", {}).get("extra", "")
-        +" --intervals misc/bed_split/{sample}_{type}_{chr}.bed -ERC BP_RESOLUTION ",
+        + " --intervals misc/bed_split/{sample}_{type}_{chr}.bed -ERC BP_RESOLUTION ",
     log:
         "snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.log",
     benchmark:
