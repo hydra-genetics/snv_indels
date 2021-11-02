@@ -33,6 +33,16 @@ properties:
         type: string
         description: max execution time for the 'merge_vcf' rule
 
+  merge_gvcf:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'merge_gvcf' rule
+      time:
+        type: string
+        description: max execution time for the 'merge_gvcf' rule
+
   filter_vcf_on_format:
     type: object
     properties:
