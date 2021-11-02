@@ -22,13 +22,16 @@ rule merge_vcf:
             ),
         ),
     output:
-        temp("snv_indels/{caller}/{sample}_{type}.merged.vcf.gz"),
+        temp("snv_indels/{caller}/{sample}_{type}.merged.vcf"),
     params:
         extra=config.get("merge_vcf", {}).get("extra", ""),
     log:
-        "snv_indels/{caller}/{sample}_{type}.log",
+        "snv_indels/{caller}/{sample}_{type}.merged.vcf.log",
     benchmark:
-        repeat("snv_indels/{caller}/{sample}_{type}.benchmark.tsv", config.get("merge_vcf", {}).get("benchmark_repeats", 1))
+        repeat(
+            "snv_indels/{caller}/{sample}_{type}.merged.vcf.benchmark.tsv",
+            config.get("merge_vcf", {}).get("benchmark_repeats", 1),
+        )
     threads: config.get("merge_vcf", config["default_resources"]).get("threads", config["default_resources"]["threads"])
     container:
         config.get("merge_vcf", {}).get("container", config["default_container"])

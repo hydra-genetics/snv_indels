@@ -23,6 +23,9 @@ filter_vcf_on_format:
 merge_vcf:
   container: "docker://gmsuppsala/somatic:develop"
 
+merge_gvcf:
+  container: "docker://gmsuppsala/somatic:develop"
+
 bgzip_vcf:
   container: "docker://gmsuppsala/somatic:develop"
 
