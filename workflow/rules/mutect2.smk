@@ -22,8 +22,8 @@ rule mutect2:
         f1f2=temp("snv_indels/mutect2/{sample}_{type}_{chr}.f1f2.tar.gz"),
     params:
         extra=config.get("mutect2", {}).get("extra", "")
-        +" --intervals misc/bed_split/{sample}_{type}_{chr}.bed "
-        +"--f1r2-tar-gz snv_indels/mutect2/{sample}_{type}_{chr}.f1f2.tar.gz ",
+        + " --intervals misc/bed_split/{sample}_{type}_{chr}.bed "
+        + "--f1r2-tar-gz snv_indels/mutect2/{sample}_{type}_{chr}.f1f2.tar.gz ",
     log:
         "snv_indels/mutect2/{sample}_{type}_{chr}.log",
     benchmark:
