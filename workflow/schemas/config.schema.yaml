@@ -76,29 +76,6 @@ properties:
         - sort_order
         - callers
 
-  annotate:
-    type: object
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated for annotate
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      vep_cache:
-        type: string
-        description: path to vep cache directory
-      extra:
-        type: string
-        description: parameters that should be forwarded to vep annotate
-      mode:
-        type: string
-        description: Used to make vep query online database, by setting mode to --database
-      required:
-        - extra
-        - vep_cache
-
-
   tabix_vcf:
     type: object
     properties:
