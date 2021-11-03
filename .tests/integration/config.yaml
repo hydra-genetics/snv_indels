@@ -50,3 +50,6 @@ ensemble_vcf:
 
 fix_af:
   container: "docker://gmsuppsala/somatic:develop"
+
+freebayes:
+  container: "docker://gmsuppsala/somatic:develop"
