@@ -9,7 +9,7 @@ __license__ = "GPL-3"
 
 rule filter_vcf_on_format:
     input:
-        vcf="snv_indels/{caller}/{sample}_{type}.merged.vcf.gz",
+        vcf="snv_indels/{caller}/{sample}_{type}.okAF.vcf.gz",
     output:
         vcf=temp("snv_indels/{caller}/{sample}_{type}.format_filt.vcf.gz"),
     params:

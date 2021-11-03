@@ -47,3 +47,6 @@ ensemble_vcf:
     - vardict
     - mutect2
   sort_order: "vardict,mutect2"
+
+fix_af:
+  container: "docker://gmsuppsala/somatic:develop"

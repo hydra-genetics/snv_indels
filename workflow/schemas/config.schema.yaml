@@ -190,6 +190,16 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
+  fix_af:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for fix_af
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
   required:
     - samples
     - units
