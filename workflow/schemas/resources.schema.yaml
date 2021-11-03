@@ -143,6 +143,16 @@ properties:
         type: string
         description: max execution time for the 'ensemble_vcf' rule
 
+  fix_af:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'fix_af' rule
+      time:
+        type: string
+        description: max execution time for the 'fix_af' rule
+
   default_resources:
     type: object
     properties:

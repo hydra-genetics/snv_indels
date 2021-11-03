@@ -20,6 +20,7 @@ include: "rules/decompose.smk"
 include: "rules/normalize.smk"
 include: "rules/sort_vcf.smk"
 include: "rules/ensemble_vcf.smk"
+include: "rules/fix_af.smk"
 
 
 ruleorder: mutect2 > tabix_vcf
