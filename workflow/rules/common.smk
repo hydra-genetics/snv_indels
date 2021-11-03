@@ -48,8 +48,8 @@ wildcard_constraints:
 
 def compile_output_list(wildcards):
     output_files = [
-        "snv_indels/%s/%s_%s.normalized.sorted.vcf.gz" % (caller, sample, t)
-        for caller in ["mutect2", "vardict"]
+        "snv_indels/%s/%s_%s.merged.vcf.gz" % (caller, sample, t)
+        for caller in ["mutect2", "vardict", "freebayes"]
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]

@@ -5,7 +5,6 @@ from pysam import VariantFile
 
 vcf_in = VariantFile(snakemake.input[0])
 method = snakemake.input[0].split("/")[1]
-print(method)
 # Add new filter descriptions to new header
 new_header = vcf_in.header
 
