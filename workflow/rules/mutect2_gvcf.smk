@@ -1,7 +1,7 @@
 # vim: syntax=python tabstop=4 expandtab
 # coding: utf-8
 
-__author__ = "Jonas Almlöf"
+__author__ = "Jonas Almlöf, Patrik Smeds"
 __copyright__ = "Copyright 2021, Jonas Almlöf"
 __email__ = "jonas.almlof@scilifelab.uu.se"
 __license__ = "GPL-3"
@@ -27,7 +27,10 @@ rule mutect2_gvcf:
             "snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.benchmark.tsv",
             config.get("mutect2_gvcf", {}).get("benchmark_repeats", 1),
         )
-    threads: config.get("mutect2_gvcf", config["default_resources"]).get("threads", config["default_resources"]["threads"])
+    threads: config.get("mutect2_gvcf", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        threads=config.get("mutect2_gvcf", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("mutect2_gvcf", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("mutect2_gvcf", {}).get("container", config["default_container"])
     conda:
