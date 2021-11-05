@@ -1,3 +1,11 @@
+# vim: syntax=python tabstop=4 expandtab
+# coding: utf-8
+
+__author__ = "Jonas Almlöf, Patrik Smeds"
+__copyright__ = "Copyright 2021, Jonas Almlöf"
+__email__ = "jonas.almlof@scilifelab.uu.se"
+__license__ = "GPL-3"
+
 
 rule bgzip_vcf:
     input:
@@ -8,7 +16,10 @@ rule bgzip_vcf:
         "snv_indels/{file}.vcf.gz.log",
     benchmark:
         repeat("snv_indels/{file}.vcf.gz.benchmark.tsv", config.get("bgzip_vcf", {}).get("benchmark_repeats", 1))
-    threads: config.get("bgzip_vcf", config["default_resources"]).get("threads", config["default_resources"]["threads"])
+    threads: config.get("bgzip_vcf", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        threads=config.get("bgzip_vcf", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("bgzip_vcf", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("bgzip_vcf", {}).get("container", config["default_container"])
     conda:

@@ -1,7 +1,7 @@
 # vim: syntax=python tabstop=4 expandtab
 # coding: utf-8
 
-__author__ = "Jonas Almlöf"
+__author__ = "Jonas Almlöf, Patrik Smeds"
 __copyright__ = "Copyright 2021, Jonas Almlöf"
 __email__ = "jonas.almlof@scilifelab.uu.se"
 __license__ = "GPL-3"
@@ -24,7 +24,10 @@ rule freebayes:
         repeat(
             "snv_indels/freebayes/{sample}_{type}_{chr}.benchmark.tsv", config.get("freebayes", {}).get("benchmark_repeats", 1)
         )
-    threads: config.get("freebayes", config["default_resources"]).get("threads", config["default_resources"]["threads"])
+    threads: config.get("freebayes", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        threads=config.get("freebayes", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("freebayes", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("freebayes", {}).get("container", config["default_container"])
     conda:
