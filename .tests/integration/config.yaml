@@ -17,9 +17,6 @@ mutect2:
 mutect2_gvcf:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
-filter_vcf_on_format:
-  container: "docker://gmsuppsala/somatic:develop"
-
 merge_vcf:
   container: "docker://gmsuppsala/somatic:develop"
 
