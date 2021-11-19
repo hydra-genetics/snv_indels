@@ -12,7 +12,7 @@ rule mutect2:
         map="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
         bai="alignment/mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         fasta=config["reference"]["fasta"],
-        bed="misc/bed_split/{sample}_{type}_{chr}.bed",
+        bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         bam=temp("snv_indels/mutect2/{sample}_{type}_{chr}.bam"),
         bai=temp("snv_indels/mutect2/{sample}_{type}_{chr}.bai"),
@@ -22,7 +22,7 @@ rule mutect2:
         f1f2=temp("snv_indels/mutect2/{sample}_{type}_{chr}.f1f2.tar.gz"),
     params:
         extra=config.get("mutect2", {}).get("extra", "")
-        + " --intervals misc/bed_split/{sample}_{type}_{chr}.bed "
+        + " --intervals snv_indels/bed_split/design_bedfile_{chr}.bed "
         + "--f1r2-tar-gz snv_indels/mutect2/{sample}_{type}_{chr}.f1f2.tar.gz ",
     log:
         "snv_indels/mutect2/{sample}_{type}_{chr}.log",

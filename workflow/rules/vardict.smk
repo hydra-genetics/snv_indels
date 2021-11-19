@@ -11,7 +11,7 @@ rule vardict:
     input:
         bam="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
         reference=config["reference"]["fasta"],
-        regions="misc/bed_split/{sample}_{type}_{chr}.bed",
+        regions="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         vcf=temp("snv_indels/vardict/{sample}_{type}_{chr}.vcf"),
     params:

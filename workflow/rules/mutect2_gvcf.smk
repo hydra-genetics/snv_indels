@@ -12,14 +12,14 @@ rule mutect2_gvcf:
         map="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
         bai="alignment/mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         fasta=config["reference"]["fasta"],
-        bed="misc/bed_split/{sample}_{type}_{chr}.bed",
+        bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         stats=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.gvcf.gz.stats"),
         vcf=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.gvcf.gz"),
         vcf_tbi=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.gvcf.gz.tbi"),
     params:
         extra=config.get("mutect2_gvcf", {}).get("extra", "")
-        + " --intervals misc/bed_split/{sample}_{type}_{chr}.bed -ERC BP_RESOLUTION ",
+        + " --intervals snv_indels/bed_split/design_bedfile_{chr}.bed -ERC BP_RESOLUTION ",
     log:
         "snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.log",
     benchmark:

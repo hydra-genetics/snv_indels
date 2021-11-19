@@ -18,13 +18,20 @@ properties:
       fasta:
         type: string
         description: fasta reference file
+      fai:
+        type: string
+        description: fasta reference index file
       skip_chrs:
         type: array
         items:
             type: string
         description: list of chromosomes that should be skipped
+      design_bed:
+        type: string
+        description: panel design bed file
     required:
       - fasta
+      - fai
 
   mutect2:
     type: object
@@ -196,6 +203,16 @@ properties:
       benchmark_repeats:
         type: integer
         description: set number of times benchmark should be repeated for fix_af
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
+  bed_split:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for mutect2
       container:
         type: string
         description: name or path to docker/singularity container

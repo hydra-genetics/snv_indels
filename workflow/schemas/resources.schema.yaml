@@ -288,6 +288,25 @@ properties:
         type: string
         description: partition to use on the cluster for 'freebayes'
 
+  bed_split:
+    type: object
+    properties:
+      threads:
+        type: integer
+        description: number of threads that will be used by the 'bed_split' rule
+      time:
+        type: string
+        description: max execution time for the 'bed_split' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'bed_split'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'bed_split'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'bed_split'
+
   default_resources:
     type: object
     properties:
