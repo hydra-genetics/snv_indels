@@ -32,6 +32,9 @@ rule mutect2:
     resources:
         threads=config.get("mutect2", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("mutect2", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("mutect2", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("mutect2", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("mutect2", {}).get("partition", config["default_resources"]["partition"]),
     container:
         config.get("mutect2", {}).get("container", config["default_container"])
     conda:
