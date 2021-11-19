@@ -34,6 +34,9 @@ rule ensemble_vcf:
     resources:
         threads=config.get("ensemble_vcf", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("ensemble_vcf", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("ensemble_vcf", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("ensemble_vcf", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("ensemble_vcf", {}).get("partition", config["default_resources"]["partition"]),
     container:
         config.get("ensemble_vcf", {}).get("container", config["default_container"])
     conda:

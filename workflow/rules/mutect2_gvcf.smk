@@ -31,6 +31,9 @@ rule mutect2_gvcf:
     resources:
         threads=config.get("mutect2_gvcf", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("mutect2_gvcf", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("mutect2_gvcf", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("mutect2_gvcf", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("mutect2_gvcf", {}).get("partition", config["default_resources"]["partition"]),
     container:
         config.get("mutect2_gvcf", {}).get("container", config["default_container"])
     conda:

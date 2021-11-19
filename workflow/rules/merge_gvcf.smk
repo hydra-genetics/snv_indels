@@ -36,6 +36,9 @@ rule merge_gvcf:
     resources:
         threads=config.get("merge_gvcf", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("merge_gvcf", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("merge_gvcf", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("merge_gvcf", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("merge_gvcf", {}).get("partition", config["default_resources"]["partition"]),
     container:
         config.get("merge_gvcf", {}).get("container", config["default_container"])
     conda:

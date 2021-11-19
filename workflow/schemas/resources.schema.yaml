@@ -12,6 +12,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'mutect2' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'mutect2'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'mutect2'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'mutect2'
 
   mutect2_gvcf:
     type: object
@@ -22,6 +31,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'mutect2_gvcf' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'mutect2_gvcf'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'mutect2_gvcf'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'mutect2_gvcf'
 
   merge_vcf:
     type: object
@@ -32,6 +50,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'merge_vcf' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'merge_vcf'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'merge_vcf'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'merge_vcf'
 
   merge_gvcf:
     type: object
@@ -42,6 +69,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'merge_gvcf' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'merge_gvcf'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'merge_gvcf'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'merge_gvcf'
 
   merge_vcf:
     type: object
@@ -52,6 +88,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'merge_vcf' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'merge_vcf'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'merge_vcf'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'merge_vcf'
 
   tabix_vcf:
     type: object
@@ -62,6 +107,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'tabix_vcf' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'tabix_vcf'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'tabix_vcf'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'tabix_vcf'
 
   vardict:
     type: object
@@ -72,16 +126,34 @@ properties:
       time:
         type: string
         description: max execution time for the 'vardict' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'vardict'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'vardict'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'vardict'
 
   bgzip_vcf:
     type: object
     properties:
       threads:
         type: integer
-        description: number of threads that will be used by the 'bgzip' rule
+        description: number of threads that will be used by the 'bgzip_vcf' rule
       time:
         type: string
-        description: max execution time for the 'bgzip' rule
+        description: max execution time for the 'bgzip_vcf' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'bgzip_vcf'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'bgzip_vcf'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'bgzip_vcf'
 
   vardict:
     type: object
@@ -92,6 +164,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'vardict' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'vardict'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'vardict'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'vardict'
 
   decompose:
     type: object
@@ -102,6 +183,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'decompose' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'decompose'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'decompose'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'decompose'
 
   normalize:
     type: object
@@ -112,6 +202,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'normalize' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'normalize'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'normalize'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'normalize'
 
   sort_vcf:
     type: object
@@ -122,6 +221,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'sort_vcf' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'sort_vcf'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'sort_vcf'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'sort_vcf'
 
   ensemble_vcf:
     type: object
@@ -132,6 +240,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'ensemble_vcf' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'ensemble_vcf'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'ensemble_vcf'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'ensemble_vcf'
 
   fix_af:
     type: object
@@ -142,6 +259,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'fix_af' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'fix_af'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'fix_af'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'fix_af'
 
   freebayes:
     type: object
@@ -152,6 +278,15 @@ properties:
       time:
         type: string
         description: max execution time for the 'freebayes' rule
+      mem_mb:
+        type: integer
+        description: memory used for 'freebayes'
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for 'freebayes'
+      partition:
+        type: string
+        description: partition to use on the cluster for 'freebayes'
 
   default_resources:
     type: object
@@ -162,6 +297,15 @@ properties:
       time:
         type: string
         description: default max execution time for a rule
+      mem_mb:
+        type: integer
+        description: memory used for a rule
+      mem_per_cpu:
+        type: integer
+        description: memory used per cpu for a rule
+      partition:
+        type: string
+        description: partition to use on the cluster for a rule
 
   required:
     - default_resources
