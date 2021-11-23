@@ -18,7 +18,7 @@ rule vardict:
         extra=config.get("vardict", {}).get("extra", ""),
         bed_columns=config.get("vardict", {}).get("bed_columns", "-c 1 -S 2 -E 3 -g 4"),
         allele_frequency_threshold=config.get("vardict", {}).get("allele_frequency_threshold", "0.01"),
-        sample_name="{sample}",
+        sample_name="{sample}_{type}",
     log:
         "snv_indels/vardict/{sample}_{type}_{chr}.vcf.log",
     benchmark:
