@@ -2,10 +2,12 @@ resources: "resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
 
-default_container: "docker://marrip/common:1.1.0"
+default_container: "docker://hydragenetics/common:0.0.1"
 
 reference:
-  fasta: "reference/WASH7P.fna"
+  fasta: "reference/HES45.fna"
+  fai: "reference/HES45.fna.fai"
+  design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
 
 vardict:
   container: "docker://gmsuppsala/somatic:develop"
@@ -50,3 +52,6 @@ fix_af:
 
 freebayes:
   container: "docker://gmsuppsala/somatic:develop"
+
+bed_split:
+  container: "docker://hydragenetics/common:0.0.1"

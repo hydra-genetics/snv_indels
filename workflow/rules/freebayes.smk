@@ -12,11 +12,11 @@ rule freebayes:
         ref=config["reference"]["fasta"],
         samples="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
         indexes="alignment/mark_duplicates/{sample}_{type}_{chr}.bam.bai",
-        regions="misc/bed_split/{sample}_{type}_{chr}.bed",
+        regions="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         vcf=temp("snv_indels/freebayes/{sample}_{type}_{chr}.vcf"),
     params:
-        extra="--target misc/bed_split/{sample}_{type}_{chr}.bed %s"
+        extra="--target snv_indels/bed_split/design_bedfile_{chr}.bed %s"
         % config.get("freebayes", {}).get("extra", "--min-alternate-fraction 0.01 --genotype-qualities --strict-vcf"),
     log:
         "snv_indels/freebayes/{sample}_{type}_{chr}.unfilt.vcf.log",
