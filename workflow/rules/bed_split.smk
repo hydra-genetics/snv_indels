@@ -13,9 +13,9 @@ rule bed_split:
     output:
         "snv_indels/bed_split/design_bedfile_{chr}.bed",
     log:
-        "snv_indels/bed_split/bed_split.log",
+        "snv_indels/bed_split/bed_split_{chr}.log",
     benchmark:
-        repeat("snv_indels/bed_split/bed_split.benchmark.tsv", config.get("bed_split", {}).get("benchmark_repeats", 1))
+        repeat("snv_indels/bed_split/bed_split_{chr}.benchmark.tsv", config.get("bed_split", {}).get("benchmark_repeats", 1))
     threads: config.get("bed_split", {}).get("threads", config["default_resources"]["threads"])
     resources:
         threads=config.get("bed_split", {}).get("threads", config["default_resources"]["threads"]),
