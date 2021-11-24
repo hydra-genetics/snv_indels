@@ -11,14 +11,7 @@ rule bed_split:
     input:
         bed=config["reference"]["design_bed"],
     output:
-        beds=temp(
-            expand(
-                "snv_indels/bed_split/design_bedfile_{chr}.bed",
-                chr=extract_chr(
-                    "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
-                ),
-            )
-        ),
+        "snv_indels/bed_split/design_bedfile_{chr}.bed",
     log:
         "snv_indels/bed_split/bed_split.log",
     benchmark:
@@ -37,4 +30,4 @@ rule bed_split:
     message:
         "{rule}: Split design bed file into chromosomes"
     shell:
-        '(awk \'{{print $0 >> "snv_indels/bed_split/design_bedfile_"$1".bed"}}\' {input.bed}) &> {log}'
+        "(awk '{{if(/^{wildcards.chr}\t/) print($0)}}' {input.bed}  > {output}) &> {log}"
