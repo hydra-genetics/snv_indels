@@ -20,16 +20,16 @@ mutect2_gvcf:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 merge_vcf:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/common:0.0.1"
 
 merge_gvcf:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/common:0.0.1"
 
 bgzip_vcf:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/common:0.0.1"
 
 tabix_vcf:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/common:0.0.1"
 
 decompose:
   container: "docker://gmsuppsala/somatic:develop"
@@ -38,7 +38,7 @@ normalize:
   container: "docker://gmsuppsala/somatic:develop"
 
 sort_vcf:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/common:0.0.1"
 
 ensemble_vcf:
   container: "docker://gmsuppsala/somatic:develop"
@@ -48,7 +48,7 @@ ensemble_vcf:
   sort_order: "vardict,mutect2"
 
 fix_af:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/common:0.0.1"
 
 freebayes:
   container: "docker://gmsuppsala/somatic:develop"

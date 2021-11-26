@@ -3,5 +3,5 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - vardict-java==1.8.2
+  - vardict-java=1.8.2
   - snakemake-wrapper-utils=0.2.0
