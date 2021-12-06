@@ -10,6 +10,7 @@ __license__ = "GPL-3"
 rule vardict:
     input:
         bam="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
+        bai="alignment/mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         reference=config["reference"]["fasta"],
         regions="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
