@@ -9,7 +9,7 @@ __license__ = "GPL-3"
 
 rule bed_split:
     input:
-        bed=config["reference"]["design_bed"],
+        bed=config.get("reference", {}).get("design_bed", ""),
     output:
         "snv_indels/bed_split/design_bedfile_{chr}.bed",
     log:
