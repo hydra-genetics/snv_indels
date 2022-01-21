@@ -38,4 +38,4 @@ rule vardict:
     message:
         "{rule}: Use vardict to call variants, snv_indels/{rule}/{wildcards.sample}_{wildcards.type}_{wildcards.chr}"
     wrapper:
-        "0.78.0/bio/vardict"
+        "v0.86.0/bio/vardict"
