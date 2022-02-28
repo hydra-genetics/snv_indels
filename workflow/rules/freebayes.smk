@@ -38,4 +38,4 @@ rule freebayes:
     message:
         "{rule}: Use freebayes to call variants, snv_indels/{rule}/{wildcards.sample}_{wildcards.type}_{wildcards.chr}"
     wrapper:
-        "0.78.0/bio/freebayes"
+        "v1.2.0/bio/freebayes"
