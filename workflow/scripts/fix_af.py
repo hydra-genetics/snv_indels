@@ -1,52 +1,79 @@
-#!/bin/python3.6
-import sys
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import logging
+import pysam
 import re
-from pysam import VariantFile
-
-vcf_in = VariantFile(snakemake.input[0])
-method = snakemake.input[0].split("/")[1]
-# Add new filter descriptions to new header
-new_header = vcf_in.header
-
-if method == "freebayes" or method == "pisces":  # Byta description on AF for freebayes?
-    sample = vcf_in.header.samples[0]
-
-if method == "pisces" or method == "mutect2":
-    new_header.info.add("AF", "A", "Float", "DescriptionDescription")
-
-if method == "snver":
-    new_header.info.add("AF", "A", "Float", "Allel count divided on depth, crude")
-
-if method == "varscan":
-    new_header.info.add("AF", "A", "Float", "Allel count divided on depth (Quality of bases: Phred score >= 15)")
+import sys
 
 
-# start new vcf with the new_header
-vcf_out = VariantFile(snakemake.output[0], 'w', header=new_header)
 
-for record in vcf_in.fetch():
-    if method == "freebayes":
-        ad = record.samples[sample].get("AD")
-        af = []
-        af = [ad[1] / (ad[0] + ad[1])]
-        if len(ad) > 2:
-            for item in ad[2:]:
-                af.append(item / sum(ad))
-    if method == "pisces":
-        af = record.samples[sample].get("VF")
-    if method == "mutect2":
-        af = record.samples[0].get("AF")
-    if method == "snver":
-        dp = record.info["DP"]
-        ac = record.info["AC"]
-        af = ac / dp
-    if method == "varscan":
-        ac = record.samples[0].get("AD")  # AD = AC
-        dp = record.samples[0].get("DP")
-        af = ac / dp
-    if method == "vardict":
-        af = record.samples[0].get("AF")
+# identify caller software from input path
+def getCaller(path: str):
+    pathParts = path.split("/")
+    if len(pathParts) == 3:
+        return pathParts[1]
+    else:
+        raise ValueError("{} is not a valid input for this script. Required: 'snv_indels/{caller}/{sample}_{type}.vcf'.".format(path))
 
-    record.info["AF"] = af
 
-    vcf_out.write(record)
+# modify vcf header if necessary
+def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
+    if caller == "pisces" or caller == "mutect2":
+        header.info.add("AF", "A", "Float", "DescriptionDescription")
+    elif caller == "snver":
+        header.info.add("AF", "A", "Float", "Allel count divided on depth, crude")
+    elif caller == "varscan":
+        header.info.add("AF", "A", "Float", "Allel count divided on depth (Quality of bases: Phred score >= 15)")
+    return header
+
+
+# fix af field in freebayes vcf entries
+def fixFreebayes(header: pysam.libcbcf.VariantHeader, row: pysam.libcbcf.VariantRecord):
+    sample = header.samples[0]
+    ads = row.samples[sample].get("AD")
+    af = []
+    for ad in ads:
+        af.append(ad/sum(ads))
+    return tuple(af[1:])
+
+
+# loop through input vcf and write modified entries to new vcf
+def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcbcf.VariantFile, caller: str):
+    new_vcf = pysam.VariantFile(path, "w", header=header)
+    for row in vcf.fetch():
+        if caller == "freebayes":
+            row.info["AF"] = fixFreebayes(header, row)
+        elif caller == "mutect2":
+            row.info["AF"] = row.samples[0].get("AF")
+        elif caller == "pisces":
+            sample = header.samples[0]
+            row.info["AF"] = row.samples[sample].get("VF")
+        elif caller == "snver":
+            row.info["AF"] = row.info["AC"]/row.info["DP"]
+        elif caller == "vardict":
+            row.info["AF"] = row.samples[0].get("AF")
+        elif caller == "varscan":
+            row.info["AF"] = row.samples[0].get("AD")/row.samples[0].get("DP")
+        else:
+            raise ValueError("{} is not a valid caller for this script. Choose between: freebayes, mutect2, pisces, snver, vardict, varscan.".format(caller))
+        new_vcf.write(row)
+    return
+
+
+# call function
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, filename=snakemake.log[0])
+    logging.info("Read %s", snakemake.input.vcf)
+    vcf = pysam.VariantFile(snakemake.input.vcf)
+    logging.info("Determine caller...")
+    caller = getCaller(snakemake.input.vcf)
+    logging.info("Caller is %s", caller)
+    logging.info("Add info to header if necessary")
+    header = modifyHeader(caller, vcf.header)
+    logging.info("Start writing to %s", snakemake.output.vcf)
+    writeNewVcf(snakemake.output.vcf, header, vcf, caller)
+    logging.info(
+        "Successfully written vcf file %s",
+        snakemake.output.vcf,
+    )
