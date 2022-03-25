@@ -1,21 +1,18 @@
-# vim: syntax=python tabstop=4 expandtab
-# coding: utf-8
-
 __author__ = "Patrik Smeds"
 __copyright__ = "Copyright 2021, Patrik Smeds"
 __email__ = "patrik.smeds@scilifelab.uu.se"
 __license__ = "GPL-3"
 
 import pandas as pd
-from snakemake.utils import validate
-from snakemake.utils import min_version
 
-from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.misc import extract_chr
+from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
+from snakemake.utils import min_version
+from snakemake.utils import validate
 
-min_version("6.8.0")
+min_version("6.10.0")
 
 ### Set and validate config file
 
@@ -46,25 +43,48 @@ wildcard_constraints:
     unit="N|T|R",
 
 
-def compile_output_list(wildcards):
+def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
+    return ",".join(config.get("bcbio_variation_recall_ensemble", {}).get("callers", ""))
+
+
+def get_mutect2_extra(wildcards: snakemake.io.Wildcards, rule: str):
+    extra = "{} {}".format(
+        config.get(rule, {}).get("extra", ""),
+        "--intervals snv_indels/bed_split/design_bedfile_{}.bed".format(
+            wildcards.chr,
+        )
+    )
+    if rule == "mutect2":
+        extra = "{} {}".format(
+            extra,
+            "--f1r2-tar-gz snv_indels/mutect2/{}_{}_{}.f1r2.tar.gz".format(
+                wildcards.sample,
+                wildcards.type,
+                wildcards.chr,
+            )
+        )
+    if rule == "mutect2_gvcf":
+        extra = "{} {}".format(
+            extra,
+            "-ERC BP_RESOLUTION"
+        )
+    return extra
+
+
+def compile_output_list(wildcards: snakemake.io.Wildcards):
+    files = {
+        "bcbio_variation_recall_ensemble": [
+            "ensembled.vcf.gz",
+        ],
+        "mutect2_gvcf": [
+            "merged.vcf.gz",
+        ],
+    }
     output_files = [
-        "snv_indels/%s/%s_%s.merged.vcf.gz" % (caller, sample, t)
-        for caller in ["mutect2", "vardict", "freebayes"]
+        "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
+        for prefix in files.keys()
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
+        for suffix in files[prefix]
     ]
-    output_files.append(
-        [
-            "snv_indels/ensemble_vcf/%s_%s.ensembled.vcf.gz" % (sample, t)
-            for sample in get_samples(samples)
-            for t in get_unit_types(units, sample)
-        ]
-    )
-    output_files.append(
-        [
-            "snv_indels/mutect2_gvcf/%s_%s.merged.gvcf.gz" % (sample, t)
-            for sample in get_samples(samples)
-            for t in get_unit_types(units, sample)
-        ]
-    )
     return output_files

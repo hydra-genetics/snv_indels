@@ -1,6 +1,3 @@
-# vim: syntax=python tabstop=4 expandtab
-# coding: utf-8
-
 __author__ = "Patrik Smeds"
 __copyright__ = "Copyright 2021, Patrik Smeds"
 __email__ = "patrik.smeds@scilifelab.uu.se"
@@ -8,26 +5,19 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
-include: "rules/mutect2.smk"
-include: "rules/mutect2_gvcf.smk"
-include: "rules/vardict.smk"
-include: "rules/freebayes.smk"
-include: "rules/tabix_vcf.smk"
-include: "rules/merge_vcf.smk"
-include: "rules/merge_gvcf.smk"
-include: "rules/bgzip_vcf.smk"
-include: "rules/decompose.smk"
-include: "rules/normalize.smk"
-include: "rules/sort_vcf.smk"
-include: "rules/ensemble_vcf.smk"
-include: "rules/fix_af.smk"
+include: "rules/bcbio_variation_recall.smk"
+include: "rules/bcftools.smk"
 include: "rules/bed_split.smk"
+include: "rules/bgzip.smk"
+include: "rules/fix_af.smk"
+include: "rules/freebayes.smk"
+include: "rules/mutect2.smk"
+include: "rules/tabix.smk"
+include: "rules/vardict.smk"
+include: "rules/vt.smk"
 
 
-ruleorder: mutect2 > tabix_vcf
-
-
-report: "report/workflow.rst"
+ruleorder: mutect2 > mutect2_gvcf > tabix
 
 
 rule all:
