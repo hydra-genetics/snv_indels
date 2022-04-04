@@ -26,11 +26,11 @@ mutect2_gvcf:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 vardict:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/vardict:1.8.3"
   bed_columns: "-c 1 -S 2 -E 3"
 
 vt_decompose:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/vt:2015.11.10"
 
 vt_normalize:
-  container: "docker://gmsuppsala/somatic:develop"
+  container: "docker://hydragenetics/vt:2015.11.10"
