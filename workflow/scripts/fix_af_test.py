@@ -67,19 +67,28 @@ class TestModifyHeader(unittest.TestCase):
                     name="Caller is pisces",
                     caller="pisces",
                     header=pysam.libcbcf.VariantHeader(),
-                    expected=pysam.VariantFile("workflow/scripts/.tests/fix_af.modifyHeader.pisces_mutect2.expected.vcf").header,
+                    expected=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.modifyHeader.pisces_mutect2.expected.vcf"
+                    ).header,
                 ),
                 TestCase(
                     name="Caller is mutect2",
                     caller="mutect2",
                     header=pysam.libcbcf.VariantHeader(),
-                    expected=pysam.VariantFile("workflow/scripts/.tests/fix_af.modifyHeader.pisces_mutect2.expected.vcf").header,
+                    expected=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.modifyHeader.pisces_mutect2.expected.vcf"
+                    ).header,
                 ),
                 TestCase(
                     name="Caller is varscan",
                     caller="varscan",
                     header=pysam.libcbcf.VariantHeader(),
-                    expected=pysam.VariantFile("workflow/scripts/.tests/fix_af.modifyHeader.varscan.expected.vcf").header,
+                    expected=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.modifyHeader.varscan.expected.vcf"
+                    ).header,
                 ),
         ]
 
@@ -105,7 +114,10 @@ class TestFixFreebayes(unittest.TestCase):
         testcases = [
                 TestCase(
                     name="Fix ad field in freebayes vcf",
-                    input=pysam.VariantFile("workflow/scripts/.tests/fix_af.fixFreebayes.input.vcf"),
+                    input=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.fixFreebayes.input.vcf"
+                    ),
                     expected=(0.2,),
                 ),
         ]
@@ -135,43 +147,94 @@ class TestWriteNewVcf(unittest.TestCase):
         testcases = [
                 TestCase(
                     name="Caller is freebayes",
-                    path="workflow/scripts/.tests/fix_af.writeNewVcf.actual.vcf",
-                    vcf=pysam.VariantFile("workflow/scripts/.tests/fix_af.writeNewVcf.freebayes.vcf.vcf"),
+                    path=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.actual.vcf"
+                    ),
+                    vcf=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.freebayes.vcf.vcf"
+                    ),
                     caller="freebayes",
-                    expected="workflow/scripts/.tests/fix_af.writeNewVcf.freebayes.expected.vcf",
+                    expected=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.freebayes.expected.vcf"
+                    ),
                 ),
                 TestCase(
                     name="Caller is mutect2",
-                    path="workflow/scripts/.tests/fix_af.writeNewVcf.actual.vcf",
-                    vcf=pysam.VariantFile("workflow/scripts/.tests/fix_af.writeNewVcf.mutect2_vardict.vcf.vcf"),
+                    path=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.actual.vcf"
+                    ),
+                    vcf=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.mutect2_vardict.vcf.vcf"
+                    ),
                     caller="mutect2",
-                    expected="workflow/scripts/.tests/fix_af.writeNewVcf.mutect2_vardict.expected.vcf",
+                    expected=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.mutect2_vardict.expected.vcf"
+                    ),
                 ),
                 TestCase(
                     name="Caller is pisces",
-                    path="workflow/scripts/.tests/fix_af.writeNewVcf.actual.vcf",
-                    vcf=pysam.VariantFile("workflow/scripts/.tests/fix_af.writeNewVcf.pisces.vcf.vcf"),
+                    path=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.actual.vcf"
+                    ),
+                    vcf=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.pisces.vcf.vcf"
+                    ),
                     caller="pisces",
-                    expected="workflow/scripts/.tests/fix_af.writeNewVcf.pisces.expected.vcf",
+                    expected=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.pisces.expected.vcf"
+                    ),
                 ),
                 TestCase(
                     name="Caller is vardict",
-                    path="workflow/scripts/.tests/fix_af.writeNewVcf.actual.vcf",
-                    vcf=pysam.VariantFile("workflow/scripts/.tests/fix_af.writeNewVcf.mutect2_vardict.vcf.vcf"),
+                    path=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.actual.vcf"
+                    ),
+                    vcf=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.mutect2_vardict.vcf.vcf"
+                    ),
                     caller="vardict",
-                    expected="workflow/scripts/.tests/fix_af.writeNewVcf.mutect2_vardict.expected.vcf",
+                    expected=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.mutect2_vardict.expected.vcf"
+                    ),
                 ),
                 TestCase(
                     name="Caller is varscan",
-                    path="workflow/scripts/.tests/fix_af.writeNewVcf.actual.vcf",
-                    vcf=pysam.VariantFile("workflow/scripts/.tests/fix_af.writeNewVcf.varscan.vcf.vcf"),
+                    path=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.actual.vcf"
+                    ),
+                    vcf=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.varscan.vcf.vcf"
+                    ),
                     caller="varscan",
-                    expected="workflow/scripts/.tests/fix_af.writeNewVcf.varscan.expected.vcf",
+                    expected=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.varscan.expected.vcf"
+                    ),
                 ),
                 TestCase(
                     name="Caller not available",
-                    path="workflow/scripts/.tests/fix_af.writeNewVcf.actual.vcf",
-                    vcf=pysam.VariantFile("workflow/scripts/.tests/fix_af.writeNewVcf.freebayes.vcf.vcf"),
+                    path=(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.actual.vcf"
+                    ),
+                    vcf=pysam.VariantFile(
+                        "workflow/scripts/.tests/"
+                        "fix_af.writeNewVcf.freebayes.vcf.vcf"
+                    ),
                     caller="snver",
                     expected="ValueError",
                 ),
@@ -184,7 +247,7 @@ class TestWriteNewVcf(unittest.TestCase):
                     list(io.open(case.expected)),
                     list(io.open(case.path)),
                     "failed test '{}': files are different".format(
-                        case.name 
+                        case.name
                     ),
                 )
                 os.remove(case.path)

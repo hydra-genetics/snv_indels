@@ -13,14 +13,16 @@ import re
 import sys
 
 
-
 # identify caller software from input path
 def getCaller(path: str):
     pathParts = path.split("/")
     if len(pathParts) == 3:
         return pathParts[1]
     else:
-        raise ValueError("{} is not a valid input for this script. Required: 'snv_indels/caller/sample_type.vcf'.".format(path))
+        raise ValueError(
+            "{} is not a valid input for this script. Required:"
+            "'snv_indels/caller/sample_type.vcf'.".format(path)
+        )
 
 
 # modify vcf header if necessary
@@ -28,12 +30,23 @@ def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
     if caller == "pisces" or caller == "mutect2":
         header.info.add("AF", "A", "Float", "DescriptionDescription")
     elif caller == "varscan":
-        header.info.add("AF", "A", "Float", "Allel count divided on depth (Quality of bases: Phred score >= 15)")
+        header.info.add(
+            "AF",
+            "A",
+            "Float",
+            (
+                "Allel count divided on depth"
+                "(Quality of bases: Phred score >= 15)"
+            )
+        )
     return header
 
 
 # fix af field in freebayes vcf entries
-def fixFreebayes(header: pysam.libcbcf.VariantHeader, row: pysam.libcbcf.VariantRecord):
+def fixFreebayes(
+        header: pysam.libcbcf.VariantHeader,
+        row: pysam.libcbcf.VariantRecord
+):
     sample = header.samples[0]
     ads = row.samples[sample].get("AD")
     af = []
@@ -43,7 +56,12 @@ def fixFreebayes(header: pysam.libcbcf.VariantHeader, row: pysam.libcbcf.Variant
 
 
 # loop through input vcf and write modified entries to new vcf
-def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcbcf.VariantFile, caller: str):
+def writeNewVcf(
+        path: str,
+        header: pysam.libcbcf.VariantHeader,
+        vcf: pysam.libcbcf.VariantFile,
+        caller: str
+):
     new_vcf = pysam.VariantFile(path, "w", header=header)
     for row in vcf.fetch():
         if caller == "freebayes":
@@ -57,7 +75,10 @@ def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcb
         elif caller == "varscan":
             row.info["AF"] = row.samples[0].get("AD")/row.samples[0].get("DP")
         else:
-            raise ValueError("{} is not a valid caller for this script. Choose between: freebayes, mutect2, pisces, vardict, varscan.".format(caller))
+            raise ValueError(
+                "{} is not a valid caller for this script. Choose between:"
+                "freebayes, mutect2, pisces, vardict, varscan.".format(caller)
+            )
         new_vcf.write(row)
     return
 
