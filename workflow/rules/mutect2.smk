@@ -6,8 +6,8 @@ __license__ = "GPL-3"
 
 rule mutect2:
     input:
-        map="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
-        bai="alignment/mark_duplicates/{sample}_{type}_{chr}.bam.bai",
+        map="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         fasta=config["reference"]["fasta"],
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
@@ -42,8 +42,8 @@ rule mutect2:
 
 rule mutect2_gvcf:
     input:
-        map="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
-        bai="alignment/mark_duplicates/{sample}_{type}_{chr}.bam.bai",
+        map="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         fasta=config["reference"]["fasta"],
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
