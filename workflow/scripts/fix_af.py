@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+__author__ = "Martin Rippin"
+__copyright__ = "Copyright 2021, Martin Rippin"
+__email__ = "martin.rippin@igp.uu.se"
+__license__ = "GPL-3"
+
+
 import logging
 import pysam
 import re
@@ -14,15 +20,13 @@ def getCaller(path: str):
     if len(pathParts) == 3:
         return pathParts[1]
     else:
-        raise ValueError("{} is not a valid input for this script. Required: 'snv_indels/{caller}/{sample}_{type}.vcf'.".format(path))
+        raise ValueError("{} is not a valid input for this script. Required: 'snv_indels/caller/sample_type.vcf'.".format(path))
 
 
 # modify vcf header if necessary
 def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
     if caller == "pisces" or caller == "mutect2":
         header.info.add("AF", "A", "Float", "DescriptionDescription")
-    elif caller == "snver":
-        header.info.add("AF", "A", "Float", "Allel count divided on depth, crude")
     elif caller == "varscan":
         header.info.add("AF", "A", "Float", "Allel count divided on depth (Quality of bases: Phred score >= 15)")
     return header
@@ -47,16 +51,13 @@ def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcb
         elif caller == "mutect2":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "pisces":
-            sample = header.samples[0]
-            row.info["AF"] = row.samples[sample].get("VF")
-        elif caller == "snver":
-            row.info["AF"] = row.info["AC"]/row.info["DP"]
+            row.info["AF"] = row.samples[0].get("VF")
         elif caller == "vardict":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "varscan":
             row.info["AF"] = row.samples[0].get("AD")/row.samples[0].get("DP")
         else:
-            raise ValueError("{} is not a valid caller for this script. Choose between: freebayes, mutect2, pisces, snver, vardict, varscan.".format(caller))
+            raise ValueError("{} is not a valid caller for this script. Choose between: freebayes, mutect2, pisces, vardict, varscan.".format(caller))
         new_vcf.write(row)
     return
 
