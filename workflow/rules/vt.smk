@@ -18,11 +18,11 @@ rule vt_decompose:
         )
     threads: config.get("vt_decompose", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        threads=config.get("vt_decompose", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("vt_decompose", {}).get("time", config["default_resources"]["time"]),
         mem_mb=config.get("vt_decompose", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
         mem_per_cpu=config.get("vt_decompose", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
         partition=config.get("vt_decompose", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("vt_decompose", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("vt_decompose", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("vt_decompose", {}).get("container", config["default_container"])
     conda:
@@ -48,11 +48,11 @@ rule vt_normalize:
         )
     threads: config.get("vt_normalize", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        threads=config.get("vt_normalize", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("vt_normalize", {}).get("time", config["default_resources"]["time"]),
         mem_mb=config.get("vt_normalize", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
         mem_per_cpu=config.get("vt_normalize", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
         partition=config.get("vt_normalize", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("vt_normalize", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("vt_normalize", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("vt_normalize", {}).get("container", config["default_container"])
     conda:
