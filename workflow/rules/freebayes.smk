@@ -7,8 +7,8 @@ __license__ = "GPL-3"
 rule freebayes:
     input:
         ref=config["reference"]["fasta"],
-        samples="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
-        indexes="alignment/mark_duplicates/{sample}_{type}_{chr}.bam.bai",
+        samples="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        indexes="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         regions="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         vcf=temp("snv_indels/freebayes/{sample}_{type}_{chr}.vcf"),
