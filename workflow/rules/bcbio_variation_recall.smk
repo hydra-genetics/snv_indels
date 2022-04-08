@@ -30,7 +30,9 @@ rule bcbio_variation_recall_ensemble:
     threads: config.get("bcbio_variation_recall_ensemble", {}).get("threads", config["default_resources"]["threads"])
     resources:
         mem_mb=config.get("bcbio_variation_recall_ensemble", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("bcbio_variation_recall_ensemble", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        mem_per_cpu=config.get("bcbio_variation_recall_ensemble", {}).get(
+            "mem_per_cpu", config["default_resources"]["mem_per_cpu"]
+        ),
         partition=config.get("bcbio_variation_recall_ensemble", {}).get("partition", config["default_resources"]["partition"]),
         threads=config.get("bcbio_variation_recall_ensemble", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("bcbio_variation_recall_ensemble", {}).get("time", config["default_resources"]["time"]),

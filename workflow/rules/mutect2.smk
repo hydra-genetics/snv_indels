@@ -22,7 +22,9 @@ rule mutect2:
     log:
         "snv_indels/mutect2/{sample}_{type}_{chr}.vcf.gz.log",
     benchmark:
-        repeat("snv_indels/mutect2/{sample}_{type}_{chr}.vcf.gz.benchmark.tsv", config.get("mutect2", {}).get("benchmark_repeats", 1))
+        repeat(
+            "snv_indels/mutect2/{sample}_{type}_{chr}.vcf.gz.benchmark.tsv", config.get("mutect2", {}).get("benchmark_repeats", 1)
+        )
     threads: config.get("mutect2", {}).get("threads", config["default_resources"]["threads"])
     resources:
         mem_mb=config.get("mutect2", {}).get("mem_mb", config["default_resources"]["mem_mb"]),

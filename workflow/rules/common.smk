@@ -52,7 +52,7 @@ def get_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
         config.get(name, {}).get("extra", ""),
         "--intervals snv_indels/bed_split/design_bedfile_{}.bed".format(
             wildcards.chr,
-        )
+        ),
     )
     if name == "mutect2":
         extra = "{} {}".format(
@@ -61,13 +61,10 @@ def get_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
                 wildcards.sample,
                 wildcards.type,
                 wildcards.chr,
-            )
+            ),
         )
     if name == "mutect2_gvcf":
-        extra = "{} {}".format(
-            extra,
-            "-ERC BP_RESOLUTION"
-        )
+        extra = "{} {}".format(extra, "-ERC BP_RESOLUTION")
     return extra
 
 
