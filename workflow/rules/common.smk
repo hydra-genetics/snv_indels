@@ -32,15 +32,22 @@ validate(samples, schema="../schemas/samples.schema.yaml")
 
 ### Read and validate units file
 
-units = pandas.read_table(config["units"], dtype=str).set_index(["sample", "type", "flowcell", "lane"], drop=False).sort_index()
+units = (
+    pandas.read_table(config["units"], dtype=str)
+    .set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False)
+    .sort_index()
+)
 validate(units, schema="../schemas/units.schema.yaml")
 
 ### Set wildcard constraints
 
 
 wildcard_constraints:
-    sample="|".join(samples.index),
-    unit="N|T|R",
+    barcode="[A-Z+]+",
+    flowcell="[A-Z0-9]+",
+    lane="L[0-9]+",
+    sample="|".join(get_samples(samples)),
+    type="N|T|R",
 
 
 def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
