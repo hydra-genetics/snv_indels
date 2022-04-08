@@ -1,57 +1,105 @@
-# snv_indels
+# :snake: hydra-genetics/snv_indels
 
-Rules used to call snv and small indels
+#### Snakemake module containing steps to call snv and small indels
 
 ![Lint](https://github.com/hydra-genetics/snv_indels/actions/workflows/lint.yaml/badge.svg?branch=develop)
 ![Snakefmt](https://github.com/hydra-genetics/snv_indels/actions/workflows/snakefmt.yaml/badge.svg?branch=develop)
-
-![pycodestyle](https://github.com/hydra-genetics/snv_indels/actions/workflows/pycodestyl.yaml/badge.svg?branch=develop)
+![pycodestyle](https://github.com/hydra-genetics/snv_indels/actions/workflows/pycodestyle.yaml/badge.svg?branch=develop)
 ![pytest](https://github.com/hydra-genetics/snv_indels/actions/workflows/pytest.yaml/badge.svg?branch=develop)
-
-![integration test](https://github.com/hydra-genetics/snv_indels/actions/workflows/integration1.yaml/badge.svg?branch=develop)
+![snakemake dry run](https://github.com/hydra-genetics/prealignment/actions/workflows/snakemake-dry-run.yaml/badge.svg?branch=develop)
+![integration test](https://github.com/hydra-genetics/prealignment/actions/workflows/integration.yaml/badge.svg?branch=develop)
 
 [![License: GPL-3](https://img.shields.io/badge/License-GPL3-yellow.svg)](https://opensource.org/licenses/gpl-3.0.html)
 
 ## :speech_balloon: Introduction
 
+The module contains rules to call variants from `.bam`-files per chromosome, merging
+the resulting `.vcf`-files, fixing the allele frequency field followed by decomposing
+and normalizing steps to finally combine the results from different callers using
+an ensemble approach. Available callers are [Mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2),
+[Freebayes](https://github.com/freebayes/freebayes) and [VarDict](https://github.com/AstraZeneca-NGS/VarDict).
+Mutect2 is also used to generate a genomic `.vcf`-file.
+
 ## :heavy_exclamation_mark: Dependencies
 
-To run this workflow, the following tools need to be available:
+In order to use this module, the following dependencies are required:
 
-![python](https://img.shields.io/badge/python-3.8-blue)
-[![snakemake](https://img.shields.io/badge/snakemake-6.8.0-blue)](https://snakemake.readthedocs.io/en/stable/)
-[![singularity](https://img.shields.io/badge/singularity-3.7-blue)](https://sylabs.io/docs/)
+[![hydra-genetics](https://img.shields.io/badge/hydragenetics-v0.9.2-blue)](https://github.com/hydra-genetics/)
+[![pandas](https://img.shields.io/badge/pandas-1.3.1-blue)](https://pandas.pydata.org/)
+[![python](https://img.shields.io/badge/python-3.8-blue)](https://www.python.org/)
+[![snakemake](https://img.shields.io/badge/snakemake-6.10.0-blue)](https://snakemake.readthedocs.io/en/stable/)
+[![singularity](https://img.shields.io/badge/singularity-3.0.0-blue)](https://sylabs.io/docs/)
 
 ## :school_satchel: Preparations
 
-### Sample data
+### Sample and unit data
 
-1. Add all sample ids to `samples.tsv` in the column `sample`.
-2. Add all sample data information to `units.tsv`. Each row represents a `fastq` file pair with
-corresponding forward and reverse reads. Also indicate the sample id, run id and lane number, adapter.
+Input data should be added to [`samples.tsv`](https://github.com/hydra-genetics/prealignment/blob/develop/config/samples.tsv)
+and [`units.tsv`](https://github.com/hydra-genetics/prealignment/blob/develop/config/units.tsv).
+The following information need to be added to these files:
+
+| Column Id | Description |
+| --- | --- |
+| **`samples.tsv`** |
+| sample | unique sample/patient id, one per row |
+| tumor_content | ratio of tumor cells to total cells |
+| **`units.tsv`** |
+| sample | same sample/patient id as in `samples.tsv` |
+| type | data type identifier (one letter), can be one of **T**umor, **N**ormal, **R**NA |
+| platform | type of sequencing platform, e.g. `NovaSeq` |
+| machine | specific machine id, e.g. NovaSeq instruments have `@Axxxxx` |
+| flowcell | identifer of flowcell used |
+| lane | flowcell lane number |
+| barcode | sequence library barcode/index, connect forward and reverse indices by `+`, e.g. `ATGC+ATGC` |
+| fastq1/2 | absolute path to forward and reverse reads |
+| adapter | adapter sequences to be trimmed, separated by comma |
 
 ### Reference data
 
-1. You need a ...
+A reference `.fasta`-file should be specified in `config.yaml` in the section `reference` and `fasta`.
+In addition, the file should be indexed using `samtools faidx` and the path of the resulting
+file added to the stanza `fai`. A bed file containing the covered regions shall be added
+to `design_bed`.
 
 ## :white_check_mark: Testing
 
 The workflow repository contains a small test dataset `.tests/integration` which can be run like so:
 
 ```bash
-cd .tests/integration
-snakemake -s ../../Snakefile -j1 --use-singularity
+$ cd .tests/integration
+$ snakemake -s ../../Snakefile -j1 --use-singularity
 ```
 
 ## :rocket: Usage
 
-The workflow is designed for WGS data meaning huge datasets which require a lot of compute power. For
-HPC clusters, it is recommended to use a cluster profile and run something like:
+To use this module in your workflow, follow the description in the
+[snakemake docs](https://snakemake.readthedocs.io/en/stable/snakefiles/modularization.html#modules).
+Add the module to your `Snakefile` like so:
 
 ```bash
-snakemake -s /path/to/Snakefile --profile my-awesome-profile
+module snv_indels:
+    snakefile:
+        github(
+            "hydra-genetics/snv_indels",
+            path="workflow/Snakefile",
+            tag="v0.1.0",
+        )
+    config:
+        config
+
+
+use rule * from snv_indels as snv_indels_*
 ```
+
+### Output files
+
+The following output files should be targeted via another rule:
+
+| File | Description |
+|---|---|
+| `snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vcf.gz` | combined `.vcf` generated by ensemble |
+| `snv_indels/mutect2_gvcf/{sample}_{type}.merged.vcf.gz` | genomic `.vcf` |
 
 ## :judge: Rule Graph
 
-![rule_graph](https://raw.githubusercontent.com/path.../rulegraph.svg)
+![rule_graph](images/rulegraph.svg)

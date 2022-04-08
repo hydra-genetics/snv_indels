@@ -1,8 +1,8 @@
 channels:
-  - conda-forge
   - bioconda
+  - conda-forge
   - defaults
 dependencies:
-  - openjdk=8.0
   - bcbio-variation-recall=0.2.6
   - bcftools=1.11
+  - openjdk=8.0

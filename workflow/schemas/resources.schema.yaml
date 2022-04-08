@@ -3,328 +3,291 @@ description: snakemake configuration file
 type: object
 properties:
 
-  mutect2:
+  default_resources:
     type: object
+    description: default resource definitions
     properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'mutect2' rule
-      time:
-        type: string
-        description: max execution time for the 'mutect2' rule
       mem_mb:
         type: integer
-        description: memory used for 'mutect2'
+        description: max memory in MB to be available by default
       mem_per_cpu:
         type: integer
-        description: memory used per cpu for 'mutect2'
+        description: memory in MB used per cpu by default
       partition:
         type: string
-        description: partition to use on the cluster for 'mutect2'
+        description: partition to use on cluster by default
+      threads:
+        type: integer
+        description: number of threads to be available by default
+      time:
+        type: string
+        description: max execution time by default
+    required:
+      - mem_mb
+      - mem_per_cpu
+      - partition
+      - threads
+      - time
 
-  mutect2_gvcf:
+  bcbio_variation_recall_ensemble:
     type: object
+    description: resource definitions for bcbio_variation_recall_ensemble
     properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'mutect2_gvcf' rule
-      time:
-        type: string
-        description: max execution time for the 'mutect2_gvcf' rule
       mem_mb:
         type: integer
-        description: memory used for 'mutect2_gvcf'
+        description: max memory in MB to be available
       mem_per_cpu:
         type: integer
-        description: memory used per cpu for 'mutect2_gvcf'
+        description: memory in MB used per cpu
       partition:
         type: string
-        description: partition to use on the cluster for 'mutect2_gvcf'
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
 
-  merge_vcf:
+  bcftools_concat:
     type: object
+    description: resource definitions for bcftools_concat
     properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'merge_vcf' rule
-      time:
-        type: string
-        description: max execution time for the 'merge_vcf' rule
       mem_mb:
         type: integer
-        description: memory used for 'merge_vcf'
+        description: max memory in MB to be available
       mem_per_cpu:
         type: integer
-        description: memory used per cpu for 'merge_vcf'
+        description: memory in MB used per cpu
       partition:
         type: string
-        description: partition to use on the cluster for 'merge_vcf'
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
 
-  merge_gvcf:
+  bcftools_sort:
     type: object
+    description: resource definitions for bcftools_sort
     properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'merge_gvcf' rule
-      time:
-        type: string
-        description: max execution time for the 'merge_gvcf' rule
       mem_mb:
         type: integer
-        description: memory used for 'merge_gvcf'
+        description: max memory in MB to be available
       mem_per_cpu:
         type: integer
-        description: memory used per cpu for 'merge_gvcf'
+        description: memory in MB used per cpu
       partition:
         type: string
-        description: partition to use on the cluster for 'merge_gvcf'
-
-  merge_vcf:
-    type: object
-    properties:
+        description: partition to use on cluster
       threads:
         type: integer
-        description: number of threads that will be used by the 'merge_vcf' rule
+        description: number of threads to be available
       time:
         type: string
-        description: max execution time for the 'merge_vcf' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'merge_vcf'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'merge_vcf'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'merge_vcf'
-
-  tabix_vcf:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'tabix_vcf' rule
-      time:
-        type: string
-        description: max execution time for the 'tabix_vcf' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'tabix_vcf'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'tabix_vcf'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'tabix_vcf'
-
-  vardict:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'vardict' rule
-      time:
-        type: string
-        description: max execution time for the 'vardict' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'vardict'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'vardict'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'vardict'
-
-  bgzip_vcf:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'bgzip_vcf' rule
-      time:
-        type: string
-        description: max execution time for the 'bgzip_vcf' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'bgzip_vcf'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'bgzip_vcf'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'bgzip_vcf'
-
-  vardict:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'vardict' rule
-      time:
-        type: string
-        description: max execution time for the 'vardict' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'vardict'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'vardict'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'vardict'
-
-  decompose:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'decompose' rule
-      time:
-        type: string
-        description: max execution time for the 'decompose' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'decompose'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'decompose'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'decompose'
-
-  normalize:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'normalize' rule
-      time:
-        type: string
-        description: max execution time for the 'normalize' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'normalize'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'normalize'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'normalize'
-
-  sort_vcf:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'sort_vcf' rule
-      time:
-        type: string
-        description: max execution time for the 'sort_vcf' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'sort_vcf'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'sort_vcf'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'sort_vcf'
-
-  ensemble_vcf:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'ensemble_vcf' rule
-      time:
-        type: string
-        description: max execution time for the 'ensemble_vcf' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'ensemble_vcf'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'ensemble_vcf'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'ensemble_vcf'
-
-  fix_af:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'fix_af' rule
-      time:
-        type: string
-        description: max execution time for the 'fix_af' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'fix_af'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'fix_af'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'fix_af'
-
-  freebayes:
-    type: object
-    properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'freebayes' rule
-      time:
-        type: string
-        description: max execution time for the 'freebayes' rule
-      mem_mb:
-        type: integer
-        description: memory used for 'freebayes'
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu for 'freebayes'
-      partition:
-        type: string
-        description: partition to use on the cluster for 'freebayes'
+        description: max execution time
 
   bed_split:
     type: object
+    description: resource definitions for bed_split
     properties:
-      threads:
-        type: integer
-        description: number of threads that will be used by the 'bed_split' rule
-      time:
-        type: string
-        description: max execution time for the 'bed_split' rule
       mem_mb:
         type: integer
-        description: memory used for 'bed_split'
+        description: max memory in MB to be available
       mem_per_cpu:
         type: integer
-        description: memory used per cpu for 'bed_split'
+        description: memory in MB used per cpu
       partition:
         type: string
-        description: partition to use on the cluster for 'bed_split'
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
 
-  default_resources:
+  bgzip_vcf:
     type: object
+    description: resource definitions for bgzip_vcf
     properties:
-      threads:
-        type: integer
-        description: default number of threads that will be used by a rule
-      time:
-        type: string
-        description: default max execution time for a rule
       mem_mb:
         type: integer
-        description: memory used for a rule
+        description: max memory in MB to be available
       mem_per_cpu:
         type: integer
-        description: memory used per cpu for a rule
+        description: memory in MB used per cpu
       partition:
         type: string
-        description: partition to use on the cluster for a rule
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
 
-  required:
-    - default_resources
+  fix_af:
+    type: object
+    description: resource definitions for fix_af
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  freebayes:
+    type: object
+    description: resource definitions for freebayes
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  mutect2:
+    type: object
+    description: resource definitions for mutect2
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  mutect2_gvcf:
+    type: object
+    description: resource definitions for mutect2_gvcf
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  tabix:
+    type: object
+    description: resource definitions for tabix
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  vardict:
+    type: object
+    description: resource definitions for vardict
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  vt_decompose:
+    type: object
+    description: resource definitions for vt_decompose
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  vt_normalize:
+    type: object
+    description: resource definitions for vt_normalize
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+required:
+  - default_resources

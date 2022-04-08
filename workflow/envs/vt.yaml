@@ -1,7 +1,7 @@
 channels:
-  - conda-forge
   - bioconda
+  - conda-forge
   - defaults
 dependencies:
+  - cryptography=36.0.0
   - vt=2015.11.10|0.57721
-  - cryptography

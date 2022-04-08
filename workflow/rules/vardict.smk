@@ -1,6 +1,3 @@
-# vim: syntax=python tabstop=4 expandtab
-# coding: utf-8
-
 __author__ = "Jonas Almlöf, Patrik Smeds"
 __copyright__ = "Copyright 2021, Jonas Almlöf"
 __email__ = "jonas.almlof@scilifelab.uu.se"
@@ -9,8 +6,8 @@ __license__ = "GPL-3"
 
 rule vardict:
     input:
-        bam="alignment/mark_duplicates/{sample}_{type}_{chr}.bam",
-        bai="alignment/mark_duplicates/{sample}_{type}_{chr}.bam.bai",
+        bam="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         reference=config["reference"]["fasta"],
         regions="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
@@ -26,16 +23,16 @@ rule vardict:
         repeat("snv_indels/vardict/{sample}_{type}_{chr}.benchmark.tsv", config.get("vardict", {}).get("benchmark_repeats", 1))
     threads: config.get("vardict", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        threads=config.get("vardict", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("vardict", {}).get("time", config["default_resources"]["time"]),
         mem_mb=config.get("vardict", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
         mem_per_cpu=config.get("vardict", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
         partition=config.get("vardict", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("vardict", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("vardict", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("vardict", {}).get("container", config["default_container"])
     conda:
         "../envs/vardict.yaml"
     message:
-        "{rule}: Use vardict to call variants, snv_indels/{rule}/{wildcards.sample}_{wildcards.type}_{wildcards.chr}"
+        "{rule}: call variants in {input.bam}"
     wrapper:
-        "v0.86.0/bio/vardict"
+        "v1.3.1/bio/vardict"
