@@ -33,7 +33,8 @@ properties:
     type: string
     description: one or more sequence, separated by ","
 required:
-  - sample
-  - type
+  - barcode
   - flowcell
   - lane
+  - sample
+  - type
