@@ -47,14 +47,14 @@ def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
     return ",".join(config.get("bcbio_variation_recall_ensemble", {}).get("callers", ""))
 
 
-def get_mutect2_extra(wildcards: snakemake.io.Wildcards, rule: str):
+def get_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
     extra = "{} {}".format(
-        config.get(rule, {}).get("extra", ""),
+        config.get(name, {}).get("extra", ""),
         "--intervals snv_indels/bed_split/design_bedfile_{}.bed".format(
             wildcards.chr,
         )
     )
-    if rule == "mutect2":
+    if name == "mutect2":
         extra = "{} {}".format(
             extra,
             "--f1r2-tar-gz snv_indels/mutect2/{}_{}_{}.f1r2.tar.gz".format(
@@ -63,7 +63,7 @@ def get_mutect2_extra(wildcards: snakemake.io.Wildcards, rule: str):
                 wildcards.chr,
             )
         )
-    if rule == "mutect2_gvcf":
+    if name == "mutect2_gvcf":
         extra = "{} {}".format(
             extra,
             "-ERC BP_RESOLUTION"
