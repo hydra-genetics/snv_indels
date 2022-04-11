@@ -3,5 +3,5 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - cryptography=36.0.0
+  - cryptography=3.4.8
   - vt=2015.11.10|0.57721
