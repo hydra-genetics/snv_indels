@@ -48,6 +48,7 @@ wildcard_constraints:
     lane="L[0-9]+",
     sample="|".join(get_samples(samples)),
     type="N|T|R",
+    vcf="vcf|g.vcf",
 
 
 def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
@@ -81,7 +82,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             "ensembled.vcf.gz",
         ],
         "mutect2_gvcf": [
-            "merged.vcf.gz",
+            "merged.g.vcf.gz",
         ],
     }
     output_files = [

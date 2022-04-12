@@ -7,26 +7,26 @@ __license__ = "GPL-3"
 rule bcftools_concat:
     input:
         calls=expand(
-            "{{file}}_{chr}.vcf.gz",
+            "{{file}}_{chr}.{{vcf}}.gz",
             chr=extract_chr(
                 "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
             ),
         ),
         index=expand(
-            "{{file}}_{chr}.vcf.gz.tbi",
+            "{{file}}_{chr}.{{vcf}}.gz.tbi",
             chr=extract_chr(
                 "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
             ),
         ),
     output:
-        vcf=temp("{file}.merged.vcf"),
+        vcf=temp("{file}.merged.{vcf}"),
     params:
         extra=config.get("bcftools_concat", {}).get("extra", ""),
     log:
-        "{file}.merged.vcf.log",
+        "{file}.merged.{vcf}.log",
     benchmark:
         repeat(
-            "{file}.merged.vcf.benchmark.tsv",
+            "{file}.merged.{vcf}.benchmark.tsv",
             config.get("bcftools_concat", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("bcftools_concat", {}).get("threads", config["default_resources"]["threads"])
