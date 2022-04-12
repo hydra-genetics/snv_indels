@@ -49,16 +49,16 @@ rule mutect2_gvcf:
         fasta=config["reference"]["fasta"],
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
-        stats=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.vcf.gz.stats"),
-        vcf=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.vcf.gz"),
-        tbi=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.vcf.gz.tbi"),
+        stats=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.stats"),
+        vcf=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz"),
+        tbi=temp("snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.tbi"),
     params:
         extra=lambda wildcards: get_mutect2_extra(wildcards, "mutect2_gvcf"),
     log:
-        "snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.vcf.gz.log",
+        "snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.vcf.gz.benchmark.tsv",
+            "snv_indels/mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.benchmark.tsv",
             config.get("mutect2_gvcf", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("mutect2_gvcf", {}).get("threads", config["default_resources"]["threads"])
