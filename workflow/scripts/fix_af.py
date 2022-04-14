@@ -66,6 +66,8 @@ def writeNewVcf(
     for row in vcf.fetch():
         if caller == "freebayes":
             row.info["AF"] = fixFreebayes(header, row)
+        elif caller == "haplotypecaller":
+            row.info["AF"] = row.samples[0].get("AF")
         elif caller == "mutect2":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "pisces":
@@ -77,7 +79,7 @@ def writeNewVcf(
         else:
             raise ValueError(
                 "{} is not a valid caller for this script. Choose between:"
-                "freebayes, mutect2, pisces, vardict, varscan.".format(caller)
+                "freebayes, haplotypecaller, mutect2, pisces, vardict, varscan.".format(caller)
             )
         new_vcf.write(row)
     return
