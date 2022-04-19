@@ -84,6 +84,9 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         "mutect2_gvcf": [
             "merged.g.vcf.gz",
         ],
+        "haplotypecaller": [
+            "normalized.sorted.vcf.gz",
+        ],
     }
     output_files = [
         "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
