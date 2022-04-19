@@ -91,6 +91,13 @@ module snv_indels:
 use rule * from snv_indels as snv_indels_*
 ```
 
+### Compatibility
+
+Latest:
+ - alignment:v0.1.0
+
+ See [COMPATIBLITY.md](../master/COMPATIBLITY.md) file for a complete list of module compatibility.
+
 ### Output files
 
 The following output files should be targeted via another rule:
