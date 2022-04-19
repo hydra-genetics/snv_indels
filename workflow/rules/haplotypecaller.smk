@@ -14,7 +14,7 @@ rule haplotypecaller:
         vcf=temp("snv_indels/haplotypecaller/{sample}_{type}_{chr}.vcf"),
     params:
         extra=config.get("haplotypecaller", {}).get("extra", ""),
-        java_opts=config.get("haplotypecaller", {}).get("java", ""),
+        java_opts=config.get("haplotypecaller", {}).get("java_opts", ""),
     log:
         "snv_indels/haplotypecaller/{sample}_{type}_{chr}.vcf.log",
     benchmark:
@@ -36,4 +36,10 @@ rule haplotypecaller:
     message:
         "{rule}: call variants in {wildcards.chr} in {input.bam}"
     shell:
-        "(gatk --java-options '{params.java_opts}' HaplotypeCaller -R {input.fasta} -I {input.bam} -O {output.vcf} -L {input.bed} -A AlleleFraction {params.extra}) &> {log}"
+        "(gatk --java-options '{params.java_opts}' HaplotypeCaller "
+        "-R {input.fasta} "
+        "-I {input.bam} "
+        "-O {output.vcf} "
+        "-L {input.bed} "
+        "-A AlleleFraction "
+        "{params.extra}) &> {log}"
