@@ -44,5 +44,3 @@ module snv_indels:
 
 
 use rule * from snv_indels as snv_indels_*
-
-ruleorder: snv_indels_mutect2 > snv_indels_mutect2_gvcf > snv_indels_tabix
