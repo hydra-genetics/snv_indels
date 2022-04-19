@@ -48,7 +48,7 @@ wildcard_constraints:
     lane="L[0-9]+",
     sample="|".join(get_samples(samples)),
     type="N|T|R",
-    vcf="vcf|g.vcf",
+    vcf="vcf|g[.]vcf",
 
 
 def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
