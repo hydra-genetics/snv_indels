@@ -9,6 +9,7 @@ from hydra_genetics.utils.misc import extract_chr
 from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
+from snakemake.exceptions import WorkflowError
 from snakemake.utils import min_version
 from snakemake.utils import validate
 
@@ -53,6 +54,14 @@ wildcard_constraints:
 
 def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
     return ",".join(config.get("bcbio_variation_recall_ensemble", {}).get("callers", ""))
+
+
+def get_java_opts(wildcards: snakemake.io.Wildcards):
+    java_opts = config.get("haplotypecaller", {}).get("java_opts", "")
+    if "-Xmx" in java_opts:
+        raise WorkflowError("You are not allowed to use -Xmx in java_opts. Set mem_mb in resources instead.")
+    java_opts += "-Xmx{}m".format(config.get("haplotypecaller", {}).get("mem_mb", config["default_resources"]["mem_mb"]))
+    return java_opts
 
 
 def get_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
