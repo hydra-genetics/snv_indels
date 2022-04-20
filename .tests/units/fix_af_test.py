@@ -168,6 +168,22 @@ class TestWriteNewVcf(unittest.TestCase):
                     ),
                 ),
                 TestCase(
+                    name="Caller is haplotypecaller",
+                    path=(
+                        ".tests/units/.tests/"
+                        "fix_af.writeNewVcf.actual.vcf"
+                    ),
+                    vcf=pysam.VariantFile(
+                        ".tests/units/.tests/"
+                        "fix_af.writeNewVcf.haplotypecaller.vcf.vcf"
+                    ),
+                    caller="haplotypecaller",
+                    expected=(
+                        ".tests/units/.tests/"
+                        "fix_af.writeNewVcf.haplotypecaller.expected.vcf"
+                    ),
+                ),
+                TestCase(
                     name="Caller is mutect2",
                     path=(
                         ".tests/units/.tests/"
