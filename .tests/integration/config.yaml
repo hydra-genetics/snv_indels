@@ -20,7 +20,6 @@ freebayes:
   container: "docker://hydragenetics/freebayes:1.3.1"
 
 haplotypecaller:
-  java_opts: "-Xmx4g"
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 mutect2:
