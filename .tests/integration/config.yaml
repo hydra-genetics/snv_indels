@@ -1,5 +1,36 @@
+resources: "resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
 
-tools:
-  common: "docker://marrip/common:1.1.0"
+default_container: "docker://hydragenetics/common:0.1.2"
+
+reference:
+  fasta: "reference/HES45.fna"
+  fai: "reference/HES45.fna.fai"
+  design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
+
+bcbio_variation_recall_ensemble:
+  container: "docker://gmsuppsala/somatic:develop"
+  callers:
+    - vardict
+    - mutect2
+    - freebayes
+
+freebayes:
+  container: "docker://hydragenetics/freebayes:1.3.1"
+
+mutect2:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+mutect2_gvcf:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+vardict:
+  container: "docker://hydragenetics/vardict:1.8.3"
+  bed_columns: "-c 1 -S 2 -E 3"
+
+vt_decompose:
+  container: "docker://hydragenetics/vt:2015.11.10"
+
+vt_normalize:
+  container: "docker://hydragenetics/vt:2015.11.10"

@@ -2,19 +2,225 @@ $schema: "http://json-schema.org/draft-04/schema#"
 description: snakemake configuration file
 type: object
 properties:
-  samples:
-    type: string
-  units:
-    type: string
+
   resources:
     type: string
-    description: Path to resources.yaml file
+    description: path to resources.yaml file
+
+  samples:
+    type: string
+    description: path to samples.tsv file
+
+  units:
+    type: string
+    description: path to units.tsv file
+
+  reference:
+    type: object
+    properties:
+      design_bed:
+        type: string
+        description: path to panel design bed file
+      fasta:
+        type: string
+        description: path to reference fasta file
+      fai:
+        type: string
+        description: path to reference fasta index file
+      skip_chrs:
+        type: array
+        description: list of chromosomes that should be skipped
+        items:
+            type: string
+    required:
+      - design_bed
+      - fasta
+      - fai
+
   default_container:
     type: string
     description: name or path to a default docker/singularity container
-  required:
-    - samples
-    - units
-    - resources
-    - containers
-    - default_container
+
+  bcbio_variation_recall_ensemble:
+    type: object
+    description: parameters for bcbio_variation_recall_ensemble
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      callers:
+        type: array
+        description: list of callers that are included in the ensemble vcf in sort order
+        items:
+            type: string
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      support:
+        type: integer
+        description: number of callers to support variant to be included in ensemble vcf
+      required:
+        - callers
+
+  bcftools_concat:
+    type: object
+    description: parameters for bcftools_concat
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  bcftools_sort:
+    type: object
+    description: parameters for bcftools_sort
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
+  bed_split:
+    type: object
+    description: parameters for bed_split
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
+  bgzip_vcf:
+    type: object
+    description: parameters for bgzip_vcf
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
+  fix_af:
+    type: object
+    description: parameters for fix_af
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
+  freebayes:
+    type: object
+    description: parameters for freebayes
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  mutect2:
+    type: object
+    description: parameters for mutect2
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  mutect2_gvcf:
+    type: object
+    description: parameters for mutect2_gvcf
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  tabix:
+    type: object
+    description: parameters for tabix
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  vardict:
+    type: object
+    description: parameters for vardict
+    properties:
+      allele_frequency_threshold:
+        type: string
+        description: allele frequency threshold
+      bed_columns:
+        type: string
+        description: columns to use in bed file
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  vt_decompose:
+    type: object
+    description: parameters for vt_decompose
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
+  vt_normalize:
+    type: object
+    description: parameters for vt_normalize
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
+required:
+  - default_container
+  - reference
+  - resources
+  - samples
+  - units

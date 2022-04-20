@@ -1,0 +1,4 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##INFO=<ID=AF,Number=A,Type=Float,Description="DescriptionDescription">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
