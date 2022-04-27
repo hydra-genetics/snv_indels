@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.1.1](https://www.github.com/hydra-genetics/snv_indels/compare/v0.1.0...v0.1.1) (2022-04-21)
+
+
+### Documentation
+
+* update README to include haplotypecaller ([14e1367](https://www.github.com/hydra-genetics/snv_indels/commit/14e136766d0ceee89eb2e5a6191e004fc0bca21f))
+
 ## 0.1.0 (2022-04-20)
 
 
