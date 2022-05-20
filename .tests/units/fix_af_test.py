@@ -32,12 +32,12 @@ class TestGetCaller(unittest.TestCase):
         testcases = [
                 TestCase(
                     name="Identify caller successfully",
-                    input="snv_indels/mutect2/NA12878_T.vcf",
-                    expected="mutect2",
+                    input="snv_indels/gatk_mutect2/NA12878_T.vcf",
+                    expected="gatk_mutect2",
                 ),
                 TestCase(
                     name="Input path too short",
-                    input="mutect2/NA12878_T.vcf",
+                    input="gatk_mutect2/NA12878_T.vcf",
                     expected="ValueError",
                 ),
         ]
@@ -79,8 +79,8 @@ class TestModifyHeader(unittest.TestCase):
                     ).header,
                 ),
                 TestCase(
-                    name="Caller is mutect2",
-                    caller="mutect2",
+                    name="Caller is gatk_mutect2",
+                    caller="gatk_mutect2",
                     header=pysam.libcbcf.VariantHeader(),
                     expected=pysam.VariantFile(
                         ".tests/units/.tests/"
@@ -184,7 +184,7 @@ class TestWriteNewVcf(unittest.TestCase):
                     ),
                 ),
                 TestCase(
-                    name="Caller is mutect2",
+                    name="Caller is gatk_mutect2",
                     path=(
                         ".tests/units/.tests/"
                         "fix_af.writeNewVcf.actual.vcf"
@@ -193,7 +193,7 @@ class TestWriteNewVcf(unittest.TestCase):
                         ".tests/units/.tests/"
                         "fix_af.writeNewVcf.mutect2_vardict.vcf.vcf"
                     ),
-                    caller="mutect2",
+                    caller="gatk_mutect2",
                     expected=(
                         ".tests/units/.tests/"
                         "fix_af.writeNewVcf.mutect2_vardict.expected.vcf"
