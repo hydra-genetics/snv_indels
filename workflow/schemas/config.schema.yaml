@@ -148,9 +148,9 @@ properties:
         type: string
         description: parameters that should be forwarded
 
-  mutect2:
+  gatk_mutect2:
     type: object
-    description: parameters for mutect2
+    description: parameters for gatk_mutect2
     properties:
       benchmark_repeats:
         type: integer
@@ -162,9 +162,9 @@ properties:
         type: string
         description: parameters that should be forwarded
 
-  mutect2_gvcf:
+  gatk_mutect2_filtering:
     type: object
-    description: parameters for mutect2_gvcf
+    description: parameters for gatk_mutect2_gvcf
     properties:
       benchmark_repeats:
         type: integer
@@ -175,6 +175,31 @@ properties:
       extra:
         type: string
         description: parameters that should be forwarded
+
+  gatk_mutect2_gvcf:
+    type: object
+    description: parameters for gatk_mutect2_gvcf
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  gatk_mutect2_merge_stats:
+    type: object
+    description: parameters for gatk_mutect2_merge_stats
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
 
   tabix:
     type: object
