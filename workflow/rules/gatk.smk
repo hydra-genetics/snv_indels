@@ -8,7 +8,7 @@ rule gatk_mutect2:
     input:
         map="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
         bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
-        fasta=config["reference"]["fasta"],
+        fasta=config.get("reference", {}).get("fasta", ""),
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         bam=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.bam"),
@@ -18,7 +18,7 @@ rule gatk_mutect2:
         tbi=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.tbi"),
         f1f2=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.f1r2.tar.gz"),
     params:
-        extra=lambda wildcards: get_mutect2_extra(wildcards, "gatk_mutect2"),
+        extra=lambda wildcards: get_gatk_mutect2_extra(wildcards, "gatk_mutect2"),
     log:
         "snv_indels/gatk_mutect2/{sample}_{type}_{chr}.vcf.gz.log",
     benchmark:
@@ -47,14 +47,14 @@ rule gatk_mutect2_gvcf:
     input:
         map="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
         bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
-        fasta=config["reference"]["fasta"],
+        fasta=config.get("reference", {}).get("fasta", ""),
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         stats=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.stats"),
         vcf=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz"),
         tbi=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.tbi"),
     params:
-        extra=lambda wildcards: get_mutect2_extra(wildcards, "gatk_mutect2_gvcf"),
+        extra=lambda wildcards: get_gatk_mutect2_extra(wildcards, "gatk_mutect2_gvcf"),
     log:
         "snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.log",
     benchmark:
@@ -84,7 +84,7 @@ rule gatk_mutect2_filter:
         vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz",
         tbi="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz.tbi",
         stats="snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats",
-        ref=config["reference"]["fasta"],
+        fasta=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz"),
     params:

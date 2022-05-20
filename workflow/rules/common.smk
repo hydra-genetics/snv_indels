@@ -64,7 +64,7 @@ def get_java_opts(wildcards: snakemake.io.Wildcards):
     return java_opts
 
 
-def get_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
+def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
     extra = "{} {}".format(
         config.get(name, {}).get("extra", ""),
         "--intervals snv_indels/bed_split/design_bedfile_{}.bed".format(
