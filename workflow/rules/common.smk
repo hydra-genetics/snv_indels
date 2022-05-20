@@ -49,7 +49,7 @@ wildcard_constraints:
     lane="L[0-9]+",
     sample="|".join(get_samples(samples)),
     type="N|T|R",
-    vcf="vcf|g.vcf",
+    vcf="vcf|g.vcf|unfiltered.vcf",
 
 
 def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
@@ -71,16 +71,16 @@ def get_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
             wildcards.chr,
         ),
     )
-    if name == "mutect2":
+    if name == "gatk_mutect2":
         extra = "{} {}".format(
             extra,
-            "--f1r2-tar-gz snv_indels/mutect2/{}_{}_{}.f1r2.tar.gz".format(
+            "--f1r2-tar-gz snv_indels/gatk_mutect2/{}_{}_{}.unfiltered.f1r2.tar.gz".format(
                 wildcards.sample,
                 wildcards.type,
                 wildcards.chr,
             ),
         )
-    if name == "mutect2_gvcf":
+    if name == "gatk_mutect2_gvcf":
         extra = "{} {}".format(extra, "-ERC BP_RESOLUTION")
     return extra
 
@@ -90,7 +90,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         "bcbio_variation_recall_ensemble": [
             "ensembled.vcf.gz",
         ],
-        "mutect2_gvcf": [
+        "gatk_mutect2_gvcf": [
             "merged.g.vcf.gz",
         ],
         "haplotypecaller": [

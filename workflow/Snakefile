@@ -11,14 +11,14 @@ include: "rules/bed_split.smk"
 include: "rules/bgzip.smk"
 include: "rules/fix_af.smk"
 include: "rules/freebayes.smk"
+include: "rules/gatk.smk"
 include: "rules/haplotypecaller.smk"
-include: "rules/mutect2.smk"
 include: "rules/tabix.smk"
 include: "rules/vardict.smk"
 include: "rules/vt.smk"
 
 
-ruleorder: mutect2 > mutect2_gvcf > tabix
+ruleorder: gatk_mutect2 > gatk_mutect2_gvcf > tabix
 
 
 rule all:
