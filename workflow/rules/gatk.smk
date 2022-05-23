@@ -20,10 +20,10 @@ rule gatk_mutect2:
     params:
         extra=lambda wildcards: get_gatk_mutect2_extra(wildcards, "gatk_mutect2"),
     log:
-        "snv_indels/gatk_mutect2/{sample}_{type}_{chr}.vcf.gz.log",
+        "snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/gatk_mutect2/{sample}_{type}_{chr}.vcf.gz.benchmark.tsv",
+            "snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.benchmark.tsv",
             config.get("gatk_mutect2", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("gatk_mutect2", {}).get("threads", config["default_resources"]["threads"])
