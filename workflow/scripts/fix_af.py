@@ -11,6 +11,7 @@ import logging
 import pysam
 import re
 import sys
+import gzip
 
 
 # identify caller software from input path
@@ -27,7 +28,7 @@ def getCaller(path: str):
 
 # modify vcf header if necessary
 def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
-    if caller == "pisces" or caller == "mutect2":
+    if caller == "pisces" or caller == "gatk_mutect2":
         header.info.add("AF", "A", "Float", "DescriptionDescription")
     elif caller == "varscan":
         header.info.add(
@@ -68,7 +69,7 @@ def writeNewVcf(
             row.info["AF"] = fixFreebayes(header, row)
         elif caller == "haplotypecaller":
             row.info["AF"] = row.samples[0].get("AF")
-        elif caller == "mutect2":
+        elif caller == "gatk_mutect2":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "pisces":
             row.info["AF"] = row.samples[0].get("VF")
@@ -79,7 +80,7 @@ def writeNewVcf(
         else:
             raise ValueError(
                 "{} is not a valid caller for this script. Choose between:"
-                "freebayes, haplotypecaller, mutect2, pisces, vardict, varscan.".format(caller)
+                "freebayes, haplotypecaller, gatk_mutect2, pisces, vardict, varscan.".format(caller)
             )
         new_vcf.write(row)
     return

@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule fix_af:
     input:
-        vcf="snv_indels/{caller}/{sample}_{type}.merged.vcf",
+        vcf="snv_indels/{caller}/{sample}_{type}.merged.vcf.gz",
     output:
         vcf=temp("snv_indels/{caller}/{sample}_{type}.fix_af.vcf"),
     log:

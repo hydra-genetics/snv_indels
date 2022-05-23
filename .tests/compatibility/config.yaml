@@ -21,7 +21,7 @@ bcbio_variation_recall_ensemble:
   container: "docker://gmsuppsala/somatic:develop"
   callers:
     - vardict
-    - mutect2
+    - gatk_mutect2
     - freebayes
 
 bwa_mem:
