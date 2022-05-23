@@ -84,7 +84,7 @@ rule gatk_mutect2_filter:
         vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz",
         tbi="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz.tbi",
         stats="snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats",
-        fasta=config.get("reference", {}).get("fasta", ""),
+        ref=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz"),
     params:
