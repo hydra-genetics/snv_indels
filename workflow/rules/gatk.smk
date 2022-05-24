@@ -86,14 +86,14 @@ rule gatk_mutect2_filter:
         stats="snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats",
         ref=config.get("reference", {}).get("fasta", ""),
     output:
-        vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz"),
+        vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz"),
     params:
         extra=lambda wildcards, input: "%s --stats %s" % (config.get("gatk_mutect2_filter", {}).get("extra", ""), input.stats),
     log:
-        "snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz.log",
+        "snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz.benchmark.tsv",
+            "snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz.benchmark.tsv",
             config.get("gatk_mutect2_filter", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("gatk_mutect2_filter", {}).get("threads", config["default_resources"]["threads"])
@@ -108,7 +108,7 @@ rule gatk_mutect2_filter:
     conda:
         "../envs/gatk.yaml"
     message:
-        "{rule}: filter mutect2 variants in {input.vcf} to {output.vcf}"
+        "{rule}: softfilter mutect2 variants in {input.vcf} to {output.vcf}"
     wrapper:
         "v1.5.0/bio/gatk/filtermutectcalls"
 

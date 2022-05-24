@@ -201,6 +201,17 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
+  mutect2_pass_filter:
+    type: object
+    description: parameters for mutect2_pass_filter
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
   tabix:
     type: object
     description: parameters for tabix
