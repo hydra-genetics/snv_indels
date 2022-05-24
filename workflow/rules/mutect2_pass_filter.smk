@@ -6,9 +6,9 @@ __license__ = "GPL-3"
 
 rule mutect2_pass_filter:
     input:
-        vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.softfitered.vcf.gz",
+        vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz",
     output:
-        vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf"),
+        vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz"),
     log:
         "snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz.log",
     benchmark:
