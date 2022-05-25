@@ -14,8 +14,7 @@ rule gatk_mutect2:
         bam=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.bam"),
         bai=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.bai"),
         stats=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.stats"),
-        #vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz"),
-        vcf="snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz",
+        vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz"),
         tbi=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.tbi"),
         f1f2=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.f1r2.tar.gz"),
     params:
