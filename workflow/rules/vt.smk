@@ -38,7 +38,7 @@ rule vt_normalize:
         vcf="snv_indels/{caller}/{sample}_{type}.decomposed.vcf.gz",
         ref=config["reference"]["fasta"],
     output:
-        vcf="snv_indels/{caller}/{sample}_{type}.normalized.vcf.gz",
+        vcf=temp("snv_indels/{caller}/{sample}_{type}.normalized.vcf.gz"),
     log:
         "snv_indels/{caller}/{sample}_{type}.normalized.vcf.gz.log",
     benchmark:
