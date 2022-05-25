@@ -10,8 +10,7 @@ reference:
   design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
 
 bcbio_variation_recall_ensemble:
-  #container: "docker://gmsuppsala/somatic:develop"
-  container: "/projects/wp4/nobackup/workspace/somatic_dev/singularity/bcbio-variation-recall-0.2.6-0_bcftools-1.9.simg"
+  container: "docker://gmsuppsala/somatic:develop"
   callers:
     - vardict
     - gatk_mutect2
