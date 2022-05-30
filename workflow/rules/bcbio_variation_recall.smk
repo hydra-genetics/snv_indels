@@ -17,6 +17,9 @@ rule bcbio_variation_recall_ensemble:
         ref=config["reference"]["fasta"],
     output:
         vcf=temp("snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vcf.gz"),
+        bcbio_work=temp(
+            "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled-work/{sample}_{type}.ensembled-intersect.txt"
+        ),
     params:
         support=config.get("bcbio_variation_recall_ensemble", {}).get("support", "1"),
         sort_order=get_bvre_params_sort_order,
