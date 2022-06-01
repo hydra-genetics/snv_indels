@@ -4,7 +4,7 @@ from hydra_genetics.utils.resources import load_resources
 rule all:
     input:
         "snv_indels/bcbio_variation_recall_ensemble/NA12878_N.ensembled.vcf.gz",
-        "snv_indels/mutect2_gvcf/NA12878_N.merged.g.vcf.gz",
+        "snv_indels/gatk_mutect2_gvcf/NA12878_N.merged.g.vcf.gz",
 
 
 configfile: "config.yaml"

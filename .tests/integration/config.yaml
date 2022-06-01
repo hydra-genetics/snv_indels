@@ -13,7 +13,7 @@ bcbio_variation_recall_ensemble:
   container: "docker://gmsuppsala/somatic:develop"
   callers:
     - vardict
-    - mutect2
+    - gatk_mutect2
     - freebayes
 
 freebayes:
@@ -22,10 +22,16 @@ freebayes:
 haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
-mutect2:
+gatk_mutect2:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
-mutect2_gvcf:
+gatk_mutect2_filter:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+gatk_mutect2_gvcf:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+gatk_mutect2_merge_stats:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 vardict:

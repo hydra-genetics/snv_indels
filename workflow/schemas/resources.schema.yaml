@@ -189,9 +189,9 @@ properties:
         type: string
         description: max execution time
 
-  mutect2:
+  gatk_mutect2:
     type: object
-    description: resource definitions for mutect2
+    description: resource definitions for gatk_mutect2
     properties:
       mem_mb:
         type: integer
@@ -209,9 +209,69 @@ properties:
         type: string
         description: max execution time
 
-  mutect2_gvcf:
+  gatk_mutect2_filtering:
     type: object
-    description: resource definitions for mutect2_gvcf
+    description: resource definitions for gatk_mutect2_filtering
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  gatk_mutect2_gvcf:
+    type: object
+    description: resource definitions for gatk_mutect2_gvcf
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  gatk_mutect2_merge_stats:
+    type: object
+    description: resource definitions for gatk_mutect2_merge_stats
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  mutect2_pass_filter:
+    type: object
+    description: resource definitions for mutect2_pass_filter
     properties:
       mem_mb:
         type: integer
