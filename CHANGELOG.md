@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.2.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.1.1...v0.2.0) (2022-06-01)
+
+
+### Features
+
+* added mutect2 filtering rule ([6a831f2](https://www.github.com/hydra-genetics/snv_indels/commit/6a831f2faa94dde69f41f0f6114634d580fda2d7))
+* added mutect2 filtering schemas ([0e09f6d](https://www.github.com/hydra-genetics/snv_indels/commit/0e09f6dc94ec48bee5c67c7c9574c9befdddee7f))
+* added rule for hard filtering of mutect2 ([983f889](https://www.github.com/hydra-genetics/snv_indels/commit/983f889dfaec1685f5d6516ac7d5a9063232e30c))
+* update wrapper version ([669460f](https://www.github.com/hydra-genetics/snv_indels/commit/669460fa97f203e336307369b1ed1e1cda8c5380))
+
+
+### Bug Fixes
+
+* adapted tests after new rulenames ([6f51241](https://www.github.com/hydra-genetics/snv_indels/commit/6f512414ea74770c35d3d5c9e56f1211d047f479))
+* added temp on output ([1b9c950](https://www.github.com/hydra-genetics/snv_indels/commit/1b9c950a37dbc09f5cd4d071a6d710f4e448addd))
+* bugfixes ([25ad129](https://www.github.com/hydra-genetics/snv_indels/commit/25ad1294c4dfc044a69b4cfaffd74860705c0a60))
+* bugfixes and testing ([fd71a2c](https://www.github.com/hydra-genetics/snv_indels/commit/fd71a2c7befa4943978b9de3b56b3f672c255384))
+* correct singularity ([2867d9d](https://www.github.com/hydra-genetics/snv_indels/commit/2867d9d773a8c5a8a12d10056098d2e5e1f5d748))
+* update compatibility config-file ([79d76e6](https://www.github.com/hydra-genetics/snv_indels/commit/79d76e6a9f4b9b6d93e011b5afc819bccf900a58))
+* update config, mutect2 to gatk_mutect2 ([883b579](https://www.github.com/hydra-genetics/snv_indels/commit/883b5797e4b5ad1785344647d84dd57657247f59))
+* update path, mutect2_gvcf to gatk_mutect2_gvcf ([111cd4e](https://www.github.com/hydra-genetics/snv_indels/commit/111cd4ebf7475031fd3d8c5cb4bb2911ad8e0895))
+* wrong parameter name ([3630413](https://www.github.com/hydra-genetics/snv_indels/commit/363041330235702741e34d2d9c747b05f980c008))
+
+
+### Documentation
+
+* new rulegraph and updated readme ([58bcf0d](https://www.github.com/hydra-genetics/snv_indels/commit/58bcf0dd414677dee9bcdf9ecd42681430277e93))
+* update compatibility list ([53cf137](https://www.github.com/hydra-genetics/snv_indels/commit/53cf13718e6e030f37cd1d05a3360779dd7bb808))
+
 ### [0.1.1](https://www.github.com/hydra-genetics/snv_indels/compare/v0.1.0...v0.1.1) (2022-04-21)
 
 
