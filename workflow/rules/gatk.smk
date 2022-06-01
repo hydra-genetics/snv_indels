@@ -40,7 +40,7 @@ rule gatk_mutect2:
     message:
         "{rule}: call variants in {input.map}"
     wrapper:
-        "v1.3.1/bio/gatk/mutect"
+        "v1.5.0/bio/gatk/mutect"
 
 
 rule gatk_mutect2_gvcf:
@@ -76,7 +76,7 @@ rule gatk_mutect2_gvcf:
     message:
         "{rule}: generate gvcf from {input.map}"
     wrapper:
-        "0.78.0/bio/gatk/mutect"
+        "v1.5.0/bio/gatk/mutect"
 
 
 rule gatk_mutect2_filter:
