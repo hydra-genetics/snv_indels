@@ -38,8 +38,8 @@ rule deepvariant:
     shell:
         "/opt/deepvariant/bin/run_deepvariant "
         "--model_type={params.model} "
-        "--ref={input.ref}"
-        "--reads={input.bam}"
+        "--ref={input.ref} "
+        "--reads={input.bam} "
         "{params.extra} "
         "--output_vcf={output.vcf} "
         "--output_gvcf={output.gvcf} "
