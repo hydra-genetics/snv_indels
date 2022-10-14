@@ -13,7 +13,7 @@ rule deepvariant:
         vcf="snv_indels/deepvariant/{sample}_{type}_{chr}.vcf",
         gvcf="snv_indels/deepvariant/{sample}_{type}_{chr}.g.vcf",
     params:
-        model=config.get("deepvariant", {}).get("model", "wgs"),
+        model=config.get("deepvariant", {}).get("model", "WGS"),
         extra=config.get("deepvariant", {}).get("extra", ""),
     log:
         "snv_indels/deepvariant/{sample}_{type}.output.log",
