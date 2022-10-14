@@ -11,6 +11,7 @@ rule deepvariant:
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         vcf="snv_indels/deepvariant/{sample}_{type}_{chr}.vcf",
+        gvcf="snv_indels/deepvariant/{sample}_{type}_{chr}.g.vcf",
     params:
         model=config.get("deepvariant", {}).get("model", "wgs"),
         extra=config.get("deepvariant", {}).get("extra", ""),
@@ -34,5 +35,12 @@ rule deepvariant:
         "../envs/deepvariant.yaml"
     message:
         "{rule}: Call variants with deepvariant on {wildcards.sample}_{wildcards.type}"
-    wrapper:
-        "v1.16.0/bio/deepvariant"
+    shell:
+        "/opt/deepvariant/bin/run_deepvariant "
+        "--model_type={params.model} "
+        "--ref={input.ref}"
+        "--reads={input.bam}"
+        "{params.extra} "
+        "--output_vcf={output.vcf} "
+        "--output_gvcf={output.gvcf} "
+        "--num_shards={threads} "
