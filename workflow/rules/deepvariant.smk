@@ -35,4 +35,4 @@ rule deepvariant:
     message:
         "{rule}: Call variants with deepvariant on {wildcards.sample}_{wildcards.type}"
     wrapper:
-        "v1.15.2/bio/deepvariant"
+        "v1.16.0/bio/deepvariant"
