@@ -30,7 +30,7 @@ In order to use this module, the following dependencies are required:
 [![snakemake](https://img.shields.io/badge/snakemake-6.10.0-blue)](https://snakemake.readthedocs.io/en/stable/)
 [![singularity](https://img.shields.io/badge/singularity-3.0.0-blue)](https://sylabs.io/docs/)
 
-*Note! Releases of snv_indels <= v0.4.0 needs tabulate<0.9.0 added in requirements.txt**
+*Note! Releases of snv_indels <= v0.2.0 needs tabulate<0.9.0 added in requirements.txt**
 
 ## :school_satchel: Preparations
 
