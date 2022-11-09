@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.2.0...v0.3.0) (2022-11-09)
+
+
+### Features
+
+* make config.yaml location more flexible ([d0a5296](https://www.github.com/hydra-genetics/snv_indels/commit/d0a52962b071cad5450cdaf7e55ad4918ba9414d))
+* make configfile/confgilefiles argument mandatory ([a860631](https://www.github.com/hydra-genetics/snv_indels/commit/a8606314bf3ea63af71c54ca3232a54c152faebf))
+* update snakemake-version ([3d5ed33](https://www.github.com/hydra-genetics/snv_indels/commit/3d5ed33228032923f30bb2c399693f0a9aa2d04f))
+
+
+### Bug Fixes
+
+* added multiallelic variants to mutect2_pass_filter ([94d1a42](https://www.github.com/hydra-genetics/snv_indels/commit/94d1a4287a76e08d0022b9ebb29ea4196c38fd8c))
+* make sure tabulate version is under 0.9.0 ([9bb1fbe](https://www.github.com/hydra-genetics/snv_indels/commit/9bb1fbe8aeb745998f894fa5e76393104e883892))
+* set strict mode for conda ([47a7581](https://www.github.com/hydra-genetics/snv_indels/commit/47a7581df62ac26680ab57d92a21859e89b36e5d))
+
+
+### Documentation
+
+* update compatibility ([00805a9](https://www.github.com/hydra-genetics/snv_indels/commit/00805a96f891a4e628887c95d464202b5fa8fd2e))
+* update readme information ([fffecea](https://www.github.com/hydra-genetics/snv_indels/commit/fffeceadff77936412df35ee03b12c350dc1ef29))
+
 ## [0.2.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.1.1...v0.2.0) (2022-06-01)
 
 
