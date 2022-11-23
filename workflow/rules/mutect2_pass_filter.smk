@@ -9,6 +9,8 @@ rule mutect2_pass_filter:
         vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz",
     output:
         vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz"),
+    params:
+        pass_filters=config.get("mutect2_pass_filter", {}).get("pass_filters", ["PASS", "multiallelic"]),
     log:
         "snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz.log",
     benchmark:
