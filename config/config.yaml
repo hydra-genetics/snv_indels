@@ -34,6 +34,9 @@ gatk_mutect2_gvcf:
 gatk_mutect2_merge_stats:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
+mutect2_pass_filter:
+  pass_filters = ["PASS", "multiallelic"]
+
 vardict:
   container: "docker://hydragenetics/vardict:1.8.3"
 

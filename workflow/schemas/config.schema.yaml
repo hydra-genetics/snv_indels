@@ -211,6 +211,11 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
+      pass_filters:
+        type: array
+        description: list of filters filterflags that are retained in the vcf
+        items:
+            type: string
 
   tabix:
     type: object
