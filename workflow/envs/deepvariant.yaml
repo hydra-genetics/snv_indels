@@ -2,6 +2,3 @@ channels:
   - conda-forge
   - bioconda
   - defaults
-dependencies:
-    - deepvariant=1.4.0
-    - snakemake-wrapper-utils=0.3.1

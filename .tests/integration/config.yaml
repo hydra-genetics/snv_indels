@@ -16,6 +16,9 @@ bcbio_variation_recall_ensemble:
     - gatk_mutect2
     - freebayes
 
+deepvariant:
+    container: "docker://hydragenetics/deepvariant:1.4.0"
+
 freebayes:
   container: "docker://hydragenetics/freebayes:1.3.1"
 

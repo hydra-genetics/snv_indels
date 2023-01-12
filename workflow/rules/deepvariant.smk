@@ -36,7 +36,7 @@ rule deepvariant:
     message:
         "{rule}: Call variants with deepvariant on {wildcards.sample}_{wildcards.type}"
     shell:
-        "/opt/deepvariant/bin/run_deepvariant "
+        "run_deepvariant "
         "--model_type={params.model} "
         "--ref={input.ref} "
         "--reads={input.bam} "
