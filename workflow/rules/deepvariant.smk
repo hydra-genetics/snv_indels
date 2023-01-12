@@ -16,10 +16,10 @@ rule deepvariant:
         model=config.get("deepvariant", {}).get("model", "WGS"),
         extra=config.get("deepvariant", {}).get("extra", ""),
     log:
-        "snv_indels/deepvariant/{sample}_{type}.output.log",
+        "snv_indels/deepvariant/{sample}_{type}_{chr}.output.log",
     benchmark:
         repeat(
-            "snv_indels/deepvariant/{sample}_{type}.output.benchmark.tsv",
+            "snv_indels/deepvariant/{sample}_{type}_{chr}.output.benchmark.tsv",
             config.get("deepvariant", {}).get("benchmark_repeats", 1)
         )
     threads: config.get("deepvariant", {}).get("threads", config["default_resources"]["threads"])
