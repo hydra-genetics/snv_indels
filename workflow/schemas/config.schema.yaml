@@ -125,6 +125,23 @@ properties:
       model:
         type: string
         description: model for use with deepvariant
+  
+  deepvariant_gvcf:
+    type: object
+    description: parameters for deepvariant_gvcf
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      model:
+        type: string
+        description: model for use with deepvariant_gvcf
 
   fix_af:
     type: object
