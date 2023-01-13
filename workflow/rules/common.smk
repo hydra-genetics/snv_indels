@@ -96,6 +96,12 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         "haplotypecaller": [
             "normalized.sorted.vcf.gz",
         ],
+        [
+        "deepvariant": [
+            ".vcf.gz",
+        ]
+
+        ],
     }
     output_files = [
         "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
