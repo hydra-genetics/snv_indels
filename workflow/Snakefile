@@ -21,7 +21,7 @@ include: "rules/vt.smk"
 
 
 ruleorder: gatk_mutect2 > gatk_mutect2_gvcf > tabix
-
+ruleorder: deepvariant > deepvariant_gvcf
 
 rule all:
     input:

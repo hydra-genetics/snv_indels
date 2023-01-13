@@ -97,7 +97,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             "normalized.sorted.vcf.gz",
         ],
         "deepvariant": [
-            "vcf.gz",
+            "merged.vcf.gz",
         ],
     }
     output_files = [
