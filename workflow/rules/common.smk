@@ -85,6 +85,91 @@ def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
     return extra
 
 
+def combine_extra_args(extra_args):
+    args = []
+    for key in sorted(extra_args):
+        value = extra_args[key]
+        if value is None:
+            continue
+        if isinstance(value, bool):
+            added_arg = "" if value else "no"
+            added_arg += key
+            args.extend(["--" + added_arg])
+        else:
+            args.extend(["--" + key, "{}".format(value)])
+
+    args_str = " ".join(args)
+
+    return args_str
+
+
+def get_make_example_args(wildcards: snakemake.io.Wildcards, output, name: str):
+
+    model_type = (config.get(name, {}).get("model", "WGS"),)
+    special_args = {}
+    if model_type[0] == "WGS" or model_type[0] == "WES":
+        special_args["channels"] = "insert_size"
+    elif model_type[0] == "PACBIO":
+        special_args = {}
+        special_args["add_hp_channel"] = True
+        special_args["alt_aligned_pileup"] = "diff_channels"
+        special_args["max_reads_per_partition"] = 600
+        special_args["min_mapping_quality"] = 1
+        special_args["parse_sam_aux_fields"] = True
+        special_args["partition_size"] = 25000
+        special_args["phase_reads"] = True
+        special_args["pileup_image_width"] = 199
+        special_args["realign_reads"] = False
+        special_args["sort_by_haplotypes"] = True
+        special_args["track_ref_reads"] = True
+        special_args["vsc_min_fraction_indels"] = 0.12
+
+    special_args_str = combine_extra_args(special_args)
+    extra = "{} {}".format(config.get(name, {}).get("extra", ""), special_args_str)
+
+    if len(output) == 2:
+        gvcf_path = " --gvcf {}".format(output.gvcf)
+        extra = "{} {}".format(extra, gvcf_path)
+
+    return extra
+
+
+def get_examples_infile(wildcards, name: str, vcf: str):
+    threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
+    if vcf == 'vcf':
+        outdir = 'deepvariant'
+    elif vcf == 'gvcf':
+        outdir = 'deepvariant_gvcf'
+
+    examples_infile = "snv_indels/{}/{}_{}_{}/make_examples.tfrecord@{}.gz".format(outdir,
+        wildcards.sample, wildcards.type, wildcards.chr, threads
+    )
+
+    return examples_infile
+
+
+def get_gvcf_tfrecord(wildcards, name: str):
+    threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
+    gvcf_tfrecord= "snv_indels/deepvariant_gvcf/{}_{}_{}/gvcf.tfrecord@{}.gz".format(
+            wildcards.sample, wildcards.type, wildcards.chr, threads
+        )
+    return gvcf_tfrecord
+
+
+def get_postprocess_variants_args(wildcards, input, output, name: str):
+    extra = config.get(name, {}).get("extra", "")
+
+    if len(output) == 2:
+        threads = config.get("deepvariant_make_examples", {}).get("threads", "")
+        gvcf_tfrecord = get_gvcf_tfrecord(wildcards, name)
+
+        gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
+        gvcf_out = " --gvcf_outfile {}".format(output.gvcf)
+        extra = "{} {} {}".format(extra, gvcf_in, gvcf_out)
+
+    return extra
+
+
 def compile_output_list(wildcards: snakemake.io.Wildcards):
     files = {
         "bcbio_variation_recall_ensemble": [
@@ -95,6 +180,13 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         ],
         "haplotypecaller": [
             "normalized.sorted.vcf.gz",
+        ],
+        "deepvariant_gvcf": [
+            "merged.vcf.gz",
+            "merged.g.vcf.gz",
+        ],
+        "deepvariant": [
+            "merged.vcf.gz",
         ],
     }
     output_files = [

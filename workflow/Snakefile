@@ -9,6 +9,7 @@ include: "rules/bcbio_variation_recall.smk"
 include: "rules/bcftools.smk"
 include: "rules/bed_split.smk"
 include: "rules/bgzip.smk"
+include: "rules/deepvariant.smk"
 include: "rules/fix_af.smk"
 include: "rules/freebayes.smk"
 include: "rules/gatk.smk"
@@ -18,7 +19,8 @@ include: "rules/tabix.smk"
 include: "rules/vardict.smk"
 include: "rules/vt.smk"
 
-
+ruleorder: deepvariant_make_examples > deepvariant_make_examples_gvcf
+ruleorder: deepvariant_postprocess_variants > deepvariant_postprocess_variants_gvcf
 ruleorder: gatk_mutect2 > gatk_mutect2_gvcf > tabix
 
 

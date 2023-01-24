@@ -16,6 +16,18 @@ bcbio_variation_recall_ensemble:
     - gatk_mutect2
     - freebayes
 
+deepvariant_make_examples:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+  model: "WGS"
+
+deepvariant_call_variants:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+  model: "WGS"
+  model_file: "/opt/models/wgs/model.ckpt"
+
+deepvariant_postprocess_variants:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+
 freebayes:
   container: "docker://hydragenetics/freebayes:1.3.1"
 
