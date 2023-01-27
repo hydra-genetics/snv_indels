@@ -105,11 +105,11 @@ def combine_extra_args(extra_args: dict):
 
 def get_make_example_args(wildcards: snakemake.io.Wildcards, output: list, name: str, vcf: str):
 
-    model_type = (config.get(name, {}).get("model", "WGS"),)
+    model_type = config.get(name, {}).get("model", "WGS")
     special_args = {}
-    if model_type[0] == "WGS" or model_type[0] == "WES":
+    if model_type == "WGS" or model_type == "WES":
         special_args["channels"] = "insert_size"
-    elif model_type[0] == "PACBIO":
+    elif model_type == "PACBIO":
         special_args = {}
         special_args["add_hp_channel"] = True
         special_args["alt_aligned_pileup"] = "diff_channels"
