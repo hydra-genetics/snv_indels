@@ -124,7 +124,9 @@ rule deepvariant_postprocess_variants:
     output:
         vcf=temp("snv_indels/deepvariant/{sample}_{type}_{chr}.vcf"),
     params:
-        extra=lambda wildcards, input, output: get_postprocess_variants_args(wildcards, input, output, "deepvariant_make_examples"),
+        extra=lambda wildcards, input, output: get_postprocess_variants_args(
+            wildcards, input, output, "deepvariant_make_examples"
+        ),
     log:
         "snv_indels/deepvariant/{sample}_{type}_{chr}/postprocess_variants.output.log",
     benchmark:
@@ -135,7 +137,9 @@ rule deepvariant_postprocess_variants:
     threads: config.get("deepvariant_postprocess_variants", {}).get("threads", config["default_resources"]["threads"])
     resources:
         mem_mb=config.get("deepvariant_postprocess_variants", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("deepvariant_postprocess_variants", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        mem_per_cpu=config.get("deepvariant_postprocess_variants", {}).get(
+            "mem_per_cpu", config["default_resources"]["mem_per_cpu"]
+        ),
         partition=config.get("deepvariant_postprocess_variants", {}).get("partition", config["default_resources"]["partition"]),
         threads=config.get("deepvariant_postprocess_variants", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("deepvariant_postprocess_variants", {}).get("time", config["default_resources"]["time"]),
@@ -160,4 +164,4 @@ use rule deepvariant_postprocess_variants as deepvariant_postprocess_variants_gv
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}.vcf"),
-        gvcf=temp("snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}.g.vcf")
+        gvcf=temp("snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}.g.vcf"),
