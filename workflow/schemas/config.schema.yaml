@@ -108,6 +108,58 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
+  
+  deepvariant_call_variants:
+    type: object
+    description: parameters for deepvariant_call_variants
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      model_dir:
+        type: string
+        descrioption: Path to where the deepvariant model files are located
+      required:
+        - model_dir
+  
+  deepvariant_make_examples:
+    type: object
+    description: parameters for deepvariant_make_examples
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      model:
+        type: string
+        description: Model type for deepvariant
+      required:
+        - model
+  
+  deepvariant_postprocess_variants:
+    type: object
+    description: parameters for deepvariant_postprocess_variants
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
 
   fix_af:
     type: object

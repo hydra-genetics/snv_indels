@@ -109,10 +109,10 @@ use rule deepvariant_call_variants as deepvariant_call_variants_gvcf with:
         extra=config.get("deepvariant_call_variants", {}).get("extra", ""),
         model_dir=config.get("deepvariant_call_variants", {}).get("model_dir", ""),
     log:
-        "snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants.output.log",
+        "snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/call_variants.output.log",
     benchmark:
         repeat(
-            "snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants.output.benchmark.tsv",
+            "snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/call_variants.output.benchmark.tsv",
             config.get("deepvariant_call_variants", {}).get("benchmark_repeats", 1),
         )
 
