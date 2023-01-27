@@ -85,7 +85,7 @@ def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
     return extra
 
 
-def combine_extra_args(extra_args):
+def combine_extra_args(extra_args: dict):
     args = []
     for key in sorted(extra_args):
         value = extra_args[key]
@@ -94,16 +94,16 @@ def combine_extra_args(extra_args):
         if isinstance(value, bool):
             added_arg = "" if value else "no"
             added_arg += key
-            args.extend(["--" + added_arg])
+            args.extend(["--{}".format(added_arg)])
         else:
-            args.extend(["--" + key, "{}".format(value)])
+            args.extend(["--{} {}".format(key, value)])
 
     args_str = " ".join(args)
 
     return args_str
 
 
-def get_make_example_args(wildcards: snakemake.io.Wildcards, output, name: str):
+def get_make_example_args(wildcards: snakemake.io.Wildcards, output: list, name: str, vcf: str):
 
     model_type = (config.get(name, {}).get("model", "WGS"),)
     special_args = {}
@@ -127,36 +127,39 @@ def get_make_example_args(wildcards: snakemake.io.Wildcards, output, name: str):
     special_args_str = combine_extra_args(special_args)
     extra = "{} {}".format(config.get(name, {}).get("extra", ""), special_args_str)
 
-    if len(output) == 2:
-        gvcf_path = " --gvcf {}".format(output.gvcf)
+    if vcf == "gvcf":
+        threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
+        gvcf_path = " --gvcf {}/gvcf.tfrecord@{}.gz".format(output[0], threads)
         extra = "{} {}".format(extra, gvcf_path)
 
     return extra
 
 
-def get_examples_infile(wildcards, name: str, vcf: str):
+def get_examples_infile(wildcards: snakemake.io.Wildcards, name: str, vcf: str):
     threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
-    if vcf == 'vcf':
-        outdir = 'deepvariant'
-    elif vcf == 'gvcf':
-        outdir = 'deepvariant_gvcf'
+    if vcf == "vcf":
+        outdir = "deepvariant"
+    elif vcf == "gvcf":
+        outdir = "deepvariant_gvcf"
 
-    examples_infile = "snv_indels/{}/{}_{}_{}/make_examples.tfrecord@{}.gz".format(outdir,
-        wildcards.sample, wildcards.type, wildcards.chr, threads
+    examples_infile = "snv_indels/{}/{}_{}_{}/make_examples.tfrecord@{}.gz".format(
+        outdir, wildcards.sample, wildcards.type, wildcards.chr, threads
     )
 
     return examples_infile
 
 
-def get_gvcf_tfrecord(wildcards, name: str):
+def get_gvcf_tfrecord(wildcards: snakemake.io.Wildcards, name: str):
     threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
-    gvcf_tfrecord= "snv_indels/deepvariant_gvcf/{}_{}_{}/gvcf.tfrecord@{}.gz".format(
-            wildcards.sample, wildcards.type, wildcards.chr, threads
-        )
+    gvcf_tfrecord = "snv_indels/deepvariant_gvcf/{}_{}_{}/gvcf.tfrecord@{}.gz".format(
+        wildcards.sample, wildcards.type, wildcards.chr, threads
+    )
     return gvcf_tfrecord
 
 
-def get_postprocess_variants_args(wildcards, input, output, name: str):
+def get_postprocess_variants_args(
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, name: str
+):
     extra = config.get(name, {}).get("extra", "")
 
     if len(output) == 2:

@@ -18,6 +18,25 @@ bcbio_variation_recall_ensemble:
 
 deepvariant_make_examples:
   model: "WGS"
+
+deepvariant_make_examples_gvcf:
+  model: "WGS"
+
+deepvariant_call_variants:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+  model: "WGS"
+  model_dir: "/opt/models/wgs/"
+
+deepvariant_call_variants_gvcf:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+  model: "WGS"
+  model_dir: "/opt/models/wgs/"
+
+deepvariant_postprocess_variants:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+
+deepvariant_postprocess_variants_gvcf:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
   
 freebayes:
   container: "docker://hydragenetics/freebayes:1.3.1"

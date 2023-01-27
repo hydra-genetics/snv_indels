@@ -23,7 +23,7 @@ deepvariant_make_examples:
 deepvariant_call_variants:
   container: "docker://hydragenetics/deepvariant:1.4.0"
   model: "WGS"
-  model_file: "/opt/models/wgs/model.ckpt"
+  model_dir: "/opt/models/wgs/"
 
 deepvariant_postprocess_variants:
   container: "docker://hydragenetics/deepvariant:1.4.0"
