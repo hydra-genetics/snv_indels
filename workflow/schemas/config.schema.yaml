@@ -160,6 +160,9 @@ properties:
       extra:
         type: string
         description: parameters that should be forwarded
+      vcf_type:
+        type: string
+        description: vcf type to produce 'gvcf' or 'vcf'
 
   fix_af:
     type: object

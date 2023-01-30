@@ -137,21 +137,18 @@ def get_make_example_args(wildcards: snakemake.io.Wildcards, output: list, name:
 
 def get_examples_infile(wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, name: str):
     threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
-
-    examples_infile = "{}/make_examples.tfrecord@{}.gz".format(
-        input.examples_dir, threads
-    )
+    examples_infile = "{}/make_examples.tfrecord@{}.gz".format(input.examples_dir, threads)
 
     return examples_infile
 
 
 def get_postprocess_variants_args(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, name: str):
-    extra = config.get(name, {}).get("extra", "")
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, me_config: str, extra: str
+):
 
     if len(output) == 2:
-        threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
-        gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(input.examples_dir, threads)
+        threads = me_config.get(name, {}).get("threads", config["default_resources"]["threads"])
+        gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(input[0], threads)
         gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
         gvcf_out = " --gvcf_outfile {}".format(output.gvcf)
         extra = "{} {} {}".format(extra, gvcf_in, gvcf_out)
@@ -170,12 +167,9 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         "haplotypecaller": [
             "normalized.sorted.vcf.gz",
         ],
-        "deepvariant_gvcf": [
-            "merged.vcf.gz",
-            "merged.g.vcf.gz",
-        ],
         "deepvariant": [
             "merged.vcf.gz",
+            "merged.g.vcf.gz",
         ],
     }
     output_files = [
