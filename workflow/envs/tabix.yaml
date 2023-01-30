@@ -1,6 +1,8 @@
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
+  - libdeflate=1.13
   - htslib=1.16
+  
