@@ -147,7 +147,7 @@ def get_postprocess_variants_args(
 ):
 
     if len(output) == 2:
-        threads = me_config.get(name, {}).get("threads", config["default_resources"]["threads"])
+        threads = config.get(me_config, {}).get("threads", config["default_resources"]["threads"])
         gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(input[0], threads)
         gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
         gvcf_out = " --gvcf_outfile {}".format(output.gvcf)

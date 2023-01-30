@@ -19,8 +19,7 @@ include: "rules/tabix.smk"
 include: "rules/vardict.smk"
 include: "rules/vt.smk"
 
-ruleorder: deepvariant_make_examples > deepvariant_make_examples_gvcf
-ruleorder: deepvariant_postprocess_variants > deepvariant_postprocess_variants_gvcf
+
 ruleorder: gatk_mutect2 > gatk_mutect2_gvcf > tabix
 
 

@@ -93,7 +93,7 @@ rule deepvariant_call_variants:
 
 rule deepvariant_postprocess_variants:
     input:
-        examples_dir="snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/",
+        examples_dir="snv_indels/deepvariant/{sample}_{type}_{chr}/",
         infile="snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz",
         ref=config.get("reference", {}).get("fasta", ""),
     output:
