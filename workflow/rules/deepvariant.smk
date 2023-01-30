@@ -122,9 +122,6 @@ rule deepvariant_postprocess_variants:
         mem_per_cpu=config.get("deepvariant_postprocess_variants", {}).get(
             "mem_per_cpu", config["default_resources"]["mem_per_cpu"]
         ),
-        mem_per_cpu=config.get("deepvariant_postprocess_variants", {}).get(
-            "mem_per_cpu", config["default_resources"]["mem_per_cpu"]
-        ),
         partition=config.get("deepvariant_postprocess_variants", {}).get("partition", config["default_resources"]["partition"]),
         threads=config.get("deepvariant_postprocess_variants", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("deepvariant_postprocess_variants", {}).get("time", config["default_resources"]["time"]),
