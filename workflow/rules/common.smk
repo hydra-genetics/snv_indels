@@ -105,11 +105,11 @@ def combine_extra_args(extra_args: dict):
 
 def get_make_example_args(wildcards: snakemake.io.Wildcards, output: list, name: str, vcf: str):
 
-    model_type = (config.get(name, {}).get("model", "WGS"),)
+    model_type = config.get(name, {}).get("model", "WGS")
     special_args = {}
-    if model_type[0] == "WGS" or model_type[0] == "WES":
+    if model_type == "WGS" or model_type == "WES":
         special_args["channels"] = "insert_size"
-    elif model_type[0] == "PACBIO":
+    elif model_type == "PACBIO":
         special_args = {}
         special_args["add_hp_channel"] = True
         special_args["alt_aligned_pileup"] = "diff_channels"
@@ -135,37 +135,23 @@ def get_make_example_args(wildcards: snakemake.io.Wildcards, output: list, name:
     return extra
 
 
-def get_examples_infile(wildcards: snakemake.io.Wildcards, name: str, vcf: str):
+def get_examples_infile(wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, name: str):
     threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
-    if vcf == "vcf":
-        outdir = "deepvariant"
-    elif vcf == "gvcf":
-        outdir = "deepvariant_gvcf"
 
-    examples_infile = "snv_indels/{}/{}_{}_{}/make_examples.tfrecord@{}.gz".format(
-        outdir, wildcards.sample, wildcards.type, wildcards.chr, threads
+    examples_infile = "{}/make_examples.tfrecord@{}.gz".format(
+        input.examples_dir, threads
     )
 
     return examples_infile
 
 
-def get_gvcf_tfrecord(wildcards: snakemake.io.Wildcards, name: str):
-    threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
-    gvcf_tfrecord = "snv_indels/deepvariant_gvcf/{}_{}_{}/gvcf.tfrecord@{}.gz".format(
-        wildcards.sample, wildcards.type, wildcards.chr, threads
-    )
-    return gvcf_tfrecord
-
-
 def get_postprocess_variants_args(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, name: str
-):
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, name: str):
     extra = config.get(name, {}).get("extra", "")
 
     if len(output) == 2:
-        threads = config.get("deepvariant_make_examples", {}).get("threads", "")
-        gvcf_tfrecord = get_gvcf_tfrecord(wildcards, name)
-
+        threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
+        gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(input.examples_dir, threads)
         gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
         gvcf_out = " --gvcf_outfile {}".format(output.gvcf)
         extra = "{} {} {}".format(extra, gvcf_in, gvcf_out)

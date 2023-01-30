@@ -51,15 +51,24 @@ use rule deepvariant_make_examples as deepvariant_make_examples_gvcf with:
     output:
         examples_dir=temp(directory("snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/")),
     params:
-        extra=lambda wildcards, output: get_make_example_args(wildcards, output, "deepvariant_make_examples", "gvcf"),
+        extra=lambda wildcards, output: get_make_example_args(wildcards, output, "deepvariant_make_examples_gvcf", "gvcf"),
         seq_num=config.get("deepvariant_make_examples", {}).get("threads", config["default_resources"]["threads"]) - 1,
     log:
         "snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/make_examples.output.log",
     benchmark:
         repeat(
             "snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/make_examples.output.benchmark.tsv",
-            config.get("deepvariant_make_examples", {}).get("benchmark_repeats", 1),
+            config.get("deepvariant_make_examples_gvcf", {}).get("benchmark_repeats", 1),
         )
+    threads: config.get("deepvariant_make_examples_gvcf", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("deepvariant_make_examples_gvcf", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("deepvariant_make_examples_gvcf", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("deepvariant_make_examples_gvcf", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("deepvariant_make_examples_gvcf", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("deepvariant_make_examples_gvcf", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("deepvariant_make_examples_gvcf", {}).get("container", config["default_container"])
 
 
 rule deepvariant_call_variants:
@@ -68,7 +77,7 @@ rule deepvariant_call_variants:
     output:
         outfile=temp("snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz"),
     params:
-        examples=lambda wildcards: get_examples_infile(wildcards, "deepvariant_make_examples", "vcf"),
+        examples=lambda wildcards, input: get_examples_infile(wildcards, input, "deepvariant_make_examples"),
         extra=config.get("deepvariant_call_variants", {}).get("extra", ""),
         model_dir=config.get("deepvariant_call_variants", {}).get("model_dir", ""),
     log:
@@ -105,16 +114,25 @@ use rule deepvariant_call_variants as deepvariant_call_variants_gvcf with:
     output:
         outfile=temp("snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz"),
     params:
-        examples=lambda wildcards: get_examples_infile(wildcards, "deepvariant_make_examples", "gvcf"),
-        extra=config.get("deepvariant_call_variants", {}).get("extra", ""),
-        model_dir=config.get("deepvariant_call_variants", {}).get("model_dir", ""),
+        examples=lambda wildcards, input: get_examples_infile(wildcards, input, "deepvariant_make_examples_gvcf"),
+        extra=config.get("deepvariant_call_variants_gvcf", {}).get("extra", ""),
+        model_dir=config.get("deepvariant_call_variants_gvcf", {}).get("model_dir", ""),
     log:
         "snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/call_variants.output.log",
     benchmark:
         repeat(
             "snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/call_variants.output.benchmark.tsv",
-            config.get("deepvariant_call_variants", {}).get("benchmark_repeats", 1),
+            config.get("deepvariant_call_variants_gvcf", {}).get("benchmark_repeats", 1),
         )
+    threads: config.get("deepvariant_call_variants_gvcf", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("deepvariant_call_variants_gvcf", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("deepvariant_call_variants_gvcf", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("deepvariant_call_variants_gvcf", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("deepvariant_call_variants_gvcf", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("deepvariant_call_variants_gvcf", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("deepvariant_call_variants_gvcf", {}).get("container", config["default_container"])
 
 
 rule deepvariant_postprocess_variants:
@@ -158,6 +176,24 @@ use rule deepvariant_postprocess_variants as deepvariant_postprocess_variants_gv
         examples_dir="snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/",
         infile="snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz",
         ref=config.get("reference", {}).get("fasta", ""),
+    params:
+        extra=lambda wildcards, input, output: get_postprocess_variants_args(wildcards, input, output, "deepvariant_make_examples_gvcf"),
     output:
         vcf=temp("snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}.vcf"),
         gvcf=temp("snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}.g.vcf")
+    log:
+        "snv_indels/deepvariant_gvcf/{sample}_{type}_{chr}/postprocess_variants.output.log",
+    benchmark:
+        repeat(
+            "snv_indels/deepvariant_gcvf/{sample}_{type}_{chr}/postprocess_variants.output.benchmark.tsv",
+            config.get("deepvariant_postprocess_variants_gvcf", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("deepvariant_postprocess_variants_gvcf", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("deepvariant_postprocess_variants_gvcf", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("deepvariant_postprocess_variants_gvcf", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("deepvariant_postprocess_variants_gvcf", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("deepvariant_postprocess_variants_gvcf", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("deepvariant_postprocess_variants_gvcf", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("deepvariant_postprocess_variants_gvcf", {}).get("container", config["default_container"])
