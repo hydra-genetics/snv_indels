@@ -10,21 +10,17 @@ rule deepvariant_make_examples:
         bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
     output:
-        examples_dir=temp(directory("snv_indels/deepvariant/{sample}_{type}_{chr}/")),
+        examples=temp(f"snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/make_examples.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 10):05}.gz"),
     params:
-        extra=lambda wildcards, output: get_make_example_args(
-            wildcards,
-            output,
-            "deepvariant_make_examples",
-            config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf"),
-        ),
-        seq_num=config.get("deepvariant_make_examples", {}).get("threads", config["default_resources"]["threads"]) - 1,
-        mkdir=lambda wildcards, output: "mkdir -p {}".format(output.examples_dir),
+        examples=lambda wildcards, output: get_make_examples_tfrecord(wildcards, output, 
+        config.get("deepvariant_make_examples").get('n_shards', 10)),
+        extra=lambda wildcards, output: deepvariant_make_example_args(wildcards, output),
+        shard = lambda wildcards: int(wildcards.shard),
     log:
-        "snv_indels/deepvariant/{sample}_{type}_{chr}_make_examples.output.log",
+        "snv_indels/deepvariant/{sample}_{type}_{chr}/make_examples_{shard}.output.log",
     benchmark:
         repeat(
-            "snv_indels/deepvariant/{sample}_{type}_{chr}_make_examples.output.benchmark.tsv",
+            "snv_indels/deepvariant/{sample}_{type}_{chr}/make_examples_{shard}.output.benchmark.tsv",
             config.get("deepvariant_make_examples", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deepvariant_make_examples", {}).get("threads", config["default_resources"]["threads"])
@@ -39,35 +35,31 @@ rule deepvariant_make_examples:
     conda:
         "../envs/deepvariant.yaml"
     message:
-        "{rule}: Deepvariant make_examples on {wildcards.sample}_{wildcards.type}"
+        "{rule}: Run deepvariant make_examples on {input.bam}"
     shell:
-        """
-        {params.mkdir} 
-        time seq 0 {params.seq_num} | \
-        parallel -q --halt 2 --line-buffer \
-        make_examples \
-        --mode 'calling' \
-        --ref {input.ref} \
-        --reads {input.bam} \
-        --examples {output.examples_dir}/make_examples.tfrecord@{threads}.gz \
-        {params.extra} --task {{}} &> {log}
-        """
+        "(time make_examples "
+        "--mode 'calling' "
+        "--ref {input.ref} "
+        "--reads {input.bam} "
+        "--examples {params.examples} "
+        "{params.extra} --task {params.shard}) &> {log}"
 
 
 rule deepvariant_call_variants:
     input:
-        examples_dir="snv_indels/deepvariant/{sample}_{type}_{chr}/",
+        examples=lambda wildcards: get_example_records(wildcards, config.get("deepvariant_make_examples").get('n_shards', 10)),
     output:
         outfile=temp("snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz"),
     params:
-        examples=lambda wildcards, input: get_examples_infile(wildcards, input, "deepvariant_make_examples"),
+        examples=lambda wildcards, input: get_make_examples_tfrecord(
+            wildcards, input, config.get("deepvariant_make_examples").get('n_shards', 10)),
         extra=config.get("deepvariant_call_variants", {}).get("extra", ""),
-        model_dir=config.get("deepvariant_call_variants", {}).get("model_dir", ""),
+        model=config.get("deepvariant_call_variants", {}).get("model", ""),
     log:
-        "snv_indels/deepvariant/{sample}_{type}_{chr}_call_variants.output.log",
+        "snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants.output.log",
     benchmark:
         repeat(
-            "snv_indels/deepvariant/{sample}_{type}_{chr}_call_variants.output.benchmark.tsv",
+            "snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants.output.benchmark.tsv",
             config.get("deepvariant_call_variants", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deepvariant_call_variants", {}).get("threads", config["default_resources"]["threads"])
@@ -82,10 +74,10 @@ rule deepvariant_call_variants:
     conda:
         "../envs/deepvariant.yaml"
     message:
-        "{rule}: Deepvariant call_variants on {wildcards.sample}_{wildcards.type}"
+        "{rule}: Run deepvariant call_variants on {params.examples}"
     shell:
         "(time call_variants "
-        "--checkpoint {params.model_dir}/model.ckpt "
+        "--checkpoint {params.model} "
         "--outfile {output.outfile} "
         "--examples {params.examples} "
         "{params.extra}) &> {log}"
@@ -93,8 +85,7 @@ rule deepvariant_call_variants:
 
 rule deepvariant_postprocess_variants:
     input:
-        examples_dir="snv_indels/deepvariant/{sample}_{type}_{chr}/",
-        infile="snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz",
+        call_variants_record="snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz",
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/deepvariant/{sample}_{type}_{chr}.vcf"),
@@ -103,17 +94,14 @@ rule deepvariant_postprocess_variants:
         else [],
     params:
         extra=lambda wildcards, input, output: get_postprocess_variants_args(
-            wildcards,
-            input,
-            output,
-            "deepvariant_make_examples",
+            wildcards, input, output, "deepvariant_make_examples",
             config.get("deepvariant_postprocess_variants", {}).get("extra", ""),
         ),
     log:
-        "snv_indels/deepvariant/{sample}_{type}_{chr}_postprocess_variants.output.log",
+        "snv_indels/deepvariant/{sample}_{type}_{chr}/postprocess_variants.output.log",
     benchmark:
         repeat(
-            "snv_indels/deepvariant/{sample}_{type}_{chr}_postprocess_variants.output.benchmark.tsv",
+            "snv_indels/deepvariant/{sample}_{type}_{chr}/postprocess_variants.output.benchmark.tsv",
             config.get("deepvariant_postprocess_variants", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deepvariant_postprocess_variants", {}).get("threads", config["default_resources"]["threads"])
@@ -130,10 +118,10 @@ rule deepvariant_postprocess_variants:
     conda:
         "../envs/deepvariant.yaml"
     message:
-        "{rule}: Deepvariant postprocess_variants on {wildcards.sample}_{wildcards.type}"
+        "{rule}: Run deepvariant postprocess_variants on {input.call_variants_record}"
     shell:
         "(time postprocess_variants "
-        "--infile {input.infile} "
+        "--infile {input.call_variants_record} "
         "--ref {input.ref} "
         "--outfile {output.vcf} "
         "{params.extra}) &> {log}"

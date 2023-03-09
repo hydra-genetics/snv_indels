@@ -103,9 +103,33 @@ def combine_extra_args(extra_args: dict):
     return args_str
 
 
-def get_make_example_args(wildcards: snakemake.io.Wildcards, output: list, name: str, vcf: str):
+def get_example_records(wildcards: snakemake.io.Wildcards, nshards: int):
+    shard_id = [f"{x:05}" for x in range(nshards)] 
+    examples = [] 
+    prefix="snv_indels/deepvariant"
+    for shard in shard_id:
+        try: # handle the case when not running on separate chromosome bam files
+            example_file = "{}/{}_{}_{}/make_examples.tfrecord-{}-of-{:05}.gz".format(prefix, wildcards.sample, 
+            wildcards.type, wildcards.chr, shard, nshards)
+        except:
+            example_file = "{}/{}_{}/make_examples.tfrecord-{}-of-{:05}.gz".format(prefix, wildcards.sample, 
+            wildcards.type,  shard, nshards)
 
-    model_type = config.get(name, {}).get("model", "WGS")
+        examples.append(example_file)   
+
+    return examples
+
+
+def get_make_examples_tfrecord(wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, nshards: int):
+    examples_path = os.path.split(input[0])[0]
+    examples_tfrecord = "{}/make_examples.tfrecord@{}.gz".format(examples_path, nshards)
+
+    return examples_tfrecord 
+
+
+def deepvariant_make_example_args(wildcards: snakemake.io.Wildcards, output: list):
+
+    model_type = config.get("deepvariant_make_examples", {}).get("model", "WGS")
     special_args = {}
     if model_type == "WGS" or model_type == "WES":
         special_args["channels"] = "insert_size"
@@ -125,30 +149,26 @@ def get_make_example_args(wildcards: snakemake.io.Wildcards, output: list, name:
         special_args["vsc_min_fraction_indels"] = 0.12
 
     special_args_str = combine_extra_args(special_args)
-    extra = "{} {}".format(config.get(name, {}).get("extra", ""), special_args_str)
+    extra = "{} {}".format(config.get("deepvariant_make_examples", {}).get("extra", ""), special_args_str)
 
-    if vcf == "gvcf":
-        threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
-        gvcf_path = " --gvcf {}/gvcf.tfrecord@{}.gz".format(output[0], threads)
+    vcf_type = config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf")
+    if vcf_type== "gvcf":
+        nshards = config.get("deepvariant_make_examples", {}).get("n_shards", 10)
+        gvcf_path = " --gvcf {}/gvcf.tfrecord@{}.gz".format(os.path.split(output[0])[0], nshards)
         extra = "{} {}".format(extra, gvcf_path)
 
     return extra
 
 
-def get_examples_infile(wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, name: str):
-    threads = config.get(name, {}).get("threads", config["default_resources"]["threads"])
-    examples_infile = "{}/make_examples.tfrecord@{}.gz".format(input.examples_dir, threads)
-
-    return examples_infile
-
-
 def get_postprocess_variants_args(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, me_config: str, extra: str
-):
+    wildcards: snakemake.io.Wildcards, input:  snakemake.io.Namedlist, 
+    output: snakemake.io.Namedlist, me_config: str, extra: str):
+
+    me_path=os.path.split(input.call_variants_record)[0]
 
     if len(output) == 2:
-        threads = config.get(me_config, {}).get("threads", config["default_resources"]["threads"])
-        gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(input[0], threads)
+        nshards = config.get(me_config).get('n_shards', 10)
+        gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(me_path, nshards)
         gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
         gvcf_out = " --gvcf_outfile {}".format(output.gvcf)
         extra = "{} {} {}".format(extra, gvcf_in, gvcf_out)
