@@ -122,9 +122,9 @@ properties:
       extra:
         type: string
         description: parameters that should be forwarded
-      model_dir:
+      model:
         type: string
-        descrioption: Path to where the deepvariant model files are located
+        descrioption: Path to where the deepvariant model file
       required:
         - model_dir
   
@@ -144,6 +144,9 @@ properties:
       model:
         type: string
         description: Model type for deepvariant
+      n_shards:
+        type: integer
+        description: Number of shards for deepvariant make_examples
       required:
         - model
   
