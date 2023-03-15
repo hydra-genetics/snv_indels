@@ -277,6 +277,11 @@ def deeptrio_postprocess_variants_args(
 
     return extra
 
+def get_glnexus_input(wildcards, input):
+
+    gvcf_input =  "-i {}".format(" -i ".join(input.gvcfs))
+   
+    return gvcf_input
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):
     files = {

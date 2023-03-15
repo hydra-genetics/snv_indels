@@ -78,7 +78,7 @@ rule deeptrio_call_variants:
         )
     threads: config.get("deeptrio_call_variants", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        gres=config.get("pbrun_deepvariant", {}).get("gres", ""),
+        gres=config.get("deeptrio_call_variants", {}).get("gres", ""),
         mem_mb=config.get("deeptrio_call_variants", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
         mem_per_cpu=config.get("deeptrio_call_variants", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
         partition=config.get("deeptrio_call_variants", {}).get("partition", config["default_resources"]["partition"]),
