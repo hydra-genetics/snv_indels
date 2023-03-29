@@ -43,10 +43,10 @@ rule bcftools_concat:
     message:
         "{rule}: concatenate {input.calls}"
     wrapper:
-        "v1.3.1/bio/bcftools/concat"
+        "v1.25.0/bio/bcftools/concat"
 
 
-rule bcftools_view:
+rule bcftools_sort:
     input:
         vcf="{file}.vcf.gz",
         tbi="{file}.vcf.gz.tbi",
@@ -57,23 +57,23 @@ rule bcftools_view:
     benchmark:
         repeat(
             "{file}.sorted.vcf.gz.benchmark.tsv",
-            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
+            config.get("bcftools_sort", {}).get("benchmark_repeats", 1),
         )
-    threads: config.get("bcftools_view", {}).get("threads", config["default_resources"]["threads"])
+    threads: config.get("bcftools_sort", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        mem_mb=config.get("bcftools_view", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("bcftools_view", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("bcftools_view", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("bcftools_view", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("bcftools_view", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("bcftools_sort", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("bcftools_sort", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("bcftools_sort", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("bcftools_sort", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("bcftools_sort", {}).get("time", config["default_resources"]["time"]),
     container:
-        config.get("bcftools_view", {}).get("container", config["default_container"])
+        config.get("bcftools_sort", {}).get("container", config["default_container"])
     conda:
         "../envs/bcftools.yaml"
     message:
         "{rule}: sort {input.vcf}"
     wrapper:
-        "v1.3.1/bio/bcftools/sort"
+        "v1.25.0/bio/bcftools/sort"
 
 
 rule bcftools_view:
@@ -82,10 +82,12 @@ rule bcftools_view:
     output:
         vcf=temp("{file}.vcf.gz"),
     log:
-        "{file}.sorted.vcf.gz.log",
+        "{file}.vcf.gz.log",
+    params:
+        extra=config.get("bcftools_concat", {}).get("extra", ""),
     benchmark:
         repeat(
-            "{file}.sorted.vcf.gz.benchmark.tsv",
+            "{file}.vcf.gz.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("bcftools_view", {}).get("threads", config["default_resources"]["threads"])
@@ -102,4 +104,4 @@ rule bcftools_view:
     message:
         "{rule}: convert {input.bcf} to {output.vcf}"
     wrapper:
-        "v1.3.1/bio/bcftools/view"
+        "v1.25.0/bio/bcftools/view"

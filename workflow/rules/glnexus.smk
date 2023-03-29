@@ -6,17 +6,16 @@ __license__ = "GPL-3"
 
 rule glnexus:
     input:
-        gvcfs=expand("snv_indels/deeptrio/{{trioid}}_{trio_member}.vcf", 
-        trio_member=['child', 'parent1', 'parent2'])
+        gvcfs=expand("snv_indels/deeptrio/{{trioid}}_{trio_member}.vcf", trio_member=["child", "parent1", "parent2"]),
     output:
         bcf=temp("snv_indels/glnexus/{trioid}.bcf"),
         dir=temp(directory("snv_indels/glnexus/GLnexus_{trioid}.DB")),
     params:
         extra=config.get("glnexus", {}).get("extra", ""),
         glnexus_config=config.get("glnexus", {}).get("configfile", ""),
-        in_gvcf=lambda wildcards, input: get_glnexus_input(wildcards, input)
+        in_gvcf=lambda wildcards, input: get_glnexus_input(wildcards, input),
     log:
-        "qc/peddy/{trioid}.bcf.log",
+        "snv_indels/glnexus/{trioid}.bcf.log",
     benchmark:
         repeat(
             "qc/peddy/{trioid}.bcf.benchmark.tsv",
@@ -40,5 +39,3 @@ rule glnexus:
         "--dir {output.dir} {params.extra} "
         "--config {params.glnexus_config} "
         "{params.in_gvcf} > {output.bcf}) &> {log}"
-
-
