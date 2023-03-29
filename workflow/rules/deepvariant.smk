@@ -10,12 +10,20 @@ rule deepvariant_make_examples:
         bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
     output:
-        examples=temp(f"snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/make_examples.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 10):05}.gz"),
+        examples=temp(
+            f"snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/make_examples.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 2):05}.gz"
+        ),
+        gvcf_records=temp(
+            f"snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/gvcf.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 2):05}.gz"
+        )
+        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
+        else [],
     params:
-        examples=lambda wildcards, output: get_make_examples_tfrecord(wildcards, output, 
-        config.get("deepvariant_make_examples").get('n_shards', 10)),
+        examples=lambda wildcards, output: get_make_examples_tfrecord(
+            wildcards, output, config.get("deepvariant_make_examples").get("n_shards", 2)
+        ),
         extra=lambda wildcards, output: deepvariant_make_example_args(wildcards, output),
-        shard = lambda wildcards: int(wildcards.shard),
+        shard=lambda wildcards: int(wildcards.shard),
     log:
         "snv_indels/deepvariant/{sample}_{type}_{chr}/make_examples_{shard}.output.log",
     benchmark:
@@ -37,7 +45,7 @@ rule deepvariant_make_examples:
     message:
         "{rule}: Run deepvariant make_examples on {input.bam}"
     shell:
-        "(time make_examples "
+        "(make_examples "
         "--mode 'calling' "
         "--ref {input.ref} "
         "--reads {input.bam} "
@@ -47,12 +55,20 @@ rule deepvariant_make_examples:
 
 rule deepvariant_call_variants:
     input:
-        examples=lambda wildcards: get_example_records(wildcards, config.get("deepvariant_make_examples").get('n_shards', 10)),
+        examples=expand(
+            "snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/make_examples.tfrecord-{shard}-of-{nshards:05}.gz",
+            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples").get("n_shards", 2))],
+            nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+        ),
     output:
         outfile=temp("snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz"),
     params:
+        cuda="CUDA_VISIBLE_DEVICES={}".format(os.getenv("CUDA_VISIBLE_DEVICES"))
+        if os.getenv("CUDA_VISIBLE_DEVICES") is not None
+        else "",
         examples=lambda wildcards, input: get_make_examples_tfrecord(
-            wildcards, input, config.get("deepvariant_make_examples").get('n_shards', 10)),
+            wildcards, input, config.get("deepvariant_make_examples").get("n_shards", 2)
+        ),
         extra=config.get("deepvariant_call_variants", {}).get("extra", ""),
         model=config.get("deepvariant_call_variants", {}).get("model", ""),
     log:
@@ -64,6 +80,7 @@ rule deepvariant_call_variants:
         )
     threads: config.get("deepvariant_call_variants", {}).get("threads", config["default_resources"]["threads"])
     resources:
+        gres=config.get("deepvariant_call_variants", {}).get("gres", ""),
         mem_mb=config.get("deepvariant_call_variants", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
         mem_per_cpu=config.get("deepvariant_call_variants", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
         partition=config.get("deepvariant_call_variants", {}).get("partition", config["default_resources"]["partition"]),
@@ -76,7 +93,7 @@ rule deepvariant_call_variants:
     message:
         "{rule}: Run deepvariant call_variants on {params.examples}"
     shell:
-        "(time call_variants "
+        "({params.cuda} call_variants "
         "--checkpoint {params.model} "
         "--outfile {output.outfile} "
         "--examples {params.examples} "
@@ -86,6 +103,13 @@ rule deepvariant_call_variants:
 rule deepvariant_postprocess_variants:
     input:
         call_variants_record="snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz",
+        gvcf_records=expand(
+            "snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/gvcf.tfrecord-{shard}-of-{nshards:05}.gz",
+                shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples").get("n_shards", 2))],
+                nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+            )
+            if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
+        else [],
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/deepvariant/{sample}_{type}_{chr}.vcf"),
@@ -93,8 +117,11 @@ rule deepvariant_postprocess_variants:
         if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
         else [],
     params:
-        extra=lambda wildcards, input, output: get_postprocess_variants_args(
-            wildcards, input, output, "deepvariant_make_examples",
+        extra=lambda wildcards, input, output: deepvariant_postprocess_variants_args(
+            wildcards,
+            input,
+            output,
+            "deepvariant_make_examples",
             config.get("deepvariant_postprocess_variants", {}).get("extra", ""),
         ),
     log:
@@ -120,8 +147,9 @@ rule deepvariant_postprocess_variants:
     message:
         "{rule}: Run deepvariant postprocess_variants on {input.call_variants_record}"
     shell:
-        "(time postprocess_variants "
+        "(postprocess_variants "
         "--infile {input.call_variants_record} "
         "--ref {input.ref} "
         "--outfile {output.vcf} "
+        "--novcf_stats_report "
         "{params.extra}) &> {log}"
