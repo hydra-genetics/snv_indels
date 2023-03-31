@@ -12,14 +12,14 @@ rule deeptrio_make_examples:
         examples=temp(
             expand(
                 "snv_indels/deeptrio/{{trioid}}/make_examples_{trio_member}.tfrecord-{{shard}}-of-{nshards:05}.gz",
-                nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+                nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
                 trio_member=["child", "parent1", "parent2"],
             )
         ),
         gvcf_tfrecords=temp(
             expand(
                 "snv_indels/deeptrio/{{trioid}}/gvcf_{trio_member}.tfrecord-{{shard}}-of-{nshards:05}.gz",
-                nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+                nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
                 trio_member=["child", "parent1", "parent2"],
             )
         ),
@@ -126,7 +126,7 @@ rule deeptrio_postprocess_variants:
             wildcards,
             input,
             output,
-            "deepvariant_make_examples",
+            "deeptrio_make_examples",
             config.get("deeptrio_postprocess_variants", {}).get("extra", ""),
         ),
     log:
