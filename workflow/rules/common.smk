@@ -153,8 +153,7 @@ def deepvariant_postprocess_variants_args(
 
 
 def deeptrio_postprocess_variants_args(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, me_config: str, extra: str
-):
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, me_config: str, extra: str):
     me_path = os.path.split(input.call_variants_record)[0]
     nshards = config.get(me_config).get("n_shards", 2)
     gvcf_tfrecord = "{}/gvcf_{}.tfrecord@{}.gz".format(me_path, wildcards.trio_member, nshards)
