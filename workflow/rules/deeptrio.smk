@@ -122,10 +122,9 @@ rule deeptrio_postprocess_variants:
         vcf=temp("snv_indels/deeptrio/{trioid}_{trio_member}.vcf"),
         gvcf=temp("snv_indels/deeptrio/{trioid}_{trio_member}.g.vcf"),
     params:
-        extra=lambda wildcards, input, output: deeptrio_postprocess_variants_args(
+        extra=lambda wildcards, input: deeptrio_postprocess_variants_args(
             wildcards,
             input,
-            output,
             "deeptrio_make_examples",
             config.get("deeptrio_postprocess_variants", {}).get("extra", ""),
         ),
