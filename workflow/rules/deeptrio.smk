@@ -127,7 +127,7 @@ rule deeptrio_postprocess_variants:
         extra=lambda wildcards, input, output: deeptrio_postprocess_variants_args(
             wildcards,
             input,
-            "deepvariant_make_examples",
+            "deeptrio_make_examples",
             config.get("deeptrio_postprocess_variants", {}).get("extra", ""),
         ),
     log:
