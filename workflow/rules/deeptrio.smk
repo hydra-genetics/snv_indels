@@ -124,7 +124,7 @@ rule deeptrio_postprocess_variants:
         vcf="snv_indels/deeptrio/{sample}_{type}/{trio_member}.vcf",
         gvcf="snv_indels/deeptrio/{sample}_{type}/{trio_member}.g.vcf",
     params:
-        extra=lambda wildcards, input, output: deeptrio_postprocess_variants_args(
+        extra=lambda wildcards, input: deeptrio_postprocess_variants_args(
             wildcards,
             input,
             "deeptrio_make_examples",
