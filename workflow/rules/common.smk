@@ -85,20 +85,18 @@ def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
     return extra
 
 
-def get_trio_bams(wildcards):
+def get_parent_bams(wildcards):
     bam_path = "alignment/samtools_merge_bam"
-    trio_samples = samples[samples.trioid == wildcards.trioid]
+    proband_sample = samples[samples.index == wildcards.sample]
+    trio_id = proband_sample.at[wildcards.sample,'trioid']
 
-    child_sample = trio_samples[trio_samples.trio_member == "proband"].iat[0, 0]
-    child_bam = "{}/{}_{}.bam".format(bam_path, child_sample, list(get_unit_types(units, child_sample))[0])
-
-    mother_sample = trio_samples[trio_samples.trio_member == "mother"].iat[0, 0]
+    mother_sample = samples[(samples.trio_member == "mother") & (samples.trioid == trio_id)].index[0]
     mother_bam = "{}/{}_{}.bam".format(bam_path, mother_sample, list(get_unit_types(units, mother_sample))[0])
 
-    father_sample = trio_samples[trio_samples.trio_member == "father"].iat[0, 0]
+    father_sample = samples[(samples.trio_member == "father") & (samples.trioid == trio_id)].index[0]
     father_bam = "{}/{}_{}.bam".format(bam_path, father_sample, list(get_unit_types(units, father_sample))[0])
 
-    bam_list = [child_bam, mother_bam, father_bam]
+    bam_list = [mother_bam, father_bam]
 
     return bam_list
 
@@ -153,7 +151,7 @@ def deepvariant_postprocess_variants_args(
 
 
 def deeptrio_postprocess_variants_args(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, me_config: str, extra: str
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, me_config: str, extra: str
 ):
     me_path = os.path.split(input.call_variants_record)[0]
     nshards = config.get(me_config).get("n_shards", 2)
@@ -198,9 +196,10 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         "glnexus": ["vcf.gz"],
     }
     output_files += [
-        "snv_indels/%s/%s.%s" % (prefix, trio, suffix)
+        "snv_indels/%s/%s_%s.%s" % (prefix, sample, unit_type,suffix)
         for prefix in files.keys()
-        for trio in samples.trioid.dropna().tolist()
+        for sample in samples[samples.trio_member == 'proband'].index
+        for unit_type in get_unit_types(units, sample)
         for suffix in files[prefix]
     ]
 

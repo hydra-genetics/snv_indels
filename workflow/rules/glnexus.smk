@@ -6,19 +6,19 @@ __license__ = "GPL-3"
 
 rule glnexus:
     input:
-        gvcfs=expand("snv_indels/deeptrio/{{trioid}}_{trio_member}.vcf", trio_member=["child", "parent1", "parent2"]),
+        gvcfs=expand("snv_indels/deeptrio/{{sample}}_{{type}}/{trio_member}.g.vcf", trio_member=['child', 'parent1', 'parent2']),
     output:
-        bcf=temp("snv_indels/glnexus/{trioid}.bcf"),
-        dir=temp(directory("snv_indels/glnexus/GLnexus_{trioid}.DB")),
+        bcf=temp("snv_indels/glnexus/{sample}_{type}.bcf"),
+        dir=temp(directory("snv_indels/glnexus/{sample}_{type}/GLnexus.DB")),
     params:
         extra=config.get("glnexus", {}).get("extra", ""),
         glnexus_config=config.get("glnexus", {}).get("configfile", ""),
         in_gvcf=lambda wildcards, input: get_glnexus_input(wildcards, input),
     log:
-        "snv_indels/glnexus/{trioid}.bcf.log",
+        "snv_indels/glnexus/{sample}_{type}.bcf.log",
     benchmark:
         repeat(
-            "qc/peddy/{trioid}.bcf.benchmark.tsv",
+            "snv_indels/glnexus/{sample}_{type}.bcf.benchmark.tsv",
             config.get("glnexus", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("glnexus", {}).get("threads", config["default_resources"]["threads"])

@@ -6,20 +6,22 @@ __license__ = "GPL-3"
 
 rule deeptrio_make_examples:
     input:
-        bams=lambda wildcards: get_trio_bams(wildcards),
+        child_bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        parent_bams=lambda wildcards: get_parent_bams(wildcards),
+
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         examples=temp(
             expand(
-                "snv_indels/deeptrio/{{trioid}}/make_examples_{trio_member}.tfrecord-{{shard}}-of-{nshards:05}.gz",
-                nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+                "snv_indels/deeptrio/{{sample}}_{{type}}/make_examples_{trio_member}.tfrecord-{{shard}}-of-{nshards:05}.gz",
+                nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
                 trio_member=["child", "parent1", "parent2"],
             )
         ),
         gvcf_tfrecords=temp(
             expand(
-                "snv_indels/deeptrio/{{trioid}}/gvcf_{trio_member}.tfrecord-{{shard}}-of-{nshards:05}.gz",
-                nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+                "snv_indels/deeptrio/{{sample}}_{{type}}/gvcf_{trio_member}.tfrecord-{{shard}}-of-{nshards:05}.gz",
+                nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
                 trio_member=["child", "parent1", "parent2"],
             )
         ),
@@ -31,10 +33,10 @@ rule deeptrio_make_examples:
         shard=lambda wildcards: int(wildcards.shard),
         nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
     log:
-        "snv_indels/deeptrio/{trioid}/make_examples_{shard}.output.log",
+        "snv_indels/deeptrio/{sample}_{type}/make_examples_{shard}.output.log",
     benchmark:
         repeat(
-            "snv_indels/deeptrio/{trioid}/make_examples_{shard}.output.benchmark.tsv",
+            "snv_indels/deeptrio/{sample}_{type}/make_examples_{shard}.output.benchmark.tsv",
             config.get("deeptrio_make_examples", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deeptrio_make_examples", {}).get("threads", config["default_resources"]["threads"])
@@ -49,28 +51,28 @@ rule deeptrio_make_examples:
     conda:
         "../envs/deeptrio.yaml"
     message:
-        "{rule}: Run deeptrio make_examples on {input.bams} "
+        "{rule}: Run deeptrio make_examples on {input.child_bam} and  {input.parent_bams} "
     shell:
         "(make_examples "
         "--mode 'calling' "
         "--ref {input.ref} "
-        "--reads {input.bams[0]} "
-        "--reads_parent1 {input.bams[1]}  "
-        "--reads_parent2 {input.bams[2]} "
+        "--reads {input.child_bam} "
+        "--reads_parent1 {input.parent_bams[0]}  "
+        "--reads_parent2 {input.parent_bams[1]} "
         "--examples {params.examples} "
-        "--gvcf snv_indels/deeptrio/{wildcards.trioid}/gvcf.tfrecord@{params.nshards}.gz "
+        "--gvcf snv_indels/deeptrio/{wildcards.sample}_{wildcards.type}/gvcf.tfrecord@{params.nshards}.gz "
         "{params.extra} --task {params.shard}) &> {log}"
 
 
 rule deeptrio_call_variants:
     input:
         examples=expand(
-            "snv_indels/deeptrio/{{trioid}}/make_examples_{{trio_member}}.tfrecord-{shard}-of-{nshards:05}.gz",
+            "snv_indels/deeptrio/{{sample}}_{{type}}/make_examples_{{trio_member}}.tfrecord-{shard}-of-{nshards:05}.gz",
             shard=[f"{x:05}" for x in range(config.get("deeptrio_make_examples").get("n_shards", 2))],
             nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
         ),
     output:
-        outfile=temp("snv_indels/deeptrio/{trioid}/call_variants_output_{trio_member}.tfrecord.gz"),
+        outfile=temp("snv_indels/deeptrio/{sample}_{type}/call_variants_output_{trio_member}.tfrecord.gz"),
     params:
         cuda="CUDA_VISIBLE_DEVICES={}".format(os.getenv("CUDA_VISIBLE_DEVICES"))
         if os.getenv("CUDA_VISIBLE_DEVICES") is not None
@@ -81,10 +83,10 @@ rule deeptrio_call_variants:
         extra=config.get("deeptrio_call_variants", {}).get("extra", ""),
         model=lambda wildcards: get_deeptrio_model(wildcards),
     log:
-        "snv_indels/deeptrio/{trioid}/call_variants_{trio_member}.output.log",
+        "snv_indels/deeptrio/{sample}_{type}/call_variants_{trio_member}.output.log",
     benchmark:
         repeat(
-            "snv_indels/deeptrio/{trioid}/call_variants_{trio_member}.output.benchmark.tsv",
+            "snv_indels/deeptrio/{sample}_{type}/call_variants_{trio_member}.output.benchmark.tsv",
             config.get("deeptrio_call_variants", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deeptrio_call_variants", {}).get("threads", config["default_resources"]["threads"])
@@ -111,29 +113,28 @@ rule deeptrio_call_variants:
 
 rule deeptrio_postprocess_variants:
     input:
-        call_variants_record="snv_indels/deeptrio/{trioid}/call_variants_output_{trio_member}.tfrecord.gz",
+        call_variants_record="snv_indels/deeptrio/{sample}_{type}/call_variants_output_{trio_member}.tfrecord.gz", 
         gvcf_records=expand(
-            "snv_indels/deeptrio/{{trioid}}/gvcf_{{trio_member}}.tfrecord-{shard}-of-{nshards:05}.gz",
+            "snv_indels/deeptrio/{{sample}}_{{type}}/gvcf_{{trio_member}}.tfrecord-{shard}-of-{nshards:05}.gz",
             shard=[f"{x:05}" for x in range(config.get("deeptrio_make_examples").get("n_shards", 2))],
             nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
         ),
         ref=config.get("reference", {}).get("fasta", ""),
     output:
-        vcf=temp("snv_indels/deeptrio/{trioid}_{trio_member}.vcf"),
-        gvcf=temp("snv_indels/deeptrio/{trioid}_{trio_member}.g.vcf"),
+        vcf="snv_indels/deeptrio/{sample}_{type}/{trio_member}.vcf",
+        gvcf="snv_indels/deeptrio/{sample}_{type}/{trio_member}.g.vcf",
     params:
         extra=lambda wildcards, input, output: deeptrio_postprocess_variants_args(
             wildcards,
             input,
-            output,
             "deepvariant_make_examples",
             config.get("deeptrio_postprocess_variants", {}).get("extra", ""),
         ),
     log:
-        "snv_indels/deeptrio/{trioid}/postprocess_variants_{trio_member}.output.log",
+        "snv_indels/deeptrio/{sample}_{type}/postprocess_variants_{trio_member}.output.log",
     benchmark:
         repeat(
-            "snv_indels/deeptrio/{trioid}/postprocess_variants_{trio_member}.output.benchmark.tsv",
+            "snv_indels/deeptrio/{sample}_{type}/postprocess_variants_{trio_member}.output.benchmark.tsv",
             config.get("deeptrio_postprocess_variants", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deeptrio_postprocess_variants", {}).get("threads", config["default_resources"]["threads"])
