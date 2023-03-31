@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule glnexus:
     input:
-        gvcfs=expand("snv_indels/deeptrio/{{trioid}}_{trio_member}.vcf", trio_member=["child", "parent1", "parent2"]),
+        gvcfs=expand("snv_indels/deeptrio/{{trioid}}_{trio_member}.g.vcf", trio_member=["child", "parent1", "parent2"]),
     output:
         bcf=temp("snv_indels/glnexus/{trioid}.bcf"),
         dir=temp(directory("snv_indels/glnexus/GLnexus_{trioid}.DB")),
