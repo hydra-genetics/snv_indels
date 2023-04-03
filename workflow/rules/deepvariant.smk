@@ -11,16 +11,16 @@ rule deepvariant_make_examples:
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         examples=temp(
-            f"snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/make_examples.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 2):05}.gz"
+            f"snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/make_examples.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples', {}).get('n_shards', 2):05}.gz"
         ),
         gvcf_records=temp(
-            f"snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/gvcf.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 2):05}.gz"
+            f"snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/gvcf.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples', {}).get('n_shards', 2):05}.gz"
         )
         if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
         else [],
     params:
         examples=lambda wildcards, output: get_make_examples_tfrecord(
-            wildcards, output, config.get("deepvariant_make_examples").get("n_shards", 2)
+            wildcards, output, config.get("deepvariant_make_examples", {}).get("n_shards", 2)
         ),
         extra=lambda wildcards, output: deepvariant_make_example_args(wildcards, output),
         shard=lambda wildcards: int(wildcards.shard),
@@ -57,8 +57,8 @@ rule deepvariant_call_variants:
     input:
         examples=expand(
             "snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/make_examples.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples").get("n_shards", 2))],
-            nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
+            nshards=config.get("deepvariant_make_examples", {}).get("n_shards", 2),
         ),
     output:
         outfile=temp("snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz"),
@@ -105,7 +105,7 @@ rule deepvariant_postprocess_variants:
         call_variants_record="snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz",
         gvcf_records=expand(
             "snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/gvcf.tfrecord-{shard}-of-{nshards:05}.gz",
-                shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples").get("n_shards", 2))],
+                shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
                 nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
             )
             if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"

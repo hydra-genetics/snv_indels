@@ -13,24 +13,24 @@ rule deeptrio_make_examples:
         examples=temp(
             expand(
                 "snv_indels/deeptrio/{{sample}}_{{type}}/make_examples_{trio_member}.tfrecord-{{shard}}-of-{nshards:05}.gz",
-                nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
+                nshards=config.get("deeptrio_make_examples", {}).get("n_shards", 2),
                 trio_member=["child", "parent1", "parent2"],
             )
         ),
         gvcf_tfrecords=temp(
             expand(
                 "snv_indels/deeptrio/{{sample}}_{{type}}/gvcf_{trio_member}.tfrecord-{{shard}}-of-{nshards:05}.gz",
-                nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
+                nshards=config.get("deeptrio_make_examples", {}).get("n_shards", 2),
                 trio_member=["child", "parent1", "parent2"],
             )
         ),
     params:
         examples=lambda wildcards, output: get_make_examples_tfrecord(
-            wildcards, output, config.get("deeptrio_make_examples").get("n_shards", 2)
+            wildcards, output, config.get("deeptrio_make_examples", {}).get("n_shards", 2)
         ),
         extra=config.get("deeptrio_make_examples", {}).get("extra", ""),
         shard=lambda wildcards: int(wildcards.shard),
-        nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
+        nshards=config.get("deeptrio_make_examples", {}).get("n_shards", 2),
     log:
         "snv_indels/deeptrio/{sample}_{type}/make_examples_{shard}.output.log",
     benchmark:
@@ -67,8 +67,8 @@ rule deeptrio_call_variants:
     input:
         examples=expand(
             "snv_indels/deeptrio/{{sample}}_{{type}}/make_examples_{{trio_member}}.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard=[f"{x:05}" for x in range(config.get("deeptrio_make_examples").get("n_shards", 2))],
-            nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
+            shard=[f"{x:05}" for x in range(config.get("deeptrio_make_examples", {}).get("n_shards", 2))],
+            nshards=config.get("deeptrio_make_examples", {}).get("n_shards", 2),
         ),
     output:
         outfile=temp("snv_indels/deeptrio/{sample}_{type}/call_variants_output_{trio_member}.tfrecord.gz"),
@@ -77,7 +77,7 @@ rule deeptrio_call_variants:
         if os.getenv("CUDA_VISIBLE_DEVICES") is not None
         else "",
         examples=lambda wildcards, output: get_make_examples_tfrecord(
-            wildcards, output, config.get("deeptrio_make_examples").get("n_shards", 2), program="deeptrio"
+            wildcards, output, config.get("deeptrio_make_examples", {}).get("n_shards", 2), program="deeptrio"
         ),
         extra=config.get("deeptrio_call_variants", {}).get("extra", ""),
         model=lambda wildcards: get_deeptrio_model(wildcards),
@@ -115,8 +115,8 @@ rule deeptrio_postprocess_variants:
         call_variants_record="snv_indels/deeptrio/{sample}_{type}/call_variants_output_{trio_member}.tfrecord.gz", 
         gvcf_records=expand(
             "snv_indels/deeptrio/{{sample}}_{{type}}/gvcf_{{trio_member}}.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard=[f"{x:05}" for x in range(config.get("deeptrio_make_examples").get("n_shards", 2))],
-            nshards=config.get("deeptrio_make_examples").get("n_shards", 2),
+            shard=[f"{x:05}" for x in range(config.get("deeptrio_make_examples", {}).get("n_shards", 2))],
+            nshards=config.get("deeptrio_make_examples", {}).get("n_shards", 2),
         ),
         ref=config.get("reference", {}).get("fasta", ""),
     output:
