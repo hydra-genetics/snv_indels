@@ -88,7 +88,7 @@ def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
 def get_parent_bams(wildcards):
     bam_path = "alignment/samtools_merge_bam"
     proband_sample = samples[samples.index == wildcards.sample]
-    trio_id = proband_sample.at[wildcards.sample,'trioid']
+    trio_id = proband_sample.at[wildcards.sample, "trioid"]
 
     mother_sample = samples[(samples.trio_member == "mother") & (samples.trioid == trio_id)].index[0]
     mother_bam = "{}/{}_{}.bam".format(bam_path, mother_sample, list(get_unit_types(units, mother_sample))[0])
@@ -196,9 +196,9 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         "glnexus": ["vcf.gz"],
     }
     output_files += [
-        "snv_indels/%s/%s_%s.%s" % (prefix, sample, unit_type,suffix)
+        "snv_indels/%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
         for prefix in files.keys()
-        for sample in samples[samples.trio_member == 'proband'].index
+        for sample in samples[samples.trio_member == "proband"].index
         for unit_type in get_unit_types(units, sample)
         for suffix in files[prefix]
     ]
