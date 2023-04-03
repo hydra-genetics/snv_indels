@@ -105,10 +105,10 @@ rule deepvariant_postprocess_variants:
         call_variants_record="snv_indels/deepvariant/{sample}_{type}_{chr}/call_variants_output.tfrecord.gz",
         gvcf_records=expand(
             "snv_indels/deepvariant/{{sample}}_{{type}}_{{chr}}/gvcf.tfrecord-{shard}-of-{nshards:05}.gz",
-                shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
-                nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
-            )
-            if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
+            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
+            nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+        )
+        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
         else [],
         ref=config.get("reference", {}).get("fasta", ""),
     output:

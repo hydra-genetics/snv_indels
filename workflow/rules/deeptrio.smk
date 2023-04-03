@@ -112,7 +112,7 @@ rule deeptrio_call_variants:
 
 rule deeptrio_postprocess_variants:
     input:
-        call_variants_record="snv_indels/deeptrio/{sample}_{type}/call_variants_output_{trio_member}.tfrecord.gz", 
+        call_variants_record="snv_indels/deeptrio/{sample}_{type}/call_variants_output_{trio_member}.tfrecord.gz",
         gvcf_records=expand(
             "snv_indels/deeptrio/{{sample}}_{{type}}/gvcf_{{trio_member}}.tfrecord-{shard}-of-{nshards:05}.gz",
             shard=[f"{x:05}" for x in range(config.get("deeptrio_make_examples", {}).get("n_shards", 2))],
