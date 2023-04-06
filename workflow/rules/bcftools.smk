@@ -84,7 +84,7 @@ rule bcftools_view:
     log:
         "{file}.vcf.gz.log",
     params:
-        extra=config.get("bcftools_concat", {}).get("extra", ""),
+        extra=config.get("bcftools_view", {}).get("extra", ""),
     benchmark:
         repeat(
             "{file}.vcf.gz.benchmark.tsv",
