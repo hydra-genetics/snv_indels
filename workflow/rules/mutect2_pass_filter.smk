@@ -27,8 +27,6 @@ rule mutect2_pass_filter:
         time=config.get("mutect2_pass_filter", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("mutect2_pass_filter", {}).get("container", config["default_container"])
-    conda:
-        "../envs/mutect2_pass_filter.yaml"
     message:
         "{rule}: hardfilter mutect2 variants in {input.vcf} to {output.vcf}"
     script:

@@ -38,8 +38,6 @@ rule bcftools_concat:
         time=config.get("bcftools_concat", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("bcftools_concat", {}).get("container", config["default_container"])
-    conda:
-        "../envs/bcftools.yaml"
     message:
         "{rule}: concatenate {input.calls}"
     wrapper:
@@ -68,8 +66,6 @@ rule bcftools_sort:
         time=config.get("bcftools_sort", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("bcftools_sort", {}).get("container", config["default_container"])
-    conda:
-        "../envs/bcftools.yaml"
     message:
         "{rule}: sort {input.vcf}"
     wrapper:
