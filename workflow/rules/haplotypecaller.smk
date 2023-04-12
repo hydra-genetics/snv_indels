@@ -31,8 +31,6 @@ rule haplotypecaller:
         time=config.get("haplotypecaller", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("haplotypecaller", {}).get("container", config["default_container"])
-    conda:
-        "../envs/haplotypecaller.yaml"
     message:
         "{rule}: call variants in {wildcards.chr} in {input.bam}"
     shell:

@@ -30,8 +30,6 @@ rule freebayes:
         time=config.get("freebayes", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("freebayes", {}).get("container", config["default_container"])
-    conda:
-        "../envs/freebayes.yaml"
     message:
         "{rule}: call variants in {input.samples}"
     wrapper:

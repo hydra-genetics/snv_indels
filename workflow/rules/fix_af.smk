@@ -25,8 +25,6 @@ rule fix_af:
         time=config.get("fix_af", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("fix_af", {}).get("container", config["default_container"])
-    conda:
-        "../envs/fix_af.yaml"
     message:
         "{rule}: fix missing allele frequency field in format column in {input.vcf}"
     script:

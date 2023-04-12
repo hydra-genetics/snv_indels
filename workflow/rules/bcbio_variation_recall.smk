@@ -39,8 +39,6 @@ rule bcbio_variation_recall_ensemble:
         time=config.get("bcbio_variation_recall_ensemble", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("bcbio_variation_recall_ensemble", {}).get("container", config["default_container"])
-    conda:
-        "../envs/bcbio_variation_recall.yaml"
     message:
         "{rule}: combine vcfs from different callers into {output.vcf} {params.sort_order}"
     shell:
