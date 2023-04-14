@@ -28,8 +28,6 @@ rule glnexus:
         partition=config.get("glnexus", {}).get("partition", config["default_resources"]["partition"]),
         threads=config.get("glnexus", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("glnexus", {}).get("time", config["default_resources"]["time"]),
-    conda:
-        "../envs/glnexus.yaml"
     container:
         config.get("glnexus", {}).get("container", config["default_container"])
     message:
