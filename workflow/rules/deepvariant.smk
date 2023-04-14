@@ -40,8 +40,6 @@ rule deepvariant_make_examples:
         time=config.get("deepvariant_make_examples", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("deepvariant_make_examples", {}).get("container", config["default_container"])
-    conda:
-        "../envs/deepvariant.yaml"
     message:
         "{rule}: Run deepvariant make_examples on {input.bam}"
     shell:
