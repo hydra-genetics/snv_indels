@@ -96,8 +96,6 @@ rule deeptrio_call_variants:
         time=config.get("deeptrio_call_variants", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("deeptrio_call_variants", {}).get("container", config["default_container"])
-    conda:
-        "../envs/deeptrio.yaml"
     message:
         "{rule}: Run deeptrio call_variants on {params.examples}"
     shell:
