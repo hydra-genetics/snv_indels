@@ -47,8 +47,6 @@ rule deeptrio_make_examples:
         time=config.get("deeptrio_make_examples", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("deeptrio_make_examples", {}).get("container", config["default_container"])
-    conda:
-        "../envs/deeptrio.yaml"
     message:
         "{rule}: Run deeptrio make_examples on {input.child_bam} and  {input.parent_bams} "
     shell:
