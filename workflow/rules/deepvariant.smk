@@ -138,8 +138,6 @@ rule deepvariant_postprocess_variants:
         time=config.get("deepvariant_postprocess_variants", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("deepvariant_postprocess_variants", {}).get("container", config["default_container"])
-    conda:
-        "../envs/deepvariant.yaml"
     message:
         "{rule}: Run deepvariant postprocess_variants on {input.call_variants_record}"
     shell:
