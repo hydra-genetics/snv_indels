@@ -99,8 +99,6 @@ rule bcftools_view:
         time=config.get("bcftools_view", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("bcftools_view", {}).get("container", config["default_container"])
-    conda:
-        "../envs/bcftools.yaml"
     message:
         "{rule}: convert {input.bcf} to {output.vcf}"
     wrapper:
