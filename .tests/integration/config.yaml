@@ -2,7 +2,7 @@ resources: "resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
 
-default_container: "docker://hydragenetics/common:0.1.2"
+default_container: "docker://hydragenetics/common:0.2.0"
 
 reference:
   fasta: "reference/HES45.fna"
@@ -15,6 +15,33 @@ bcbio_variation_recall_ensemble:
     - vardict
     - gatk_mutect2
     - freebayes
+  
+deeptrio_call_variants:
+  container: "docker://google/deepvariant:deeptrio-1.4.0"
+  model:
+    child: "/opt/models/deeptrio/wes/child/model.ckpt" 
+    parent: "/opt/models/deeptrio/wes/parent/model.ckpt"
+
+deeptrio_make_examples:
+  container: "docker://google/deepvariant:deeptrio-1.4.0" 
+  extra: "--channels insert_size --pileup_image_height_child 100 --pileup_image_height_parent 100 "
+  n_shards: 2
+
+deeptrio_postprocess_variants:
+  container: "docker://google/deepvariant:deeptrio-1.4.0"
+
+deepvariant_call_variants:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+  model: "/opt/models/wes/model.ckpt"
+
+deepvariant_make_examples:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+  extra: "--channels insert_size "
+  n_shards: 2
+
+deepvariant_postprocess_variants:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+  vcf_type: "gvcf"
 
 freebayes:
   container: "docker://hydragenetics/freebayes:1.3.1"
@@ -33,6 +60,10 @@ gatk_mutect2_gvcf:
 
 gatk_mutect2_merge_stats:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+glnexus:
+  container: "docker://hydragenetics/glnexus:1.4.1"
+  configfile: "DeepVariantWES"
 
 mutect2_pass_filter:
   pass_filters:
