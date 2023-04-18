@@ -17,18 +17,18 @@ bcbio_variation_recall_ensemble:
     - freebayes
   
 deeptrio_call_variants:
-  container: "docker://google/deepvariant:deeptrio-1.4.0"
+  container: "docker://google/deepvariant:deeptrio-1.5.0"
   model:
     child: "/opt/models/deeptrio/wes/child/model.ckpt" 
     parent: "/opt/models/deeptrio/wes/parent/model.ckpt"
 
 deeptrio_make_examples:
-  container: "docker://google/deepvariant:deeptrio-1.4.0" 
+  container: "docker://google/deepvariant:deeptrio-1.5.0" 
   extra: "--channels insert_size --pileup_image_height_child 100 --pileup_image_height_parent 100 "
   n_shards: 2
 
 deeptrio_postprocess_variants:
-  container: "docker://google/deepvariant:deeptrio-1.4.0"
+  container: "docker://google/deepvariant:deeptrio-1.5.0"
 
 deepvariant_call_variants:
   container: "docker://hydragenetics/deepvariant:1.4.0"
