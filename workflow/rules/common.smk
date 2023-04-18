@@ -169,7 +169,7 @@ def get_glnexus_input(wildcards, input):
 
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):
-    if config['deepvariant']:
+    if config["deepvariant"]:
         files = {
             "deepvariant": [
                 "merged.vcf.gz",
@@ -196,16 +196,15 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         ]
     else:
         files = {
-        "bcbio_variation_recall_ensemble": [
-            "ensembled.vcf.gz",
-        ],
-        "gatk_mutect2_gvcf": [
-            "merged.g.vcf.gz",
-        ],
-        "haplotypecaller": [
-            "normalized.sorted.vcf.gz",
-        ],
-        
+            "bcbio_variation_recall_ensemble": [
+                "ensembled.vcf.gz",
+            ],
+            "gatk_mutect2_gvcf": [
+                "merged.g.vcf.gz",
+            ],
+            "haplotypecaller": [
+                "normalized.sorted.vcf.gz",
+            ],
         }
         output_files = [
             "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
