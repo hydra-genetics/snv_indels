@@ -169,38 +169,49 @@ def get_glnexus_input(wildcards, input):
 
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):
-    files = {
-        "bcbio_variation_recall_ensemble": [
-            "ensembled.vcf.gz",
-        ],
-        "gatk_mutect2_gvcf": [
-            "merged.g.vcf.gz",
-        ],
-        "haplotypecaller": [
-            "normalized.sorted.vcf.gz",
-        ],
-        "deepvariant": [
-            "merged.vcf.gz",
-            "merged.g.vcf.gz",
-        ],
-    }
-    output_files = [
-        "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
-        for prefix in files.keys()
-        for sample in get_samples(samples[pd.isnull(samples["trioid"])])
-        for t in get_unit_types(units, sample)
-        for suffix in files[prefix]
-    ]
+    if config["deepvariant"]:
+        files = {
+            "deepvariant": [
+                "merged.vcf.gz",
+                "merged.g.vcf.gz",
+            ],
+        }
+        output_files = [
+            "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
+            for prefix in files.keys()
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            for t in get_unit_types(units, sample)
+            for suffix in files[prefix]
+        ]
 
-    files = {
-        "glnexus": ["vcf.gz"],
-    }
-    output_files += [
-        "snv_indels/%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
-        for prefix in files.keys()
-        for sample in samples[samples.trio_member == "proband"].index
-        for unit_type in get_unit_types(units, sample)
-        for suffix in files[prefix]
-    ]
+        files = {
+            "glnexus": ["vcf.gz"],
+        }
+        output_files += [
+            "snv_indels/%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
+            for prefix in files.keys()
+            for sample in samples[samples.trio_member == "proband"].index
+            for unit_type in get_unit_types(units, sample)
+            for suffix in files[prefix]
+        ]
+    else:
+        files = {
+            "bcbio_variation_recall_ensemble": [
+                "ensembled.vcf.gz",
+            ],
+            "gatk_mutect2_gvcf": [
+                "merged.g.vcf.gz",
+            ],
+            "haplotypecaller": [
+                "normalized.sorted.vcf.gz",
+            ],
+        }
+        output_files = [
+            "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
+            for prefix in files.keys()
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            for t in get_unit_types(units, sample)
+            for suffix in files[prefix]
+        ]
 
     return output_files
