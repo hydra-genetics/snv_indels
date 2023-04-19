@@ -38,3 +38,6 @@ deepvariant_postprocess_variants:
   container: "docker://hydragenetics/deepvariant:1.4.0"
   vcf_type: "gvcf"
 
+glnexus:
+  container: "docker://hydragenetics/glnexus:1.4.1"
+  configfile: "DeepVariantWES"
