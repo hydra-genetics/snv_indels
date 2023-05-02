@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.3.0...v0.4.0) (2023-05-02)
+
+
+### Features
+
+* Add deeptrio ([6fa6952](https://www.github.com/hydra-genetics/snv_indels/commit/6fa6952625c46aa0148af68b2555303ade657a0a))
+* add deepvariant ([ca464cf](https://www.github.com/hydra-genetics/snv_indels/commit/ca464cf18b794d0d306e36516bc3bef74964c4bc))
+* make gatk_pass_filter configurable ([7f65825](https://www.github.com/hydra-genetics/snv_indels/commit/7f65825d9f7a61a4c3bdf6282ad8886762d951f0))
+* remove conda env/testing ([bc72d83](https://www.github.com/hydra-genetics/snv_indels/commit/bc72d83fa5a77c120d641e396a98f8a50c6d2e26))
+
+
+### Bug Fixes
+
+* fix_af.py ([cd0a0d2](https://www.github.com/hydra-genetics/snv_indels/commit/cd0a0d2afae59d9abf4a09a6f9f431012e83c767))
+* update config ([9145272](https://www.github.com/hydra-genetics/snv_indels/commit/9145272c760afef96e67de4749315d7a37b63177))
+* Update workflow/schemas/config.schema.yaml ([4a6a939](https://www.github.com/hydra-genetics/snv_indels/commit/4a6a9395ac485b45d73326b8e4725da58036916d))
+
+
+### Documentation
+
+* update CODEOWNERS ([d7f8fa1](https://www.github.com/hydra-genetics/snv_indels/commit/d7f8fa1f3ecb181b3daed293e2551bf8f4a7ac95))
+
 ## [0.3.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.2.0...v0.3.0) (2022-11-09)
 
 
