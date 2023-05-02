@@ -25,8 +25,6 @@ rule vt_decompose:
         time=config.get("vt_decompose", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("vt_decompose", {}).get("container", config["default_container"])
-    conda:
-        "../envs/vt.yaml"
     message:
         "{rule}: decompose {input.vcf}"
     shell:
@@ -55,8 +53,6 @@ rule vt_normalize:
         time=config.get("vt_normalize", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("vt_normalize", {}).get("container", config["default_container"])
-    conda:
-        "../envs/vt.yaml"
     message:
         "{rule}: normalize {input.vcf}"
     shell:

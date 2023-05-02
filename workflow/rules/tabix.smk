@@ -27,8 +27,6 @@ rule tabix:
         time=config.get("tabix", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("tabix", {}).get("container", config["default_container"])
-    conda:
-        "../envs/tabix.yaml"
     message:
         "{rule}: index {input.gz}"
     wrapper:

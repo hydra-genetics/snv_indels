@@ -35,8 +35,6 @@ rule gatk_mutect2:
         time=config.get("gatk_mutect2", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("gatk_mutect2", {}).get("container", config["default_container"])
-    conda:
-        "../envs/gatk.yaml"
     message:
         "{rule}: call variants in {input.map}"
     wrapper:
@@ -71,8 +69,6 @@ rule gatk_mutect2_gvcf:
         time=config.get("gatk_mutect2_gvcf", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("gatk_mutect2_gvcf", {}).get("container", config["default_container"])
-    conda:
-        "../envs/gatk.yaml"
     message:
         "{rule}: generate gvcf from {input.map}"
     wrapper:
@@ -105,8 +101,6 @@ rule gatk_mutect2_filter:
         time=config.get("gatk_mutect2_filter", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("gatk_mutect2_filter", {}).get("container", config["default_container"])
-    conda:
-        "../envs/gatk.yaml"
     message:
         "{rule}: softfilter mutect2 variants in {input.vcf} to {output.vcf}"
     wrapper:
@@ -141,8 +135,6 @@ rule gatk_mutect2_merge_stats:
         time=config.get("gatk_mutect2_merge_stats", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("gatk_mutect2_merge_stats", {}).get("container", config["default_container"])
-    conda:
-        "../envs/gatk.yaml"
     message:
         "{rule}: merge mutect2 stats files into {output.stats}"
     shell:

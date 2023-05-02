@@ -85,23 +85,133 @@ def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
     return extra
 
 
+def get_parent_bams(wildcards):
+    bam_path = "alignment/samtools_merge_bam"
+    proband_sample = samples[samples.index == wildcards.sample]
+    trio_id = proband_sample.at[wildcards.sample, "trioid"]
+
+    mother_sample = samples[(samples.trio_member == "mother") & (samples.trioid == trio_id)].index[0]
+    mother_bam = "{}/{}_{}.bam".format(bam_path, mother_sample, list(get_unit_types(units, mother_sample))[0])
+
+    father_sample = samples[(samples.trio_member == "father") & (samples.trioid == trio_id)].index[0]
+    father_bam = "{}/{}_{}.bam".format(bam_path, father_sample, list(get_unit_types(units, father_sample))[0])
+
+    bam_list = [mother_bam, father_bam]
+
+    return bam_list
+
+
+def get_make_examples_tfrecord(
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, nshards: int, program="deepvariant"
+):
+    examples_path = os.path.split(input[0])[0]
+
+    if program == "deepvariant":
+        examples_tfrecord = "{}/make_examples.tfrecord@{}.gz".format(examples_path, nshards)
+    elif program == "deeptrio":
+        examples_tfrecord = "{}/make_examples_{}.tfrecord@{}.gz".format(examples_path, wildcards.trio_member, nshards)
+
+    return examples_tfrecord
+
+
+def deepvariant_make_example_args(wildcards: snakemake.io.Wildcards, output: list):
+    extra = config.get("deepvariant_make_examples", {}).get("extra", "")
+
+    vcf_type = config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf")
+    if vcf_type == "gvcf":
+        nshards = config.get("deepvariant_make_examples", {}).get("n_shards", 10)
+        gvcf_path = " --gvcf {}/gvcf.tfrecord@{}.gz".format(os.path.split(output[0])[0], nshards)
+        extra = "{} {}".format(extra, gvcf_path)
+
+    return extra
+
+
+def get_deeptrio_model(wildcards):
+    models_config = config.get("deeptrio_call_variants", {}).get("model", "")
+    if wildcards.trio_member in ["parent1", "parent2"]:
+        model_file = models_config.get("parent", "")
+    else:
+        model_file = models_config.get("child", "")
+
+    return model_file
+
+
+def deepvariant_postprocess_variants_args(
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, me_config: str, extra: str
+):
+    if output.gvcf:
+        nshards = config.get(me_config).get("n_shards", 2)
+        me_path = os.path.split(input.call_variants_record)[0]
+        gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(me_path, nshards)
+        gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
+        gvcf_out = "--gvcf_outfile {}".format(output.gvcf)
+        extra = "{} {} {}".format(extra, gvcf_in, gvcf_out)
+
+    return extra
+
+
+def deeptrio_postprocess_variants_args(
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, me_config: str, extra: str
+):
+    me_path = os.path.split(input.call_variants_record)[0]
+    nshards = config.get(me_config).get("n_shards", 2)
+    gvcf_tfrecord = "{}/gvcf_{}.tfrecord@{}.gz".format(me_path, wildcards.trio_member, nshards)
+    gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
+    extra = "{} {} ".format(extra, gvcf_in)
+
+    return extra
+
+
+def get_glnexus_input(wildcards, input):
+    gvcf_input = "-i {}".format(" -i ".join(input.gvcfs))
+
+    return gvcf_input
+
+
 def compile_output_list(wildcards: snakemake.io.Wildcards):
-    files = {
-        "bcbio_variation_recall_ensemble": [
-            "ensembled.vcf.gz",
-        ],
-        "gatk_mutect2_gvcf": [
-            "merged.g.vcf.gz",
-        ],
-        "haplotypecaller": [
-            "normalized.sorted.vcf.gz",
-        ],
-    }
-    output_files = [
-        "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
-        for prefix in files.keys()
-        for sample in get_samples(samples)
-        for t in get_unit_types(units, sample)
-        for suffix in files[prefix]
-    ]
+    if config["deepvariant"]:
+        files = {
+            "deepvariant": [
+                "merged.vcf.gz",
+                "merged.g.vcf.gz",
+            ],
+        }
+        output_files = [
+            "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
+            for prefix in files.keys()
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            for t in get_unit_types(units, sample)
+            for suffix in files[prefix]
+        ]
+
+        files = {
+            "glnexus": ["vcf.gz"],
+        }
+        output_files += [
+            "snv_indels/%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
+            for prefix in files.keys()
+            for sample in samples[samples.trio_member == "proband"].index
+            for unit_type in get_unit_types(units, sample)
+            for suffix in files[prefix]
+        ]
+    else:
+        files = {
+            "bcbio_variation_recall_ensemble": [
+                "ensembled.vcf.gz",
+            ],
+            "gatk_mutect2_gvcf": [
+                "merged.g.vcf.gz",
+            ],
+            "haplotypecaller": [
+                "normalized.sorted.vcf.gz",
+            ],
+        }
+        output_files = [
+            "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
+            for prefix in files.keys()
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            for t in get_unit_types(units, sample)
+            for suffix in files[prefix]
+        ]
+
     return output_files

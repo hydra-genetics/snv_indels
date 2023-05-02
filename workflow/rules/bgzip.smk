@@ -22,8 +22,6 @@ rule bgzip:
         time=config.get("bgzip", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("bgzip", {}).get("container", config["default_container"])
-    conda:
-        "../envs/bgzip.yaml"
     message:
         "{rule}: bgzip {input.vcf}"
     wrapper:

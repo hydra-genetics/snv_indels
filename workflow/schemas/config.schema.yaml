@@ -108,6 +108,120 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
+  
+  deeptrio_call_variants:
+    type: object
+    description: parameters for deeptrio_call_variants
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      model:
+        type: object
+        descrioption: Path to the deepvariant model file
+        properties:
+          parent:
+            child:
+              type: string
+              description: model file for child
+            parent:
+              type: string
+              description: model file for parent
+      required:
+        - model
+
+  deeptrio_make_examples:
+    type: object
+    description: parameters for deeptrio_make_examples
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      n_shards:
+        type: integer
+        description: Number of shards for deepvariant make_examples
+  
+  deeptrio_postprocess_variants:
+    type: object
+    description: parameters for deeptrio_postprocess_variants
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      vcf_type:
+        type: string
+        description: vcf type to produce 'gvcf' or 'vcf'
+
+  deepvariant_call_variants:
+    type: object
+    description: parameters for deepvariant_call_variants
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      model:
+        type: string
+        descrioption: Path to the deepvariant model file
+      required:
+        - model
+  
+  deepvariant_make_examples:
+    type: object
+    description: parameters for deepvariant_make_examples
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      n_shards:
+        type: integer
+        description: Number of shards for deepvariant make_examples
+  
+  deepvariant_postprocess_variants:
+    type: object
+    description: parameters for deepvariant_postprocess_variants
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      vcf_type:
+        type: string
+        description: vcf type to produce 'gvcf' or 'vcf'
 
   fix_af:
     type: object
@@ -211,6 +325,11 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
+      pass_filters:
+        type: array
+        description: list of filter flags that are retained in the vcf
+        items:
+            type: string
 
   tabix:
     type: object

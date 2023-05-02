@@ -22,8 +22,6 @@ rule bed_split:
         time=config.get("bed_split", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("bed_split", {}).get("container", config["default_container"])
-    conda:
-        "../envs/bed_split.yaml"
     message:
         "{rule}: generate bed file containing only {wildcards.chr} from {input.bed}"
     shell:

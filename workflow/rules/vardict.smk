@@ -30,8 +30,6 @@ rule vardict:
         time=config.get("vardict", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("vardict", {}).get("container", config["default_container"])
-    conda:
-        "../envs/vardict.yaml"
     message:
         "{rule}: call variants in {input.bam}"
     wrapper:
