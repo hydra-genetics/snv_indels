@@ -7,6 +7,7 @@ __license__ = "GPL-3"
 rule deeptrio_make_examples:
     input:
         child_bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        child_bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         parent_bams=lambda wildcards: get_parent_bams(wildcards),
         ref=config.get("reference", {}).get("fasta", ""),
     output:
