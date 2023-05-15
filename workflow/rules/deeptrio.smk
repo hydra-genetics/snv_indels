@@ -4,8 +4,6 @@ __email__ = "padraic.corcoran@scilifelab.uu.se"
 __license__ = "GPL-3"
 
 
-
-
 rule deeptrio_make_examples:
     input:
         child_bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
