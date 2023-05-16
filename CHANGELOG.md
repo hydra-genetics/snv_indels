@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.4.0...v0.5.0) (2023-05-16)
+
+
+### Features
+
+* update snakemake version, allow range up to version 8 ([fdb57fe](https://www.github.com/hydra-genetics/snv_indels/commit/fdb57fe4ba61dd6469502f8876fca0f8ef2b4087))
+
+
+### Bug Fixes
+
+* **deeptrio:** specify bam index files in the input for make examples ([eddf9f5](https://www.github.com/hydra-genetics/snv_indels/commit/eddf9f5a6a78bf2357aa1e89b8a215a8f90537e1))
+
 ## [0.4.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.3.0...v0.4.0) (2023-05-02)
 
 
