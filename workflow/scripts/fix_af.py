@@ -87,7 +87,7 @@ def writeNewVcf(
             raise ValueError(
                 "{} is not a valid caller for this script. Choose between: "
                 "freebayes, haplotypecaller, gatk_mutect2, gatk_select_variants_final, "
-                "pbrun_deepvariant, pisces, vardict, varscan.".format(caller)
+                "pbrun_deepvariant, deepvariant, pisces, vardict, varscan.".format(caller)
             )
         new_vcf.write(row)
     return
