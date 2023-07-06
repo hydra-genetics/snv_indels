@@ -6,13 +6,13 @@ Somatic calls can be called by freebayes, mutect2, and vardict while germline ca
 
 | Caller | Type | Comment |
 |-|-|-|
-| freebayes | somatic |
-| mutect2 |  |
-| vardict | _ _ |
-| haplotypecaller | germline |
-| deepvariant |  |
-| deeptrio |  | trio |
-| glnexus | _ _ | trio |
+| [freebayes](https://github.com/freebayes/freebayes) | somatic |
+| [mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2) |  |
+| [vardict](https://github.com/AstraZeneca-NGS/VarDict) | _ _ |
+| [haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/13832687299739-HaplotypeCaller) | germline |
+| [deepvariant](https://github.com/google/deepvariant) |  |
+| [deeptrio](https://github.com/google/deepvariant) |  | trio |
+| [glnexus](https://github.com/dnanexus-rnd/GLnexus) | _ _ | trio / joint calling |
 
 
 ## Dag graph

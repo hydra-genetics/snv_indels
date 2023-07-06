@@ -243,20 +243,20 @@ properties:
             description: Fasta reference genome file
           samples:
             type: string
-            description: Chromosome bam file
+            description: Chromosome split bam file
           indexes:
             type: string
-            description: Chromosome bam index file
+            description: Bam index file
           regions:
             type: string
-            description: Chromosome specific bed file with regions in that should be used in calling
+            description: Chromosome split bed file with regions in that should be used in calling
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Vcf file SNV and INDEL calls
+            description: Vcf file with SNV and INDEL calls
 
   gatk_mutect2:
     type: object
@@ -268,26 +268,26 @@ properties:
         properties:
           map:
             type: string
-            description: Chromosome bam file
+            description: Chromosome split bam file
           bai:
             type: string
-            description: Chromosome bam index file
+            description: Bam index file
           fasta:
             type: string
             description: Fasta reference genome file
           bed:
             type: string
-            description: Chromosome specific bed file with regions in that should be used in calling
+            description: Chromosome split bed file with regions in that should be used in calling
       output:
         type: object
         description: list of outputs
         properties:
           bam:
             type: string
-            description: Chromosome bam file with regions containing candidate INDELs that can be used to confirm them in for example IGV.
+            description: Chromosome split bam file with regions containing candidate INDELs that can be used to confirm them in for example IGV.
           bai:
             type: string
-            description: Chromosome bam index file
+            description: Bam index file
           stats:
             type: string
             description: Variant statistics file used for variant filtering by gatk_mutect2_filter
@@ -311,16 +311,16 @@ properties:
         properties:
           map:
             type: string
-            description: Chromosome bam file
+            description: Chromosome split bam file
           bai:
             type: string
-            description: Chromosome bam index file
+            description: Bam index file
           fasta:
             type: string
             description: Fasta reference genome file
           bed:
             type: string
-            description: Chromosome specific bed file with regions in that should be used in calling
+            description: Chromosome split bed file with regions in that should be used in calling
       output:
         type: object
         description: list of outputs
@@ -381,3 +381,160 @@ properties:
           stats:
             type: string
             description: Merged stats file used by gatk_mutect2_filter
+
+  glnexus:
+    type: object
+    description: input and output parameters for glnexus
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          gvcfs:
+            type: string
+            description: List of .g.vcf-files, e.g. a family trio produced by deeptrio
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          bcf:
+            type: string
+            description: A joint call vcf file in .bcf file format (bcftools)
+          dir:
+            type: string
+            description: Directory with files containing a GLnexus database
+
+  haplotypecaller:
+    type: object
+    description: input and output parameters for glnexus
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: Chromosome split bam file
+          bai:
+            type: string
+            description: Bam-file index files
+          fasta:
+            type: string
+            description: Fasta reference genome file
+          bed:
+            type: string
+            description: Chromosome split bed file with regions in that should be used in calling
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: Vcf file with SNV and INDEL calls
+
+  mutect2_pass_filter:
+    type: object
+    description: input and output parameters for mutect2_pass_filter
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: Soft filtered vcf file produced by gatk_mutect2_filter
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: Hard filtered vcf file with SNV amd INDEL calls
+
+  tabix:
+    type: object
+    description: input and output parameters for tabix
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          gz:
+            type: string
+            description: Bgzipped vcf-file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          tbi:
+            type: string
+            description: Tabix index file
+
+  vardict:
+    type: object
+    description: input and output parameters for vardict
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: Chromosome split bam file
+          bai:
+            type: string
+            description: Bam-file index files
+          reference:
+            type: string
+            description: Fasta reference genome file
+          regions:
+            type: string
+            description: Chromosome split bed file with regions in that should be used in calling
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: Vcf file with SNV and INDEL calls
+
+  vt_decompose:
+    type: object
+    description: input and output parameters for vt_decompose
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: Vcf file that should be decomposed
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: Decomposed vcf file
+
+  vt_normalize:
+    type: object
+    description: input and output parameters for vt_normalize
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: Vcf file that should be normalized
+          ref:
+            type: string
+            description: Fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: Normalized vcf file

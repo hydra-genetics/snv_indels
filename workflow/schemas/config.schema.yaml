@@ -259,20 +259,6 @@ properties:
         type: string
         description: parameters that should be forwarded
 
-  haplotypecaller:
-    type: object
-    description: parameters for haplotypecaller
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      extra:
-        type: string
-        description: parameters that should be forwarded
-
   gatk_mutect2:
     type: object
     description: parameters for gatk_mutect2
@@ -325,6 +311,42 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
+
+  glnexus:
+    type: object
+    description: parameters for gatk_mutect2_merge_stats
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      glnexus_config:
+        type: string
+        description: path to the glnexus config file
+      in_gvcf:
+        type: string
+        description: |
+          String listing the input files.
+          Created by the get_glnexus_input function in common.smk
+
+  haplotypecaller:
+    type: object
+    description: parameters for haplotypecaller
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
 
   mutect2_pass_filter:
     type: object
