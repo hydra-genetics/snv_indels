@@ -2,7 +2,6 @@
 The snv_indel module consists of a number of small variant callers for short read data of both somatic and germline samples. There is also tools for variant decomposition, (vt) normalization (vt), ensemble (bcbio) and sorting (bcftools). 
 
 ## Callers
-Somatic calls can be called by freebayes, mutect2, and vardict while germline calls can be produced by haplotypecaller, deepvariant, deeptrio, glnexus.
 
 | Caller | Type | Comment |
 |-|-|-|
