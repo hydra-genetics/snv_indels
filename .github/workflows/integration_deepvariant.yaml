@@ -12,17 +12,21 @@ jobs:
     name: integration small data set singularity
     runs-on: ubuntu-latest
     steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 512
-          swap-size-mb: 1024
-          remove-dotnet: 'true'
       - uses: actions/checkout@v3
       - name: Set up Python 3.8
         uses: actions/setup-python@v3
         with:
           python-version: 3.8
+      - name: Build
+        run: |
+          echo "Free space:"
+          df -h
+      - name: Remove stuff
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force
       - name: Build
         run: |
           echo "Free space:"
