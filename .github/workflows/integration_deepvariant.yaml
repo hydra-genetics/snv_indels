@@ -1,4 +1,4 @@
-name: small integration test
+name: small integration test (deepvariant)
 
 on:
   push:
