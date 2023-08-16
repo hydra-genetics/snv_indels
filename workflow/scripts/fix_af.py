@@ -28,7 +28,8 @@ def getCaller(path: str):
 
 # modify vcf header if necessary
 def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
-    if caller == "pisces" or caller == "gatk_mutect2" or caller == "pbrun_deepvariant" or caller == "deepvariant":
+    if (caller == "pisces" or caller == "pbrun_mutectcaller_T" or
+       caller == "gatk_mutect2" or caller == "pbrun_deepvariant" or caller == "deepvariant"):
         header.info.add("AF", "A", "Float", "DescriptionDescription")
     elif caller == "varscan":
         header.info.add(
@@ -74,6 +75,8 @@ def writeNewVcf(
         elif caller == "pisces":
             row.info["AF"] = row.samples[0].get("VF")
         elif caller == "vardict":
+            row.info["AF"] = row.samples[0].get("AF")
+        elif caller == "pbrun_mutectcaller_T":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "pbrun_deepvariant":
             row.info["AF"] = row.samples[0].get("VAF")
