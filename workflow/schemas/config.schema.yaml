@@ -273,9 +273,9 @@ properties:
         type: string
         description: parameters that should be forwarded
 
-  gatk_mutect2_filtering:
+  gatk_mutect2_filter:
     type: object
-    description: parameters for gatk_mutect2_gvcf
+    description: parameters for gatk_mutect2_filter
     properties:
       benchmark_repeats:
         type: integer
