@@ -88,6 +88,26 @@ properties:
       time:
         type: string
         description: max execution time
+    
+  bcftools_view:
+    type: object
+    description: resource definitions for bcftools_view
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
 
   bed_split:
     type: object
@@ -109,9 +129,9 @@ properties:
         type: string
         description: max execution time
 
-  bgzip_vcf:
+  bgzip:
     type: object
-    description: resource definitions for bgzip_vcf
+    description: resource definitions for bgzip
     properties:
       mem_mb:
         type: integer
@@ -295,26 +315,6 @@ properties:
         type: string
         description: max execution time
 
-  haplotypecaller:
-    type: object
-    description: resource definitions for haplotypecaller
-    properties:
-      mem_mb:
-        type: integer
-        description: max memory in MB to be available
-      mem_per_cpu:
-        type: integer
-        description: memory in MB used per cpu
-      partition:
-        type: string
-        description: partition to use on cluster
-      threads:
-        type: integer
-        description: number of threads to be available
-      time:
-        type: string
-        description: max execution time
-
   gatk_mutect2:
     type: object
     description: resource definitions for gatk_mutect2
@@ -378,6 +378,46 @@ properties:
   gatk_mutect2_merge_stats:
     type: object
     description: resource definitions for gatk_mutect2_merge_stats
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  glnexus:
+    type: object
+    description: resource definitions for glnexus
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  haplotypecaller:
+    type: object
+    description: resource definitions for haplotypecaller
     properties:
       mem_mb:
         type: integer

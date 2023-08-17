@@ -59,8 +59,8 @@ properties:
       support:
         type: integer
         description: number of callers to support variant to be included in ensemble vcf
-      required:
-        - callers
+    required:
+      - callers
 
   bcftools_concat:
     type: object
@@ -87,6 +87,20 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
+  bcftools_view:
+    type: object
+    description: parameters for bcftools_view
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
   bed_split:
     type: object
     description: parameters for bed_split
@@ -98,9 +112,9 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
-  bgzip_vcf:
+  bgzip:
     type: object
-    description: parameters for bgzip_vcf
+    description: parameters for bgzip
     properties:
       benchmark_repeats:
         type: integer
@@ -124,7 +138,7 @@ properties:
         description: parameters that should be forwarded
       model:
         type: object
-        descrioption: Path to the deepvariant model file
+        description: Path to the deepvariant model file
         properties:
           parent:
             child:
@@ -133,8 +147,8 @@ properties:
             parent:
               type: string
               description: model file for parent
-      required:
-        - model
+    required:
+      - model
 
   deeptrio_make_examples:
     type: object
@@ -166,9 +180,6 @@ properties:
       extra:
         type: string
         description: parameters that should be forwarded
-      vcf_type:
-        type: string
-        description: vcf type to produce 'gvcf' or 'vcf'
 
   deepvariant_call_variants:
     type: object
@@ -186,8 +197,8 @@ properties:
       model:
         type: string
         descrioption: Path to the deepvariant model file
-      required:
-        - model
+    required:
+      - model
   
   deepvariant_make_examples:
     type: object
@@ -237,20 +248,6 @@ properties:
   freebayes:
     type: object
     description: parameters for freebayes
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      extra:
-        type: string
-        description: parameters that should be forwarded
-
-  haplotypecaller:
-    type: object
-    description: parameters for haplotypecaller
     properties:
       benchmark_repeats:
         type: integer
@@ -314,6 +311,42 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
+
+  glnexus:
+    type: object
+    description: parameters for gatk_mutect2_merge_stats
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      glnexus_config:
+        type: string
+        description: path to the glnexus config file
+      in_gvcf:
+        type: string
+        description: |
+          String listing the input files.
+          Created by the get_glnexus_input function in common.smk
+
+  haplotypecaller:
+    type: object
+    description: parameters for haplotypecaller
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
 
   mutect2_pass_filter:
     type: object
