@@ -354,7 +354,7 @@ Joint variant caller based on .g.vcf files from deeptrio or other sources. Can b
 
 #### :left_right_arrow: input / output files
 
-## SNAKEMAKE_RULE_TABLE__glnexus__glnexus 
+#SNAKEMAKE_RULE_TABLE__glnexus__glnexus#
 
 ### :wrench: Configuration
 
