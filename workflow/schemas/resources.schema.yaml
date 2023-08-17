@@ -335,9 +335,9 @@ properties:
         type: string
         description: max execution time
 
-  gatk_mutect2_filtering:
+  gatk_mutect2_filter:
     type: object
-    description: resource definitions for gatk_mutect2_filtering
+    description: resource definitions for gatk_mutect2_filter
     properties:
       mem_mb:
         type: integer
