@@ -196,7 +196,7 @@ properties:
         description: parameters that should be forwarded
       model:
         type: string
-        descrioption: Path to the deepvariant model file
+        descrioption: path to the deepvariant model file
     required:
       - model
   
@@ -215,7 +215,7 @@ properties:
         description: parameters that should be forwarded
       n_shards:
         type: integer
-        description: Number of shards for deepvariant make_examples
+        description: number of shards for deepvariant make_examples
   
   deepvariant_postprocess_variants:
     type: object
@@ -232,7 +232,7 @@ properties:
         description: parameters that should be forwarded
       vcf_type:
         type: string
-        description: vcf type to produce 'gvcf' or 'vcf'
+        description: vcf type to produce `gvcf` or `vcf`
 
   fix_af:
     type: object
@@ -331,8 +331,8 @@ properties:
       in_gvcf:
         type: string
         description: |
-          String listing the input files.
-          Created by the get_glnexus_input function in common.smk
+          string listing the input files 
+          created by the get_glnexus_input function in common.smk
 
   haplotypecaller:
     type: object

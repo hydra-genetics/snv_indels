@@ -12,23 +12,23 @@ properties:
         properties:
           vcfs:
             type: string
-            description: List of `.vcf.gz`-files from different callers of the same sample
+            description: list of `.vcf.gz` files from different callers of the same sample
           tabix:
             type: string
-            description: List of `.vcf.gz.tbi` index files
+            description: list of `.vcf.gz.tbi` index files
           ref:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Ensembled `.vcf`-file
+            description: ensembled `.vcf` file
           bcbio_work:
             type: string
-            description: Temporary directory used by the program
+            description: temporary directory used by the program
 
   bcftools_concat:
     type: object
@@ -41,18 +41,18 @@ properties:
           calls:
             type: string
             description: | 
-              List of `.vcf`-files that should be concatenated.
-              In this case one for each chromosome from the same sample.
+              list of `.vcf` files that should be concatenated
+              in this case one for each chromosome from the same sample
           index:
             type: string
-            description: List of tabix index files
+            description: list of tabix index files
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Concatenated .vcf`-file.
+            description: concatenated `.vcf` file.
 
   bcftools_sort:
     type: object
@@ -64,17 +64,17 @@ properties:
         properties:
           vcf:
             type: string
-            description: The `.vcf`-file that should be sorted.
+            description: the `.vcf` file that should be sorted.
           tbi:
             type: string
-            description: Tabix index files for the `.vcf`-file
+            description: tabix index files for the `.vcf` file
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Sorted `.vcf`-file.
+            description: sorted `.vcf` file.
 
   bcftools_view:
     type: object
@@ -86,14 +86,14 @@ properties:
         properties:
           bcf:
             type: string
-            description: The `.bcf`-file (bcftools binary) that should be converted to `.vcf` format
+            description: the `.bcf` file (bcftools binary) that should be converted to `.vcf` format
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: The converted `.vcf` file
+            description: the converted `.vcf` file
 
   bed_split:
     type: object
@@ -105,14 +105,14 @@ properties:
         properties:
           bed:
             type: string
-            description: Bed file that should be split into chromosome bed files
+            description: bed file that should be split into chromosome bed files
       output:
         type: object
         description: list of outputs
         properties:
           bed:
             type: string
-            description: Bed file of a specific chromosome
+            description: bed file of a specific chromosome
 
   bgzip:
     type: object
@@ -124,14 +124,14 @@ properties:
         properties:
           vcf:
             type: string
-            description: The `.vcf`-file that should be compressed
+            description: the `.vcf` file that should be compressed
       output:
         type: object
         description: list of outputs
         properties:
           gz:
             type: string
-            description: The compressed `.vcf.gz`-file
+            description: the compressed `.vcf.gz` file
 
   deeptrio_make_examples:
     type: object
@@ -143,26 +143,26 @@ properties:
         properties:
           child_bam:
             type: string
-            description: Bam file of the child in a trio
+            description: the `.bam` file of the child in a trio
           child_bai:
             type: string
-            description: Bam index file of the child in a trio
+            description: bam index file of the child in a trio
           parent_bams:
             type: string
-            description: List of the parents bam files
+            description: list of the parents bam files
           ref:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
       output:
         type: object
         description: list of outputs
         properties:
           examples:
             type: string
-            description: Files used by deeptrio to call variants (deeptrio_call_variants)
+            description: files used by deeptrio to call variants (deeptrio_call_variants)
           gvcf_tfrecords:
             type: string
-            description: Files used by deeptrio to postprocess variants ()
+            description: files used by deeptrio to postprocess variants
 
   deeptrio_call_variants:
     type: object
@@ -174,14 +174,14 @@ properties:
         properties:
           examples:
             type: string
-            description: Files generated by deeptrio_make_examples
+            description: files generated by deeptrio_make_examples
       output:
         type: object
         description: list of outputs
         properties:
           outfile:
             type: string
-            description: File used by deeptrio to generate the final vcf file (deeptrio_postprocess_variants)
+            description: file used by deeptrio to generate the final vcf file (deeptrio_postprocess_variants)
           
   deeptrio_postprocess_variants:
     type: object
@@ -193,23 +193,23 @@ properties:
         properties:
           call_variants_record:
             type: string
-            description: Files generated by deeptrio_call_variants
+            description: files generated by deeptrio_call_variants
           gvcf_records:
             type: string
-            description: Files generated by deeptrio_make_examples
+            description: files generated by deeptrio_make_examples
           ref:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Final vcf file
+            description: final vcf file
           gvcf:
             type: string
-            description: Genome vcf file with allele information for all positions
+            description: genome vcf file with allele information for all positions
 
   fix_af:
     type: object
@@ -221,14 +221,16 @@ properties:
         properties:
           vcf:
             type: string
-            description: Vcf file where the format AF should be added if missing
+            description: vcf file where AF should be added to INFO field if missing
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Vcf file with added format AF info
+            description: |
+              vcf file with added AF to the INFO filed
+              NOTE: only uses first sample if multiple samples available
 
   freebayes:
     type: object
@@ -240,23 +242,23 @@ properties:
         properties:
           ref:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
           samples:
             type: string
-            description: Chromosome split bam file
+            description: chromosome split bam file
           indexes:
             type: string
-            description: Bam index file
+            description: bam index file
           regions:
             type: string
-            description: Chromosome split bed file with regions in that should be used in calling
+            description: chromosome split bed file with regions in that should be used in calling
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Vcf file with SNV and INDEL calls
+            description: vcf file with snv and indels calls
 
   gatk_mutect2:
     type: object
@@ -268,38 +270,38 @@ properties:
         properties:
           map:
             type: string
-            description: Chromosome split bam file
+            description: chromosome split bam file
           bai:
             type: string
-            description: Bam index file
+            description: bam index file
           fasta:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
           bed:
             type: string
-            description: Chromosome split bed file with regions in that should be used in calling
+            description: chromosome split bed file with regions in that should be used in calling
       output:
         type: object
         description: list of outputs
         properties:
           bam:
             type: string
-            description: Chromosome split bam file with regions containing candidate INDELs that can be used to confirm them in for example IGV.
+            description: chromosome split bam file with regions containing candidate indels that can be used to confirm them in e.g. IGV
           bai:
             type: string
-            description: Bam index file
+            description: bam index file
           stats:
             type: string
-            description: Variant statistics file used for variant filtering by gatk_mutect2_filter
+            description: variant statistics file used for variant filtering by gatk_mutect2_filter
           vcf:
             type: string
-            description: Unfiltered compressed .vcf.gz file for one chromosome
+            description: unfiltered compressed `.vcf.gz` file for one chromosome
           tbi:
             type: string
-            description: Tabix file index (.vcf.gz.tbi)
+            description: tabix file index (`.vcf.gz.tbi`)
           f1f2:
             type: string
-            description: File with an orientation bias model that can be used for variant filtering
+            description: file with an orientation bias model that can be used for variant filtering
 
   gatk_mutect2_gvcf:
     type: object
@@ -311,29 +313,29 @@ properties:
         properties:
           map:
             type: string
-            description: Chromosome split bam file
+            description: chromosome split bam file
           bai:
             type: string
-            description: Bam index file
+            description: bam index file
           fasta:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
           bed:
             type: string
-            description: Chromosome split bed file with regions in that should be used in calling
+            description: chromosome split bed file with regions in that should be used in calling
       output:
         type: object
         description: list of outputs
         properties:
           stats:
             type: string
-            description: Variant statistics file used for variant filtering
+            description: variant statistics file used for variant filtering
           vcf:
             type: string
-            description: Compressed genome .g.vcf.gz file for one chromosome containing allele information for all positions in the bed file
+            description: compressed genome `.g.vcf.gz` file for one chromosome containing allele information for all positions in the bed file
           tbi:
             type: string
-            description: Tabix file index (.g.vcf.gz.tbi)
+            description: tabix file index (`.g.vcf.gz.tbi`)
 
   gatk_mutect2_filter:
     type: object
@@ -345,23 +347,23 @@ properties:
         properties:
           vcf:
             type: string
-            description: Chromosome merged unfiltered .vcf-file from gatk_mutect2
+            description: chromosome merged unfiltered `.vcf.gz` file from gatk_mutect2
           tbi:
             type: string
-            description: Tabix .vcf.gz index file
+            description: tabix `.vcf.gz` index file
           stats:
             type: string
-            description: Merged stats file generated by gatk_mutect2_merge_stats
+            description: merged stats file generated by gatk_mutect2_merge_stats
           ref:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Soft filtered .vcf.gz file with called SNVs and INDELs
+            description: soft filtered `.vcf.gz` file with called snv and indels
 
   gatk_mutect2_merge_stats:
     type: object
@@ -373,14 +375,14 @@ properties:
         properties:
           stats:
             type: string
-            description: List of chromosome stats files generated by gatk_mutect2
+            description: list of chromosome stats files generated by gatk_mutect2
       output:
         type: object
         description: list of outputs
         properties:
           stats:
             type: string
-            description: Merged stats file used by gatk_mutect2_filter
+            description: merged stats file used by gatk_mutect2_filter
 
   glnexus:
     type: object
@@ -392,17 +394,17 @@ properties:
         properties:
           gvcfs:
             type: string
-            description: List of .g.vcf-files, e.g. a family trio produced by deeptrio
+            description: list of `.g.vcf` files, e.g. a family trio produced by deeptrio
       output:
         type: object
         description: list of outputs
         properties:
           bcf:
             type: string
-            description: A joint call vcf file in .bcf file format (bcftools)
+            description: a joint call vcf file in `.bcf` file format (bcftools)
           dir:
             type: string
-            description: Directory with files containing a GLnexus database
+            description: directory with files containing a GLnexus database
 
   haplotypecaller:
     type: object
@@ -414,23 +416,23 @@ properties:
         properties:
           bam:
             type: string
-            description: Chromosome split bam file
+            description: chromosome split bam file
           bai:
             type: string
-            description: Bam-file index files
+            description: bam file index files
           fasta:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
           bed:
             type: string
-            description: Chromosome split bed file with regions in that should be used in calling
+            description: chromosome split bed file with regions in that should be used in calling
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Vcf file with SNV and INDEL calls
+            description: vcf file with snv and indels calls
 
   mutect2_pass_filter:
     type: object
@@ -442,14 +444,14 @@ properties:
         properties:
           vcf:
             type: string
-            description: Soft filtered vcf file produced by gatk_mutect2_filter
+            description: soft filtered vcf file produced by gatk_mutect2_filter
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Hard filtered vcf file with SNV amd INDEL calls
+            description: hard filtered vcf file with snv amd indels calls
 
   tabix:
     type: object
@@ -461,14 +463,14 @@ properties:
         properties:
           gz:
             type: string
-            description: Bgzipped vcf-file
+            description: bgzipped vcf file
       output:
         type: object
         description: list of outputs
         properties:
           tbi:
             type: string
-            description: Tabix index file
+            description: tabix index file
 
   vardict:
     type: object
@@ -480,23 +482,23 @@ properties:
         properties:
           bam:
             type: string
-            description: Chromosome split bam file
+            description: chromosome split bam file
           bai:
             type: string
-            description: Bam-file index files
+            description: bam file index files
           reference:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
           regions:
             type: string
-            description: Chromosome split bed file with regions in that should be used in calling
+            description: chromosome split bed file with regions in that should be used in calling
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Vcf file with SNV and INDEL calls
+            description: vcf file with snv and indels calls
 
   vt_decompose:
     type: object
@@ -508,14 +510,14 @@ properties:
         properties:
           vcf:
             type: string
-            description: Vcf file that should be decomposed
+            description: vcf file that should be decomposed
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Decomposed vcf file
+            description: decomposed vcf file
 
   vt_normalize:
     type: object
@@ -527,14 +529,14 @@ properties:
         properties:
           vcf:
             type: string
-            description: Vcf file that should be normalized
+            description: vcf file that should be normalized
           ref:
             type: string
-            description: Fasta reference genome file
+            description: fasta reference genome file
       output:
         type: object
         description: list of outputs
         properties:
           vcf:
             type: string
-            description: Normalized vcf file
+            description: normalized vcf file
