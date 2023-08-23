@@ -5,13 +5,13 @@ The snv_indels module consists of a number of small variant callers for short re
 
 | Caller | Type | Comment |
 |-|-|-|
-| [freebayes](https://github.com/freebayes/freebayes) | somatic |
-| [mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2) |  |
-| [vardict-java](https://github.com/AstraZeneca-NGS/VarDictJava) | | Java version used due to speed | 
-| [haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/13832687299739-HaplotypeCaller) | germline |
-| [deepvariant](https://github.com/google/deepvariant) |  |
+| [freebayes](https://github.com/freebayes/freebayes) | somatic | | 
+| [mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2) | | | 
+| [vardict-java](https://github.com/AstraZeneca-NGS/VarDictJava) | _ _ | Java version used due to speed | 
+| [haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/13832687299739-HaplotypeCaller) | germline | |
+| [deepvariant](https://github.com/google/deepvariant) |  |  | 
 | [deeptrio](https://github.com/google/deepvariant) |  | trio |
-| [glnexus](https://github.com/dnanexus-rnd/GLnexus) |  | trio / joint calling |
+| [glnexus](https://github.com/dnanexus-rnd/GLnexus) | _ _ | trio / joint calling |
 
 
 ## Dag graph
