@@ -3,7 +3,8 @@ nav:
   - Introduction: intro.md
   - Softwares: softwares.md
 
-theme: readthedocs
+theme: 
+  name: readthedocs
 extra_css: [extra.css]
 markdown_extensions:
   - abbr
@@ -12,7 +13,7 @@ markdown_extensions:
   - pymdownx.snippets:
       auto_append:
         - includes/abbreviations.md
-      base_path: ["docs/", "workflow/rules/"]
+      base_path: ["docs/"]
       url_download: "True"
   - mdx_spanner
   - admonition
