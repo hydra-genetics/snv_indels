@@ -1,0 +1,5 @@
+# Generate a dag graph and place it here
+cd .tests/integration
+snakemake --rulegraph -s ../../workflow/Snakefile --configfile config.yaml > snv_indels.dot
+# move and modify dot-file manually and then
+dot -Tpng snv_indels.dot > snv_indels.png

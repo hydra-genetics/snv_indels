@@ -28,7 +28,8 @@ def getCaller(path: str):
 
 # modify vcf header if necessary
 def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
-    if caller == "pisces" or caller == "gatk_mutect2" or caller == "pbrun_deepvariant":
+    if (caller == "pisces" or caller == "pbrun_mutectcaller_T" or
+       caller == "gatk_mutect2" or caller == "pbrun_deepvariant" or caller == "deepvariant"):
         header.info.add("AF", "A", "Float", "DescriptionDescription")
     elif caller == "varscan":
         header.info.add(
@@ -75,7 +76,11 @@ def writeNewVcf(
             row.info["AF"] = row.samples[0].get("VF")
         elif caller == "vardict":
             row.info["AF"] = row.samples[0].get("AF")
+        elif caller == "pbrun_mutectcaller_T":
+            row.info["AF"] = row.samples[0].get("AF")
         elif caller == "pbrun_deepvariant":
+            row.info["AF"] = row.samples[0].get("VAF")
+        elif caller == "deepvariant":
             row.info["AF"] = row.samples[0].get("VAF")
         elif caller == "gatk_select_variants_final":
             row.info["AF"] = row.samples[0].get("AF")
@@ -85,7 +90,7 @@ def writeNewVcf(
             raise ValueError(
                 "{} is not a valid caller for this script. Choose between: "
                 "freebayes, haplotypecaller, gatk_mutect2, gatk_select_variants_final, "
-                "pbrun_deepvariant, pisces, vardict, varscan.".format(caller)
+                "pbrun_deepvariant, deepvariant, pisces, vardict, varscan.".format(caller)
             )
         new_vcf.write(row)
     return

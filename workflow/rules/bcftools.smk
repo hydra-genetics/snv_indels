@@ -47,7 +47,6 @@ rule bcftools_concat:
 rule bcftools_sort:
     input:
         vcf="{file}.vcf.gz",
-        tbi="{file}.vcf.gz.tbi",
     output:
         vcf=temp("{file}.sorted.vcf.gz"),
     log:
