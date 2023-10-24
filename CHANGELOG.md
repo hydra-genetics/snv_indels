@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.6.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.5.0...v0.6.0) (2023-10-24)
+
+
+### Features
+
+* **fix_af:** add deepvariant ([08489b8](https://www.github.com/hydra-genetics/snv_indels/commit/08489b80d705c289ebe1da3aee96321610face87))
+
+
+### Bug Fixes
+
+* sort shouldn't require a tbi file ([bee2ec0](https://www.github.com/hydra-genetics/snv_indels/commit/bee2ec0324b805d9f44f111fd60844502e9f1306))
+* update schema with correct key value for gatk_mutect2_filter ([1f147fb](https://www.github.com/hydra-genetics/snv_indels/commit/1f147fb79ff7ba939e3bd59350f467018add4ca8))
+
+
+### Documentation
+
+* add file used to build docs at readthedocs ([0710507](https://www.github.com/hydra-genetics/snv_indels/commit/0710507da577871917e04778d3101b0e00b5d4d4))
+* added all remaining rules ([4992b47](https://www.github.com/hydra-genetics/snv_indels/commit/4992b47fd7ee97f7c2590697d445a51eb7df1b15))
+* added description of rule graph generation ([f077c95](https://www.github.com/hydra-genetics/snv_indels/commit/f077c958f0c9fc3548c5a9e8fb5b9cabea06d2b2))
+* added documentation for rules up to gatk ([bb81083](https://www.github.com/hydra-genetics/snv_indels/commit/bb810835096421129fbad3dff5f39920a8c01990))
+* added rule graph ([c5b04bb](https://www.github.com/hydra-genetics/snv_indels/commit/c5b04bb5c4aceb0d3442a0e5b31480f05565fe05))
+* fix table in intro.md ([1d62e06](https://www.github.com/hydra-genetics/snv_indels/commit/1d62e06460160641bcdde9b1f17029b3f4da537c))
+* include bugfixed rule ([1199c11](https://www.github.com/hydra-genetics/snv_indels/commit/1199c11f6c60afab28cf531202d52d4cc22935bf))
+* update docs ([f2da493](https://www.github.com/hydra-genetics/snv_indels/commit/f2da49318544ccf763a7c0b5ad2aeda4c90fa90e))
+* update mkdocs plugin version ([decd144](https://www.github.com/hydra-genetics/snv_indels/commit/decd144698f4f1031b0e95fb71a03db455cbd4e9))
+* update plugin version ([8c2eee8](https://www.github.com/hydra-genetics/snv_indels/commit/8c2eee87e5d57696b250313203d473a6df6d9419))
+* update plugin version ([ae5291c](https://www.github.com/hydra-genetics/snv_indels/commit/ae5291c2ec2698d11d3c8a5c59e441df7fc989af))
+* update simplified rulegraph for readthedocs ([3e1d751](https://www.github.com/hydra-genetics/snv_indels/commit/3e1d7510a04fd0969aac9be1b9b36c5faca7cfad))
+
 ## [0.5.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.4.0...v0.5.0) (2023-05-16)
 
 
