@@ -1,3 +1,7 @@
+<p align="center">
+<a href="https://hydra-genetics-snv-indels.readthedocs.io">https://hydra-genetics-snv-indels.readthedocs.io</a>
+</p>
+
 # :snake: hydra-genetics/snv_indels
 
 #### Snakemake module containing steps to call snv and small indels
