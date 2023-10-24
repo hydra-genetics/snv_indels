@@ -65,9 +65,6 @@ properties:
           vcf:
             type: string
             description: the `.vcf` file that should be sorted.
-          tbi:
-            type: string
-            description: tabix index files for the `.vcf` file
       output:
         type: object
         description: list of outputs
