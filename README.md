@@ -96,7 +96,7 @@ use rule * from snv_indels as snv_indels_*
 ### Compatibility
 
 Latest:
- - alignment:v0.3.0
+ - alignment:v0.5.1
 
  See [COMPATIBLITY.md](../master/COMPATIBLITY.md) file for a complete list of module compatibility.
 
