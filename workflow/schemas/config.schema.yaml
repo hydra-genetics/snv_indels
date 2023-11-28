@@ -33,7 +33,6 @@ properties:
         items:
             type: string
     required:
-      - design_bed
       - fasta
       - fai
 
