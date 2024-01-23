@@ -1,7 +1,7 @@
 # Compatibility
 ## hydra-genetics/alignment
 
-| alignment version | snv_indels version |
+| snv_indels version | alignment version |
 | --- | --- |
 | v0.6.0 | v0.5.1 |
 | v0.5.0 | v0.5.1 |
