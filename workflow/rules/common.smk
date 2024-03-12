@@ -86,7 +86,6 @@ def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
 
 
 def get_gvcf_output(wildcards, name):
-
     if config.get(name, {}).get("output_gvcf", False):
         return f" --output_gvcf snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}_{wildcards.chr}.g.vcf.gz "
     else:
