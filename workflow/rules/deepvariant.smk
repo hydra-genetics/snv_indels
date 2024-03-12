@@ -15,8 +15,8 @@ rule deepvariant:
         if config.get("deepvariant", {}).get("output_gvcf", False)
         else [],
     params:
-        model_type=config.get("deepvariant", {}).get("extra", ""),
-        output_gvcf=lambda wildcards: get_gvcf_output(wildcards, "deepvariant", output),
+        model_type=config.get("deepvariant", {}).get("model_type", ""),
+        output_gvcf=lambda wildcards: get_gvcf_output(wildcards, "deepvariant"),
         extra=config.get("deepvariant", {}).get("extra", ""),
     log:
         "snv_indels/deepvariant/{sample}_{type}_{chr}.vcf.gz.log",

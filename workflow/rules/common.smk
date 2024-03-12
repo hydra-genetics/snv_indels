@@ -85,10 +85,10 @@ def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
     return extra
 
 
-def get_gvcf_output(wildcards, name, output):
+def get_gvcf_output(wildcards, name):
 
     if config.get(name, {}).get("output_gvcf", False):
-        return f" --output_gvcf output.gvcf "
+        return f" --output_gvcf snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}_{wildcards.chr}.g.vcf.gz "
     else:
         return ""
 
@@ -109,6 +109,19 @@ def get_parent_bams(wildcards):
     bam_list += [f"{bam}.bai" for bam in bam_list]
 
     return bam_list
+
+
+def get_make_examples_tfrecord(
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, nshards: int, program="deepvariant"
+):
+    examples_path = os.path.split(input[0])[0]
+
+    if program == "deepvariant":
+        examples_tfrecord = "{}/make_examples.tfrecord@{}.gz".format(examples_path, nshards)
+    elif program == "deeptrio":
+        examples_tfrecord = "{}/make_examples_{}.tfrecord@{}.gz".format(examples_path, wildcards.trio_member, nshards)
+
+    return examples_tfrecord
 
 
 def get_deeptrio_model(wildcards):
