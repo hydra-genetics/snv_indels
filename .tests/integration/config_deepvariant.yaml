@@ -25,18 +25,10 @@ deeptrio_make_examples:
 deeptrio_postprocess_variants:
   container: "docker://google/deepvariant:deeptrio-1.5.0"
 
-deepvariant_call_variants:
+deepvariant:
   container: "docker://hydragenetics/deepvariant:1.4.0"
-  model: "/opt/models/wes/model.ckpt"
-
-deepvariant_make_examples:
-  container: "docker://hydragenetics/deepvariant:1.4.0"
-  extra: "--channels insert_size "
-  n_shards: 2
-
-deepvariant_postprocess_variants:
-  container: "docker://hydragenetics/deepvariant:1.4.0"
-  vcf_type: "gvcf"
+  model_type: "WES"
+  output_gvcf: True
 
 glnexus:
   container: "docker://hydragenetics/glnexus:1.4.1"

@@ -85,6 +85,14 @@ def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
     return extra
 
 
+def get_gvcf_output(wildcards, name, output):
+
+    if config.get(name, {}).get("output_gvcf", False):
+        return f" --output_gvcf output.gvcf "
+    else:
+        return ""
+
+
 def get_parent_bams(wildcards):
     bam_path = "alignment/samtools_merge_bam"
     proband_sample = samples[samples.index == wildcards.sample]
@@ -103,31 +111,6 @@ def get_parent_bams(wildcards):
     return bam_list
 
 
-def get_make_examples_tfrecord(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, nshards: int, program="deepvariant"
-):
-    examples_path = os.path.split(input[0])[0]
-
-    if program == "deepvariant":
-        examples_tfrecord = "{}/make_examples.tfrecord@{}.gz".format(examples_path, nshards)
-    elif program == "deeptrio":
-        examples_tfrecord = "{}/make_examples_{}.tfrecord@{}.gz".format(examples_path, wildcards.trio_member, nshards)
-
-    return examples_tfrecord
-
-
-def deepvariant_make_example_args(wildcards: snakemake.io.Wildcards, output: list):
-    extra = config.get("deepvariant_make_examples", {}).get("extra", "")
-
-    vcf_type = config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf")
-    if vcf_type == "gvcf":
-        nshards = config.get("deepvariant_make_examples", {}).get("n_shards", 10)
-        gvcf_path = " --gvcf {}/gvcf.tfrecord@{}.gz".format(os.path.split(output[0])[0], nshards)
-        extra = "{} {}".format(extra, gvcf_path)
-
-    return extra
-
-
 def get_deeptrio_model(wildcards):
     models_config = config.get("deeptrio_call_variants", {}).get("model", "")
     if wildcards.trio_member in ["parent1", "parent2"]:
@@ -136,20 +119,6 @@ def get_deeptrio_model(wildcards):
         model_file = models_config.get("child", "")
 
     return model_file
-
-
-def deepvariant_postprocess_variants_args(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, output: snakemake.io.Namedlist, me_config: str, extra: str
-):
-    if output.gvcf:
-        nshards = config.get(me_config).get("n_shards", 2)
-        me_path = os.path.split(input.call_variants_record)[0]
-        gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(me_path, nshards)
-        gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
-        gvcf_out = "--gvcf_outfile {}".format(output.gvcf)
-        extra = "{} {} {}".format(extra, gvcf_in, gvcf_out)
-
-    return extra
 
 
 def deeptrio_postprocess_variants_args(
