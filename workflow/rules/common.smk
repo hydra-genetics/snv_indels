@@ -152,7 +152,7 @@ def get_glnexus_input(wildcards, input):
 
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):
-    if config["deepvariant"]:
+    if config["run_deepvariant"]:
         files = {
             "deepvariant": [
                 "merged.vcf.gz",
