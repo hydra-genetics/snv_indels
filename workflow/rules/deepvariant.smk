@@ -17,6 +17,7 @@ rule deepvariant:
     params:
         model_type=config.get("deepvariant", {}).get("model_type", ""),
         output_gvcf=lambda wildcards: get_gvcf_output(wildcards, "deepvariant"),
+        int_res=lambda wildcards: "snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}_{wildcards.chr}"
         extra=config.get("deepvariant", {}).get("extra", ""),
     log:
         "snv_indels/deepvariant/{sample}_{type}_{chr}.vcf.gz.log",
@@ -43,4 +44,5 @@ rule deepvariant:
         "--reads {input.bam} "
         "--output_vcf {output.vcf} "
         "{params.output_gvcf}"
+        "--intermediate_results_dir {params.int_res} "
         "--num_shards {threads} ) &> {log}"
