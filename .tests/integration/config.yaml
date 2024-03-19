@@ -4,7 +4,7 @@ units: "units.tsv"
 
 default_container: "docker://hydragenetics/common:0.2.0"
 
-deepvariant: false
+run_deepvariant: false
 
 reference:
   fasta: "reference/HES45.fna"
