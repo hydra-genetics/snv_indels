@@ -50,6 +50,7 @@ wildcard_constraints:
     sample="|".join(get_samples(samples)),
     type="N|T|R",
     vcf="vcf|g.vcf|unfiltered.vcf",
+    file="^snv_indels/.+",
 
 
 def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
