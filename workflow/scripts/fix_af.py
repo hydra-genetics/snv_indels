@@ -28,6 +28,10 @@ def getCaller(path: str):
 
 # modify vcf header if necessary
 def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
+    if (caller == "pisces" or caller == "freebayes" or caller == "pbrun_deepvariant" or caller == "deepvariant" or caller == "varscan"):
+        header.add_meta(
+            "FORMAT", items=[("ID", "AF"), ("Number", "A"), ("Type", "Float"), ("Description", "Allele frequency")]
+        )
     if (caller == "pisces" or caller == "pbrun_mutectcaller_T" or
        caller == "gatk_mutect2" or caller == "pbrun_deepvariant" or caller == "deepvariant"):
         header.info.add("AF", "A", "Float", "DescriptionDescription")
@@ -68,24 +72,29 @@ def writeNewVcf(
     for row in vcf.fetch():
         if caller == "freebayes":
             row.info["AF"] = fixFreebayes(header, row)
+            row.samples[0]["AF"] = fixFreebayes(header, row)
         elif caller == "haplotypecaller":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "gatk_mutect2":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "pisces":
             row.info["AF"] = row.samples[0].get("VF")
+            row.samples[0]["AF"] = row.samples[0].get("VF")
         elif caller == "vardict":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "pbrun_mutectcaller_T":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "pbrun_deepvariant":
             row.info["AF"] = row.samples[0].get("VAF")
+            row.samples[0]["AF"] = row.samples[0].get("VAF")
         elif caller == "deepvariant":
             row.info["AF"] = row.samples[0].get("VAF")
+            row.samples[0]["AF"] = row.samples[0].get("VAF")
         elif caller == "gatk_select_variants_final":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "varscan":
             row.info["AF"] = row.samples[0].get("AD")/row.samples[0].get("DP")
+            row.samples[0]["AF"] = row.samples[0].get("AD")/row.samples[0].get("DP")
         else:
             raise ValueError(
                 "{} is not a valid caller for this script. Choose between: "
