@@ -12,7 +12,7 @@ rule tabix:
     params:
         extra=config.get("tabix", {}).get("extra", ""),
     log:
-        "{file}.vcf.gz.tbilog",
+        "{file}.vcf.gz.tbi.log",
     benchmark:
         repeat(
             "{file}.vcf.gz.tbi.benchmark.tsv",
