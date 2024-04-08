@@ -181,9 +181,9 @@ properties:
         type: string
         description: parameters that should be forwarded
 
-  deepvariant_call_variants:
+  deepvariant:
     type: object
-    description: parameters for deepvariant_call_variants
+    description: parameters for deepvariant
     properties:
       benchmark_repeats:
         type: integer
@@ -194,46 +194,13 @@ properties:
       extra:
         type: string
         description: parameters that should be forwarded
-      model:
+      model_type:
         type: string
-        descrioption: path to the deepvariant model file
-    required:
-      - model
+        description: Specify which model type to use with deepvariant
+      output_gvcf:
+        type: boolean
+        description: Specify if a gVCF should be written
   
-  deepvariant_make_examples:
-    type: object
-    description: parameters for deepvariant_make_examples
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      extra:
-        type: string
-        description: parameters that should be forwarded
-      n_shards:
-        type: integer
-        description: number of shards for deepvariant make_examples
-  
-  deepvariant_postprocess_variants:
-    type: object
-    description: parameters for deepvariant_postprocess_variants
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      extra:
-        type: string
-        description: parameters that should be forwarded
-      vcf_type:
-        type: string
-        description: vcf type to produce `gvcf` or `vcf`
-
   fix_af:
     type: object
     description: parameters for fix_af
