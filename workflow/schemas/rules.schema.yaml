@@ -234,7 +234,7 @@ properties:
             description: vcf file with snv and indels calls
           gvcf:
             type: string
-            description: gVCF file with snv and indels calls and non-variant blocks
+            description: gVCF file with snv and indels calls and non-variant blocks (optional output configured in config.yaml as a boolean variable called output_gvcf under deepvariant)
 
   fix_af:
     type: object
