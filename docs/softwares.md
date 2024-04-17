@@ -222,11 +222,11 @@ Calling of SNVs and INDELs using deepvariant.
 
 #### Software settings (`config.yaml`)
 
-#CONFIGSCHEMA__deepvariant__deepvariant#
+#CONFIGSCHEMA__deepvariant#
 
 #### Resources settings (`resources.yaml`)
 
-#RESOURCESSCHEMA__deepvariant__deepvariant#
+#RESOURCESSCHEMA__deepvariant#
 
 ---
 ## [fix_af](https://github.com/hydra-genetics/snv_indels/blob/develop/workflow/scripts/fix_af.py)
