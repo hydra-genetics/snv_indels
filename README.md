@@ -1,3 +1,7 @@
+<p align="center">
+<a href="https://hydra-genetics-snv-indels.readthedocs.io">https://hydra-genetics-snv-indels.readthedocs.io</a>
+</p>
+
 # :snake: hydra-genetics/snv_indels
 
 #### Snakemake module containing steps to call snv and small indels
@@ -96,7 +100,7 @@ use rule * from snv_indels as snv_indels_*
 ### Compatibility
 
 Latest:
- - alignment:v0.3.0
+ - alignment:v0.5.1
 
  See [COMPATIBLITY.md](../master/COMPATIBLITY.md) file for a complete list of module compatibility.
 

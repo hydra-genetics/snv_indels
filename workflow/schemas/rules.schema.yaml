@@ -207,6 +207,34 @@ properties:
           gvcf:
             type: string
             description: genome vcf file with allele information for all positions
+  
+  deepvariant:
+    type: object
+    description: input and output parameters for deepvariant
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          ref:
+            type: string
+            description: fasta reference genome file
+          bam:
+            type: string
+            description: chromosome split bam file
+          bai:
+            type: string
+            description: bam index file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: vcf file with snv and indels calls
+          gvcf:
+            type: string
+            description: gVCF file with snv and indels calls and non-variant blocks (optional output configured in config.yaml as a boolean variable called output_gvcf under deepvariant)
 
   fix_af:
     type: object

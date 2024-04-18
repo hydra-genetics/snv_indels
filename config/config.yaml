@@ -30,18 +30,11 @@ deeptrio_make_examples:
 deeptrio_postprocess_variants:
   container: "docker://google/deepvariant:deeptrio-1.4.0"
 
-deepvariant_call_variants:
+deepvariant:
   container: "docker://hydragenetics/deepvariant:1.4.0"
-  model: "/opt/models/wes/model.ckpt"
+  model_type: "WGS"
+  output_gvcf: true
 
-deepvariant_make_examples:
-  container: "docker://hydragenetics/deepvariant:1.4.0"
-  n_shards: 1
-
-deepvariant_postprocess_variants:
-  container: "docker://hydragenetics/deepvariant:1.4.0"
-  vcf_type: "gvcf"
-  
 freebayes:
   container: "docker://hydragenetics/freebayes:1.3.1"
 
