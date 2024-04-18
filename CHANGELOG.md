@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.0.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.6.0...v1.0.0) (2024-04-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* constrain bgzip and tabix to only work within module
+
+### Features
+
+* add intermediate results directory ([fe5226f](https://www.github.com/hydra-genetics/snv_indels/commit/fe5226f91f260807da479ce0383bbcc42761f560))
+* added ruleorders ([be2d4f6](https://www.github.com/hydra-genetics/snv_indels/commit/be2d4f6d505ce29817eabb6890aafa4515764c82))
+* constrain bgzip and tabix to only work within module ([e37c9ed](https://www.github.com/hydra-genetics/snv_indels/commit/e37c9ed2a3e4f9be4952588c66ada4a8bb98467f))
+* use the run_deepvariant script ([1465ad0](https://www.github.com/hydra-genetics/snv_indels/commit/1465ad0b89d518a1494b1378eed8f5a812a21c75))
+
+
+### Bug Fixes
+
+* pulp ([6c11be8](https://www.github.com/hydra-genetics/snv_indels/commit/6c11be8f326f9445ee27df05defecd472148557c))
+* remove extra pulp in requirements ([82477de](https://www.github.com/hydra-genetics/snv_indels/commit/82477deeeba01a5bd4d82715e1d29f3a54fb45cb))
+* **tabix:** fix log filename ([a64e1fd](https://www.github.com/hydra-genetics/snv_indels/commit/a64e1fd42d0572e05e201aed3a814ee548fe013a))
+
+
+### Documentation
+
+* add deepvariant to softwares.md ([87988a0](https://www.github.com/hydra-genetics/snv_indels/commit/87988a0c32c5e217e94ac54633554659a6d36279))
+* explain the optional gVCF output for deepvariant ([de20ce7](https://www.github.com/hydra-genetics/snv_indels/commit/de20ce7f7dc9675f0883c72304acf1f8c9bd5ed1))
+* update mkdocs snakemake plugin ([298983b](https://www.github.com/hydra-genetics/snv_indels/commit/298983b3bdf733e1f6202c48b82b3b3987c65a21))
+
 ## [0.6.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.5.0...v0.6.0) (2023-10-24)
 
 
