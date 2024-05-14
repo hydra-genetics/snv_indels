@@ -20,54 +20,44 @@ def getCaller(path: str):
     if len(pathParts) == 3:
         return pathParts[1]
     else:
-        raise ValueError(
-            "{} is not a valid input for this script. Required:"
-            "'snv_indels/caller/sample_type.vcf'.".format(path)
-        )
+        raise ValueError("{} is not a valid input for this script. Required:" "'snv_indels/caller/sample_type.vcf'.".format(path))
 
 
 # modify vcf header if necessary
 def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
-    if (caller == "pisces" or caller == "freebayes" or caller == "pbrun_deepvariant" or caller == "deepvariant" or caller == "varscan"):
-        header.add_meta(
-            "FORMAT", items=[("ID", "AF"), ("Number", "A"), ("Type", "Float"), ("Description", "Allele frequency")]
-        )
-    if (caller == "pisces" or caller == "pbrun_mutectcaller_T" or
-       caller == "gatk_mutect2" or caller == "pbrun_deepvariant" or caller == "deepvariant"):
+    if (
+        caller == "pisces"
+        or caller == "freebayes"
+        or caller == "pbrun_deepvariant"
+        or caller == "deepvariant"
+        or caller == "varscan"
+    ):
+        header.add_meta("FORMAT", items=[("ID", "AF"), ("Number", "A"), ("Type", "Float"), ("Description", "Allele frequency")])
+    if (
+        caller == "pisces"
+        or caller == "pbrun_mutectcaller_T"
+        or caller == "gatk_mutect2"
+        or caller == "pbrun_deepvariant"
+        or caller == "deepvariant"
+    ):
         header.info.add("AF", "A", "Float", "DescriptionDescription")
     elif caller == "varscan":
-        header.info.add(
-            "AF",
-            "A",
-            "Float",
-            (
-                "Allel count divided on depth"
-                "(Quality of bases: Phred score >= 15)"
-            )
-        )
+        header.info.add("AF", "A", "Float", ("Allel count divided on depth" "(Quality of bases: Phred score >= 15)"))
     return header
 
 
 # fix af field in freebayes vcf entries
-def fixFreebayes(
-        header: pysam.libcbcf.VariantHeader,
-        row: pysam.libcbcf.VariantRecord
-):
+def fixFreebayes(header: pysam.libcbcf.VariantHeader, row: pysam.libcbcf.VariantRecord):
     sample = header.samples[0]
     ads = row.samples[sample].get("AD")
     af = []
     for ad in ads:
-        af.append(ad/sum(ads))
+        af.append(ad / sum(ads))
     return tuple(af[1:])
 
 
 # loop through input vcf and write modified entries to new vcf
-def writeNewVcf(
-        path: str,
-        header: pysam.libcbcf.VariantHeader,
-        vcf: pysam.libcbcf.VariantFile,
-        caller: str
-):
+def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcbcf.VariantFile, caller: str):
     new_vcf = pysam.VariantFile(path, "w", header=header)
     for row in vcf.fetch():
         if caller == "freebayes":
@@ -93,8 +83,8 @@ def writeNewVcf(
         elif caller == "gatk_select_variants_final":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "varscan":
-            row.info["AF"] = row.samples[0].get("AD")/row.samples[0].get("DP")
-            row.samples[0]["AF"] = row.samples[0].get("AD")/row.samples[0].get("DP")
+            row.info["AF"] = row.samples[0].get("AD") / row.samples[0].get("DP")
+            row.samples[0]["AF"] = row.samples[0].get("AD") / row.samples[0].get("DP")
         else:
             raise ValueError(
                 "{} is not a valid caller for this script. Choose between: "
