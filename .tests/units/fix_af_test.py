@@ -75,7 +75,7 @@ class TestModifyHeader(unittest.TestCase):
                     header=pysam.libcbcf.VariantHeader(),
                     expected=pysam.VariantFile(
                         ".tests/units/.tests/"
-                        "fix_af.modifyHeader.pisces_mutect2.expected.vcf"
+                        "fix_af.modifyHeader.pisces.expected.vcf"
                     ).header,
                 ),
                 TestCase(
@@ -84,7 +84,7 @@ class TestModifyHeader(unittest.TestCase):
                     header=pysam.libcbcf.VariantHeader(),
                     expected=pysam.VariantFile(
                         ".tests/units/.tests/"
-                        "fix_af.modifyHeader.pisces_mutect2.expected.vcf"
+                        "fix_af.modifyHeader.mutect2.expected.vcf"
                     ).header,
                 ),
                 TestCase(
@@ -94,6 +94,24 @@ class TestModifyHeader(unittest.TestCase):
                     expected=pysam.VariantFile(
                         ".tests/units/.tests/"
                         "fix_af.modifyHeader.varscan.expected.vcf"
+                    ).header,
+                ),
+                TestCase(
+                    name="Caller is deepvariant",
+                    caller="deepvariant",
+                    header=pysam.libcbcf.VariantHeader(),
+                    expected=pysam.VariantFile(
+                        ".tests/units/.tests/"
+                        "fix_af.modifyHeader.pbrun_deepvariant.expected.vcf"
+                    ).header,
+                ),
+                TestCase(
+                    name="Caller is pbrun_deepvariant",
+                    caller="pbrun_deepvariant",
+                    header=pysam.libcbcf.VariantHeader(),
+                    expected=pysam.VariantFile(
+                        ".tests/units/.tests/"
+                        "fix_af.modifyHeader.pbrun_deepvariant.expected.vcf"
                     ).header,
                 ),
         ]
