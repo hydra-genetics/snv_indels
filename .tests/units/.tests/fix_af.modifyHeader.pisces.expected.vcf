@@ -1,5 +1,5 @@
 ##fileformat=VCFv4.2
 ##FILTER=<ID=PASS,Description="All filters passed">
 ##FORMAT=<ID=AF,Number=A,Type=Float,Description="Allele frequency">
-##INFO=<ID=AF,Number=A,Type=Float,Description="Allel count divided on depth(Quality of bases: Phred score >= 15)">
+##INFO=<ID=AF,Number=A,Type=Float,Description="DescriptionDescription">
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
