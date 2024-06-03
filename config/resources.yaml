@@ -4,3 +4,11 @@ default_resources:
   partition: core
   threads: 1
   time: "12:00:00"
+
+paraphase_resources:
+  mem_mb: 1024
+  mem_per_cpu: 3072
+  partition: low
+  threads: 1
+  time: "4:00:00"
+  

@@ -331,6 +331,29 @@ properties:
         items:
             type: string
 
+  paraphase:
+    type: object
+    description: parameters for paraphase
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      fasta:
+        type: string
+        description: path to reference fasta file
+      fai:
+        type: string
+        description: path to reference fasta index file
+      genome:
+        type: string
+        description: genome version, for example "--genome 38"
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
   tabix:
     type: object
     description: parameters for tabix

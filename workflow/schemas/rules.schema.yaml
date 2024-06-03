@@ -478,6 +478,43 @@ properties:
             type: string
             description: hard filtered vcf file with snv amd indels calls
 
+  paraphase:
+    type: object
+    description: input and output parameters for paraphase
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: bam file with genomic reads
+          bai:
+            type: string
+            description: bam file index file
+          fasta:
+            type: string
+            description: fasta reference genome file
+          faidx:
+            type: string
+            description: index of fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          merged_vcf:
+            type: string
+            description: vcf file with snv amd indels calls, all genes merged together
+          bam:
+            type: string
+            description: bam file with realigned genomic reads
+          bai:
+            type: string
+            description: bam file index file
+          vcf_header:
+            type: string
+            description: vcf header file, guiding the gene merging and sorting
+
   tabix:
     type: object
     description: input and output parameters for tabix

@@ -436,6 +436,29 @@ Step 4 of 4 of Mutect2 somatic variant calling. A python script that hard filter
 
 ---
 
+## [paraphase](https://github.com/PacificBiosciences/paraphase)
+Many medically relevant genes fall into 'dark' regions where variant calling is limited due to high sequence homology with paralogs or pseudogenes. Paraphase is a Python tool that takes HiFi aligned BAMs as input (whole-genome or enrichment), phases haplotypes for genes of the same family, determines copy numbers and makes phased variant calls for these genes.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__paraphase__paraphase#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__paraphase__paraphase#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__paraphase#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__paraphase#
+
+---
+
 ## [tabix](http://www.htslib.org/doc/tabix.html)
 Creates an index file for faster processing of positions in a bgzipped vcf file.
 
@@ -526,4 +549,3 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 
 #RESOURCESSCHEMA__vt_normalize#
 
----
