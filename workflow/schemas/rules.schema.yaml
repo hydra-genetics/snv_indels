@@ -602,3 +602,71 @@ properties:
           vcf:
             type: string
             description: normalized vcf file
+
+  whatshap_haplotag:
+    type: object
+    description: input and output parameters for whatshap haplotag
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          tbi:
+            type: string
+            description: tabix index of the input vcf
+          bai:
+            type: string
+            description: samtools index of the input bam
+          fai:
+            type: string
+            description: samtools index of the input genome reference fasta
+          vcf:
+            type: string
+            description: input vcf
+          aln:
+            type: string
+            description: input bam
+          ref:
+            type: string
+            description: input genome reference fasta
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          output:
+            type: string
+            description: output bam file with haplotagged reads
+
+  whatshap_phase:
+    type: object
+    description: input and output parameters for whatshap phase
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          reference:
+            type: string
+            description: input genome reference fasta
+          vcf:
+            type: string
+            description: input vcf
+          tbi:
+            type: string
+            description: tabix index of the input vcf
+          phaseinput:
+            type: string
+            description: input bam
+          phaseinputindex:
+            type: string
+            description: samtools index of the input bam
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          out:
+            type: string
+            description: output vcf file with phase variant calls
+          outindex:
+            type: string
+            description: tbi index of output vcf file with phase variant calls
