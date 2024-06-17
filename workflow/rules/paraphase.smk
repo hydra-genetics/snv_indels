@@ -15,19 +15,19 @@ rule paraphase:
         fasta=config.get("paraphase", {}).get("fasta", ""),
         faidx=config.get("paraphase", {}).get("fai", ""),
     output:
-        merged_vcf="long_read/paraphase/{sample}_{type}_{processing_unit}_{barcode}.paraphase.vcf.gz",
-        bam="long_read/paraphase/{sample}_{type}_{processing_unit}_{barcode}_realigned.paraphase.bam",
-        bai="long_read/paraphase/{sample}_{type}_{processing_unit}_{barcode}_realigned.paraphase.bam.bai",
-        vcf_header="long_read/paraphase/{sample}_{type}_{processing_unit}_{barcode}.vcf_chromosome_header.vcf",
+        merged_vcf="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.paraphase.vcf.gz",
+        bam="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}_realigned.paraphase.bam",
+        bai="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}_realigned.paraphase.bam.bai",
+        vcf_header="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.vcf_chromosome_header.vcf",
     params:
         genome=config.get("paraphase", {}).get("genome", ""),
         extra=config.get("paraphase", {}).get("extra", ""),
-        outfolder=directory("long_read/paraphase/"),
+        outfolder=config.get("paraphase", {}).get("outfolder", ""),
     log:
-        "long_read/paraphase/{sample}_{type}_{processing_unit}_{barcode}.paraphase.log",
+        "snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.paraphase.log",
     benchmark:
         repeat(
-            "long_read/paraphase/{sample}_{type}_{processing_unit}_{barcode}.out.benchmark.tsv",
+            "snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.out.benchmark.tsv",
             config.get("paraphase", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("paraphase", {}).get("threads", config["default_resources"]["threads"])
