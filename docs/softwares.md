@@ -566,11 +566,11 @@ WhatsHap is a software for phasing genomic variants using DNA sequencing reads, 
 
 #### Software settings (`config.yaml`)
 
-#CONFIGSCHEMA__whatshap#
+#CONFIGSCHEMA__whatshap_haplotag#
 
 #### Resources settings (`resources.yaml`)
 
-#RESOURCESSCHEMA__whatshap#
+#RESOURCESSCHEMA__whatshap_haplotag#
 
 ---
 
@@ -589,8 +589,8 @@ WhatsHap is a software for phasing genomic variants using DNA sequencing reads, 
 
 #### Software settings (`config.yaml`)
 
-#CONFIGSCHEMA__whatshap#
+#CONFIGSCHEMA__whatshap_phase#
 
 #### Resources settings (`resources.yaml`)
 
-#RESOURCESSCHEMA__whatshap#
+#RESOURCESSCHEMA__whatshap_phase#
