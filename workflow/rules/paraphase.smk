@@ -19,10 +19,11 @@ rule paraphase:
         bam="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}_realigned.paraphase.bam",
         bai="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}_realigned.paraphase.bam.bai",
         vcf_header="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.vcf_chromosome_header.vcf",
+        #outfolder=directory("snv_indels/paraphase/"),
     params:
         genome=config.get("paraphase", {}).get("genome", ""),
         extra=config.get("paraphase", {}).get("extra", ""),
-        outfolder=config.get("paraphase", {}).get("outfolder", ""),
+        #outfolder=config.get("paraphase", {}).get("outfolder", ""),
     log:
         "snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.paraphase.log",
     benchmark:
@@ -42,5 +43,5 @@ rule paraphase:
     message:
         "{rule}: Calls SNVs on {input.bam} with paraphase to resolve SNVs in gene families"
     wrapper:
-        # "file:///beegfs-storage/projects/wp3/nobackup/Workspace/magz_testing/snakemake-wrappers/bio/paraphase"
+        #"file:///beegfs-storage/projects/wp3/nobackup/Workspace/magz_testing/snakemake-wrappers/bio/paraphase"
         "ppp/bio/paraphase"
