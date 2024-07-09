@@ -10,25 +10,25 @@ GENE = ["smn1", "CR1", "AMY1A", "CTAG1A", "BOLA2"]
 
 rule paraphase:
     input:
-        bam="alignment/minimap2/{sample}_{type}_{processing_unit}_{barcode}.bam",
-        bai="alignment/minimap2/{sample}_{type}_{processing_unit}_{barcode}.bam.bai",
+        bam="alignment/minimap2/{sample}_{type}.bam",
+        bai="alignment/minimap2/{sample}_{type}.bam.bai",
         fasta=config.get("paraphase", {}).get("fasta", ""),
         faidx=config.get("paraphase", {}).get("fai", ""),
     output:
-        merged_vcf="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.paraphase.vcf.gz",
-        bam="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}_realigned.paraphase.bam",
-        bai="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}_realigned.paraphase.bam.bai",
-        vcf_header="snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.vcf_chromosome_header.vcf",
+        merged_vcf="snv_indels/paraphase/{sample}_{type}.paraphase.vcf.gz",
+        bam="snv_indels/paraphase/{sample}_{type}_realigned.paraphase.bam",
+        bai="snv_indels/paraphase/{sample}_{type}_realigned.paraphase.bam.bai",
+        vcf_header="snv_indels/paraphase/{sample}_{type}.vcf_chromosome_header.vcf",
         #outfolder=directory("snv_indels/paraphase/"),
     params:
         genome=config.get("paraphase", {}).get("genome", ""),
         extra=config.get("paraphase", {}).get("extra", ""),
         #outfolder=config.get("paraphase", {}).get("outfolder", ""),
     log:
-        "snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.paraphase.log",
+        "snv_indels/paraphase/{sample}_{type}.paraphase.log",
     benchmark:
         repeat(
-            "snv_indels/paraphase/{sample}_{type}_{processing_unit}_{barcode}.out.benchmark.tsv",
+            "snv_indels/paraphase/{sample}_{type}.out.benchmark.tsv",
             config.get("paraphase", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("paraphase", {}).get("threads", config["default_resources"]["threads"])
