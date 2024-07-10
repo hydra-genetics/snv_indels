@@ -6,12 +6,12 @@ __license__ = "GPL-3"
 
 rule whatshap_haplotag:
     input:
-        tbi="snv_indels/whatshap/{sample}_{type}.whatshap.phased.vcf.gz.tbi",
-        bai="alignment/minimap2/{sample}_{type}.bam.bai",
-        fai=config["reference"]["fai"],
         vcf="snv_indels/whatshap/{sample}_{type}.whatshap.phased.vcf.gz",
+        tbi="snv_indels/whatshap/{sample}_{type}.whatshap.phased.vcf.gz.tbi",
         aln="alignment/minimap2/{sample}_{type}.bam",
+        bai="alignment/minimap2/{sample}_{type}.bam.bai",
         ref=config["reference"]["fasta"],
+        fai=config["reference"]["fai"],
     output:
         output="snv_indels/whatshap/{sample}_{type}.whatshap_haplotagged.bam",
     params:
@@ -34,8 +34,8 @@ rule whatshap_haplotag:
 rule whatshap_phase:
     input:
         reference=config["reference"]["fasta"],
-        vcf="parabricks/pbrun_deepvariant/{sample}_{type}.deepvariant.g.vcf",
-        tbi="parabricks/pbrun_deepvariant/{sample}_{type}.deepvariant.g.vcf.idx",
+        vcf="parabricks/pbrun_deepvariant/{sample}_{type}.vcf",
+        tbi="parabricks/pbrun_deepvariant/{sample}_{type}.vcf.idx",
         phaseinput="alignment/minimap2/{sample}_{type}.bam",
         phaseinputindex="alignment/minimap2/{sample}_{type}.bam.bai",
     output:
