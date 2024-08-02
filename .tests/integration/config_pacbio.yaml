@@ -1,21 +1,90 @@
-# resources: "resources.yaml"
-# samples: "samples_pacbio.tsv"
-# units: "units_pacbio.tsv"
-
-default_container: "docker://hydragenetics/common:1.14.0"
+resources: "resources.yaml"
+samples: "samples_pacbio.tsv"
+units: "units_pacbio.tsv"
 
 pacbio_alignment: true
+longread_alignment: true
+
+default_container: "docker://hydragenetics/common:0.2.0"
 
 # reference:
 # fasta: "reference/human_GRCh38.fasta"
 
-trgt_genotype:
-  bed: "reference/human_GRCh38_trgt.bed"
-  container: "docker://hydragenetics/trgt:1.0.0"
 
-  trgt_plot:
-  image_type: "svg"
-  plot_type: "allele"
-  show: "motifs"
-  container: "docker://hydragenetics/trgt:1.0.0"
+reference:
+  fasta: "reference/HES45.fna"
+  fai: "reference/HES45.fna.fai"
+  design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
 
+paraphase:
+  genome: "--genome 38"
+  container: "docker://hydragenetics/paraphase:3.0.0"
+  fasta: "reference/chr5.fa"
+  fai: "reference/homo_sapiens2.fa.fai"
+  outfolder: "snv_indels/paraphase/"
+  # extra: "" # runs all appr 200 genes
+  # extra: "-g smn1,CR1,AMY1A,CTAG1A,BOLA2" # runs only selected genes
+  # extra: "-g smn1,CR1,GTF2H2,AMY1A,CTAG1A,BOLA2" # runs only selected genes
+  extra: " -g smn1" # only runs a single gene
+
+
+whatshap_phase:
+  container: "docker://hydragenetics/whatshap:2.2"
+  extra: "--indels"
+
+whatshap_haplotag:
+  container: "docker://hydragenetics/whatshap:2.2"
+  extra: " " # optionally use --ignore-linked-read, --tag-supplementary, etc.
+
+whatshap_index:
+  extra: ""
+
+
+##### just needed for validation #########
+
+
+
+
+bcbio_variation_recall_ensemble:
+  container: "docker://gmsuppsala/somatic:develop"
+  callers:
+    - vardict
+    - gatk_mutect2
+    - freebayes
+  
+freebayes:
+  container: "docker://hydragenetics/freebayes:1.3.1"
+
+haplotypecaller:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+gatk_mutect2:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+gatk_mutect2_filter:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+gatk_mutect2_gvcf:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+gatk_mutect2_merge_stats:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+glnexus:
+  container: "docker://hydragenetics/glnexus:1.4.1"
+  configfile: "DeepVariantWES"
+
+mutect2_pass_filter:
+  pass_filters:
+    - PASS
+    - multiallelic
+  
+vardict:
+  container: "docker://hydragenetics/vardict:1.8.3"
+  bed_columns: "-c 1 -S 2 -E 3"
+
+vt_decompose:
+  container: "docker://hydragenetics/vt:2015.11.10"
+
+vt_normalize:
+  container: "docker://hydragenetics/vt:2015.11.10"

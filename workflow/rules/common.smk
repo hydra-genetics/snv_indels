@@ -153,7 +153,22 @@ def get_glnexus_input(wildcards, input):
 
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):
-    if config["run_deepvariant"]:
+    if "pacbio_alignment" in config:
+        files = {
+            "whatshap": [
+                "whatshap_phased.vcf.gz",
+                "whatshap_haplotagged.bam",
+            ],
+        }
+        output_files = [
+            "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
+            for prefix in files.keys()
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            for t in get_unit_types(units, sample)
+            for suffix in files[prefix]
+        ]
+        print (output_files)
+    elif config["run_deepvariant"]:
         files = {
             "deepvariant": [
                 "merged.vcf.gz",

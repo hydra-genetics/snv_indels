@@ -48,3 +48,4 @@ rule deepvariant:
         "{params.output_gvcf} "
         "--intermediate_results_dir {params.int_res} "
         "--num_shards {threads} ) &> {log}"
+

@@ -6,10 +6,10 @@ __license__ = "GPL-3"
 
 rule whatshap_haplotag:
     input:
-        vcf="snv_indels/whatshap/{sample}_{type}.whatshap.phased.vcf.gz",
-        tbi="snv_indels/whatshap/{sample}_{type}.whatshap.phased.vcf.gz.tbi",
-        aln="alignment/minimap2/{sample}_{type}.bam",
-        bai="alignment/minimap2/{sample}_{type}.bam.bai",
+        vcf="snv_indels/whatshap/{sample}_{type}.whatshap_phased.vcf.gz",
+        tbi="snv_indels/whatshap/{sample}_{type}.whatshap_phased.vcf.gz.tbi",
+        aln="alignment/picard_mark_duplicates/{sample}_{type}_chr1.bam",
+        bai="alignment/picard_mark_duplicates/{sample}_{type}_chr1.bam.bai",
         ref=config["reference"]["fasta"],
         fai=config["reference"]["fai"],
     output:
@@ -18,6 +18,8 @@ rule whatshap_haplotag:
         extra=config.get("whatshap_haplotag", {}).get("extra", ""),  # optionally use --ignore-linked-read, --tag-supplementary, etc.
     log:
         "snv_indels/whatshap/{sample}_{type}.whatshap_haplotagged.log",
+    benchmark:
+        "snv_indels/whatshap/{sample}_{type}.whatshap_haplotagged.tsv"
     threads: config.get("whatshap_haplotag", {}).get("threads", config["default_resources"]["threads"])
     resources:
         mem_mb=config.get("whatshap_haplotag", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
@@ -27,6 +29,8 @@ rule whatshap_haplotag:
         time=config.get("whatshap_haplotag", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("whatshap_phase", {}).get("container", config["default_container"])
+    message:
+        "{rule}: Phases reads from {input.aln} using whatshap phase results {input.vcf}"
     wrapper:
         "v3.5.2/bio/whatshap/haplotag"
 
@@ -34,17 +38,17 @@ rule whatshap_haplotag:
 rule whatshap_phase:
     input:
         reference=config["reference"]["fasta"],
-        vcf="parabricks/pbrun_deepvariant/{sample}_{type}.vcf",
-        tbi="parabricks/pbrun_deepvariant/{sample}_{type}.vcf.idx",
-        phaseinput="alignment/minimap2/{sample}_{type}.bam",
-        phaseinputindex="alignment/minimap2/{sample}_{type}.bam.bai",
+        vcf="snv_indels/deepvariant/{sample}_{type}_chr1.vcf",
+        tbi="snv_indels/deepvariant/{sample}_{type}_chr1.vcf.idx",
+        aln="alignment/picard_mark_duplicates/{sample}_{type}_chr1.bam",
+        bai="alignment/picard_mark_duplicates/{sample}_{type}_chr1.bam.bai",
     output:
-        out="snv_indels/whatshap/{sample}_{type}.whatshap.phased.vcf.gz",
-        outindex="snv_indels/whatshap/{sample}_{type}.whatshap.phased.vcf.gz.tbi",
+        out="snv_indels/whatshap/{sample}_{type}.whatshap_phased.vcf.gz",
+        #outindex="snv_indels/whatshap/{sample}_{type}.whatshap_phased.vcf.gz.tbi",
     log:
-        "snv_indels/whatshap/{sample}_{type}.whatshap.phased.log",
+        "snv_indels/whatshap/{sample}_{type}.whatshap_phased.log",
     benchmark:
-        "snv_indels/whatshap/{sample}_{type}.whatshap.phased.tsv"
+        "snv_indels/whatshap/{sample}_{type}.whatshap_phased.tsv"
     params:
         extra=config.get("whatshap_phase", {}).get("extra", ""),
     threads: config.get("whatshap_phase", {}).get("threads", config["default_resources"]["threads"])
@@ -56,14 +60,17 @@ rule whatshap_phase:
         time=config.get("whatshap_phase", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("whatshap_phase", {}).get("container", config["default_container"])
+    message:
+        "{rule}: Phases SNVs from {input.vcf} on {input.aln} with whatshap phase to resolve SNVs into haplotypes"
     shell:
         """
-        (whatshap phase {params.extra} \
+        (
+        whatshap phase {params.extra} \
             --output {output.out} \
             --reference {input.reference} \
-            {input.vcf} \      
-            {input.phaseinput}) > {log} 2>&1 && \
-            tabix -p vcf {output.out} >> {log} 2>&1
+            {input.vcf} \
+            {input.aln} \
+        ) > {log} 2>&1 
         """
 
 
@@ -87,3 +94,4 @@ rule whatshap_index:
         config.get("whatshap_index", {}).get("container", config["default_container"])
     wrapper:
         "v3.7.0/bio/samtools/index"
+
