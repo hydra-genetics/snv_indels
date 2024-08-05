@@ -1,0 +1,2 @@
+sample	type	platform	machine	flowcell	lane	barcode	fastq1	fastq2	methylation	processing_unit	adapter	bam
+HG002-2	N	PACBIO	ASTRO	m84045-230420-150058-s1	L001	ACGT	1	2	Yes	m84045-230420-150058-s1	ACGT	bam/HG002-rep1_m84011_220902_175841_s1.hifi_readss.bam

@@ -167,7 +167,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for t in get_unit_types(units, sample)
             for suffix in files[prefix]
         ]
-        print (output_files)
+        print(output_files)
     elif config["run_deepvariant"]:
         files = {
             "deepvariant": [
