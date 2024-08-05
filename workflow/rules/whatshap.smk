@@ -94,4 +94,3 @@ rule whatshap_index:
         config.get("whatshap_index", {}).get("container", config["default_container"])
     wrapper:
         "v3.7.0/bio/samtools/index"
-

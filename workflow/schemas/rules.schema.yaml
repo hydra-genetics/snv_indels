@@ -654,10 +654,10 @@ properties:
           tbi:
             type: string
             description: tabix index of the input vcf
-          phaseinput:
+          aln:
             type: string
             description: input bam
-          phaseinputindex:
+          bai:
             type: string
             description: samtools index of the input bam
       output:
@@ -667,6 +667,3 @@ properties:
           out:
             type: string
             description: output vcf file with phase variant calls
-          outindex:
-            type: string
-            description: tbi index of output vcf file with phase variant calls

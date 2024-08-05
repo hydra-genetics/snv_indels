@@ -61,3 +61,14 @@ vt_decompose:
 
 vt_normalize:
   container: "docker://hydragenetics/vt:2015.11.10"
+
+whatshap_phase:
+  container: "docker://hydragenetics/whatshap:2.2"
+  extra: "--indels"
+
+whatshap_haplotag:
+  container: "docker://hydragenetics/whatshap:2.2"
+  extra: " " # optionally use --ignore-linked-read, --tag-supplementary, etc.
+
+whatshap_index:
+  extra: ""
