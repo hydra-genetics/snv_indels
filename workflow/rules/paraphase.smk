@@ -17,7 +17,7 @@ rule paraphase:
     output:
         merged_vcf="snv_indels/paraphase/{sample}_{type}.paraphase.vcf.gz",
         bam="snv_indels/paraphase/{sample}_{type}_realigned.paraphase.bam",
-        bai="snv_indels/paraphase/{sample}_{type}_realigned.paraphase.bam.bai",
+        #bai="snv_indels/paraphase/{sample}_{type}_realigned.paraphase.bam.bai",
         vcf_header="snv_indels/paraphase/{sample}_{type}.vcf_chromosome_header.vcf",
     params:
         genome=config.get("paraphase", {}).get("genome", ""),
@@ -41,7 +41,9 @@ rule paraphase:
     message:
         "{rule}: Calls SNVs on {input.bam} with paraphase to resolve SNVs in gene families"
     wrapper:
-        "file:///beegfs-storage/projects/wp3/nobackup/Workspace/magz_testing/snakemake-wrappers/bio/paraphase"
-
-
+        "my-new-snakemake-wrapper-paraphrase/bio/paraphase"
+        
+        
+# "file:///beegfs-storage/projects/wp3/nobackup/Workspace/magz_testing/snakemake-wrappers/bio/paraphase"
 # "ppp/bio/paraphase"
+# "my-new-snakemake-wrapper-paraphrase/bio/paraphase"

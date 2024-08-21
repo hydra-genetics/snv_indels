@@ -46,11 +46,11 @@ mutect2_pass_filter:
     - multiallelic
 
 paraphase:
-  fasta: "reference/chr5.fa"
-  fai: "reference/homo_sapiens2.fa.fai"
+  fasta: "reference/chr16s.fa"
+  fai: "reference/homo_sapiens.fa.fai"
   genome: "--genome 38"
   container: "docker://hydragenetics/paraphase:3.0.0"
-  extra: "-g smn1"
+  extra: "-g PDPK1"
   
 vardict:
   container: "docker://hydragenetics/vardict:1.8.3"

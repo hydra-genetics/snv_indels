@@ -19,13 +19,13 @@ reference:
 paraphase:
   genome: "--genome 38"
   container: "docker://hydragenetics/paraphase:3.0.0"
-  fasta: "reference/chr5.fa"
-  fai: "reference/homo_sapiens2.fa.fai"
+  fasta: "reference/chr16s.fa"
+  fai: "reference/homo_sapiens.fa.fai"
   outfolder: "snv_indels/paraphase/"
   # extra: "" # runs all appr 200 genes
   # extra: "-g smn1,CR1,AMY1A,CTAG1A,BOLA2" # runs only selected genes
   # extra: "-g smn1,CR1,GTF2H2,AMY1A,CTAG1A,BOLA2" # runs only selected genes
-  extra: " -g smn1" # only runs a single gene
+  extra: " -g PDPK1" # only runs a single gene
 
 
 whatshap_phase:

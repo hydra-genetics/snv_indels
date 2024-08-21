@@ -155,9 +155,8 @@ def get_glnexus_input(wildcards, input):
 def compile_output_list(wildcards: snakemake.io.Wildcards):
     if "pacbio_alignment" in config:
         files = {
-            "whatshap": [
-                "whatshap_phased.vcf.gz",
-                "whatshap_haplotagged.bam",
+            "paraphase": [
+                "paraphase.vcf.gz",
             ],
         }
         output_files = [
@@ -214,3 +213,4 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         ]
 
     return output_files
+
