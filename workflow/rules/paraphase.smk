@@ -42,8 +42,8 @@ rule paraphase:
         "{rule}: Calls SNVs on {input.bam} with paraphase to resolve SNVs in gene families"
     wrapper:
         "my-new-snakemake-wrapper-paraphrase/bio/paraphase"
-        
-        
+
+
 # "file:///beegfs-storage/projects/wp3/nobackup/Workspace/magz_testing/snakemake-wrappers/bio/paraphase"
 # "ppp/bio/paraphase"
 # "my-new-snakemake-wrapper-paraphrase/bio/paraphase"

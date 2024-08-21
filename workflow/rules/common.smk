@@ -213,4 +213,3 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         ]
 
     return output_files
-

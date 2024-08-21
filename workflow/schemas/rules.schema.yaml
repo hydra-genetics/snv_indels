@@ -508,9 +508,6 @@ properties:
           bam:
             type: string
             description: bam file with realigned genomic reads
-          bai:
-            type: string
-            description: bam file index file
           vcf_header:
             type: string
             description: vcf header file, guiding the gene merging and sorting
