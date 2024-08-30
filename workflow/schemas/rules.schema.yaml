@@ -478,6 +478,40 @@ properties:
             type: string
             description: hard filtered vcf file with snv amd indels calls
 
+  paraphase:
+    type: object
+    description: input and output parameters for paraphase
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: bam file with genomic reads
+          bai:
+            type: string
+            description: bam file index file
+          fasta:
+            type: string
+            description: fasta reference genome file
+          faidx:
+            type: string
+            description: index of fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          merged_vcf:
+            type: string
+            description: vcf file with snv amd indels calls, all genes merged together
+          bam:
+            type: string
+            description: bam file with realigned genomic reads
+          vcf_header:
+            type: string
+            description: vcf header file, guiding the gene merging and sorting
+
   tabix:
     type: object
     description: input and output parameters for tabix
@@ -565,3 +599,68 @@ properties:
           vcf:
             type: string
             description: normalized vcf file
+
+  whatshap_haplotag:
+    type: object
+    description: input and output parameters for whatshap haplotag
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          tbi:
+            type: string
+            description: tabix index of the input vcf
+          bai:
+            type: string
+            description: samtools index of the input bam
+          fai:
+            type: string
+            description: samtools index of the input genome reference fasta
+          vcf:
+            type: string
+            description: input vcf
+          aln:
+            type: string
+            description: input bam
+          ref:
+            type: string
+            description: input genome reference fasta
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          output:
+            type: string
+            description: output bam file with haplotagged reads
+
+  whatshap_phase:
+    type: object
+    description: input and output parameters for whatshap phase
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          reference:
+            type: string
+            description: input genome reference fasta
+          vcf:
+            type: string
+            description: input vcf
+          tbi:
+            type: string
+            description: tabix index of the input vcf
+          aln:
+            type: string
+            description: input bam
+          bai:
+            type: string
+            description: samtools index of the input bam
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          out:
+            type: string
+            description: output vcf file with phase variant calls

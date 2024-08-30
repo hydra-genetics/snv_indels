@@ -1,15 +1,46 @@
 resources: "resources.yaml"
-samples: "samples.tsv"
-units: "units.tsv"
+samples: "samples_pacbio.tsv"
+units: "units_pacbio.tsv"
+
+pacbio_alignment: true
+longread_alignment: true
 
 default_container: "docker://hydragenetics/common:0.2.0"
 
-run_deepvariant: false
+# reference:
+# fasta: "reference/human_GRCh38.fasta"
+
 
 reference:
   fasta: "reference/HES45.fna"
   fai: "reference/HES45.fna.fai"
   design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
+
+paraphase:
+  genome: "--genome 38"
+  container: "docker://hydragenetics/paraphase:3.0.0"
+  fasta: "reference/chr16s.fa"
+  fai: "reference/homo_sapiens.fa.fai"
+  outfolder: "snv_indels/paraphase/"
+  # extra: "" # runs all appr 200 genes
+  # extra: "-g smn1,CR1,AMY1A,CTAG1A,BOLA2" # runs only selected genes
+  extra: " -g PDPK1" # only runs a single gene
+
+
+whatshap_phase:
+  container: "docker://hydragenetics/whatshap:2.2"
+  extra: "--indels"
+
+whatshap_haplotag:
+  container: "docker://hydragenetics/whatshap:2.2"
+  extra: " " # optionally use --ignore-linked-read, --tag-supplementary, etc.
+
+whatshap_index:
+  extra: ""
+
+
+##### just needed for validation #########
+
 
 bcbio_variation_recall_ensemble:
   container: "docker://gmsuppsala/somatic:develop"
@@ -44,13 +75,6 @@ mutect2_pass_filter:
   pass_filters:
     - PASS
     - multiallelic
-
-paraphase:
-  fasta: "reference/chr16s.fa"
-  fai: "reference/homo_sapiens.fa.fai"
-  genome: "--genome 38"
-  container: "docker://hydragenetics/paraphase:3.0.0"
-  extra: "-g PDPK1"
   
 vardict:
   container: "docker://hydragenetics/vardict:1.8.3"
@@ -61,14 +85,3 @@ vt_decompose:
 
 vt_normalize:
   container: "docker://hydragenetics/vt:2015.11.10"
-
-whatshap_phase:
-  container: "docker://hydragenetics/whatshap:2.2"
-  extra: "--indels"
-
-whatshap_haplotag:
-  container: "docker://hydragenetics/whatshap:2.2"
-  extra: " " # optionally use --ignore-linked-read, --tag-supplementary, etc.
-
-whatshap_index:
-  extra: ""
