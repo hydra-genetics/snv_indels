@@ -44,7 +44,6 @@ rule whatshap_phase:
         bai="alignment/picard_mark_duplicates/{sample}_{type}_chr1.bam.bai",
     output:
         out="snv_indels/whatshap/{sample}_{type}.whatshap_phased.vcf.gz",
-        #outindex="snv_indels/whatshap/{sample}_{type}.whatshap_phased.vcf.gz.tbi",
     log:
         "snv_indels/whatshap/{sample}_{type}.whatshap_phased.log",
     benchmark:
