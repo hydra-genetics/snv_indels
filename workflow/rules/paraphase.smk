@@ -2,11 +2,6 @@ __copyright__ = "Copyright 2023, Uppsala Universitet"
 __email__ = "magdalena.z@scilifelab.uu.se"
 __license__ = "GPL-3"
 
-# compile_paraphase_file_list(wildcards)
-GENE = ["smn1", "CR1", "AMY1A", "CTAG1A", "BOLA2"]
-# SAMPLE = get_samples(samples) # Example names
-# TYPES = get_unit_types(units, samples) # Example types
-
 
 rule paraphase:
     input:
@@ -17,7 +12,6 @@ rule paraphase:
     output:
         merged_vcf="snv_indels/paraphase/{sample}_{type}.paraphase.vcf.gz",
         bam="snv_indels/paraphase/{sample}_{type}_realigned.paraphase.bam",
-        #bai="snv_indels/paraphase/{sample}_{type}_realigned.paraphase.bam.bai",
         vcf_header="snv_indels/paraphase/{sample}_{type}.vcf_chromosome_header.vcf",
     params:
         genome=config.get("paraphase", {}).get("genome", ""),
@@ -45,5 +39,3 @@ rule paraphase:
 
 
 # "file:///beegfs-storage/projects/wp3/nobackup/Workspace/magz_testing/snakemake-wrappers/bio/paraphase"
-# "ppp/bio/paraphase"
-# "my-new-snakemake-wrapper-paraphrase/bio/paraphase"

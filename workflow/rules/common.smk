@@ -155,8 +155,12 @@ def get_glnexus_input(wildcards, input):
 def compile_output_list(wildcards: snakemake.io.Wildcards):
     if "pacbio_alignment" in config:
         files = {
-            "paraphase": [
-                "paraphase.vcf.gz",
+            #"paraphase": [
+            #    "paraphase.vcf.gz",
+            #], fungerar inte innan paraphase wrapper är submittad till snakemake wrapper repo PR här https://github.com/snakemake/snakemake-wrappers/pull/3071
+            "whatshap": [
+                "whatshap_phased.vcf.gz",
+                "whatshap_haplotagged.bam",
             ],
         }
         output_files = [
