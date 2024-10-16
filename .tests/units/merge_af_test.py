@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+__author__ = "Monika Brandt"
+__copyright__ = "Copyright 2024, Monika Brandt"
+__email__ = "monika.brandt@scilifelab.uu.se"
+__license__ = "GPL-3"
+
 import sys
 import os
 import unittest
@@ -7,7 +15,7 @@ TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 SCRIPT_DIR = os.path.abspath(os.path.join(TEST_DIR, "../../workflow/scripts"))
 sys.path.insert(0, SCRIPT_DIR)
 
-from merge_af import merge_records_complex_positions, writeVCFOut
+from merge_af import merge_records_complex_positions, writeVCFOut  # noqa
 
 
 class TestMergeAf(unittest.TestCase):
