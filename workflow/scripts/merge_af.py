@@ -1,3 +1,12 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+__author__ = "Monika Brandt"
+__copyright__ = "Copyright 2024, Monika Brandt"
+__email__ = "monika.brandt@scilifelab.uu.se"
+__license__ = "GPL-3"
+
+import logging
 import pysam
 import statistics
 from collections import Counter
@@ -41,13 +50,13 @@ def merge_records_complex_positions(vcf, method):
     # Select variants (on chromosome, position, ref.allele and alt. allele) that occurs in more than one record.
     complex_positions_list = [item for item, count in Counter(chr_pos_ref_alt).items() if count > 1]
 
-    for pos in complex_positions_list:
+    for var_key in complex_positions_list:
         # if method "max" is given by the user the code will return the record with the highest allele frequency
         # as is without any updates on for instance AF, VF or AD.
         # A new info key will be added: COMPLEXAF=max
         if method == "max":
-            complex_AF = max(record.info["AF"][0] for record in record_dict[pos])
-            merged_record = record_dict[pos][[record.info["AF"][0] == complex_AF for record in record_dict[pos]].index(True)]
+            complex_AF = max(record.info["AF"][0] for record in record_dict[var_key])
+            merged_record = record_dict[var_key][[record.info["AF"][0] == complex_AF for record in record_dict[var_key]].index(True)]  # noqa
             merged_record.info["COMPLEXAF"] = method
             merged_record.info["TYPE"] = "Complex"
 
@@ -55,34 +64,69 @@ def merge_records_complex_positions(vcf, method):
         # AF is the sum of AF for all records for the variant.
         # A new info key will be added: COMPLEXAF=sum
         if method == "sum":
-            complex_AF = sum(record.info["AF"][0] for record in record_dict[pos])
-            complex_VD = sum(record.info["VD"] for record in record_dict[pos])
-            complex_HIAF = sum(record.info["HIAF"] for record in record_dict[pos])
-            complex_HICNT = sum(record.info["HICNT"] for record in record_dict[pos])
-            complex_QUAL = statistics.mean(record.info["QUAL"] for record in record_dict[pos])
-            complex_MQ = statistics.mean(record.info["MQ"] for record in record_dict[pos])
-            complex_VARBIAS_forw = sum(int(record.info["VARBIAS"].split(":")[0]) for record in record_dict[pos])
-            complex_VARBIAS_revs = sum(int(record.info["VARBIAS"].split(":")[1]) for record in record_dict[pos])
             # Pick first record in list to use as a template for updates.
-            merged_record = record_dict[pos][0]
+            merged_record = record_dict[var_key][0]
             merged_record.info["COMPLEXAF"] = method
             merged_record.info["TYPE"] = "Complex"
+
+            complex_AF = sum(record.info["AF"][0] for record in record_dict[var_key])
             merged_record.info["AF"] = complex_AF
-            merged_record.info["VD"] = complex_VD
-            merged_record.info["HIAF"] = complex_HIAF
-            merged_record.info["HICNT"] = complex_HICNT
-            merged_record.info["QUAL"] = complex_QUAL
-            merged_record.info["MQ"] = complex_MQ
-            merged_record.info["VARBIAS"] = "{}:{}".format(complex_VARBIAS_forw, complex_VARBIAS_revs)
+
+            try:
+                complex_VD = sum(record.info["VD"] for record in record_dict[var_key])
+                merged_record.info["VD"] = complex_VD
+            except KeyError:
+                continue
+
+            try:
+                complex_HIAF = sum(record.info["HIAF"] for record in record_dict[var_key])
+                merged_record.info["HIAF"] = complex_HIAF
+            except KeyError:
+                continue
+
+            try:
+                complex_HICNT = sum(record.info["HICNT"] for record in record_dict[var_key])
+                merged_record.info["HICNT"] = complex_HICNT
+            except KeyError:
+                continue
+
+            try:
+                complex_QUAL = statistics.mean(record.info["QUAL"] for record in record_dict[var_key])
+                merged_record.info["QUAL"] = complex_QUAL
+            except KeyError:
+                continue
+
+            try:
+                complex_MQ = statistics.mean(record.info["MQ"] for record in record_dict[var_key])
+                merged_record.info["MQ"] = complex_MQ
+            except KeyError:
+                continue
+
+            try:
+                complex_VARBIAS_forw = sum(int(record.info["VARBIAS"].split(":")[0]) for record in record_dict[var_key])
+                complex_VARBIAS_revs = sum(int(record.info["VARBIAS"].split(":")[1]) for record in record_dict[var_key])
+                merged_record.info["VARBIAS"] = "{}:{}".format(complex_VARBIAS_forw, complex_VARBIAS_revs)
+            except KeyError:
+                continue
+
             # Parse samples.items to get/update format field
             for item in merged_record.samples.items():
                 item[1]["AF"] = complex_AF
-                item[1]["VD"] = complex_VD
-                AD_ref = item[1]["AD"][0]
-                item[1]["AD"] = (AD_ref, complex_VD)
-                item[1]["ALD"] = (complex_VARBIAS_forw, complex_VARBIAS_revs)
+                if "complex_VD" in locals():
+                    try:
+                        item[1]["VD"] = complex_VD
+                        AD_ref = item[1]["AD"][0]
+                        item[1]["AD"] = (AD_ref, complex_VD)
+                    except KeyError:
+                        continue
 
-        record_dict[pos] = [merged_record]
+                if "complex_VARBIAS_forw" in locals() and "complex_VARBIAS_revs" in locals():
+                    try:
+                        item[1]["ALD"] = (complex_VARBIAS_forw, complex_VARBIAS_revs)
+                    except KeyError:
+                        continue
+
+        record_dict[var_key] = [merged_record]
 
     return record_dict, vcf.header, complex_positions_list
 
@@ -114,28 +158,23 @@ def writeVCFOut(vcf_out_path, vcf_as_dict, input_header, complex_pos_list, metho
             new_record.alts = record.alts
 
             # Set info
-            new_record.info["SAMPLE"] = record.info["SAMPLE"]
-            new_record.info["TYPE"] = record.info["TYPE"]
-            new_record.info["DP"] = record.info["DP"]
-            new_record.info["VD"] = record.info["VD"]
             new_record.info["AF"] = record.info["AF"]
-            new_record.info["BIAS"] = record.info["BIAS"]
-            new_record.info["REFBIAS"] = record.info["REFBIAS"]
-            new_record.info["VARBIAS"] = record.info["VARBIAS"]
-            new_record.info["QUAL"] = record.info["QUAL"]
-            new_record.info["MQ"] = record.info["MQ"]
-            new_record.info["HIAF"] = record.info["HIAF"]
-            new_record.info["HICNT"] = record.info["HICNT"]
+            new_record.info["TYPE"] = record.info["TYPE"]
             new_record.info["COMPLEXAF"] = record.info["COMPLEXAF"]
+            info_keys = ["SAMPLE", "DP", "VD", "BIAS", "REFBIAS", "VARBIAS", "QUAL", "MQ", "HIAF", "HICNT"]
+            for key in info_keys:
+                try:
+                    new_record.info[key] = record.info[key]
+                except KeyError:
+                    continue
 
             # Set format
-            new_record.samples.items()[0][1]["GT"] = record.samples.items()[0][1]["GT"]
-            new_record.samples.items()[0][1]["DP"] = record.samples.items()[0][1]["DP"]
-            new_record.samples.items()[0][1]["AF"] = record.samples.items()[0][1]["AF"]
-            new_record.samples.items()[0][1]["VD"] = record.samples.items()[0][1]["VD"]
-            new_record.samples.items()[0][1]["AD"] = record.samples.items()[0][1]["AD"]
-            new_record.samples.items()[0][1]["ALD"] = record.samples.items()[0][1]["ALD"]
-            new_record.samples.items()[0][1]["RD"] = record.samples.items()[0][1]["RD"]
+            format_keys = ["GT", "DP", "AF", "VD", "AD", "ALD", "RD"]
+            for key in format_keys:
+                try:
+                    new_record.samples.items()[0][1][key] = record.samples.items()[0][1][key]
+                except KeyError:
+                    continue
 
             output_vcf.write(new_record)
         else:
@@ -149,10 +188,16 @@ if __name__ == "__main__":
     merge_method = snakemake.params.merge_method
 
     if merge_method == "max" or merge_method == "sum":
+        logging.info("The method for calculating allele frequencies for complex variants was set to \"%s\".", merge_method)
+        logging.info("Read %s", vcfFile)
         vcf = pysam.VariantFile(vcfFile)
         vcf_as_dict, header, complex_positions = merge_records_complex_positions(vcf, merge_method)
         vcf_out_path = snakemake.output.vcf
         writeVCFOut(vcf_out_path, vcf_as_dict, header, complex_positions, merge_method)
+        logging.info("Output will be written to %s", snakemake.output.vcf)
     else:
+        logging.info("The method for calculating allele frequencies for complex variants was set to"
+                     "\"%s\".This step will be skipped!", merge_method)
         merge_method = "skip"
+        logging.info("Output will be written to %s", snakemake.output.vcf)
         snakemake.output.vcf = vcfFile
