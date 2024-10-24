@@ -15,7 +15,7 @@ TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 SCRIPT_DIR = os.path.abspath(os.path.join(TEST_DIR, "../../workflow/scripts"))
 sys.path.insert(0, SCRIPT_DIR)
 
-from merge_af import merge_records_complex_positions, writeVCFOut  # noqa
+from merge_af import merge_records_complex_positions, writeVCFOut, main  # noqa
 
 
 class TestMergeAf(unittest.TestCase):
@@ -189,3 +189,6 @@ class TestMergeAf(unittest.TestCase):
 
         # Cleanup
         os.remove(vcf_out_path)
+
+    def test_input(self):
+        self.assertRaises(ValueError, main, "in_file.vcf", "out_file.vcf", "banana")

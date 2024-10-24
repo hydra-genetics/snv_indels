@@ -183,21 +183,23 @@ def writeVCFOut(vcf_out_path, vcf_as_dict, input_header, complex_pos_list, metho
     return
 
 
-if __name__ == "__main__":
-    vcfFile = snakemake.input.vcf
-    merge_method = snakemake.params.merge_method
-
-    if merge_method == "max" or merge_method == "sum":
-        logging.info("The method for calculating allele frequencies for complex variants was set to \"%s\".", merge_method)
-        logging.info("Read %s", vcfFile)
-        vcf = pysam.VariantFile(vcfFile)
-        vcf_as_dict, header, complex_positions = merge_records_complex_positions(vcf, merge_method)
-        vcf_out_path = snakemake.output.vcf
-        writeVCFOut(vcf_out_path, vcf_as_dict, header, complex_positions, merge_method)
-        logging.info("Output will be written to %s", snakemake.output.vcf)
-    else:
-        logging.info("The method for calculating allele frequencies for complex variants was set to"
-                     "\"%s\".This step will be skipped!", merge_method)
-        merge_method = "skip"
-        logging.info("Output will be written to %s", snakemake.output.vcf)
+def main(vcf_in, vcf_out, method):
+    if method == "max" or method == "sum":
+        logging.info(f"The method for calculating allele frequencies for complex variants was set to {method}.")
+        logging.info(f"Read {vcf_in}")
+        vcf = pysam.VariantFile(vcf_in)
+        vcf_as_dict, header, complex_positions = merge_records_complex_positions(vcf, method)
+        writeVCFOut(vcf_out, vcf_as_dict, header, complex_positions, method)
+        logging.info(f"Output will be written to {vcf_out}", )
+    elif method == "skip":
+        logging.info(f"The method for calculating allele frequencies for complex variants was set to {method}."
+                     f"This step will be skipped!")
         snakemake.output.vcf = vcfFile
+        logging.info(f"Output will be written to {vcf_out}")
+    else:
+        raise ValueError(f"Invalid input. The method for calculating allele frequencies must be max, sum or skip."
+                         f"The method given by user was: {method}")
+
+
+if __name__ == "__main__":
+    main(vcf_in=snakemake.input.vcf, vcf_out=snakemake.output.vcf, method=snakemake.params.merge_method)
