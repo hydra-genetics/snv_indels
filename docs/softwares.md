@@ -413,6 +413,42 @@ Germline variant caller for SNVs and INDELs.
 
 ---
 
+## [merge_af_complex_variants](https://github.com/hydra-genetics/snv_indels/blob/develop/workflow/scripts/merge_af.py)
+Python script for handling complex variants with several vcf record.
+
+Some variant callers (e.g. vardict) will compose variants within close physical distance and report it as one complex variant.
+vt_decompose will separate these complex variants into separate records. However, during decomposition the same allele might be
+reported in several record, one originating from the single variant and one or more records reported from one or more complex variants,
+even if these records are corresponding to the same allele at the same position. The allele frequencies will also be different for these
+records since it might be derived from the frequency of the allele in combination with a specific allele at another position whithin the 
+complex variant. 
+
+This python script can turn several records from the same allele at the same position into one record. Depending on the method given by the user
+the allele frequency and metrics derived from this will be reported differently. "skip" is the default method and in this case no alterations of 
+the records will be made. All records for a complex variant will be returned in the output vcf. The method "max" will return the record with
+the highest allele frequency and discard any additional records, with the same allele and position, from the output vcf. The "sum" method will
+sum the allele frequencies from all records with the same allele and position. 
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__merge_af_complex_variants__merge_af_complex_variants#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__merge_af_complex_variants__merge_af_complex_variants#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__merge_af_complex_variants#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__merge_af_complex_variants#
+
+---
+
 ## [mutect2_pass_filter](https://github.com/hydra-genetics/snv_indels/blob/develop/workflow/scripts/mutect2_pass_filter.py)
 Step 4 of 4 of Mutect2 somatic variant calling. A python script that hard filters the soft filtered vcf file from Mutect2 based on the FILTER column.
 
@@ -526,4 +562,3 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 
 #RESOURCESSCHEMA__vt_normalize#
 
----

@@ -315,6 +315,22 @@ properties:
         type: string
         description: parameters that should be forwarded
 
+  merge_af_complex_variants:
+    type: object
+    description: parameters for merge_af_complex_variants
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      merge_method:
+        type: string
+        enum: ["skip", "max", "sum"]
+        description: method to handle allele frequencies from complex variants,
+                     skip, max or sum
+
   mutect2_pass_filter:
     type: object
     description: parameters for mutect2_pass_filter

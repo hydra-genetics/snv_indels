@@ -459,6 +459,28 @@ properties:
             type: string
             description: vcf file with snv and indels calls
 
+  merge_af_complex_variants:
+    type: object
+    description: input and output parameters for merge_af_complex_variants
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: path to a decomposed and normalized vcf file
+          tabix:
+            type: string
+            description: path to decomposed and normalized vcf index file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: vcf file with only one (if merge_method max or sum) record per complex variant
+
   mutect2_pass_filter:
     type: object
     description: input and output parameters for mutect2_pass_filter

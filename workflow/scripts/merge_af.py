@@ -9,6 +9,7 @@ __license__ = "GPL-3"
 import logging
 import pysam
 import statistics
+import shutil
 from collections import Counter
 
 
@@ -194,8 +195,8 @@ def main(vcf_in, vcf_out, method):
     elif method == "skip":
         logging.info(f"The method for calculating allele frequencies for complex variants was set to {method}."
                      f"This step will be skipped!")
-        snakemake.output.vcf = vcfFile
         logging.info(f"Output will be written to {vcf_out}")
+        shutil.copyfile(vcf_in, vcf_out)
     else:
         raise ValueError(f"Invalid input. The method for calculating allele frequencies must be max, sum or skip."
                          f"The method given by user was: {method}")
