@@ -1,0 +1,61 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##source=VarDict_v1.8.2
+##INFO=<ID=SAMPLE,Number=1,Type=String,Description="Sample name (with whitespace translated to underscores)">
+##INFO=<ID=TYPE,Number=1,Type=String,Description="Variant Type: SNV Insertion Deletion Complex">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##INFO=<ID=END,Number=1,Type=Integer,Description="Chr End Position">
+##INFO=<ID=VD,Number=1,Type=Integer,Description="Variant Depth">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+##INFO=<ID=BIAS,Number=1,Type=String,Description="Strand Bias Info">
+##INFO=<ID=REFBIAS,Number=1,Type=String,Description="Reference depth by strand">
+##INFO=<ID=VARBIAS,Number=1,Type=String,Description="Variant depth by strand">
+##INFO=<ID=PMEAN,Number=1,Type=Float,Description="Mean position in reads">
+##INFO=<ID=PSTD,Number=1,Type=Float,Description="Position STD in reads">
+##INFO=<ID=QUAL,Number=1,Type=Float,Description="Mean quality score in reads">
+##INFO=<ID=QSTD,Number=1,Type=Float,Description="Quality score STD in reads">
+##INFO=<ID=SBF,Number=1,Type=Float,Description="Strand Bias Fisher p-value">
+##INFO=<ID=ODDRATIO,Number=1,Type=Float,Description="Strand Bias Odds ratio">
+##INFO=<ID=MQ,Number=1,Type=Float,Description="Mean Mapping Quality">
+##INFO=<ID=SN,Number=1,Type=Float,Description="Signal to noise">
+##INFO=<ID=HIAF,Number=1,Type=Float,Description="Allele frequency using only high quality bases">
+##INFO=<ID=ADJAF,Number=1,Type=Float,Description="Adjusted AF for indels due to local realignment">
+##INFO=<ID=SHIFT3,Number=1,Type=Integer,Description="No. of bases to be shifted to 3 prime for deletions due to alternative alignment">
+##INFO=<ID=MSI,Number=1,Type=Float,Description="MicroSatellite. > 1 indicates MSI">
+##INFO=<ID=MSILEN,Number=1,Type=Float,Description="MicroSatellite unit length in bp">
+##INFO=<ID=NM,Number=1,Type=Float,Description="Mean mismatches in reads">
+##INFO=<ID=LSEQ,Number=1,Type=String,Description="5' flanking seq">
+##INFO=<ID=RSEQ,Number=1,Type=String,Description="3' flanking seq">
+##INFO=<ID=GDAMP,Number=1,Type=Integer,Description="No. of amplicons supporting variant">
+##INFO=<ID=TLAMP,Number=1,Type=Integer,Description="Total of amplicons covering variant">
+##INFO=<ID=NCAMP,Number=1,Type=Integer,Description="No. of amplicons don't work">
+##INFO=<ID=AMPFLAG,Number=1,Type=Integer,Description="Top variant in amplicons don't match">
+##INFO=<ID=HICNT,Number=1,Type=Integer,Description="High quality variant reads">
+##INFO=<ID=HICOV,Number=1,Type=Integer,Description="High quality total reads">
+##INFO=<ID=SPLITREAD,Number=1,Type=Integer,Description="No. of split reads supporting SV">
+##INFO=<ID=SPANPAIR,Number=1,Type=Integer,Description="No. of pairs supporting SV">
+##INFO=<ID=SVTYPE,Number=1,Type=String,Description="SV type: INV DUP DEL INS FUS">
+##INFO=<ID=SVLEN,Number=1,Type=Integer,Description="The length of SV in bp">
+##INFO=<ID=DUPRATE,Number=1,Type=Float,Description="Duplication rate in fraction">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##FORMAT=<ID=VD,Number=1,Type=Integer,Description="Variant Depth">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allelic depths for the ref and alt alleles in the order listed">
+##FORMAT=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+##FORMAT=<ID=RD,Number=2,Type=Integer,Description="Reference forward, reverse reads">
+##FORMAT=<ID=ALD,Number=2,Type=Integer,Description="Variant forward, reverse reads">
+##contig=<ID=chr1>
+##contig=<ID=chr21>
+##bcftools_concatVersion=1.15.1+htslib-1.17
+##INFO=<ID=OLD_MULTIALLELIC,Number=1,Type=String,Description="Original chr:pos:ref:alt encoding">
+##INFO=<ID=OLD_CLUMPED,Number=1,Type=String,Description="Original chr:pos:ref:alt encoding">
+##INFO=<ID=OLD_VARIANT,Number=.,Type=String,Description="Original chr:pos:ref:alt encoding">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	SAM-1_T
+chr1	4131316	.	A	G	265	PASS	SAMPLE=SAM-1_T;TYPE=SNV;DP=440;VD=243;AF=0.5523;BIAS=2:2;REFBIAS=87:109;VARBIAS=107:136;PMEAN=34.5;PSTD=1;QUAL=33.5;QSTD=1;SBF=1;ODDRATIO=1.01446;MQ=60;SN=14.188;HIAF=0.5457;ADJAF=0.0227;SHIFT3=0;MSI=2;MSILEN=1;NM=3.7;HICNT=227;HICOV=416;LSEQ=GCATTGCATCCAGGATGCCT;RSEQ=TTCTCAACATGCCTCATTAC;DUPRATE=0;SPLITREAD=0;SPANPAIR=0	GT:DP:VD:AD:AF:RD:ALD	1/0:440:243:196,243:0.5523:87,109:107,136
+chr1	16475123	.	C	T	321	PASS	SAMPLE=SAM-1_T;TYPE=Complex;DP=3430;VD=1450;AF=0.4227;BIAS=2:2;REFBIAS=685:745;VARBIAS=716:734;PMEAN=35;PSTD=1;QUAL=30.6;QSTD=1;SBF=0.43384;ODDRATIO=1.06088;MQ=60;SN=4.052;HIAF=0.401;ADJAF=0.1545;SHIFT3=2;MSI=1;MSILEN=1;NM=2.4;HICNT=1163;HICOV=2900;LSEQ=TAGTAGACACGGACGGAGAG;RSEQ=GCCACACAGGCACCGATATC;DUPRATE=0;SPLITREAD=0;SPANPAIR=0;OLD_CLUMPED=chr1:16475123:CAGC/TAGT	GT:DP:VD:AD:AF:RD:ALD	0/1:3430:1450:1430,1450:0.4227:685,745:716,734
+chr1	16475123	.	C	T	258	PASS	SAMPLE=SAM-1_T;TYPE=SNV;DP=3430;VD=538;AF=0.1569;BIAS=2:2;REFBIAS=685:745;VARBIAS=243:295;PMEAN=35.3;PSTD=1;QUAL=28.5;QSTD=1;SBF=0.28764;ODDRATIO=1.11616;MQ=60;SN=2.092;HIAF=0.1255;ADJAF=0;SHIFT3=2;MSI=1;MSILEN=1;NM=2.6;HICNT=364;HICOV=2900;LSEQ=TAGTAGACACGGACGGAGAG;RSEQ=AGCGCCACACAGGCACCGAT;DUPRATE=0;SPLITREAD=0;SPANPAIR=0	GT:DP:VD:AD:AF:RD:ALD	0/1:3430:538:1430,538:0.1569:685,745:243,295
+chr1	16475126	.	C	T	321	PASS	SAMPLE=SAM-1_T;TYPE=Complex;DP=3430;VD=1450;AF=0.4227;BIAS=2:2;REFBIAS=685:745;VARBIAS=716:734;PMEAN=35;PSTD=1;QUAL=30.6;QSTD=1;SBF=0.43384;ODDRATIO=1.06088;MQ=60;SN=4.052;HIAF=0.401;ADJAF=0.1545;SHIFT3=2;MSI=1;MSILEN=1;NM=2.4;HICNT=1163;HICOV=2900;LSEQ=TAGTAGACACGGACGGAGAG;RSEQ=GCCACACAGGCACCGATATC;DUPRATE=0;SPLITREAD=0;SPANPAIR=0;OLD_CLUMPED=chr1:16475123:CAGC/TAGT	GT:DP:VD:AD:AF:RD:ALD	0/1:3430:1450:1430,1450:0.4227:685,745:716,734
+chr21	36432243	.	A	G	104	PASS	SAMPLE=SAM-1_T;TYPE=SNV;DP=282;VD=10;AF=0.0355;BIAS=2:2;REFBIAS=182:86;VARBIAS=4:6;PMEAN=30.8;PSTD=1;QUAL=31.6;QSTD=1;SBF=0.087;ODDRATIO=3.15989;MQ=50.1;SN=9;HIAF=0.036;ADJAF=0;SHIFT3=1;MSI=1;MSILEN=1;NM=6;HICNT=9;HICOV=250;LSEQ=TAATAATAACCATTCTGACT;RSEQ=GTGTGAGATGGTATCTCATT;DUPRATE=0;SPLITREAD=0;SPANPAIR=0	GT:DP:VD:AD:AF:RD:ALD	0/1:282:10:268,10:0.0355:182,86:4,6
+chr21	36432243	.	A	G	50	PASS	SAMPLE=SAM-1_T;TYPE=Complex;DP=282;VD=3;AF=0.0106;BIAS=2:2;REFBIAS=182:86;VARBIAS=1:2;PMEAN=24.3;PSTD=1;QUAL=32;QSTD=1;SBF=0.247;ODDRATIO=4.20785;MQ=60;SN=6;HIAF=0.012;ADJAF=0.0071;SHIFT3=1;MSI=1;MSILEN=1;NM=1.3;HICNT=3;HICOV=250;LSEQ=TAATAATAACCATTCTGACT;RSEQ=TGAGATGGTATCTCATTGTG;DUPRATE=0;SPLITREAD=0;SPANPAIR=0;OLD_CLUMPED=chr21:36432243:AGTG/GGCA	GT:DP:VD:AD:AF:RD:ALD	0/1:282:3:268,3:0.0106:182,86:1,2
+chr21	36432245	.	T	C	50	PASS	SAMPLE=SAM-1_T;TYPE=Complex;DP=282;VD=3;AF=0.0106;BIAS=2:2;REFBIAS=182:86;VARBIAS=1:2;PMEAN=24.3;PSTD=1;QUAL=32;QSTD=1;SBF=0.247;ODDRATIO=4.20785;MQ=60;SN=6;HIAF=0.012;ADJAF=0.0071;SHIFT3=1;MSI=1;MSILEN=1;NM=1.3;HICNT=3;HICOV=250;LSEQ=TAATAATAACCATTCTGACT;RSEQ=TGAGATGGTATCTCATTGTG;DUPRATE=0;SPLITREAD=0;SPANPAIR=0;OLD_CLUMPED=chr21:36432243:AGTG/GGCA	GT:DP:VD:AD:AF:RD:ALD	0/1:282:3:268,3:0.0106:182,86:1,2
+chr21	36432246	.	G	A	50	PASS	SAMPLE=SAM-1_T;TYPE=Complex;DP=282;VD=3;AF=0.0106;BIAS=2:2;REFBIAS=182:86;VARBIAS=1:2;PMEAN=24.3;PSTD=1;QUAL=32;QSTD=1;SBF=0.247;ODDRATIO=4.20785;MQ=60;SN=6;HIAF=0.012;ADJAF=0.0071;SHIFT3=1;MSI=1;MSILEN=1;NM=1.3;HICNT=3;HICOV=250;LSEQ=TAATAATAACCATTCTGACT;RSEQ=TGAGATGGTATCTCATTGTG;DUPRATE=0;SPLITREAD=0;SPANPAIR=0;OLD_CLUMPED=chr21:36432243:AGTG/GGCA	GT:DP:VD:AD:AF:RD:ALD	0/1:282:3:268,3:0.0106:182,86:1,2
