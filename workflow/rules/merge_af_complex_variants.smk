@@ -17,7 +17,7 @@ rule merge_af_complex_variants:
     benchmark:
         repeat(
             "snv_indels/{caller}/{sample}_{type}.normalized.merged_af.vcf.gz.benchmark.tsv",
-            config.get("merge_af_complex_variants", {}).get("benchmark_repeats", 1)
+            config.get("merge_af_complex_variants", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("merge_af_complex_variants", {}).get("threads", config["default_resources"]["threads"])
     resources:
