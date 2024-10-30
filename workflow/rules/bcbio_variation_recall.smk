@@ -7,11 +7,11 @@ __license__ = "GPL-3"
 rule bcbio_variation_recall_ensemble:
     input:
         vcfs=expand(
-            "snv_indels/{caller}/{{sample}}_{{type}}.normalized.sorted.vcf.gz",
+            "snv_indels/{caller}/{{sample}}_{{type}}.normalized.merged_af.sorted.vcf.gz",
             caller=config.get("bcbio_variation_recall_ensemble", {}).get("callers", []),
         ),
         tabix=expand(
-            "snv_indels/{caller}/{{sample}}_{{type}}.normalized.sorted.vcf.gz.tbi",
+            "snv_indels/{caller}/{{sample}}_{{type}}.normalized.merged_af.sorted.vcf.gz.tbi",
             caller=config.get("bcbio_variation_recall_ensemble", {}).get("callers", []),
         ),
         ref=config["reference"]["fasta"],
