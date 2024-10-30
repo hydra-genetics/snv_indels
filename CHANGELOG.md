@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/hydra-genetics/snv_indels/compare/v1.0.0...v1.1.0) (2024-10-30)
+
+
+### Features
+
+* Add option to merge af for complex variants ([b8129c3](https://www.github.com/hydra-genetics/snv_indels/commit/b8129c305099e9a7e909b4eebb48eefc0f64c86d))
+* New rule to handle af from complex variants ([b881c57](https://www.github.com/hydra-genetics/snv_indels/commit/b881c57915f1754dd595535856fe767f292f59a3))
+
+
+### Bug Fixes
+
+* Added noqa-tag on import to pass pycodestyle ([b88b397](https://www.github.com/hydra-genetics/snv_indels/commit/b88b397c6663fe279e07a5984c5ef542b15c9485))
+* Fixed snakefmt linting error ([e9ae6b8](https://www.github.com/hydra-genetics/snv_indels/commit/e9ae6b8a2fc92eeabcf1e76580fa5519bf14ac1b))
+* Handling of invalid input parameter ([223785c](https://www.github.com/hydra-genetics/snv_indels/commit/223785cb4278fe4eee7d680dd4559de93da6ef88))
+* KeyError handling and additional unittest ([1604d9c](https://www.github.com/hydra-genetics/snv_indels/commit/1604d9cf3b398755eb33d1a50ff15cbf24330e1d))
+* pycodestyle-fix ([9a5cee6](https://www.github.com/hydra-genetics/snv_indels/commit/9a5cee6d8526404f7c75c2e86adfea1ee1ad095b))
+* Removed deprecated Mambaforge added Miniforge ([629e1b5](https://www.github.com/hydra-genetics/snv_indels/commit/629e1b553d7d49d523700d0695f69a98025f37e3))
+* Removed non used format- and info-keys ([3186f38](https://www.github.com/hydra-genetics/snv_indels/commit/3186f389116f155209b2af9fabb3670298789913))
+* Rulegraph as png ([a7e6b48](https://www.github.com/hydra-genetics/snv_indels/commit/a7e6b48cb2fbe5806ebd62c31e79489d2351e6b5))
+* Update config/config.yaml ([1c2cacf](https://www.github.com/hydra-genetics/snv_indels/commit/1c2cacfa9efacfb42be4e37fa2441b249e36d823))
+* Update to Miniforge3 ([b21d8f1](https://www.github.com/hydra-genetics/snv_indels/commit/b21d8f1c5168cd009f21941ea52a5ed59ce805f1))
+* Updated rulegraph with merge_af_complex_var. ([2419bff](https://www.github.com/hydra-genetics/snv_indels/commit/2419bfff6db13939ad4ed191729b8349a48295f9))
+* Use apptainer instead of singularity ([fcfa01f](https://www.github.com/hydra-genetics/snv_indels/commit/fcfa01f7dc004721fa1e436e6918f4a221fcdb5f))
+
 ## [1.0.0](https://www.github.com/hydra-genetics/snv_indels/compare/v0.6.0...v1.0.0) (2024-04-18)
 
 
