@@ -562,3 +562,24 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 
 #RESOURCESSCHEMA__vt_normalize#
 
+
+## [hiphase](url_to_tool)
+Introduction to hiphase
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__hiphase__hiphase#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__hiphase__hiphase#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__hiphase#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__hiphase#

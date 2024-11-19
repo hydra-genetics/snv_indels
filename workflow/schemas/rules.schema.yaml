@@ -499,6 +499,48 @@ properties:
           vcf:
             type: string
             description: hard filtered vcf file with snv amd indels calls
+  
+  hiphase:
+    type: object
+    description: input and output parameters for hiphase
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: bam file with aligned HIFI Pacbio reads
+          ref:
+            type: string
+            description: fasta reference genome file
+          snv_vcf:
+            type: string
+            description: Deepvariant vcf file
+          sv_vcf:
+            type: string
+            description: PBSV vcf file
+          str_vcf:
+            type: string
+            description: TRGT vcf file
+
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          bam:
+            type: string
+            description: Haplotagged bam file with aligned HIFI Pacbio reads
+          snv_vcf:
+            type: string
+            description: Phased Deepvariant vcf file
+          sv_vcf:
+            type: string
+            description: Phased PBSV vcf file
+          str_vcf:
+            type: string
+            description: Phased TRGT vcf file
+            
 
   tabix:
     type: object

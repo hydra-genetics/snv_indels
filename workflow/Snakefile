@@ -5,6 +5,7 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
+include: "rules/hiphase.smk"
 include: "rules/merge_af_complex_variants.smk"
 include: "rules/bcbio_variation_recall.smk"
 include: "rules/bcftools.smk"

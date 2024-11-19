@@ -32,13 +32,11 @@ samples = pd.read_table(config["samples"], dtype=str).set_index("sample", drop=F
 validate(samples, schema="../schemas/samples.schema.yaml")
 
 ### Read and validate units file
-
-units = (
-    pandas.read_table(config["units"], dtype=str)
-    .set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False)
-    .sort_index()
-)
-validate(units, schema="../schemas/units.schema.yaml")
+units = pandas.read_table(config["units"], dtype=str)
+if units.platform[0] in ["PACBIO", "ONT"]:
+    units = units.set_index(["sample", "type", "processing_unit", "barcode"], drop=False).sort_index()
+else:  # assume that the platform Illumina data with a lane and flowcell columns
+    units = units.set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False).sort_index()
 
 ### Set wildcard constraints
 
@@ -161,7 +159,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             ],
         }
         output_files = [
-            "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
+            "snv_indels/{prefix}/{sample}_{t}.{suffix}"
             for prefix in files.keys()
             for sample in get_samples(samples[pd.isnull(samples["trioid"])])
             for t in get_unit_types(units, sample)
@@ -172,13 +170,34 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             "glnexus": ["vcf.gz"],
         }
         output_files += [
-            "snv_indels/%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
+            "snv_indels/{prefix}/{sample}_{t}.{suffix}"
             for prefix in files.keys()
             for sample in samples[samples.trio_member == "proband"].index
             for unit_type in get_unit_types(units, sample)
             for suffix in files[prefix]
         ]
     else:
+        files = {
+            "snv_indels/hiphase": ["phased.vcf.gz"],
+        }
+
+        hiphase_callers = config.get("hiphase", {}).get("snv_caller", ["deepvariant"])
+        if config.get("hiphase", {}).get("sv_caller", False):
+            hiphase_callers.append("pbsv")
+        if config.get("hiphase", {}).get("str_caller", False):
+            hiphase_callers.append("trgt")
+
+        output_files = [
+            f"{prefix}/{sample}_{unit_type}.{caller}.{suffix}"
+            for prefix in files.keys()
+            for sample in get_samples(samples)
+            for unit_type in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform in ["ONT", "PACBIO"]
+            for caller in hiphase_callers
+            for suffix in files[prefix]
+        ]
+
         files = {
             "bcbio_variation_recall_ensemble": [
                 "ensembled.vcf.gz",
@@ -190,12 +209,15 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
                 "normalized.sorted.vcf.gz",
             ],
         }
-        output_files = [
-            "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
+        output_files += [
+            "snv_indels/{prefix}/{sample}_{t}.{suffix}"
             for prefix in files.keys()
             for sample in get_samples(samples[pd.isnull(samples["trioid"])])
             for t in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
 
+    print(output_files)
     return output_files

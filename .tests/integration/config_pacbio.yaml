@@ -1,0 +1,16 @@
+resources: "resources.yaml"
+samples: "samples_pacbio.tsv"
+units: "units_pacbio.tsv"
+
+default_container: "docker://hydragenetics/common:3.0.0"
+
+run_deepvariant: false
+
+reference:
+  fasta: "reference/human_GRCh38_no_alt_analysis_set.fasta"
+  fai: "reference/human_GRCh38_no_alt_analysis_set.fasta.fai" 
+
+hiphase:
+  container: "docker://hydragenetics/hiphase:1.4.5"
+  sv_caller: false
+  str_caller: true
