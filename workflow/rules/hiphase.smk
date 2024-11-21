@@ -8,7 +8,7 @@ rule hiphase:
     input:
         bam="alignment/pbmm2_align/{sample}_{type}.bam",
         ref=config.get("reference", {}).get("fasta", ""),
-        snv_vcf="snv_indels/deepvariant/{sample}_{type}.vcf.gz",
+        snv_vcf="snv_indels/deepvariant/{sample}_{type}.merged.vcf.gz",
         sv_vcf="cnv_sv/pbsv/{sample}_{type}.vcf.gz" if config.get("hiphase", {}).get("sv_caller", False) else [],
         str_vcf="cnv_sv/trgt/{sample}_{type}.vcf.gz" if config.get("hiphase", {}).get("str_caller", False) else [],
     output:

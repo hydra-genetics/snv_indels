@@ -43,6 +43,7 @@ else:  # assume that the platform Illumina data with a lane and flowcell columns
 
 wildcard_constraints:
     barcode="[A-Z+]+",
+    chr="[^.]+",
     flowcell="[A-Z0-9]+",
     lane="L[0-9]+",
     sample="|".join(get_samples(samples)),
@@ -151,73 +152,93 @@ def get_glnexus_input(wildcards, input):
 
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):
-    if config["run_deepvariant"]:
-        files = {
-            "deepvariant": [
-                "merged.vcf.gz",
-                "merged.g.vcf.gz",
-            ],
-        }
-        output_files = [
-            "snv_indels/{prefix}/{sample}_{t}.{suffix}"
-            for prefix in files.keys()
-            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
-            for t in get_unit_types(units, sample)
-            for suffix in files[prefix]
-        ]
+    # deepvariant long read
+    files = {
+        "deepvariant": [
+            "merged.vcf.gz",
+            "merged.g.vcf.gz",
+        ],
+    }
+    output_files = [
+        f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
+        for prefix in files.keys()
+        for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+        for t in get_unit_types(units, sample)
+        for platform in units.loc[(sample,)].platform
+        if platform in ["ONT", "PACBIO"]
+        for suffix in files[prefix]
+    ]
 
-        files = {
-            "glnexus": ["vcf.gz"],
-        }
-        output_files += [
-            "snv_indels/{prefix}/{sample}_{t}.{suffix}"
-            for prefix in files.keys()
-            for sample in samples[samples.trio_member == "proband"].index
-            for unit_type in get_unit_types(units, sample)
-            for suffix in files[prefix]
-        ]
-    else:
-        files = {
-            "snv_indels/hiphase": ["phased.vcf.gz"],
-        }
+    files = {
+        "snv_indels/hiphase": ["phased.vcf.gz"],
+    }
 
-        hiphase_callers = config.get("hiphase", {}).get("snv_caller", ["deepvariant"])
-        if config.get("hiphase", {}).get("sv_caller", False):
-            hiphase_callers.append("pbsv")
-        if config.get("hiphase", {}).get("str_caller", False):
-            hiphase_callers.append("trgt")
+    hiphase_callers = config.get("hiphase", {}).get("snv_caller", ["deepvariant"])
+    if config.get("hiphase", {}).get("sv_caller", False):
+        hiphase_callers.append("pbsv")
+    if config.get("hiphase", {}).get("str_caller", False):
+        hiphase_callers.append("trgt")
 
-        output_files = [
-            f"{prefix}/{sample}_{unit_type}.{caller}.{suffix}"
-            for prefix in files.keys()
-            for sample in get_samples(samples)
-            for unit_type in get_unit_types(units, sample)
-            for platform in units.loc[(sample,)].platform
-            if platform in ["ONT", "PACBIO"]
-            for caller in hiphase_callers
-            for suffix in files[prefix]
-        ]
+    output_files += [
+        f"{prefix}/{sample}_{unit_type}.{caller}.{suffix}"
+        for prefix in files.keys()
+        for sample in get_samples(samples)
+        for unit_type in get_unit_types(units, sample)
+        for platform in units.loc[(sample,)].platform
+        if platform in ["PACBIO"]
+        for caller in hiphase_callers
+        for suffix in files[prefix]
+    ]
 
-        files = {
-            "bcbio_variation_recall_ensemble": [
-                "ensembled.vcf.gz",
-            ],
-            "gatk_mutect2_gvcf": [
-                "merged.g.vcf.gz",
-            ],
-            "haplotypecaller": [
-                "normalized.sorted.vcf.gz",
-            ],
-        }
-        output_files += [
-            "snv_indels/{prefix}/{sample}_{t}.{suffix}"
-            for prefix in files.keys()
-            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
-            for t in get_unit_types(units, sample)
-            for platform in units.loc[(sample,)].platform
-            if platform not in ["ONT", "PACBIO"]
-            for suffix in files[prefix]
-        ]
+    # deepvariant short read
+    files = {
+        "deepvariant": [
+            "merged.vcf.gz",
+            "merged.g.vcf.gz",
+        ],
+    }
+    output_files += [
+        f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
+        for prefix in files.keys()
+        for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+        for t in get_unit_types(units, sample)
+        for platform in units.loc[(sample,)].platform
+        if platform not in ["ONT", "PACBIO"]
+        for suffix in files[prefix]
+    ]
 
-    print(output_files)
+    files = {
+        "glnexus": ["vcf.gz"],
+    }
+    output_files += [
+        f"snv_indels/{prefix}/{sample}_{unit_type}.{suffix}"
+        for prefix in files.keys()
+        for sample in samples[samples.trio_member == "proband"].index
+        for unit_type in get_unit_types(units, sample)
+        for platform in units.loc[(sample,)].platform
+        if platform not in ["ONT", "PACBIO"]
+        for suffix in files[prefix]
+    ]
+
+    files = {
+        "bcbio_variation_recall_ensemble": [
+            "ensembled.vcf.gz",
+        ],
+        "gatk_mutect2_gvcf": [
+            "merged.g.vcf.gz",
+        ],
+        "haplotypecaller": [
+            "normalized.sorted.vcf.gz",
+        ],
+    }
+    output_files += [
+        f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
+        for prefix in files.keys()
+        for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+        for t in get_unit_types(units, sample)
+        for platform in units.loc[(sample,)].platform
+        if platform not in ["ONT", "PACBIO"]
+        for suffix in files[prefix]
+    ]
+
     return output_files

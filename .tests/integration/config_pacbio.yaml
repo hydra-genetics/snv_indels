@@ -4,11 +4,14 @@ units: "units_pacbio.tsv"
 
 default_container: "docker://hydragenetics/common:3.0.0"
 
-run_deepvariant: false
-
 reference:
   fasta: "reference/human_GRCh38_no_alt_analysis_set.fasta"
-  fai: "reference/human_GRCh38_no_alt_analysis_set.fasta.fai" 
+  fai: "reference/human_GRCh38_no_alt_analysis_set.fasta.fai"
+
+deepvariant:
+  container: "docker://hydragenetics/deepvariant:1.6.1"
+  model_type: "PACBIO"
+  output_gvcf: true
 
 hiphase:
   container: "docker://hydragenetics/hiphase:1.4.5"
