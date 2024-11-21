@@ -30,6 +30,10 @@ jobs:
         working-directory: .tests/integration
         run: |
           snakemake -s ../../workflow/Snakefile -j 1 --show-failed-logs  --configfile config.yaml --use-singularity --singularity-args  " --cleanenv --bind /home/runner "
+      - name: Integration test - small dataset short read deepvariant
+        working-directory: .tests/integration
+        run: |
+          snakemake -s ../../workflow/Snakefile -j 1 --show-failed-logs  --configfile config_deepvariant.yaml --use-singularity --singularity-args  " --cleanenv --bind /home/runner "
       - name: Integration test - small dataset Pacbio
         working-directory: .tests/integration
         run: |
