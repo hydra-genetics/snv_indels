@@ -9,7 +9,7 @@ reference:
   fai: "reference/human_GRCh38_no_alt_analysis_set.fasta.fai"
 
 deepvariant:
-  container: "docker://hydragenetics/deepvariant:1.6.1"
+  container: "docker://google/deepvariant:1.6.1"
   model_type: "PACBIO"
   output_gvcf: true
 
