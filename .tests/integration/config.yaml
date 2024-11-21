@@ -31,7 +31,7 @@ deeptrio_postprocess_variants:
   container: "docker://google/deepvariant:deeptrio-1.5.0"
 
 deepvariant:
-  container: "docker://hydragenetics/deepvariant:1.6.1"
+  container: "docker://google/deepvariant:1.6.1"
   model_type: "WES"
   output_gvcf: True
 
