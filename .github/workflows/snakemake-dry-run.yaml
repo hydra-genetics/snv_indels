@@ -27,7 +27,15 @@ jobs:
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
-      - name: snakemake dry run
+      - name: snakemake dry run short read
         working-directory: .tests/integration
         run: |
           snakemake -n -s ../../workflow/Snakefile --configfile config.yaml
+      - name: snakemake dry run short read deepvariant
+        working-directory: .tests/integration
+        run: |
+          snakemake -n -s ../../workflow/Snakefile --configfile config_deepvariant.yaml
+      - name: snakemake dry run Pacbio
+        working-directory: .tests/integration
+        run: |
+          snakemake -n -s ../../workflow/Snakefile --configfile config_pacbio.yaml

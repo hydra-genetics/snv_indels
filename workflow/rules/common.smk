@@ -32,19 +32,18 @@ samples = pd.read_table(config["samples"], dtype=str).set_index("sample", drop=F
 validate(samples, schema="../schemas/samples.schema.yaml")
 
 ### Read and validate units file
-
-units = (
-    pandas.read_table(config["units"], dtype=str)
-    .set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False)
-    .sort_index()
-)
-validate(units, schema="../schemas/units.schema.yaml")
+units = pandas.read_table(config["units"], dtype=str)
+if units.platform[0] in ["PACBIO", "ONT"]:
+    units = units.set_index(["sample", "type", "processing_unit", "barcode"], drop=False).sort_index()
+else:  # assume that the platform Illumina data with a lane and flowcell columns
+    units = units.set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False).sort_index()
 
 ### Set wildcard constraints
 
 
 wildcard_constraints:
     barcode="[A-Z+]+",
+    chr="[^.]+",
     flowcell="[A-Z0-9]+",
     lane="L[0-9]+",
     sample="|".join(get_samples(samples)),
@@ -153,7 +152,10 @@ def get_glnexus_input(wildcards, input):
 
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):
-    if config["run_deepvariant"]:
+    # deepvariant short read is run in a separate workflow
+    # due to space constraints on standard github runners
+    if config.get("deepvariant", False):
+        # deepvariant short read
         files = {
             "deepvariant": [
                 "merged.vcf.gz",
@@ -165,6 +167,8 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for prefix in files.keys()
             for sample in get_samples(samples[pd.isnull(samples["trioid"])])
             for t in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
 
@@ -176,6 +180,45 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for prefix in files.keys()
             for sample in samples[samples.trio_member == "proband"].index
             for unit_type in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform not in ["ONT", "PACBIO"]
+            for suffix in files[prefix]
+        ]
+        # deepvariant long read
+        files = {
+            "deepvariant": [
+                "merged.vcf.gz",
+                "merged.g.vcf.gz",
+            ],
+        }
+        output_files += [
+            f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
+            for prefix in files.keys()
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            for t in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform in ["ONT", "PACBIO"]
+            for suffix in files[prefix]
+        ]
+
+        files = {
+            "snv_indels/hiphase": ["phased.vcf.gz"],
+        }
+
+        hiphase_callers = config.get("hiphase", {}).get("snv_caller", ["deepvariant"])
+        if config.get("hiphase", {}).get("sv_caller", False):
+            hiphase_callers.append("pbsv")
+        if config.get("hiphase", {}).get("str_caller", False):
+            hiphase_callers.append("trgt")
+
+        output_files += [
+            f"{prefix}/{sample}_{unit_type}.{caller}.{suffix}"
+            for prefix in files.keys()
+            for sample in get_samples(samples)
+            for unit_type in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform in ["PACBIO"]
+            for caller in hiphase_callers
             for suffix in files[prefix]
         ]
     else:
@@ -191,10 +234,12 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             ],
         }
         output_files = [
-            "snv_indels/%s/%s_%s.%s" % (prefix, sample, t, suffix)
+            f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
             for prefix in files.keys()
             for sample in get_samples(samples[pd.isnull(samples["trioid"])])
             for t in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
 

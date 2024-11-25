@@ -4,8 +4,6 @@ units: "units.tsv"
 
 default_container: "docker://hydragenetics/common:0.2.0"
 
-run_deepvariant: false
-
 reference:
   fasta: "reference/HES45.fna"
   fai: "reference/HES45.fna.fai"
@@ -17,7 +15,11 @@ bcbio_variation_recall_ensemble:
     - vardict
     - gatk_mutect2
     - freebayes
-  
+
+glnexus:
+  container: "docker://hydragenetics/glnexus:1.4.1"
+  configfile: "DeepVariantWES"
+
 freebayes:
   container: "docker://hydragenetics/freebayes:1.3.1"
 
