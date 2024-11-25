@@ -413,6 +413,29 @@ Germline variant caller for SNVs and INDELs.
 
 ---
 
+## [hiphase](https://github.com/PacificBiosciences/HiPhase)
+Hiphase jointly phases small, structural, and tandem repeat variants for PacBio sequencing data
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__hiphase__hiphase#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__hiphase__hiphase#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__hiphase#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__hiphase#
+
+---
+
 ## [merge_af_complex_variants](https://github.com/hydra-genetics/snv_indels/blob/develop/workflow/scripts/merge_af.py)
 Python script for handling complex variants with several vcf record.
 
@@ -563,23 +586,4 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 #RESOURCESSCHEMA__vt_normalize#
 
 
-## [hiphase](url_to_tool)
-Introduction to hiphase
 
-### :snake: Rule
-
-#SNAKEMAKE_RULE_SOURCE__hiphase__hiphase#
-
-#### :left_right_arrow: input / output files
-
-#SNAKEMAKE_RULE_TABLE__hiphase__hiphase#
-
-### :wrench: Configuration
-
-#### Software settings (`config.yaml`)
-
-#CONFIGSCHEMA__hiphase#
-
-#### Resources settings (`resources.yaml`)
-
-#RESOURCESSCHEMA__hiphase#

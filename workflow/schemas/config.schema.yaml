@@ -314,6 +314,20 @@ properties:
         type: string
         description: parameters that should be forwarded
 
+  hiphase:
+    type: object
+    description: parameters for hiphase
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
   merge_af_complex_variants:
     type: object
     description: parameters for merge_af_complex_variants
@@ -402,22 +416,6 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
-
-
-# Entry added using Hydra-Genetics CLI - please move it into alphabetically sorted order
-  hiphase:
-    type: object
-    description: parameters for hiphase
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      extra:
-        type: string
-        description: parameters that should be forwarded
 
 required:
   - default_container
