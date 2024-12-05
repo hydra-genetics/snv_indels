@@ -17,6 +17,7 @@ rule hiphase:
         str_tbi="cnv_sv/trgt/{sample}_{type}.vcf.gz.tbi" if config.get("hiphase", {}).get("str_caller", False) else [],
     output:
         bam=temp("snv_indels/hiphase/{sample}_{type}.haplotagged.bam"),
+        bai=temp("snv_indels/hiphase/{sample}_{type}.haplotagged.bam.bai"),
         snv_vcf=temp("snv_indels/hiphase/{sample}_{type}.deepvariant.phased.vcf.gz"),
         sv_vcf=temp("snv_indels/hiphase/{sample}_{type}.pbsv.phased.vcf.gz")
         if config.get("hiphase", {}).get("sv_caller", False)
