@@ -567,6 +567,9 @@ properties:
           bam:
             type: string
             description: Haplotagged bam file with aligned HIFI Pacbio reads
+          bai:
+            type: string
+            description: Haplotagged bam file index
           snv_vcf:
             type: string
             description: Phased Deepvariant vcf file
