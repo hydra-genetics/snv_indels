@@ -50,7 +50,7 @@ rule deepvariant:
         "--num_shards {threads} ) &> {log}"
 
 
-use rule deepvariant as deepvariant_pacbio with:
+rule deepvariant_pacbio:
     input:
         bam="alignment/pbmm2_align/{sample}_{type}.bam",
         bai="alignment/pbmm2_align/{sample}_{type}.bam.bai",
@@ -66,3 +66,31 @@ use rule deepvariant as deepvariant_pacbio with:
         int_res=lambda wildcards: f"snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}_{wildcards.chr}",
         regions=lambda wildcards: f" --regions {wildcards.chr} ",
         extra=config.get("deepvariant", {}).get("extra", ""),
+    log:
+        "snv_indels/deepvariant/{sample}_{type}_{chr}.vcf.gz.log",
+    benchmark:
+        repeat(
+            "snv_indels/deepvariant/{sample}_{type}_{chr}.vcf.gz.benchmark.tsv",
+            config.get("deepvariant", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("deepvariant", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("deepvariant", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("deepvariant", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("deepvariant", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("deepvariant", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("deepvariant", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("deepvariant", {}).get("container", config["default_container"])
+    message:
+        "{rule}: Run deepvariant on {input.bam}"
+    shell:
+        "(run_deepvariant "
+        "--model_type {params.model_type} "
+        "--ref {input.ref} "
+        "--reads {input.bam} "
+        "{params.regions} "
+        "--output_vcf {output.vcf} "
+        "{params.output_gvcf} "
+        "--intermediate_results_dir {params.int_res} "
+        "--num_shards {threads} ) &> {log}"
