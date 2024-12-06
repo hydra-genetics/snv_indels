@@ -7,6 +7,7 @@ __license__ = "GPL-3"
 rule hiphase:
     input:
         bam="alignment/pbmm2_align/{sample}_{type}.bam",
+        bai="alignment/pbmm2_align/{sample}_{type}.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
         snv_vcf="snv_indels/deepvariant/{sample}_{type}.merged.vcf.gz",
         snv_tbi="snv_indels/deepvariant/{sample}_{type}.merged.vcf.gz.tbi",
