@@ -417,6 +417,23 @@ properties:
         description: name or path to docker/singularity container
 
 
+
+
+# Entry added using Hydra-Genetics CLI - please move it into alphabetically sorted order
+  deepsomatic_deepsomatic:
+    type: object
+    description: parameters for deepsomatic_deepsomatic
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
 required:
   - default_container
   - reference

@@ -587,3 +587,24 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 
 
 
+
+## [deepsomatic_deepsomatic](url_to_tool)
+Introduction to deepsomatic_deepsomatic
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepsomatic__deepsomatic_deepsomatic#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepsomatic__deepsomatic_deepsomatic#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepsomatic_deepsomatic#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepsomatic_deepsomatic#

@@ -628,3 +628,27 @@ properties:
           vcf:
             type: string
             description: normalized vcf file
+
+
+# Entry added using Hydra-Genetics CLI - please move it into alphabetically sorted order
+  deepsomatic_deepsomatic:
+    type: object
+    description: input and output parameters for deepsomatic_deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          input1:
+            type: string
+            description: description input1
+            #value: set to override value in table, else remove
+
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          output1:
+            type: string
+            description: description output1
+            #value: set to override value in table, else remove
