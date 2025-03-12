@@ -138,6 +138,52 @@ Compress a `.vcf` file using bgzip.
 
 ---
 
+## [deepsomatic_t_only](https://github.com/google/deepsomatic)
+Using only tumor to call somatic SNV and indel variant from both short and long-read with DeepSomatic. The tool is the somatic version of DeepVariant. 
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepsomatic__deepsomatic_t_only#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepsomatic__deepsomatic_t_only#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepsomatic#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepsomatic#
+
+---
+
+## [deepsomatic_tn](https://github.com/google/deepsomatic)
+Tumor/normal analysis to call somatic SNV and indel variant from both short and long-read with DeepSomatic. The tool is the somatic version of DeepVariant. 
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepsomatic__deepsomatic_tn#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepsomatic__deepsomatic_tn#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepsomatic#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepsomatic#
+
+---
+
 ## [deeptrio_call_variants](https://github.com/google/deepvariant)
 Step 2 of 3 in the calling of SNVs and INDELs using deeptrio.
 
@@ -585,26 +631,3 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 
 #RESOURCESSCHEMA__vt_normalize#
 
-
-
-
-## [deepsomatic_deepsomatic](url_to_tool)
-Introduction to deepsomatic_deepsomatic
-
-### :snake: Rule
-
-#SNAKEMAKE_RULE_SOURCE__deepsomatic__deepsomatic_deepsomatic#
-
-#### :left_right_arrow: input / output files
-
-#SNAKEMAKE_RULE_TABLE__deepsomatic__deepsomatic_deepsomatic#
-
-### :wrench: Configuration
-
-#### Software settings (`config.yaml`)
-
-#CONFIGSCHEMA__deepsomatic_deepsomatic#
-
-#### Resources settings (`resources.yaml`)
-
-#RESOURCESSCHEMA__deepsomatic_deepsomatic#

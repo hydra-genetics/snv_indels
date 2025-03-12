@@ -130,6 +130,77 @@ properties:
             type: string
             description: the compressed `.vcf.gz` file
 
+  deepsomatic_t_only:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file
+          bai:
+            type: string
+            description: index file for `.bam` file
+          bed:
+            type: string
+            description: the region where variants should be called
+          pon:
+            type: string
+            description: a `.vcf.gz` file with several samples which variants will be filtered as PON
+          ref:
+            type: string
+            description: fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: vcf file with snv and indels calls
+          gvcf:
+            type: string
+            description: gVCF file with snv and indels calls and non-variant blocks (add "--output_gvcf={path to output gVCF}" to rule)
+
+  deepsomatic_tn:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          normal:
+            type: string
+            description: marked duplication, merged and sorted tumor `.bam` file
+          tumor:
+            type: string
+            description: marked duplication, merged and sorted normal `.bam` file
+          bai_n:
+            type: string
+            description: index file for tumor `.bam` file
+          bai_t:
+            type: string
+            description: index file for normal `.bam` file
+          bed:
+            type: string
+            description: the region where variants should be called
+          ref:
+            type: string
+            description: fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: vcf file with snv and indels calls
+          gvcf:
+            type: string
+            description: gVCF file with snv and indels calls and non-variant blocks (add "--output_gvcf={path to output gVCF}" to rule)
+
   deeptrio_make_examples:
     type: object
     description: input and output parameters for deeptrio_make_examples
@@ -629,26 +700,3 @@ properties:
             type: string
             description: normalized vcf file
 
-
-# Entry added using Hydra-Genetics CLI - please move it into alphabetically sorted order
-  deepsomatic_deepsomatic:
-    type: object
-    description: input and output parameters for deepsomatic_deepsomatic
-    properties:
-      input:
-        type: object
-        description: list of inputs
-        properties:
-          input1:
-            type: string
-            description: description input1
-            #value: set to override value in table, else remove
-
-      output:
-        type: object
-        description: list of outputs
-        properties:
-          output1:
-            type: string
-            description: description output1
-            #value: set to override value in table, else remove

@@ -149,6 +149,29 @@ properties:
         type: string
         description: max execution time
 
+  deepsomatic:
+    type: object
+    description: resource definitions for deepsomatic
+    properties:
+      gres:
+        type: string
+        description: generic resource scheduling
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
   deeptrio_make_examples:
     type: object
     description: resource definitions for deeptrio_make_examples
@@ -535,29 +558,3 @@ properties:
         type: string
         description: max execution time
 
-
-
-
-# Entry added using Hydra-Genetics CLI - please move it into alphabetically sorted order
-  deepsomatic_deepsomatic:
-    type: object
-    description: resource definitions for deepsomatic_deepsomatic
-    properties:
-      mem_mb:
-        type: integer
-        description: max memory in MB to be available
-      mem_per_cpu:
-        type: integer
-        description: memory in MB used per cpu
-      partition:
-        type: string
-        description: partition to use on cluster
-      threads:
-        type: integer
-        description: number of threads to be available
-      time:
-        type: string
-        description: max execution time
-
-required:
-  - default_resources
