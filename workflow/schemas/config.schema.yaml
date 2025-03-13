@@ -136,7 +136,7 @@ properties:
         type: string
         description: parameters that should be forwarded (e.g. --make_examples_extra_args="vsc_min_fraction_snps=0.04")
       model:
-        type: object
+        type: string
         description: choose which model to use based on the data (e.g. WGS_TUMOR_ONLY)
     required:
       - model
