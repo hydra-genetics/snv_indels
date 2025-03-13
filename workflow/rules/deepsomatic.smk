@@ -23,7 +23,7 @@ rule deepsomatic_t_only:
     benchmark:
         repeat(
             "snv_indels/deepsomatic/{sample}_{type}.output.benchmark.tsv",
-            config.get("deepsomatic", {}).get("benchmark_repeats", 1)
+            config.get("deepsomatic", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deepsomatic", {}).get("threads", config["default_resources"]["threads"])
     resources:
@@ -53,6 +53,7 @@ rule deepsomatic_t_only:
         {params.extra} \
         """
 
+
 rule deepsomatic_tn:
     input:
         normal="alignment/samtools_merge_bam/{sample}_N.bam",
@@ -64,7 +65,7 @@ rule deepsomatic_tn:
         pon=config.get("reference", {}).get("pon", ""),
     output:
         tmpdir=temp(directory("snv_indels/deepsomatic/{sample}_{type}.tmp")),
-        vcf=temp()"snv_indels/deepsomatic/{sample}_{type}.vcf.gz"),
+        vcf=temp("snv_indels/deepsomatic/{sample}_{type}.vcf.gz"),
     params:
         extra=config.get("deepsomatic", {}).get("extra", ""),
         model=config.get("deepsomatic", {}).get("model", ""),
@@ -75,7 +76,7 @@ rule deepsomatic_tn:
     benchmark:
         repeat(
             "snv_indels/deepsomatic/{sample}_{type}.output.benchmark.tsv",
-            config.get("deepsomatic", {}).get("benchmark_repeats", 1)
+            config.get("deepsomatic", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deepsomatic", {}).get("threads", config["default_resources"]["threads"])
     resources:
