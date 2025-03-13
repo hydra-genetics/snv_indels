@@ -1,4 +1,4 @@
-__author__ = "Jessika Nordin"
+__author__ = "Jessika Nordin, Camille Clouard"
 __copyright__ = "Copyright 2025, Jessika Nordin"
 __email__ = "jessika.nordin@scilifelab.uu.se"
 __license__ = "GPL-3"
@@ -12,8 +12,8 @@ rule deepsomatic_t_only:
         bed=config.get("reference", {}).get("design_bed", ""),
         pon=config.get("reference", {}).get("pon", ""),
     output:
-        tmpdir=directory("snv_indels/deepsomatic/{sample}_{type}_tmp"),
-        vcf="snv_indels/deepsomatic/{sample}_{type}.vcf.gz"
+        tmpdir=temp(directory("snv_indels/deepsomatic/{sample}_{type}.tmp")),
+        vcf=temp("snv_indels/deepsomatic/{sample}_{type}.vcf.gz"),
     params:
         extra=config.get("deepsomatic", {}).get("extra", ""),
         model=config.get("deepsomatic", {}).get("model", ""),
@@ -63,8 +63,8 @@ rule deepsomatic_tn:
         bed=config.get("reference", {}).get("design_bed", ""),
         pon=config.get("reference", {}).get("pon", ""),
     output:
-        tmpdir=directory("snv_indels/deepsomatic/{sample}_{type}_tmp"),
-        vcf="snv_indels/deepsomatic/{sample}_{type}.vcf.gz"
+        tmpdir=temp(directory("snv_indels/deepsomatic/{sample}_{type}.tmp")),
+        vcf=temp()"snv_indels/deepsomatic/{sample}_{type}.vcf.gz"),
     params:
         extra=config.get("deepsomatic", {}).get("extra", ""),
         model=config.get("deepsomatic", {}).get("model", ""),
