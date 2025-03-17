@@ -8,6 +8,7 @@ reference:
   fasta: ""
   fai: ""
   design_bed: ""
+  pon: ""
 
 bcbio_variation_recall_ensemble:
   container: "docker://gmsuppsala/somatic:develop"
