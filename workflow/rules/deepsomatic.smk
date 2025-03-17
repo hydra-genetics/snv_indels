@@ -87,7 +87,7 @@ rule deepsomatic_tn:
     container:
         config.get("deepsomatic_tn", {}).get("container", config["default_container"])
     message:
-        "{rule}: Calling small variants from short read data in tumour only sample with DeepSomatic from {input.normal}"
+        "{rule}: Calling small variants from short read data in tumour/normal samples with DeepSomatic from {input.tumor}"
     shell:
         """
         run_deepsomatic \
