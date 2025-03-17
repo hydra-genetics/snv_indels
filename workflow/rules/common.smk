@@ -250,7 +250,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
                 "vcf.gz",
             ],
         }
-        output_files = [
+        output_files += [
             f"snv_indels/{prefix}/{sample}.{suffix}"
             for prefix in files.keys()
             for sample in get_samples(samples[pd.isnull(samples["trioid"])])
