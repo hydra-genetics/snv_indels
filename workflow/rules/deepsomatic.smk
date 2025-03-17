@@ -103,4 +103,6 @@ rule deepsomatic_tn:
         --vcf_stats_report=true \
         --intermediate_results_dir {output.tmpdir} \
         --regions={input.bed} \
-        {params.extra}"""
+        {params.extra}
+        """
+

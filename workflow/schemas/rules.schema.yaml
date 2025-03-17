@@ -159,10 +159,7 @@ properties:
         properties:
           vcf:
             type: string
-            description: vcf file with snv and indels calls
-          gvcf:
-            type: string
-            description: gVCF file with snv and indels calls and non-variant blocks (add "--output_gvcf={path to output gVCF}" to rule)
+            description: vcf file with snv and indels calls (add "--output_gvcf={path to output gVCF}" to rule for .g.vcf)
 
   deepsomatic_tn:
     type: object
@@ -196,10 +193,7 @@ properties:
         properties:
           vcf:
             type: string
-            description: vcf file with snv and indels calls
-          gvcf:
-            type: string
-            description: gVCF file with snv and indels calls and non-variant blocks (add "--output_gvcf={path to output gVCF}" to rule)
+            description: vcf file with snv and indels calls (add "--output_gvcf={path to output gVCF}" to rule for .g.vcf)
 
   deeptrio_make_examples:
     type: object
