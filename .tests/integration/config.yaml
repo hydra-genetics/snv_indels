@@ -8,6 +8,7 @@ reference:
   fasta: "reference/HES45.fna"
   fai: "reference/HES45.fna.fai"
   design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
+  pon: "reference/pon.vcf.gz"
 
 bcbio_variation_recall_ensemble:
   container: "docker://gmsuppsala/somatic:develop"
