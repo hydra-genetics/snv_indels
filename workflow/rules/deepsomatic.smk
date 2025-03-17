@@ -12,28 +12,28 @@ rule deepsomatic_t_only:
         bed=config.get("reference", {}).get("design_bed", ""),
         pon=config.get("reference", {}).get("pon", ""),
     output:
-        tmpdir=temp(directory("snv_indels/deepsomatic/{sample}_{type}.tmp")),
-        vcf=temp("snv_indels/deepsomatic/{sample}_{type}.vcf.gz"),
+        tmpdir=temp(directory("snv_indels/deepsomatic_t_only/{sample}_{type}.tmp")),
+        vcf=temp("snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz"),
     params:
-        extra=config.get("deepsomatic", {}).get("extra", ""),
-        model=config.get("deepsomatic", {}).get("model", ""),
+        extra=config.get("deepsomatic_t_only", {}).get("extra", ""),
+        model=config.get("deepsomatic_t_only", {}).get("model", ""),
         name=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
     log:
-        "snv_indels/deepsomatic/{sample}_{type}.deepsomatic.log",
+        "snv_indels/deepsomatic_t_only/{sample}_{type}.deepsomatic.log",
     benchmark:
         repeat(
-            "snv_indels/deepsomatic/{sample}_{type}.output.benchmark.tsv",
-            config.get("deepsomatic", {}).get("benchmark_repeats", 1),
+            "snv_indels/deepsomatic_t_only/{sample}_{type}.output.benchmark.tsv",
+            config.get("deepsomatic_t_only", {}).get("benchmark_repeats", 1),
         )
-    threads: config.get("deepsomatic", {}).get("threads", config["default_resources"]["threads"])
+    threads: config.get("deepsomatic_t_only", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        mem_mb=config.get("deepsomatic", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("deepsomatic", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("deepsomatic", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("deepsomatic", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("deepsomatic", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("deepsomatic_t_only", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("deepsomatic_t_only", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("deepsomatic_t_only", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("deepsomatic_t_only", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("deepsomatic_t_only", {}).get("time", config["default_resources"]["time"]),
     container:
-        config.get("deepsomatic", {}).get("container", config["default_container"])
+        config.get("deepsomatic_t_only", {}).get("container", config["default_container"])
     message:
         "{rule}: Calling small variants from short read data in tumour only sample with DeepSomatic from {input.bam}"
     shell:
@@ -64,29 +64,29 @@ rule deepsomatic_tn:
         bed=config.get("reference", {}).get("design_bed", ""),
         pon=config.get("reference", {}).get("pon", ""),
     output:
-        tmpdir=temp(directory("snv_indels/deepsomatic/{sample}_{type}.tmp")),
-        vcf=temp("snv_indels/deepsomatic/{sample}_{type}.vcf.gz"),
+        tmpdir=temp(directory("snv_indels/deepsomatic_tn/{sample}.tmp")),
+        vcf=temp("snv_indels/deepsomatic_tn/{sample}.vcf.gz"),
     params:
-        extra=config.get("deepsomatic", {}).get("extra", ""),
-        model=config.get("deepsomatic", {}).get("model", ""),
-        name_n=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
-        name_t=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
+        extra=config.get("deepsomatic_tn", {}).get("extra", ""),
+        model=config.get("deepsomatic_tn", {}).get("model", ""),
+        name_n=lambda wildcards: f"{wildcards.sample}_N",
+        name_t=lambda wildcards: f"{wildcards.sample}_T",
     log:
-        "snv_indels/deepsomatic/{sample}_{type}.deepsomatic.log",
+        "snv_indels/deepsomatic_tn/{sample}.deepsomatic.log",
     benchmark:
         repeat(
-            "snv_indels/deepsomatic/{sample}_{type}.output.benchmark.tsv",
-            config.get("deepsomatic", {}).get("benchmark_repeats", 1),
+            "snv_indels/deepsomatic_tn/{sample}.output.benchmark.tsv",
+            config.get("deepsomatic_tn", {}).get("benchmark_repeats", 1),
         )
-    threads: config.get("deepsomatic", {}).get("threads", config["default_resources"]["threads"])
+    threads: config.get("deepsomatic_tn", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        mem_mb=config.get("deepsomatic", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("deepsomatic", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("deepsomatic", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("deepsomatic", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("deepsomatic", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("deepsomatic_tn", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("deepsomatic_tn", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("deepsomatic_tn", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("deepsomatic_tn", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("deepsomatic_tn", {}).get("time", config["default_resources"]["time"]),
     container:
-        config.get("deepsomatic", {}).get("container", config["default_container"])
+        config.get("deepsomatic_tn", {}).get("container", config["default_container"])
     message:
         "{rule}: Calling small variants from short read data in tumour only sample with DeepSomatic from {input.bam}"
     shell:

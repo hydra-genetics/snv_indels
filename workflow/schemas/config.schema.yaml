@@ -122,7 +122,7 @@ properties:
         type: string
         description: name or path to docker/singularity container
   
-  deepsomatic:
+  deepsomatic_t_only:
     type: object
     description: parameters for deepsomatic
     properties:
@@ -141,6 +141,25 @@ properties:
     required:
       - model
   
+  deepsomatic_tn:
+    type: object
+    description: parameters for deepsomatic
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded (e.g. --make_examples_extra_args="vsc_min_fraction_snps=0.04")
+      model:
+        type: string
+        description: choose which model to use based on the data (e.g. WGS_TUMOR_ONLY)
+    required:
+      - model
+
   deeptrio_call_variants:
     type: object
     description: parameters for deeptrio_call_variants

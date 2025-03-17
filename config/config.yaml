@@ -16,11 +16,16 @@ bcbio_variation_recall_ensemble:
     - gatk_mutect2
     - freebayes
 
-deepsomatic:
+deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
   extra: ""
   model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
   
+deepsomatic_tn:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: ""
+  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
 deeptrio_call_variants:
   container: "docker://google/deepvariant:deeptrio-1.4.0"
   model:
