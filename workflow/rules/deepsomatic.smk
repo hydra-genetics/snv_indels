@@ -105,4 +105,3 @@ rule deepsomatic_tn:
         --regions={input.bed} \
         {params.extra}
         """
-
