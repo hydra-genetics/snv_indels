@@ -62,7 +62,6 @@ rule deepsomatic_tn:
         bai_t="alignment/samtools_merge_bam/{sample}_T.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
         bed=config.get("reference", {}).get("design_bed", ""),
-        pon=config.get("reference", {}).get("pon", ""),
     output:
         tmpdir=temp(directory("snv_indels/deepsomatic_tn/{sample}.tmp")),
         vcf=temp("snv_indels/deepsomatic_tn/{sample}.vcf.gz"),
@@ -88,7 +87,7 @@ rule deepsomatic_tn:
     container:
         config.get("deepsomatic_tn", {}).get("container", config["default_container"])
     message:
-        "{rule}: Calling small variants from short read data in tumour only sample with DeepSomatic from {input.bam}"
+        "{rule}: Calling small variants from short read data in tumour only sample with DeepSomatic from {input.normal}"
     shell:
         """
         run_deepsomatic \
@@ -104,5 +103,4 @@ rule deepsomatic_tn:
         --vcf_stats_report=true \
         --intermediate_results_dir {output.tmpdir} \
         --regions={input.bed} \
-        {params.extra} \
-        """
+        {params.extra}"""

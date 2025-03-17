@@ -153,11 +153,11 @@ Using only tumor to call somatic SNV and indel variant from both short and long-
 
 #### Software settings (`config.yaml`)
 
-#CONFIGSCHEMA__deepsomatic#
+#CONFIGSCHEMA__deepsomatic_t_only#
 
 #### Resources settings (`resources.yaml`)
 
-#RESOURCESSCHEMA__deepsomatic#
+#RESOURCESSCHEMA__deepsomatic_t_only#
 
 ---
 
@@ -176,11 +176,11 @@ Tumor/normal analysis to call somatic SNV and indel variant from both short and 
 
 #### Software settings (`config.yaml`)
 
-#CONFIGSCHEMA__deepsomatic#
+#CONFIGSCHEMA__deepsomatic_tn#
 
 #### Resources settings (`resources.yaml`)
 
-#RESOURCESSCHEMA__deepsomatic#
+#RESOURCESSCHEMA__deepsomatic_tn#
 
 ---
 
