@@ -221,17 +221,9 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for caller in hiphase_callers
             for suffix in files[prefix]
         ]
-    else:
+    elif config.get("deepsomatic", False):
+        # deepvariant short read
         files = {
-            "bcbio_variation_recall_ensemble": [
-                "ensembled.vcf.gz",
-            ],
-            "gatk_mutect2_gvcf": [
-                "merged.g.vcf.gz",
-            ],
-            "haplotypecaller": [
-                "normalized.sorted.vcf.gz",
-            ],
             "deepsomatic_t_only": [
                 "vcf.gz",
             ],
@@ -258,4 +250,26 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
+    else:
+        files = {
+            "bcbio_variation_recall_ensemble": [
+                "ensembled.vcf.gz",
+            ],
+            "gatk_mutect2_gvcf": [
+                "merged.g.vcf.gz",
+            ],
+            "haplotypecaller": [
+                "normalized.sorted.vcf.gz",
+            ],
+        }
+        output_files = [
+            f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
+            for prefix in files.keys()
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            for t in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform not in ["ONT", "PACBIO"]
+            for suffix in files[prefix]
+        ]
+
     return output_files
