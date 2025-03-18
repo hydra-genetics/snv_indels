@@ -1,0 +1,22 @@
+resources: "resources.yaml"
+samples: "samples.tsv"
+units: "units.tsv"
+
+default_container: "docker://hydragenetics/common:0.2.0"
+
+reference:
+  fasta: "reference/HES45.fna"
+  fai: "reference/HES45.fna.fai"
+  design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
+  pon: "reference/pon.vcf.gz"i
+
+deepsomatic_t_noly:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: ""
+  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
+deepsomatic_tn:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: ""
+  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
