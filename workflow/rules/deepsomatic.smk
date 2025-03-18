@@ -50,7 +50,7 @@ rule deepsomatic_t_only:
         --intermediate_results_dir {output.tmpdir} \
         --pon_filtering={input.pon} --process_somatic=true \
         --regions={input.bed} \
-        {params.extra} \
+        {params.extra} &> {log}
         """
 
 
@@ -103,5 +103,5 @@ rule deepsomatic_tn:
         --vcf_stats_report=true \
         --intermediate_results_dir {output.tmpdir} \
         --regions={input.bed} \
-        {params.extra}
+        {params.extra} &> {log}
         """
