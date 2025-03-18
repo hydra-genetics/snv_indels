@@ -221,7 +221,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for caller in hiphase_callers
             for suffix in files[prefix]
         ]
-    elif config.get("deepsomatic", False):
+    elif config.get("deepsomatic_t_only", False) or config.get("deepsomatic_tn", False):
         # deepvariant short read
         files = {
             "deepsomatic_t_only": [
