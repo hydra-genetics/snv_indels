@@ -18,4 +18,4 @@ deepsomatic_t_noly:
 deepsomatic_tn:
   container: "docker://google/deepsomatic:1.8.0"
   extra: ""
-  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+  model: "WGS" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY

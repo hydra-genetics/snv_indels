@@ -25,7 +25,7 @@ deepsomatic_t_only:
 deepsomatic_tn:
   container: "docker://google/deepsomatic:1.8.0"
   extra: ""
-  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+  model: "WGS" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 
 deeptrio_call_variants:
   container: "docker://google/deepvariant:deeptrio-1.4.0"
