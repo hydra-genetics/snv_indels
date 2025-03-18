@@ -232,6 +232,9 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             "haplotypecaller": [
                 "normalized.sorted.vcf.gz",
             ],
+            "deepsomatic_t_only": [
+                "vcf.gz",
+            ],
         }
         output_files = [
             f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
@@ -242,5 +245,17 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
-
+        files = {
+            "deepsomatic_tn": [
+                "vcf.gz",
+            ],
+        }
+        output_files += [
+            f"snv_indels/{prefix}/{sample}.{suffix}"
+            for prefix in files.keys()
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            for platform in units.loc[(sample,)].platform
+            if platform not in ["ONT", "PACBIO"]
+            for suffix in files[prefix]
+        ]
     return output_files

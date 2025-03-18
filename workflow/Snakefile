@@ -11,6 +11,7 @@ include: "rules/bcbio_variation_recall.smk"
 include: "rules/bcftools.smk"
 include: "rules/bed_split.smk"
 include: "rules/bgzip.smk"
+include: "rules/deepsomatic.smk"
 include: "rules/deeptrio.smk"
 include: "rules/deepvariant.smk"
 include: "rules/fix_af.smk"
@@ -27,6 +28,8 @@ include: "rules/vt.smk"
 ruleorder: bcbio_variation_recall_ensemble > bgzip
 ruleorder: bcftools_sort > bgzip
 ruleorder: bcftools_view > bgzip
+ruleorder: deepsomatic_t_only > bgzip
+ruleorder: deepsomatic_tn > bgzip
 ruleorder: gatk_mutect2 > bgzip
 ruleorder: gatk_mutect2 > tabix
 ruleorder: gatk_mutect2_gvcf > bgzip
