@@ -1,4 +1,4 @@
-name: small integration test shortread deepvariant
+name: small integration test shortread deepsomatic
 
 on:
   push:
@@ -40,7 +40,7 @@ jobs:
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
-      - name: Integration test - small dataset short read deepvariant
+      - name: Integration test - small dataset short read deepsomatic
         working-directory: .tests/integration
         run: |
-          snakemake -s ../../workflow/Snakefile -j 1 --show-failed-logs  --configfile config_deepvariant.yaml --use-singularity --singularity-args  " --cleanenv --bind /home/runner "
+          snakemake -s ../../workflow/Snakefile -j 1 --show-failed-logs  --configfile config_deepsomatic.yaml --use-singularity --singularity-args  " --cleanenv --bind /home/runner "
