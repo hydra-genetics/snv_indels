@@ -1,4 +1,4 @@
-name: small integration test deepsomatic shortread
+name: small integration test shortread deepsomatic
 
 on:
   push:

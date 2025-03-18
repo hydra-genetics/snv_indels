@@ -35,6 +35,10 @@ jobs:
         working-directory: .tests/integration
         run: |
           snakemake -n -s ../../workflow/Snakefile --configfile config_deepvariant.yaml
+      - name: snakemake dry run short read deepsomatic
+          working-directory: .tests/integration
+          run: |
+            snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic.yaml
       - name: snakemake dry run Pacbio
         working-directory: .tests/integration
         run: |

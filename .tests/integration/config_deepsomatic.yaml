@@ -8,7 +8,7 @@ reference:
   fasta: "reference/HES45.fna"
   fai: "reference/HES45.fna.fai"
   design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
-  pon: "reference/pon.vcf.gz"i
+  pon: "reference/pon.vcf.gz"
 
 deepsomatic_t_noly:
   container: "docker://google/deepsomatic:1.8.0"

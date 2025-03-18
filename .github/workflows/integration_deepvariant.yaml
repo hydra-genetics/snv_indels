@@ -1,4 +1,4 @@
-name: small integration test deepvariant shortread
+name: small integration test shortread deepvariant
 
 on:
   push:
