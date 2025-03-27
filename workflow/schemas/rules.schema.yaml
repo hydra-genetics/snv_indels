@@ -535,6 +535,9 @@ properties:
           bam:
             type: string
             description: bam file with aligned HIFI Pacbio reads
+          bai:
+            type: string
+            description: index for the bam file
           ref:
             type: string
             description: fasta reference genome file
@@ -547,9 +550,15 @@ properties:
           sv_vcf:
             type: string
             description: PBSV vcf file
+          sv_tbi:
+            type: string
+            description: PBSV vcf file index
           str_vcf:
             type: string
             description: TRGT vcf file
+          str_tbi:
+            type: string
+            description: TRGT vcf file index
 
       output:
         type: object

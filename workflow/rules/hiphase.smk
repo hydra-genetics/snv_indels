@@ -7,11 +7,14 @@ __license__ = "GPL-3"
 rule hiphase:
     input:
         bam="alignment/pbmm2_align/{sample}_{type}.bam",
+        bai="alignment/pbmm2_align/{sample}_{type}.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
         snv_vcf="snv_indels/deepvariant/{sample}_{type}.merged.vcf.gz",
         snv_tbi="snv_indels/deepvariant/{sample}_{type}.merged.vcf.gz.tbi",
         sv_vcf="cnv_sv/pbsv/{sample}_{type}.vcf.gz" if config.get("hiphase", {}).get("sv_caller", False) else [],
+        sv_tbi="cnv_sv/pbsv/{sample}_{type}.vcf.gz.tbi" if config.get("hiphase", {}).get("sv_caller", False) else [],
         str_vcf="cnv_sv/trgt/{sample}_{type}.vcf.gz" if config.get("hiphase", {}).get("str_caller", False) else [],
+        str_tbi="cnv_sv/trgt/{sample}_{type}.vcf.gz.tbi" if config.get("hiphase", {}).get("str_caller", False) else [],
     output:
         bam=temp("snv_indels/hiphase/{sample}_{type}.haplotagged.bam"),
         snv_vcf=temp("snv_indels/hiphase/{sample}_{type}.deepvariant.phased.vcf.gz"),
