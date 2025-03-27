@@ -541,6 +541,9 @@ properties:
           snv_vcf:
             type: string
             description: Deepvariant vcf file
+          snv_tbi:
+            type: string
+            description: Deepvariant vcf file tabix index
           sv_vcf:
             type: string
             description: PBSV vcf file
