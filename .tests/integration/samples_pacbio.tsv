@@ -1,2 +1,2 @@
-sample	tumor_content	sex	trioid	trio_member
-NA12878	0	female	NA	NA
+sample	sex	trioid	trio_member
+NA12878	NA	NA	NA
