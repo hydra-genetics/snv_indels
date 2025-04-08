@@ -121,7 +121,49 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-  
+
+  deepmosaic_draw:
+    type: object
+    description: parameters for deepmosaic_draw
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  deepmosaic_input:
+    type: object
+    description: parameters for deepmosaic_draw
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  deepmosaic_predict:
+    type: object
+    description: parameters for deepmosaic_predict
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
   deepsomatic_t_only:
     type: object
     description: parameters for deepsomatic
