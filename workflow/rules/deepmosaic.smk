@@ -19,7 +19,7 @@ rule deepmosaic_input:
     benchmark:
         repeat(
             "snv_indels/deepmosaic/{sample}_{type}.input.benchmark.tsv",
-            config.get("deepmosaic_input", {}).get("benchmark_repeats", 1)
+            config.get("deepmosaic_input", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deepmosaic_input", {}).get("threads", config["default_resources"]["threads"])
     resources:
@@ -54,7 +54,7 @@ rule deepmosaic_draw:
     benchmark:
         repeat(
             "snv_indels/deepmosaic/{sample}_{type}.draw.benchmark.tsv",
-            config.get("deepmosaic_draw", {}).get("benchmark_repeats", 1)
+            config.get("deepmosaic_draw", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deepmosaic_draw", {}).get("threads", config["default_resources"]["threads"])
     resources:
@@ -91,7 +91,7 @@ rule deepmosaic_predict:
     benchmark:
         repeat(
             "snv_indels/deepmosaic_predict/{sample}_{type}.predict.benchmark.tsv",
-            config.get("deepmosaic_predict", {}).get("benchmark_repeats", 1)
+            config.get("deepmosaic_predict", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deepmosaic_predict", {}).get("threads", config["default_resources"]["threads"])
     resources:
@@ -113,4 +113,3 @@ rule deepmosaic_predict:
         -gb hg38 \
         -b 10 \
         &> {log}"""
-

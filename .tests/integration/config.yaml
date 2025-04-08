@@ -5,7 +5,6 @@ units: "units.tsv"
 default_container: "docker://hydragenetics/common:0.2.0"
 
 reference:
-  annovar: "reference/"
   fasta: "reference/HES45.fna"
   fai: "reference/HES45.fna.fai"
   design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
@@ -16,12 +15,6 @@ bcbio_variation_recall_ensemble:
     - vardict
     - gatk_mutect2
     - freebayes
-
-deepmosaic_draw:
-  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
-
-deepmosaic_predict:
-  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
 
 glnexus:
   container: "docker://hydragenetics/glnexus:1.4.1"
