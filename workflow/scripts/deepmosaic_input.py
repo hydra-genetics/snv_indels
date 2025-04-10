@@ -10,18 +10,13 @@ import sys
 if not os.path.exists("snv_indels/deepmosaic"):
     os.makedirs("snv_indels/deepmosaic")
 
-# file=snakemake.output.txt
-file = sys.argv[3]
+file = snakemake.output.txt
 with open(file, "w") as output:
     output.write("#sample_name\tbam\tvcf\tdepth\tsex\n")
 
-# bam_path=snakemake.input.bam
-# vcf_path=snakemake.input.vcf
-# sample=snakemake.params.name
-
-bam_path = sys.argv[1]
-vcf_path = sys.argv[2]
-sample = sys.argv[4]
+bam_path = snakemake.input.bam
+vcf_path = snakemake.input.vcf
+sample = snakemake.params.name
 
 path = "{PWD}"
 if re.search("TE", path):

@@ -34,8 +34,8 @@ rule deepmosaic_input:
         """
         {rule}: Creates an input file {output.txt} for DeepMosaic with info: {input.bam}, {input.vcf}, depth and sex
         """
-    shell:
-        "python workflow/scripts/deepmosaic_input.py {input.bam} {input.vcf} {output.txt} {params.name} {input.sex}"
+    script:
+        "../scripts/deepmosaic_input.py"
 
 
 rule deepmosaic_draw:
