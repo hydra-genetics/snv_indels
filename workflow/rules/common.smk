@@ -224,9 +224,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
     elif config.get("deepsomatic_t_only", False) or config.get("deepsomatic_tn", False):
         # deepvariant short read
         files = {
-            "deepsomatic_t_only": [
-                "vcf.gz",
-            ],
+            "deepsomatic_t_only": ["vcf.gz",],
         }
         output_files = [
             f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
@@ -237,11 +235,8 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
-
         files = {
-            "deepsomatic_tn": [
-                "vcf.gz",
-            ],
+            "deepsomatic_tn": ["vcf.gz",],
         }
         output_files += [
             f"snv_indels/{prefix}/{sample}.{suffix}"
@@ -251,17 +246,13 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
-
         files = {
-            "deepmosaic": [
-                "final_predictions.txt",
-            ],
+            "deepmosaic": ["final_predictions.txt",],
         }
         output_files += [
-            f"snv_indels/{prefix}/{sample}_{t}/{suffix}"
+            f"snv_indels/{prefix}/{sample}_N/{suffix}"
             for prefix in files.keys()
             for sample in get_samples(samples[pd.isnull(samples["trioid"])])
-            for t in get_unit_types(units, sample)
             for platform in units.loc[(sample,)].platform
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
@@ -289,3 +280,4 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         ]
 
     return output_files
+    
