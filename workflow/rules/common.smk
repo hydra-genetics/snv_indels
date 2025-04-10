@@ -224,7 +224,9 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
     elif config.get("deepsomatic_t_only", False) or config.get("deepsomatic_tn", False):
         # deepvariant short read
         files = {
-            "deepsomatic_t_only": ["vcf.gz",],
+            "deepsomatic_t_only": [
+                "vcf.gz",
+            ],
         }
         output_files = [
             f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
@@ -236,7 +238,9 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for suffix in files[prefix]
         ]
         files = {
-            "deepsomatic_tn": ["vcf.gz",],
+            "deepsomatic_tn": [
+                "vcf.gz",
+            ],
         }
         output_files += [
             f"snv_indels/{prefix}/{sample}.{suffix}"
@@ -247,7 +251,9 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for suffix in files[prefix]
         ]
         files = {
-            "deepmosaic": ["final_predictions.txt",],
+            "deepmosaic": [
+                "final_predictions.txt",
+            ],
         }
         output_files += [
             f"snv_indels/{prefix}/{sample}_N/{suffix}"
