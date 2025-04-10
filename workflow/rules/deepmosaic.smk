@@ -8,7 +8,7 @@ rule deepmosaic_input:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         sex="qc/peddy/peddy.sex_check.csv",
-        vcf="snv_indels/deepsomatic/{sample}_{type}.vcf.gz",
+        vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
     output:
         txt=temp("snv_indels/deepmosaic/{sample}_{type}.input.txt"),
     params:
@@ -43,7 +43,7 @@ rule deepmosaic_draw:
         annovar=config.get("reference", {}).get("annovar", ""),
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         txt="snv_indels/deepmosaic/{sample}_{type}.input.txt",
-        vcf="snv_indels/deepsomatic/{sample}_{type}.vcf.gz",
+        vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
     output:
         outdir=temp(directory("snv_indels/deepmosaic/{sample}_{type}/")),
         txt=temp("snv_indels/deepmosaic/{sample}_{type}/features.txt"),
