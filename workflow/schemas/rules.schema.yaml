@@ -602,6 +602,53 @@ properties:
             type: string
             description: vcf file with only one (if merge_method max or sum) record per complex variant
 
+  mosaicforecast_input:
+    type: object
+    description: input and output parameters for mosaicforecast_mosaicforecast_input
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf: the `.vcf` file, preferrably from deepSomatic or Mutect2 (a tool that can find somatic/mosaic variation)
+            type: string
+            description: description input1
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          variants:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+
+  mosaicforecast:
+    type: object
+    description: input and output parameters for mosaicforecast_mosaicforecast_input
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          fasta:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+          path:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+          variants:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          path:
+            type: string
+            description: description output1
+          phase:
+            type: string
+            description: file with phase information for all variants that had it and mosaic predictions
+
   mutect2_pass_filter:
     type: object
     description: input and output parameters for mutect2_pass_filter
@@ -708,28 +755,3 @@ properties:
           vcf:
             type: string
             description: normalized vcf file
-
-
-
-# Entry added using Hydra-Genetics CLI - please move it into alphabetically sorted order
-  mosaicforecast_mosaicforecast_input:
-    type: object
-    description: input and output parameters for mosaicforecast_mosaicforecast_input
-    properties:
-      input:
-        type: object
-        description: list of inputs
-        properties:
-          input1:
-            type: string
-            description: description input1
-            #value: set to override value in table, else remove
-
-      output:
-        type: object
-        description: list of outputs
-        properties:
-          output1:
-            type: string
-            description: description output1
-            #value: set to override value in table, else remove

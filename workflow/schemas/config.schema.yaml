@@ -454,9 +454,7 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
-
-# Entry added using Hydra-Genetics CLI - please move it into alphabetically sorted order
-  mosaicforecast_mosaicforecast_input:
+  mosaicforecast:
     type: object
     description: parameters for mosaicforecast_mosaicforecast_input
     properties:
@@ -470,3 +468,19 @@ properties:
         type: string
         description: parameters that should be forwarded
 
+  mosaicforecast_input:
+    type: object
+    description: parameters for mosaicforecast_mosaicforecast_input
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      name:
+        type: string
+        description: give the sample name
