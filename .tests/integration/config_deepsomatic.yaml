@@ -12,10 +12,10 @@ reference:
   pon: "reference/pon.vcf.gz"
 
 deepmosaic_draw:
-  container: "docker://sanglee8888/deepmosaic:latest"
+  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
 
 deepmosaic_predict:
-  container: "docker://sanglee8888/deepmosaic:latest"
+  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
 
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
