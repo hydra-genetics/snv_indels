@@ -631,3 +631,24 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 
 #RESOURCESSCHEMA__vt_normalize#
 
+
+## [mosaicforecast_mosaicforecast_input](url_to_tool)
+Introduction to mosaicforecast_mosaicforecast_input
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__mosaicforecast__mosaicforecast_mosaicforecast_input#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__mosaicforecast__mosaicforecast_mosaicforecast_input#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__mosaicforecast_mosaicforecast_input#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__mosaicforecast_mosaicforecast_input#
