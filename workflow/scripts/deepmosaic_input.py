@@ -26,7 +26,7 @@ elif re.search("TC", path):
 else:
     depth = 40
 
-sex_file = sys.argv[5]
+sex_file = snakemake.input.sex
 sex = pd.read_csv(sex_file, sep=',')
 
 output = open(file, "a")
