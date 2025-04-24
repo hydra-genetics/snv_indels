@@ -604,15 +604,15 @@ properties:
 
   mosaicforecast_input:
     type: object
-    description: input and output parameters for mosaicforecast_mosaicforecast_input
+    description: input and output parameters for mosaicforecast_input
     properties:
       input:
         type: object
         description: list of inputs
         properties:
-          vcf: the `.vcf` file, preferrably from deepSomatic or Mutect2 (a tool that can find somatic/mosaic variation)
+          vcf:
             type: string
-            description: description input1
+            description: the .vcf file, preferrably from deepSomatic or Mutect2 (a tool that can find somatic/mosaic variation)
       output:
         type: object
         description: list of outputs
@@ -623,7 +623,7 @@ properties:
 
   mosaicforecast:
     type: object
-    description: input and output parameters for mosaicforecast_mosaicforecast_input
+    description: input and output parameters for mosaicforecast
     properties:
       input:
         type: object
