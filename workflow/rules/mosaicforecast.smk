@@ -33,7 +33,7 @@ rule mosaicforecast_input:
         """(bcftools view \
         {input.vcf} \
         -f PASS \
-        --exclude 'INFO/DP<8' \
+        --exclude 'FORMAT/DP<8' \
         {params.extra} \
         | bcftools query \
         -f '%CHROM\t%POS0\t%END\t%REF\t%ALT\t{params.name}\n' \
