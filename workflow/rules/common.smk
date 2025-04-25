@@ -222,7 +222,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for suffix in files[prefix]
         ]
     elif config.get("deepsomatic_t_only", False) or config.get("deepsomatic_tn", False):
-        # deepvariant short read
+        # deepsomatic short read
         files = {
             "deepsomatic_t_only": [
                 "vcf.gz",
@@ -250,6 +250,8 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
+    elif config.get("mosaicforecast", False) or config.get("deepmosaic_draw", False):
+        # deepsomatic short read
         files = {
             "mosaicforecast": [
                 "all.phasing",
