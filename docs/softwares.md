@@ -138,6 +138,75 @@ Compress a `.vcf` file using bgzip.
 
 ---
 
+## [deepmosaic_draw](https://github.com/shishenyxx/DeepMosaic)
+DeepMosaic is a deep-learning-based mosaic single nucleotide classification tool without the need of matched control information. Firstly, feature extraction and visualization of the candidate mosaic variants (Visualization Module)
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepmosaic__deepmosaic_draw#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepmosaic__deepmosaic_draw#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepmosaic_draw#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepmosaic_draw#
+
+---
+
+## [deepmosaic_input]
+Run python script to create the information txt-file needed in deepmosaic_draw. It contains sample_id, path to .bam and .vcf file, average depth and sex (predicted with Peddy).
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepmosaic__deepmosaic_input#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepmosaic__deepmosaic_input#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepmosaic_input#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepmosaic_input#
+
+---
+
+## [deepsomatic_predict](https://github.com/shishenyxx/DeepMosaic)
+DeepMosaic is a deep-learning-based mosaic single nucleotide classification tool without the need of matched control information. Secondly, prediction for mosaicism (Classification Module)
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepmosaic__deepmosaic_predict#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepmosaic__deepmosaic_predict#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepmosaic_predict#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepmosaic_predict#
+
+---
+
 ## [deepsomatic_t_only](https://github.com/google/deepsomatic)
 Using only tumor to call somatic SNV and indel variant from both short and long-read with DeepSomatic. The tool is the somatic version of DeepVariant. 
 
