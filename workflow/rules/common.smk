@@ -251,13 +251,16 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for suffix in files[prefix]
         ]
     elif config.get("mosaicforecast", False) or config.get("deepmosaic_draw", False):
-        # deepsomatic short read
+        # mosaic short read
         files = {
+            "deepmosaic": [
+                "final_predictions.txt",
+            ],
             "mosaicforecast": [
                 "all.phasing",
             ],
         }
-        output_files += [
+        output_files = [
             f"snv_indels/{prefix}/{sample}_N/{suffix}"
             for prefix in files.keys()
             for sample in get_samples(samples[pd.isnull(samples["trioid"])])

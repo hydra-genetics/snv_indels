@@ -17,6 +17,12 @@ bcbio_variation_recall_ensemble:
     - gatk_mutect2
     - freebayes
 
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
+
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
   extra: ""
