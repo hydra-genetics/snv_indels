@@ -262,6 +262,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for platform in units.loc[(sample,)].platform
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
+        ]
     else:
         files = {
             "bcbio_variation_recall_ensemble": [
