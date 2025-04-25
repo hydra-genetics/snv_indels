@@ -424,6 +424,37 @@ properties:
         description: method to handle allele frequencies from complex variants,
                      skip, max or sum
 
+  mosaicforecast:
+    type: object
+    description: parameters for mosaicforecast_input
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  mosaicforecast_input:
+    type: object
+    description: parameters for mosaicforecast_input
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      name:
+        type: string
+        description: give the sample name
+
   mutect2_pass_filter:
     type: object
     description: parameters for mutect2_pass_filter

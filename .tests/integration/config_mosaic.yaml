@@ -1,0 +1,21 @@
+resources: "resources.yaml"
+samples: "samples.tsv"
+units: "units.tsv"
+
+default_container: "docker://hydragenetics/common:0.2.0"
+
+reference:
+  annovar: "reference"
+  fasta: "reference/HES45.fna"
+  fai: "reference/HES45.fna.fai"
+  design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
+  pon: "reference/pon.vcf.gz"
+
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
+  
+mosaicforecast:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"

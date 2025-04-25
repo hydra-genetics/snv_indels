@@ -587,6 +587,52 @@ sum the allele frequencies from all records with the same allele and position.
 
 ---
 
+## [mosaicforecast](https://github.com/parklab/MosaicForecast)
+A machine learning method that leverages read-based phasing and read-level features to accurately detect mosaic SNVs (SNPs, small indels) from NGS data. It builds on existing algorithms to achieve a multifold increase in specificity.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__mosaicforecast__mosaicforecast#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__mosaicforecast__mosaicforecast#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__mosaicforecast#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__mosaicforecast#
+
+---
+
+## [mosaicforecast_input]
+Getting the information needed from the .vcf-file for MosaicForecast. A list of the position that should be evaluated for their mosaic potential. 
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__mosaicforecast__mosaicforecast_input#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__mosaicforecast__mosaicforecast_input#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__mosaicforecast_input#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__mosaicforecast_input#
+
+---
+
 ## [mutect2_pass_filter](https://github.com/hydra-genetics/snv_indels/blob/develop/workflow/scripts/mutect2_pass_filter.py)
 Step 4 of 4 of Mutect2 somatic variant calling. A python script that hard filters the soft filtered vcf file from Mutect2 based on the FILTER column.
 
@@ -699,4 +745,3 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__vt_normalize#
-
