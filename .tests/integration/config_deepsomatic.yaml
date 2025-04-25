@@ -5,17 +5,10 @@ units: "units.tsv"
 default_container: "docker://hydragenetics/common:0.2.0"
 
 reference:
-  annovar: "reference"
   fasta: "reference/HES45.fna"
   fai: "reference/HES45.fna.fai"
   design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
   pon: "reference/pon.vcf.gz"
-
-deepmosaic_draw:
-  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
-
-deepmosaic_predict:
-  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
 
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
