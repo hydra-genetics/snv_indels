@@ -67,7 +67,7 @@ gatk_mutect2_merge_stats:
 merge_af_complex_variants:
   merge_method: "sum" 
 
-mosaicforescast:
+mosaicforecast:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
 
 mutect2_pass_filter:

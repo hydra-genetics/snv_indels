@@ -20,5 +20,5 @@ deepsomatic_tn:
   extra: ""
   model: "WGS" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 
-mosaicforescast:
+mosaicforecast:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
