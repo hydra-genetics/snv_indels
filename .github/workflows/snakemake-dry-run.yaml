@@ -44,7 +44,7 @@ jobs:
         run: |
           snakemake -n -s ../../workflow/Snakefile --configfile config_pacbio.yaml
       - name: snakemake dry run mosaic
-          working-directory: .tests/integration
-          run: |
-            snakemake -n -s ../../workflow/Snakefile --configfile config_mosaic.yaml
+        working-directory: .tests/integration
+        run: |
+          snakemake -n -s ../../workflow/Snakefile --configfile config_mosaic.yaml
   
