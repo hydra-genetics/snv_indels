@@ -39,6 +39,7 @@ rule mosaicforecast_input:
         -f '%CHROM\t%POS0\t%END\t%REF\t%ALT\t{params.name}\n' \
         > {output.variants} ) &> {log}"""
 
+
 rule mosaicforecast:
     input:
         fasta=config.get("reference", {}).get("fasta", ""),
