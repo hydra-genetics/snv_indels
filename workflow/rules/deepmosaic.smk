@@ -82,7 +82,7 @@ rule deepmosaic_draw:
 rule deepmosaic_predict:
     input:
         txt="snv_indels/deepmosaic/{sample}_{type}/features.txt",
-	dir=directory("snv_indels/deepmosaic/{sample}_{type}/"),
+        dir=directory("snv_indels/deepmosaic/{sample}_{type}/"),
     output:
         txt="snv_indels/deepmosaic/{sample}_{type}/final_predictions.txt",
     params:
