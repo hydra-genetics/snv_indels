@@ -46,8 +46,8 @@ rule mosaicforecast:
         path="alignment/samtools_merge_bam/",
         variants="snv_indels/mosaicforecast/{sample}_{type}.input",
     output:
-        path=temp(directory("snv_indels/mosaicforecast/{sample}_{type}")),
-        phase=temp("snv_indels/mosaicforecast/{sample}_{type}/all.phasing"),
+        path=directory("snv_indels/mosaicforecast/{sample}_{type}"),
+        phase="snv_indels/mosaicforecast/{sample}_{type}/all.phasing",
     params:
         extra=config.get("mosaicforecast", {}).get("extra", ""),
     log:
