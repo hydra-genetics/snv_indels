@@ -5,7 +5,7 @@ units: "units.tsv"
 default_container: "docker://hydragenetics/common:0.2.0"
 
 reference:
-  annovar: "reference"
+  annovar: "reference/annovar"
   fasta: "reference/HES45.fna"
   fai: "reference/HES45.fna.fai"
   design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"

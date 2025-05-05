@@ -45,8 +45,8 @@ rule deepmosaic_draw:
         txt="snv_indels/deepmosaic/{sample}_{type}.input.txt",
         vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
     output:
-        outdir=temp(directory("snv_indels/deepmosaic/{sample}_{type}/")),
-        txt=temp("snv_indels/deepmosaic/{sample}_{type}/features.txt"),
+        outdir=directory("snv_indels/deepmosaic/{sample}_{type}/"),
+        txt="snv_indels/deepmosaic/{sample}_{type}/features.txt",
     params:
         extra=config.get("deepmosaic_draw", {}).get("extra", ""),
     log:
@@ -82,15 +82,16 @@ rule deepmosaic_draw:
 rule deepmosaic_predict:
     input:
         txt="snv_indels/deepmosaic/{sample}_{type}/features.txt",
+	dir=directory("snv_indels/deepmosaic/{sample}_{type}/"),
     output:
-        txt=temp("snv_indels/deepmosaic/{sample}_{type}/final_predictions.txt"),
+        txt="snv_indels/deepmosaic/{sample}_{type}/final_predictions.txt",
     params:
         extra=config.get("deepmosaic_predict", {}).get("extra", ""),
     log:
         "snv_indels/deepmosaic/{sample}_{type}.predict.log",
     benchmark:
         repeat(
-            "snv_indels/deepmosaic_predict/{sample}_{type}.predict.benchmark.tsv",
+            "snv_indels/deepmosaic/{sample}_{type}.predict.benchmark.tsv",
             config.get("deepmosaic_predict", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("deepmosaic_predict", {}).get("threads", config["default_resources"]["threads"])
