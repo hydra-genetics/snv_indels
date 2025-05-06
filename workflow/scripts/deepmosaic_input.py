@@ -31,5 +31,5 @@ with open(file, "w") as output:
     for s in range(len(sex.get("sample_id"))):
         if re.search(sex.get("sample_id")[s], sample):
             output.write(str(sample) + "\t" + str(bam_path) +
-                     "\t" + str(vcf_path) + "\t" + str(depth) +
-                     "\t" + str(sex.get("predicted_sex")[s]) + "\n")
+                         "\t" + str(vcf_path) + "\t" + str(depth) +
+                         "\t" + str(sex.get("predicted_sex")[s]) + "\n")
