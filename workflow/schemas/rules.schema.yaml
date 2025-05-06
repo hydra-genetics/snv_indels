@@ -634,7 +634,6 @@ properties:
           str_tbi:
             type: string
             description: TRGT vcf file index
-
       output:
         type: object
         description: list of outputs
@@ -719,7 +718,7 @@ properties:
         properties:
           path:
             type: string
-            description: description output1
+            description: path to output directory
           phase:
             type: string
             description: file with phase information for all variants that had it and mosaic predictions
