@@ -70,6 +70,10 @@ rule mosaicforecast:
         "{rule}: mosaicforecast evaluate candidate variants"
     shell:
         "(python /usr/local/bin/Phase.py "
-        "{input.path} {output.path} {input.fasta} {input.variants} "
+        "{input.path} "
+        "{output.path} "
+        "{input.fasta} "
+        "{input.variants} "
         "20 /usr/local/bin/k24.umap.wg.bw "
-        " 4 bam) &> {log}"
+        " 4 bam "
+        "{params.extra}) &> {log}"

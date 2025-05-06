@@ -2,7 +2,7 @@ resources: "resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
 
-default_container: "docker://hydragenetics/common:0.2.0"
+default_container: "docker://hydragenetics/common:3.1.1"
 
 reference:
   fasta: ""
@@ -18,10 +18,10 @@ bcbio_variation_recall_ensemble:
     - freebayes
 
 deepmosaic_draw:
-  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
 
 deepmosaic_predict:
-  container: "library://sanglee8888/deepmosaic/deepmosaic:latest"
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
 
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"

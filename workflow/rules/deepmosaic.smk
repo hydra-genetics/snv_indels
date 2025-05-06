@@ -76,7 +76,7 @@ rule deepmosaic_draw:
         -a {input.annovar} \
         -b hg38 \
         -db gnomad41_genome \
-        &> {log}"""
+        {params.extra} &> {log}"""
 
 
 rule deepmosaic_predict:
@@ -113,4 +113,4 @@ rule deepmosaic_predict:
         -o {output.txt} \
         -gb hg38 \
         -b 10 \
-        &> {log}"""
+        {params.extra} &> {log}"""
