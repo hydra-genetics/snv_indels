@@ -2,7 +2,7 @@ resources: "resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
 
-default_container: "docker://hydragenetics/common:0.2.0"
+default_container: "docker://hydragenetics/common:3.1.1"
 
 reference:
   fasta: ""
@@ -16,6 +16,12 @@ bcbio_variation_recall_ensemble:
     - vardict
     - gatk_mutect2
     - freebayes
+
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
 
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
@@ -66,6 +72,9 @@ gatk_mutect2_merge_stats:
 
 merge_af_complex_variants:
   merge_method: "sum" 
+
+mosaicforecast:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
 
 mutect2_pass_filter:
   pass_filters:

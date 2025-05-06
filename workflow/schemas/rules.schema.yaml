@@ -130,6 +130,81 @@ properties:
             type: string
             description: the compressed `.vcf.gz` file
 
+  deepmosaic_draw:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          annovar:
+            type: string
+            description: the path to where annovar is installed
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file
+          txt:
+            type: string
+            description: info file with sample_id, '.bam' and '.vcf' file locations, depth and sex
+          vcf:
+            type: string
+            description: the `.vcf` file, preferrably from deepSomatic or Mutect2 (a tool that can find somatic/mosaic variation)
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          outdir:
+            type: string
+            description: vcf file with snv and indels calls (add "--output_gvcf={path to output gVCF}" to rule for .g.vcf)
+          txt:
+            type: string
+            description: a '.txt' file with the features extracted for the candidates to use in deepmosaic_predict
+
+  deepmosaic_input:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file
+          sex:
+            type: string
+            description: file containing predicted sex based on bioinformatics (e.g Peddy)
+          vcf:
+            type: string
+            description: the `.vcf` file, preferrably from deepSomatic or Mutect2 (a tool that can find somatic/mosaic variation)
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          txt:
+            type: string
+            description: info file with sample_id, '.bam' and '.vcf' file locations, depth and sex to be used in deepmosaic_draw
+
+  deepmosaic_predict:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          txt:
+            type: string
+            description: a '.txt' file with the features extracted for the candidates from deepmosaic_draw
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          txt:
+            type: string
+            description: a '.txt' file with the predictions based on the features 
+
   deepsomatic_t_only:
     type: object
     description: input and output parameters for deepsomatic
@@ -559,7 +634,6 @@ properties:
           str_tbi:
             type: string
             description: TRGT vcf file index
-
       output:
         type: object
         description: list of outputs
@@ -601,6 +675,53 @@ properties:
           vcf:
             type: string
             description: vcf file with only one (if merge_method max or sum) record per complex variant
+
+  mosaicforecast_input:
+    type: object
+    description: input and output parameters for mosaicforecast_input
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: the .vcf file, preferrably from deepSomatic or Mutect2 (a tool that can find somatic/mosaic variation)
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          variants:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+
+  mosaicforecast:
+    type: object
+    description: input and output parameters for mosaicforecast
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          fasta:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+          path:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+          variants:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          path:
+            type: string
+            description: path to output directory
+          phase:
+            type: string
+            description: file with phase information for all variants that had it and mosaic predictions
 
   mutect2_pass_filter:
     type: object
@@ -708,4 +829,3 @@ properties:
           vcf:
             type: string
             description: normalized vcf file
-
