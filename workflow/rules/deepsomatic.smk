@@ -17,6 +17,7 @@ rule deepsomatic_t_only:
         extra=config.get("deepsomatic_t_only", {}).get("extra", ""),
         model=config.get("deepsomatic_t_only", {}).get("model", ""),
         name=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
+        pon=config.get("deepsomatic_t_only", {}).get("pon", ""),
     log:
         "snv_indels/deepsomatic_t_only/{sample}_{type}.deepsomatic.log",
     benchmark:
@@ -46,9 +47,11 @@ rule deepsomatic_t_only:
         --num_shards={resources.threads} \
         --logging_dir={log} \
         --vcf_stats_report=true \
-        --intermediate_results_dir {output.tmpdir} \
+        --intermediate_results_dir \
+        {output.tmpdir} \
         --regions={input.bed} \
-        {params.extra}
+        {params.pon} \
+        {params.extra} 
         """
 
 
