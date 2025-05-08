@@ -180,6 +180,9 @@ properties:
       model:
         type: string
         description: choose which model to use based on the data (e.g. WGS_TUMOR_ONLY)
+      pon:
+        type: string
+        description: choose what option for panel of normal filtering of variants (FILTER flag PON) you want, "--use_default_pon_filtering=true" or --pon_filtering="pon.vcf" --process_somatic=true or ""
     required:
       - model
   

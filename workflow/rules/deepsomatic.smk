@@ -47,8 +47,7 @@ rule deepsomatic_t_only:
         --num_shards={resources.threads} \
         --logging_dir={log} \
         --vcf_stats_report=true \
-        --intermediate_results_dir \
-        {output.tmpdir} \
+        --intermediate_results_dir {output.tmpdir} \
         --regions={input.bed} \
         {params.pon} \
         {params.extra} 
