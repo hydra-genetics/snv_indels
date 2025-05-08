@@ -222,9 +222,6 @@ properties:
           bed:
             type: string
             description: the region where variants should be called
-          pon:
-            type: string
-            description: a `.vcf.gz` file with several samples which variants will be filtered as PON
           ref:
             type: string
             description: fasta reference genome file
