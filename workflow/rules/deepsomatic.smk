@@ -10,7 +10,6 @@ rule deepsomatic_t_only:
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
         bed=config.get("reference", {}).get("design_bed", ""),
-        pon=config.get("reference", {}).get("pon", ""),
     output:
         tmpdir=temp(directory("snv_indels/deepsomatic_t_only/{sample}_{type}.tmp")),
         vcf=temp("snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz"),
@@ -18,6 +17,7 @@ rule deepsomatic_t_only:
         extra=config.get("deepsomatic_t_only", {}).get("extra", ""),
         model=config.get("deepsomatic_t_only", {}).get("model", ""),
         name=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
+        pon=config.get("deepsomatic_t_only", {}).get("pon", ""),
     log:
         "snv_indels/deepsomatic_t_only/{sample}_{type}.deepsomatic.log",
     benchmark:
@@ -48,9 +48,9 @@ rule deepsomatic_t_only:
         --logging_dir={log} \
         --vcf_stats_report=true \
         --intermediate_results_dir {output.tmpdir} \
-        --pon_filtering={input.pon} --process_somatic=true \
         --regions={input.bed} \
-        {params.extra}
+        {params.pon} \
+        {params.extra} 
         """
 
 
