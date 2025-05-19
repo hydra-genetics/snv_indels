@@ -705,13 +705,13 @@ properties:
         properties:
           fasta:
             type: string
-            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
-          path:
+            description: the `fasta` file used for alignment
+          bam:
             type: string
-            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+            description: marked duplication, merged and sorted `.bam` file, but in shell the path from params are used
           variants:
             type: string
-            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+            description: candidate variants for mosaicforecast_input with info about chr, start, stop, ref, alt, and sample
       output:
         type: object
         description: list of outputs

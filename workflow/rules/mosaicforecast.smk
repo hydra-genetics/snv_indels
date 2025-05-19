@@ -42,14 +42,15 @@ rule mosaicforecast_input:
 
 rule mosaicforecast:
     input:
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",        
         fasta=config.get("reference", {}).get("fasta", ""),
-        path="alignment/samtools_merge_bam/",
         variants="snv_indels/mosaicforecast/{sample}_{type}.input",
     output:
         path=directory("snv_indels/mosaicforecast/{sample}_{type}"),
         phase="snv_indels/mosaicforecast/{sample}_{type}/all.phasing",
     params:
         extra=config.get("mosaicforecast", {}).get("extra", ""),
+        path="alignment/samtools_merge_bam/",
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
     benchmark:
@@ -70,7 +71,7 @@ rule mosaicforecast:
         "{rule}: mosaicforecast evaluate candidate variants"
     shell:
         "(python /usr/local/bin/Phase.py "
-        "{input.path} "
+        "{params.path} "
         "{output.path} "
         "{input.fasta} "
         "{input.variants} "
