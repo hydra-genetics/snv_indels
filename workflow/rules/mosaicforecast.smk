@@ -42,7 +42,7 @@ rule mosaicforecast_input:
 
 rule mosaicforecast:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",        
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         fasta=config.get("reference", {}).get("fasta", ""),
         variants="snv_indels/mosaicforecast/{sample}_{type}.input",
     output:
@@ -50,7 +50,7 @@ rule mosaicforecast:
         phase="snv_indels/mosaicforecast/{sample}_{type}/all.phasing",
     params:
         extra=config.get("mosaicforecast", {}).get("extra", ""),
-        path="alignment/samtools_merge_bam/",
+        path=config.get("mosaicforecast", {}).get("extra", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
     benchmark:

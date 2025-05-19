@@ -75,6 +75,7 @@ merge_af_complex_variants:
 
 mosaicforecast:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  path: "alignment/samtools_merge_bam/"
 
 mutect2_pass_filter:
   pass_filters:
