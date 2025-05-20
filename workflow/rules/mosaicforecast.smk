@@ -51,7 +51,7 @@ rule mosaicforecast:
         phase="snv_indels/mosaicforecast/{sample}_{type}/all.phasing",
     params:
         extra=config.get("mosaicforecast", {}).get("extra", ""),
-        path=config.get("mosaicforecast", {}).get("extra", ""),
+        path=config.get("mosaicforecast", {}).get("path", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
     benchmark:
