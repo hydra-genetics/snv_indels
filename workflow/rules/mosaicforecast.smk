@@ -43,6 +43,7 @@ rule mosaicforecast_input:
 rule mosaicforecast:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         fasta=config.get("reference", {}).get("fasta", ""),
         variants="snv_indels/mosaicforecast/{sample}_{type}.input",
     output:
