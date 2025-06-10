@@ -129,7 +129,7 @@ rule mosaicforecast_genotype_predition:
     input:
         features="snv_indels/mosaicforecast/{sample}_{type}/features.txt",
     output:
-        predict=config.get("mosaicforecast", {}).get("predict", ""),
+        predict=config.get("mosaicforecast_genotype_predition", {}).get("predict", ""),
     params:
         extra=config.get("mosaicforecast_genotype_predition", {}).get("extra", ""),
         model_trained=config.get("mosaicforecast_genotype_predition", {}).get("model_trained", ""),
