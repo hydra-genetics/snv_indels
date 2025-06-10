@@ -135,10 +135,10 @@ rule mosaicforecast_genotype_predition:
         model_trained=config.get("mosaicforecast_genotype_predition", {}).get("model_trained", ""),
         model_type=config.get("mosaicforecast_genotype_predition", {}).get("model_type", ""),
     log:
-        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
+        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.log",
     benchmark:
         repeat(
-            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.benchmark.tsv",
+            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.benchmark.tsv",
             config.get("mosaicforecast_genotype_predition", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("mosaicforecast_genotype_predition", {}).get("threads", config["default_resources"]["threads"])
