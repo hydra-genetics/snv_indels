@@ -22,6 +22,8 @@ deepmosaic_draw:
 
 deepmosaic_predict:
   container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+  extra: ""
+  model: "" # e.g. -m newly_trained_model_epoch_6.pt
 
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
