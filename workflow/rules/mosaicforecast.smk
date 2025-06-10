@@ -125,31 +125,31 @@ rule mosaicforecast_readlevel:
         "{params.extra}) &> {log}"
 
 
-rule mosaicforecast_genotype_predition:
+rule mosaicforecast_genotype_prediction:
     input:
         features="snv_indels/mosaicforecast/{sample}_{type}/features.txt",
     output:
         predict="snv_indels/mosaicforecast/{sample}_{type}/SNP.predictions", # SNP.predictions (Refine) or DEL.predictions (Phase) or INS.predictions (Phase)
     params:
-        extra=config.get("mosaicforecast_genotype_predition", {}).get("extra", ""),
-        model_trained=config.get("mosaicforecast_genotype_predition", {}).get("model_trained", ""),
-        model_type=config.get("mosaicforecast_genotype_predition", {}).get("model_type", ""),
+        extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trained", ""),
+        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_type", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.log",
     benchmark:
         repeat(
             "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.benchmark.tsv",
-            config.get("mosaicforecast_genotype_predition", {}).get("benchmark_repeats", 1),
+            config.get("mosaicforecast_genotype_prediction", {}).get("benchmark_repeats", 1),
         )
-    threads: config.get("mosaicforecast_genotype_predition", {}).get("threads", config["default_resources"]["threads"])
+    threads: config.get("mosaicforecast_genotype_prediction", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        mem_mb=config.get("mosaicforecast_genotype_predition", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("mosaicforecast_genotype_predition", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("mosaicforecast_genotype_predition", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("mosaicforecast_genotype_predition", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("mosaicforecast_genotype_predition", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("mosaicforecast_genotype_prediction", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("mosaicforecast_genotype_prediction", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("mosaicforecast_genotype_prediction", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("mosaicforecast_genotype_prediction", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("mosaicforecast_genotype_prediction", {}).get("time", config["default_resources"]["time"]),
     container:
-        config.get("mosaicforecast_genotype_predition", {}).get("container", config["default_container"])
+        config.get("mosaicforecast_genotype_prediction", {}).get("container", config["default_container"])
     message:
         "{rule}: mosaicforecast predicts all input sites"
     shell:
