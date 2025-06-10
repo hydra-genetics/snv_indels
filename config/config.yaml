@@ -90,7 +90,6 @@ mosaicforecast_genotype_predition:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
   model_trained: "" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
   model_type: ""  # Phase/Refine
-  predict: "snv_indels/mosaicforecast/{sample}_{type}/***" # SNP.predictions or DEL.predictions (phase) or INS.predictions (phase)
 
 mutect2_pass_filter:
   pass_filters:
