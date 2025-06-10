@@ -50,25 +50,25 @@ rule mosaicforecast_phasing:
         path=directory("snv_indels/mosaicforecast/{sample}_{type}"),
         phase="snv_indels/mosaicforecast/{sample}_{type}/all.phasing",
     params:
-        extra=config.get("mosaicforecast", {}).get("extra", ""),
-        f_format=config.get("mosaicforecast", {}).get("f_format", ""),
-        path=config.get("mosaicforecast", {}).get("path", ""),
+        extra=config.get("mosaicforecast_phasing", {}).get("extra", ""),
+        f_format=config.get("mosaicforecast_phasing", {}).get("f_format", ""),
+        path=config.get("mosaicforecast_phasing", {}).get("path", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
     benchmark:
         repeat(
             "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.benchmark.tsv",
-            config.get("mosaicforecast", {}).get("benchmark_repeats", 1),
+            config.get("mosaicforecast_phasing", {}).get("benchmark_repeats", 1),
         )
-    threads: config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"])
+    threads: config.get("mosaicforecast_phasing", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        mem_mb=config.get("mosaicforecast", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("mosaicforecast", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("mosaicforecast", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("mosaicforecast", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("mosaicforecast_phasing", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("mosaicforecast_phasing", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("mosaicforecast_phasing", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("mosaicforecast_phasing", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("mosaicforecast_phasing", {}).get("time", config["default_resources"]["time"]),
     container:
-        config.get("mosaicforecast", {}).get("container", config["default_container"])
+        config.get("mosaicforecast_phasing", {}).get("container", config["default_container"])
     message:
         "{rule}: mosaicforecast phasing evaluation of candidate variants"
     shell:
@@ -92,23 +92,23 @@ rule mosaicforecast_readlevel:
     output:
         features="snv_indels/mosaicforecast/{sample}_{type}/features.txt",
     params:
-        extra=config.get("mosaicforecast", {}).get("extra", ""),
-        f_format=config.get("mosaicforecast", {}).get("f_format", ""),
-        path=config.get("mosaicforecast", {}).get("path", ""),
+        extra=config.get("mosaicforecast_readlevel", {}).get("extra", ""),
+        f_format=config.get("mosaicforecast_readlevel", {}).get("f_format", ""),
+        path=config.get("mosaicforecast_readlevel", {}).get("path", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
     benchmark:
         repeat(
             "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.benchmark.tsv",
-            config.get("mosaicforecast", {}).get("benchmark_repeats", 1),
+            config.get("mosaicforecast_readlevel", {}).get("benchmark_repeats", 1),
         )
-    threads: config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"])
+    threads: config.get("mosaicforecast_readlevel", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        mem_mb=config.get("mosaicforecast", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("mosaicforecast", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("mosaicforecast", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("mosaicforecast", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("mosaicforecast_readlevel", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("mosaicforecast_readlevel", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("mosaicforecast_readlevel", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("mosaicforecast_readlevel", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("mosaicforecast_readlevel", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("mosaicforecast", {}).get("container", config["default_container"])
     message:
@@ -131,27 +131,27 @@ rule mosaicforecast_genotype_predition:
     output:
         predict=config.get("mosaicforecast", {}).get("predict", ""),
     params:
-        extra=config.get("mosaicforecast", {}).get("extra", ""),
-        model_trained=config.get("mosaicforecast", {}).get("model_trained", ""),
-        model_type=config.get("mosaicforecast", {}).get("model_type", ""),
+        extra=config.get("mosaicforecast_genotype_predition", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast_genotype_predition", {}).get("model_trained", ""),
+        model_type=config.get("mosaicforecast_genotype_predition", {}).get("model_type", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
     benchmark:
         repeat(
             "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.benchmark.tsv",
-            config.get("mosaicforecast", {}).get("benchmark_repeats", 1),
+            config.get("mosaicforecast_genotype_predition", {}).get("benchmark_repeats", 1),
         )
-    threads: config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"])
+    threads: config.get("mosaicforecast_genotype_predition", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        mem_mb=config.get("mosaicforecast", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("mosaicforecast", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("mosaicforecast", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("mosaicforecast", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("mosaicforecast_genotype_predition", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("mosaicforecast_genotype_predition", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("mosaicforecast_genotype_predition", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("mosaicforecast_genotype_predition", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("mosaicforecast_genotype_predition", {}).get("time", config["default_resources"]["time"]),
     container:
-        config.get("mosaicforecast", {}).get("container", config["default_container"])
+        config.get("mosaicforecast_genotype_predition", {}).get("container", config["default_container"])
     message:
-        "{rule}: mosaicforecast extraction of read-level features"
+        "{rule}: mosaicforecast predicts all input sites"
     shell:
         "(python /usr/local/bin/Prediction.R "
         "{input.features} "
