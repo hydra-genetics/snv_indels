@@ -40,7 +40,7 @@ rule mosaicforecast_input:
         > {output.variants} ) &> {log}"""
 
 
-rule mosaicforecast:
+rule mosaicforecast_phasing:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
@@ -51,6 +51,7 @@ rule mosaicforecast:
         phase="snv_indels/mosaicforecast/{sample}_{type}/all.phasing",
     params:
         extra=config.get("mosaicforecast", {}).get("extra", ""),
+        f_format=config.get("mosaicforecast", {}).get("f_format", ""),
         path=config.get("mosaicforecast", {}).get("path", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
@@ -69,7 +70,7 @@ rule mosaicforecast:
     container:
         config.get("mosaicforecast", {}).get("container", config["default_container"])
     message:
-        "{rule}: mosaicforecast evaluate candidate variants"
+        "{rule}: mosaicforecast phasing evaluation of candidate variants"
     shell:
         "(python /usr/local/bin/Phase.py "
         "{params.path} "
@@ -77,5 +78,84 @@ rule mosaicforecast:
         "{input.fasta} "
         "{input.variants} "
         "20 /usr/local/bin/k24.umap.wg.bw "
-        " 4 bam "
+        "{resources.threads} "
+        "{params.f_formats} "
+        "{params.extra}) &> {log}"
+
+
+rule mosaicforecast_readlevel:
+    input:
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        fasta=config.get("reference", {}).get("fasta", ""),
+        variants="snv_indels/mosaicforecast/{sample}_{type}.input",
+    output:
+        features="snv_indels/mosaicforecast/{sample}_{type}/features.txt",
+    params:
+        extra=config.get("mosaicforecast", {}).get("extra", ""),
+        f_format=config.get("mosaicforecast", {}).get("f_format", ""),
+        path=config.get("mosaicforecast", {}).get("path", ""),
+    log:
+        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
+    benchmark:
+        repeat(
+            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.benchmark.tsv",
+            config.get("mosaicforecast", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("mosaicforecast", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("mosaicforecast", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("mosaicforecast", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("mosaicforecast", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("mosaicforecast", {}).get("container", config["default_container"])
+    message:
+        "{rule}: mosaicforecast extraction of read-level features"
+    shell:
+        "(python /usr/local/bin/ReadLevel_Features_extraction.py "
+        "{input.variants} "
+        "{output.features} "
+        "{params.path} "
+        "{input.fasta} "
+        "/usr/local/bin/k24.umap.wg.bw "
+        "{resources.threads} "
+        "{params.f_formats} "
+        "{params.extra}) &> {log}"
+
+
+rule mosaicforecast_genotype_predition:
+    input:
+        features="snv_indels/mosaicforecast/{sample}_{type}/features.txt",
+    output:
+        predict=config.get("mosaicforecast", {}).get("predict", ""),
+    params:
+        extra=config.get("mosaicforecast", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast", {}).get("model_trained", ""),
+        model_type=config.get("mosaicforecast", {}).get("model_type", ""),
+    log:
+        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
+    benchmark:
+        repeat(
+            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.benchmark.tsv",
+            config.get("mosaicforecast", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("mosaicforecast", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("mosaicforecast", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("mosaicforecast", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("mosaicforecast", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("mosaicforecast", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("mosaicforecast", {}).get("container", config["default_container"])
+    message:
+        "{rule}: mosaicforecast extraction of read-level features"
+    shell:
+        "(python /usr/local/bin/Prediction.R "
+        "{input.features} "
+        "{output.predict} "
+        "{params.model_trained} "
+        "{params.model_type} "
         "{params.extra}) &> {log}"

@@ -42,6 +42,7 @@ rule deepmosaic_draw:
     input:
         annovar=config.get("reference", {}).get("annovar", ""),
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         txt="snv_indels/deepmosaic/{sample}_{type}.input.txt",
         vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
     output:
