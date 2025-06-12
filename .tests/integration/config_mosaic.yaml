@@ -17,6 +17,17 @@ deepmosaic_draw:
 deepmosaic_predict:
   container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
   
-mosaicforecast:
+mosaicforecast_phasing:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  path: "alignment/samtools_merge_bam/"
+  path: "" # path to bam-files
+  f_formats: "" # cram/bam
+
+mosaicforecast_readlevel:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  path: "" # path to bam-files
+  f_formats: "" # cram/bam
+
+mosaicforecast_genotype_prediction:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  model_trained: "" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_type: ""  # Phase/Refine

@@ -121,7 +121,7 @@ rule mosaicforecast_readlevel:
         "{input.fasta} "
         "/usr/local/bin/k24.umap.wg.bw "
         "{resources.threads} "
-        "{params.f_formats} "
+        "{params.f_format} "
         "{params.extra}) &> {log}"
 
 
