@@ -79,7 +79,7 @@ rule mosaicforecast_phasing:
         "{input.variants} "
         "20 /usr/local/bin/k24.umap.wg.bw "
         "{resources.threads} "
-        "{params.f_formats} "
+        "{params.f_format} "
         "{params.extra}) &> {log}"
 
 
