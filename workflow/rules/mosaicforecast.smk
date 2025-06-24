@@ -155,7 +155,7 @@ rule mosaicforecast_genotype_prediction:
     shell:
         "(Rscript /usr/local/bin/Prediction.R "
         "{input.features} "
-        "{output.predict} "
         "{params.model_trained} "
         "{params.model_type} "
+        "{output.predict} "
         "{params.extra}) &> {log}"
