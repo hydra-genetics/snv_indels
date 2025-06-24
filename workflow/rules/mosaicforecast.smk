@@ -110,7 +110,7 @@ rule mosaicforecast_readlevel:
         threads=config.get("mosaicforecast_readlevel", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("mosaicforecast_readlevel", {}).get("time", config["default_resources"]["time"]),
     container:
-        config.get("mosaicforecast", {}).get("container", config["default_container"])
+        config.get("mosaicforecast_readlevel", {}).get("container", config["default_container"])
     message:
         "{rule}: mosaicforecast extraction of read-level features"
     shell:
