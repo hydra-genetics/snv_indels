@@ -153,7 +153,7 @@ rule mosaicforecast_genotype_prediction:
     message:
         "{rule}: mosaicforecast predicts all input sites"
     shell:
-        "(Rscipt /usr/local/bin/Prediction.R "
+        "(Rscript /usr/local/bin/Prediction.R "
         "{input.features} "
         "{output.predict} "
         "{params.model_trained} "
