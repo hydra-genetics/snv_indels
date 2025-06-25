@@ -78,13 +78,15 @@ merge_af_complex_variants:
 
 mosaicforecast_phasing:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  path: "" # path to bam-files
   f_format: "" # cram/bam
+  path: "" # path to bam-files
+  umap: "/usr/local/bin/k24.umap.wg.bw"
 
 mosaicforecast_readlevel:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  path: "" # path to bam-files
   f_format: "" # cram/bam
+  path: "" # path to bam-files
+  umap: "/usr/local/bin/k24.umap.wg.bw"
 
 mosaicforecast_genotype_prediction:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"

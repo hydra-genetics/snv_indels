@@ -53,6 +53,7 @@ rule mosaicforecast_phasing:
         extra=config.get("mosaicforecast_phasing", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_phasing", {}).get("f_format", ""),
         path=config.get("mosaicforecast_phasing", {}).get("path", ""),
+        umap=config.get("mosaicforecast_phasing", {}).get("umap", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
     benchmark:
@@ -72,12 +73,12 @@ rule mosaicforecast_phasing:
     message:
         "{rule}: mosaicforecast phasing evaluation of candidate variants"
     shell:
-        "(python /usr/local/bin/Phase.py "
+        "(Phase.py "
         "{params.path} "
         "{output.path} "
         "{input.fasta} "
         "{input.variants} "
-        "20 /usr/local/bin/k24.umap.wg.bw "
+        "20 {params.umap} "
         "{resources.threads} "
         "{params.f_format} "
         "{params.extra}) &> {log}"
@@ -95,6 +96,7 @@ rule mosaicforecast_readlevel:
         extra=config.get("mosaicforecast_readlevel", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_readlevel", {}).get("f_format", ""),
         path=config.get("mosaicforecast_readlevel", {}).get("path", ""),
+        umap=config.get("mosaicforecast_readlevel", {}).get("umap", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
     benchmark:
@@ -114,12 +116,12 @@ rule mosaicforecast_readlevel:
     message:
         "{rule}: mosaicforecast extraction of read-level features"
     shell:
-        "(python /usr/local/bin/ReadLevel_Features_extraction.py "
+        "(ReadLevel_Features_extraction.py "
         "{input.variants} "
         "{output.features} "
         "{params.path} "
         "{input.fasta} "
-        "/usr/local/bin/k24.umap.wg.bw "
+        "{params.umap} "
         "{resources.threads} "
         "{params.f_format} "
         "{params.extra}) &> {log}"
@@ -153,7 +155,7 @@ rule mosaicforecast_genotype_prediction:
     message:
         "{rule}: mosaicforecast predicts all input sites"
     shell:
-        "(Rscript /usr/local/bin/Prediction.R "
+        "(Prediction.R "
         "{input.features} "
         "{params.model_trained} "
         "{params.model_type} "
