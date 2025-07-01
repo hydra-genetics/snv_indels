@@ -130,6 +130,65 @@ properties:
             type: string
             description: the compressed `.vcf.gz` file
 
+  clairs_to_call:
+    type: object
+    description: input and output parameters for clairs_to_call
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file
+          bai:
+            type: string
+            description: index file for `.bam` file
+          bed:
+            type: string
+            description: the region where variants should be called
+          ref:
+            type: string
+            description: fasta reference genome file
+
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          snv:
+            type: string
+            description: vcf file with snv calls only
+          indel:
+            type: string
+            description: vcf file with indel calls only
+
+  clairs_to_concat:
+    type: object
+    description: input and output parameters for clairs_to_concat
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          snv:
+            type: string
+            description: vcf file with snv calls only
+          indel:
+            type: string
+            description: vcf file with indel calls only
+
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          properties:
+            vcf:
+              type: string
+              description: vcf file with position-sorted snv and indel calls
+            tmp:
+              type: string
+              description: vcf file with unsorted snv and indel calls
+
   deepmosaic_draw:
     type: object
     description: input and output parameters for deepsomatic
