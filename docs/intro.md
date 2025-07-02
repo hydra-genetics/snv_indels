@@ -16,7 +16,7 @@ The snv_indels module consists of a number of small variant callers for short re
 
 ## Dag graph
 
-![Steps](images/snv_indels.png)
+![Steps](images/snv_indels_SR.png)
 
 
 ## Module input files

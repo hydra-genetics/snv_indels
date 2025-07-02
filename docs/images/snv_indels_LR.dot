@@ -4,48 +4,47 @@ digraph snakemake_dag {
     node[shape=box, style=rounded, fontname="sans",                 fontsize=10, penwidth=2];
     edge[penwidth=2, color=grey];
 	0[label = "vcf", color = "0.0 0.0 0.0", style="dotted"];
-	1[label = "bcbio_variation_recall_ensemble", color = "0.05 0.6 0.85", style="rounded"];
-	2[label = "merge_af_complex_variants", color = "0.28 0.6 0.85", style="rounded"];
-	3[label = "vt_normalize", color = "0.62 0.6 0.85", style="rounded"];
-	4[label = "vt_decompose", color = "0.36 0.6 0.85", style="rounded"];
-	6[label = "fix_af", color = "0.28 0.6 0.85", style="rounded"];
-	8[label = "vardict_java", color = "0.23 0.6 0.85", style="rounded"];
-	11[label = "mutect2_pass_filter", color = "0.38 0.6 0.85", style="rounded"];
-	12[label = "gatk_mutect2_filter", color = "0.08 0.6 0.85", style="rounded"];
-	13[label = "gatk_mutect2", color = "0.23 0.6 0.85", style="rounded"];
-	15[label = "freebayes", color = "0.64 0.6 0.85", style="rounded"];
-	16[label = "gatk_mutect2_gvcf", color = "0.03 0.6 0.85", style="rounded"];
-	17[label = "haplotypecaller", color = "0.23 0.6 0.85", style="rounded"];
+
 	18[label = "deeptrio", color = "0.23 0.6 0.85", style="rounded"];
 	19[label = "deepvariant", color = "0.23 0.6 0.85", style="rounded"];
 	21[label = "glnexus", color = "0.23 0.6 0.85", style="rounded"];
-	24[label= "bcftools view", color = "0.23 0.6 0.85", style="rounded"];
 	20[label = "bam", color = "0.0 0.0 0.0", style="dotted"];
-	23[label="gvcf", color = "0.0 0.0 0.0", style="dotted"];
-	20 -> 8
-	20 -> 13
-	20 -> 15
-	20 -> 16
-	20 -> 17
-	20 -> 18
-	20 -> 19
-	1 -> 0
-	2 -> 1
-	4 -> 3
-	3 -> 2
-	11 -> 6
-	12 -> 11
-	13 -> 12
-	6 -> 4
+
+	35[label = "clairs_to_concat", color = "0.11 0.6 0.85", style="rounded"];
+	36[label = "clairs_to_call", color = "0.56 0.6 0.85", style="rounded"];
+
+	43[label = "deepvariant_pacbio", color = "0.22 0.6 0.85", style="rounded"];
+	45[label = "hiphase", color = "0.43 0.6 0.85", style="rounded"];
+
+	51[label = "deepsomatic_t_only", color = "0.24 0.6 0.85", style="rounded"];
+	52[label = "deepsomatic_tn", color = "0.17 0.6 0.85", style="rounded"];
+
+	61[label = "deepmosaic_predict", color = "0.22 0.6 0.85", style="rounded"];
+	65[label = "mosaicforecast", color = "0.33 0.6 0.85", style="rounded"];
+
+
 	18 -> 0
 	19 -> 0
-	21 -> 24
-	24 -> 0
-	8 -> 6
-	15 -> 6
-	17 -> 6
-	16 -> 23
+	21 -> 0
 	18 -> 21
+	20 -> 19
+	20 -> 18
 
+	35 -> 0
+	36 -> 35
+	20 -> 36
 
-}            
+	45 -> 0
+	43 -> 45
+	20 -> 43
+
+	52 -> 0
+	51 -> 0
+	20 -> 52
+
+	61 -> 0
+	65 -> 0
+	20 -> 51
+	51 -> 61
+	51 -> 65
+}

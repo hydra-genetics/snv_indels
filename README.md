@@ -119,4 +119,8 @@ The following output files should be targeted via another rule:
 
 ## :judge: Rule Graph
 
-![rule_graph](images/rulegraph.svg)
+### Tools suitable for short-read data
+![rule_graph_sr](docs/images/snv_indels_SR.png)
+
+### Tools suitable for long-read data
+![rule_graph_lr](docs/images/snv_indels_LR.png)
