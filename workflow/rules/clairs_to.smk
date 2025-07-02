@@ -55,7 +55,6 @@ rule clairs_to_call:
         "> {log}"
 
 
-
 rule clairs_to_concat:
     input:
         snv="snv_indels/clairs_to/{sample}_{type}_snv.vcf.gz",
@@ -64,7 +63,7 @@ rule clairs_to_concat:
         vcf=temp("snv_indels/clairs_to/{sample}_{type}.snv-indels.vcf.gz"),
         tmp=temp("snv_indels/clairs_to/{sample}_{type}.snv-indels.unsorted.vcf.gz"),
     params:
-        extra=config.get("clairs_to_concat",{}).get("extra", ""),
+        extra=config.get("clairs_to_concat", {}).get("extra", ""),
     log:
         "snv_indels/clairs_to/{sample}_{type}.concat.log",
     benchmark:
