@@ -8,23 +8,23 @@ rule clairs_to_call:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
-        ref=config.get("reference",{}).get("fasta",""),
-        bed=config.get("reference",{}).get("design_bed",""),
+        ref=config.get("reference",{}).get("fasta", ""),
+        bed=config.get("reference",{}).get("design_bed", ""),
     output:
         snv=temp("snv_indels/clairs_to/{sample}_{type}_snv.vcf.gz"),
-        indel=temp("snv_indels/clairs_to/{sample}_{type}_indel.vcf.gz")
+        indel=temp("snv_indels/clairs_to/{sample}_{type}_indel.vcf.gz"),
     params:
-        extra = config.get("clairs_to_concat",{}).get("extra",""),
-        platform=config.get("clairs_to_call",{}).get("platform",""),
-        snv_min_af=config.get("clairs_to_call",{}).get("snv_min_af",0.05),
-        indel_min_af=config.get("clairs_to_call",{}).get("indel_min_af",0.1),
+        extra = config.get("clairs_to_call",{}).get("extra", ""),
+        platform=config.get("clairs_to_call",{}).get("platform", ""),
+        snv_min_af=config.get("clairs_to_call",{}).get("snv_min_af", 0.05),
+        indel_min_af=config.get("clairs_to_call",{}).get("indel_min_af", 0.1),
         outdir=directory(lambda w, output: os.path.dirname(output[0])),
     log:
         "snv_indels/clairs_to/{sample}_{type}.varcall.log",
     benchmark:
         repeat(
             "snv_indels/clairs_to/{sample}_{type}.varcall.benchmark.tsv",
-            config.get("clairs_to_call", {}).get("benchmark_repeats", 1)
+            config.get("clairs_to_call", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("clairs_to_call", {}).get("threads", config["default_resources"]["threads"])
     resources:
@@ -38,9 +38,22 @@ rule clairs_to_call:
     message:
         "{rule}: Long-read somatic small variant calling in only tumor samples with ClairS-TO."
     shell:
-        """
-        run_clairs_to --tumor_bam_fn {input.bam} --ref_fn {input.ref} --threads {resources.threads} --platform {params.platform} --output_dir {params.outdir} -s {wildcards.sample} --bed_fn {input.bed} --snv_min_af {params.snv_min_af} --indel_min_af {params.indel_min_af} --disable_verdict --snv_output_prefix {wildcards.sample}_{wildcards.type}_snv --indel_output_prefix {wildcards.sample}_{wildcards.type}_indel {params.extra} > {log}
-        """
+        "run_clairs_to "
+        "--tumor_bam_fn {input.bam} "
+        "--ref_fn {input.ref} "
+        "--threads {resources.threads} " 
+        "--platform {params.platform} "
+        "--output_dir {params.outdir} "
+        "-s {wildcards.sample} "
+        "--bed_fn {input.bed} "
+        "--snv_min_af {params.snv_min_af} "
+        "--indel_min_af {params.indel_min_af} "
+        "--disable_verdict "
+        "--snv_output_prefix {wildcards.sample}_{wildcards.type}_snv "
+        "--indel_output_prefix {wildcards.sample}_{wildcards.type}_indel "
+        "{params.extra} "
+        "> {log}"
+
 
 
 rule clairs_to_concat:
@@ -51,13 +64,13 @@ rule clairs_to_concat:
         vcf=temp("snv_indels/clairs_to/{sample}_{type}.snv-indels.vcf.gz"),
         tmp=temp("snv_indels/clairs_to/{sample}_{type}.snv-indels.unsorted.vcf.gz"),
     params:
-        extra = config.get("clairs_to_concat",{}).get("extra",""),
+        extra = config.get("clairs_to_concat",{}).get("extra", ""),
     log:
         "snv_indels/clairs_to/{sample}_{type}.concat.log",
     benchmark:
         repeat(
             "snv_indels/clairs_to/{sample}_{type}.concat.benchmark.tsv",
-            config.get("clairs_to_concat", {}).get("benchmark_repeats", 1)
+            config.get("clairs_to_concat", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("clairs_to_concat", {}).get("threads", config["default_resources"]["threads"])
     resources:

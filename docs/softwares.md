@@ -144,21 +144,21 @@ to support long-read tumor-only somatic small variant calling.
 
 ### :snake: Rule
 
-#SNAKEMAKE_RULE_SOURCE__clairs_to__clairs_to_clairs_to_call#
+#SNAKEMAKE_RULE_SOURCE__clairs_to__clairs_to_call#
 
 #### :left_right_arrow: input / output files
 
-#SNAKEMAKE_RULE_TABLE__clairs_to__clairs_to_clairs_to_call#
+#SNAKEMAKE_RULE_TABLE__clairs_to__clairs_to_call#
 
 ### :wrench: Configuration
 
 #### Software settings (`config.yaml`)
 
-#CONFIGSCHEMA__clairs_to_clairs_to_call#
+#CONFIGSCHEMA__clairs_to_call#
 
 #### Resources settings (`resources.yaml`)
 
-#RESOURCESSCHEMA__clairs_to_clairs_to_call#
+#RESOURCESSCHEMA__clairs_to_call#
 
 ---
 
@@ -169,21 +169,21 @@ There are therefore concatenated together and sorted with bcftools.
 
 ### :snake: Rule
 
-#SNAKEMAKE_RULE_SOURCE__clairs_to__clairs_to_clairs_to_concat#
+#SNAKEMAKE_RULE_SOURCE__clairs_to__clairs_to_concat#
 
 #### :left_right_arrow: input / output files
 
-#SNAKEMAKE_RULE_TABLE__clairs_to__clairs_to_clairs_to_concat#
+#SNAKEMAKE_RULE_TABLE__clairs_to__clairs_to_concat#
 
 ### :wrench: Configuration
 
 #### Software settings (`config.yaml`)
 
-#CONFIGSCHEMA__clairs_to_clairs_to_concat#
+#CONFIGSCHEMA__clairs_to_concat#
 
 #### Resources settings (`resources.yaml`)
 
-#RESOURCESSCHEMA__clairs_to_clairs_to_concat#
+#RESOURCESSCHEMA__clairs_to_concat#
 
 ---
 

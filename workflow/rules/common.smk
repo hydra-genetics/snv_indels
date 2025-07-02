@@ -278,7 +278,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             f"snv_indels/{prefix}/{sample}_T.{suffix}"
             for prefix in files.keys()
             for sample in get_samples(samples[pd.isnull(samples["trioid"])])
-            for t in get_unit_types(units,sample)
+            for t in get_unit_types(units, sample)
             for platform in units.loc[(sample,)].platform
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
