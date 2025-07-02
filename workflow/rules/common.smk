@@ -283,7 +283,6 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
-        print("OUTPUT FILES: ", output_files)
     else:
         files = {
             "bcbio_variation_recall_ensemble": [
