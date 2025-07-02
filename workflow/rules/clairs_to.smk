@@ -8,16 +8,16 @@ rule clairs_to_call:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
-        ref=config.get("reference",{}).get("fasta", ""),
-        bed=config.get("reference",{}).get("design_bed", ""),
+        ref=config.get("reference", {}).get("fasta", ""),
+        bed=config.get("reference", {}).get("design_bed", ""),
     output:
         snv=temp("snv_indels/clairs_to/{sample}_{type}_snv.vcf.gz"),
         indel=temp("snv_indels/clairs_to/{sample}_{type}_indel.vcf.gz"),
     params:
-        extra = config.get("clairs_to_call",{}).get("extra", ""),
-        platform=config.get("clairs_to_call",{}).get("platform", ""),
-        snv_min_af=config.get("clairs_to_call",{}).get("snv_min_af", 0.05),
-        indel_min_af=config.get("clairs_to_call",{}).get("indel_min_af", 0.1),
+        extra=config.get("clairs_to_call", {}).get("extra", ""),
+        platform=config.get("clairs_to_call", {}).get("platform", ""),
+        snv_min_af=config.get("clairs_to_call", {}).get("snv_min_af", 0.05),
+        indel_min_af=config.get("clairs_to_call", {}).get("indel_min_af", 0.1),
         outdir=directory(lambda w, output: os.path.dirname(output[0])),
     log:
         "snv_indels/clairs_to/{sample}_{type}.varcall.log",
@@ -64,7 +64,7 @@ rule clairs_to_concat:
         vcf=temp("snv_indels/clairs_to/{sample}_{type}.snv-indels.vcf.gz"),
         tmp=temp("snv_indels/clairs_to/{sample}_{type}.snv-indels.unsorted.vcf.gz"),
     params:
-        extra = config.get("clairs_to_concat",{}).get("extra", ""),
+        extra=config.get("clairs_to_concat",{}).get("extra", ""),
     log:
         "snv_indels/clairs_to/{sample}_{type}.concat.log",
     benchmark:
