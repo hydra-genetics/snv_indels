@@ -41,7 +41,7 @@ rule clairs_to_call:
         "run_clairs_to "
         "--tumor_bam_fn {input.bam} "
         "--ref_fn {input.ref} "
-        "--threads {resources.threads} " 
+        "--threads {resources.threads} "
         "--platform {params.platform} "
         "--output_dir {params.outdir} "
         "-s {wildcards.sample} "
