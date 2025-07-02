@@ -181,13 +181,12 @@ properties:
         type: object
         description: list of outputs
         properties:
-          properties:
-            vcf:
-              type: string
-              description: vcf file with position-sorted snv and indel calls
-            tmp:
-              type: string
-              description: vcf file with unsorted snv and indel calls
+          vcf:
+            type: string
+            description: vcf file with position-sorted snv and indel calls
+          tmp:
+            type: string
+            description: vcf file with unsorted snv and indel calls
 
   deepmosaic_draw:
     type: object
