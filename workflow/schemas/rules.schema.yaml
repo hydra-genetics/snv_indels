@@ -150,7 +150,6 @@ properties:
           ref:
             type: string
             description: fasta reference genome file
-
       output:
         type: object
         description: list of outputs
@@ -176,7 +175,6 @@ properties:
           indel:
             type: string
             description: vcf file with indel calls only
-
       output:
         type: object
         description: list of outputs
