@@ -20,9 +20,21 @@
 The module contains rules to call variants from `.bam`-files per chromosome, merging
 the resulting `.vcf`-files, fixing the allele frequency field followed by decomposing
 and normalizing steps to finally combine the results from different callers using
-an ensemble approach. Available callers are [Mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2),
-[Freebayes](https://github.com/freebayes/freebayes) and [VarDict](https://github.com/AstraZeneca-NGS/VarDict) and [Haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller).
+an ensemble approach. Available callers in the standard setup are [Mutect2](https://gatk.broadinstitute.
+org/hc/en-us/articles/360037593851-Mutect2),
+[Freebayes](https://github.com/freebayes/freebayes), [VarDict](https://github.com/AstraZeneca-NGS/VarDict) and 
+[Haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller).
 Mutect2 is also used to generate a genomic `.vcf`-file.
+
+Other variant callers can be added by providing caller-specific configurations: 
+[DeepVariant](https://github.com/google/deepvariant), 
+[DeepSomatic](https://github.com/google/deepsomatic), and 
+[ClairS-TO](https://github.com/HKU-BAL/ClairS-TO).
+The output of those variant callers can also be processed with decomposition and normalization steps if the user 
+wishes so.
+Moreover, the output of DeepSomatic in tumor-only settings can be piped into [DeepMosaic](https://github.com/XiaoxuYangLab/DeepMosaic) and 
+[MosaicForecast](https://github.com/parklab/MosaicForecast) to identify mosaic variants.
+
 
 ## :heavy_exclamation_mark: Dependencies
 
@@ -64,22 +76,25 @@ The following information need to be added to these files:
 
 #### Long-read data
 
-| Column Id | Description                                                                                     |
-| --- |-------------------------------------------------------------------------------------------------|
-| **`samples.tsv`** |
-| sample | unique sample/patient id, one per row                                                           |
-| tumor_content | ratio of tumor cells to total cells                                                             |
-| **`units.tsv`** |
-| sample | same sample/patient id as in `samples.tsv`                                                      |
-| type | data type identifier (one letter), can be one of **T**umor, **N**ormal, **R**NA                 |
-| platform | type of sequencing platform, e.g. `PacBio`                                                      |
-| machine | specific machine id, e.g. PacBio instruments have `@Axxxxx`                                     |
-| processing_unit | processing unit id, e.g. `@Axxxxx`                                                              |
-| run_id | run id of the sequencing run, e.g. `run1`                                                       |
-| barcode | sequence library barcode/index, connect forward and reverse indices by `+`, e.g. `ATGC+ATGC`    |
-| methylation | whether methylation is called, e.g. `true` or `false`                                           |
-| basecalling_model | basecalling model used, e.g. `canu` or `deepbinner`                                             |
-| bam | absolute path to the directory with the `.bam` files, e.g. `/path/to/bams` (no subdirectories!) |
+| Column Id           | Description                                                                                                  |
+|---------------------|--------------------------------------------------------------------------------------------------------------|
+| **`samples.tsv`**   |
+| sample              | unique sample/patient id, one per row                                                                        |
+| (tumor_content)     | ratio of tumor cells to total cells (not relevant if data for constitutional disease analysis)               |
+| (sex)               | sex prediction from somalier (relevant if data for constitutional disease analysis)                          |
+| (trioid)            | ID of the trio (relevant if data for constitutional disease analysis)                                        |
+| (trio_member)       | code of the sample in the trio (relevant if data for constitutional disease analysis)                        |
+| **`units.tsv`**     |
+| sample              | same sample/patient id as in `samples.tsv`                                                                   |
+| type                | data type identifier (one letter), can be one of **T**umor, **N**ormal, **R**NA                              |
+| platform            | type of sequencing platform, e.g. `PACBIO` or `ONT`                                                          |
+| machine             | specific machine id, e.g. PacBio instrument `REVIO`                                                          |
+| processing_unit     | processing unit id, e.g. `@Axxxxx`                                                                           |
+| (run_id)            | run id of the sequencing run, e.g. `run1` (not relevant if PacBio data)                                      |
+| barcode             | sequence library barcode/index, connect forward and reverse indices by `+`, e.g. `ATGC+ATGC`                 |
+| methylation         | whether methylation is called, e.g. `true` or `false`                                                        |
+| (basecalling_model) | basecalling model used, e.g. `dna_r10.4.1_e8.2_400bps_sup@v5.0.0` for ONT data (not relevant if PacBio data) |
+| bam                 | absolute path to the directory with the `.bam` file, e.g. `/path/to/bam`                                     |
 
 ### Reference data
 
