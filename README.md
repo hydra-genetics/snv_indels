@@ -109,6 +109,7 @@ The workflow repository contains a small test dataset `.tests/integration` which
 
 ```bash
 $ cd .tests/integration
+$ apptainer remote add --no-login SylabsCloud cloud.sycloud.io  # if using DeepVariant or DeepMosaic
 $ snakemake -s ../../workflow/Snakefile -j1 --configfile <config_caller>.yaml --use-singularity --singularity-args " --cleanenv"
 ```
 
