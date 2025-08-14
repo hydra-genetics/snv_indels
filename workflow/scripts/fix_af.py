@@ -31,6 +31,8 @@ def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
         or caller == "pbrun_deepvariant"
         or caller == "deepvariant"
         or caller == "varscan"
+        or caller == "deepsomatic_t_only"
+        or caller == "deepsomatic_tn"
     ):
         header.add_meta("FORMAT", items=[("ID", "AF"), ("Number", "A"), ("Type", "Float"), ("Description", "Allele frequency")])
     if (
@@ -39,6 +41,8 @@ def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
         or caller == "gatk_mutect2"
         or caller == "pbrun_deepvariant"
         or caller == "deepvariant"
+        or caller == "deepsomatic_t_only"
+        or caller == "deepsomatic_tn"
     ):
         header.info.add("AF", "A", "Float", "DescriptionDescription")
     elif caller == "varscan":
@@ -78,6 +82,12 @@ def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcb
             row.info["AF"] = row.samples[0].get("VAF")
             row.samples[0]["AF"] = row.samples[0].get("VAF")
         elif caller == "deepvariant":
+            row.info["AF"] = row.samples[0].get("VAF")
+            row.samples[0]["AF"] = row.samples[0].get("VAF")
+        elif caller == "deepsomatic_t_only":
+            row.info["AF"] = row.samples[0].get("VAF")
+            row.samples[0]["AF"] = row.samples[0].get("VAF")
+        elif caller == "deepsomatic_tn":
             row.info["AF"] = row.samples[0].get("VAF")
             row.samples[0]["AF"] = row.samples[0].get("VAF")
         elif caller == "gatk_select_variants_final":
