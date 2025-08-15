@@ -20,7 +20,7 @@ rule clairs_to_call:
         indel_min_af=config.get("clairs_to_call", {}).get("indel_min_af", 0.1),
         outdir=directory(lambda w, output: os.path.dirname(output[0])),
     log:
-        "snv_indels/clairs_to/{sample}_{type}.varcall.log",
+        "snv_indels/clairs_to/{sample}_{type}.output.log",
     benchmark:
         repeat(
             "snv_indels/clairs_to/{sample}_{type}.varcall.benchmark.tsv",
