@@ -61,7 +61,6 @@ rule clairs_to_concat:
         indel="snv_indels/clairs_to/{sample}_{type}_indel.vcf.gz",
     output:
         vcf=temp("snv_indels/clairs_to/{sample}_{type}.snv-indels.vcf.gz"),
-        tmp=temp("snv_indels/clairs_to/{sample}_{type}.snv-indels.unsorted.vcf.gz"),
     params:
         extra=config.get("clairs_to_concat", {}).get("extra", ""),
     log:
