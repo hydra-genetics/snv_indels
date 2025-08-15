@@ -83,6 +83,5 @@ rule clairs_to_concat:
         "{rule}: Concatenate the output of ClairS-TO into the single VCF {output.vcf}."
     shell:
         """
-        bcftools concat {params.extra} -a -Oz -o {output.tmp} {input.snv} {input.indel} 2> {log}
-        bcftools sort -Oz -o {output.vcf} {output.tmp}
+        bcftools concat {params.extra} -a {input.snv} {input.indel} | bcftools sort -Oz -o {output.vcf} - > {log}
         """
