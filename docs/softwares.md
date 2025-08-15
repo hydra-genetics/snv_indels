@@ -165,7 +165,7 @@ to support long-read tumor-only somatic small variant calling.
 ## [clairs_to_concat](https://samtools.github.io/bcftools/bcftools.html)
 ClairS-TO creates separate VCF output for indel and SNV calls while those types of variants 
 are treated together in the hydra-genetics module.
-There are therefore concatenated together and sorted with bcftools.
+They are therefore concatenated together and sorted with bcftools.
 
 ### :snake: Rule
 
