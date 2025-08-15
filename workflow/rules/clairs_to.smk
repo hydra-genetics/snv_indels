@@ -23,7 +23,7 @@ rule clairs_to_call:
         "snv_indels/clairs_to/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "snv_indels/clairs_to/{sample}_{type}.varcall.benchmark.tsv",
+            "snv_indels/clairs_to/{sample}_{type}.output.benchmark.tsv",
             config.get("clairs_to_call", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("clairs_to_call", {}).get("threads", config["default_resources"]["threads"])
