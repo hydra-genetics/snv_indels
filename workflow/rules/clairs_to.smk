@@ -81,7 +81,7 @@ rule clairs_to_concat:
     container:
         config.get("clairs_to_concat", {}).get("container", config["default_container"])
     message:
-        "{rule}: Concatenate the output of ClairS-TO into a single VCF."
+        "{rule}: Concatenate the output of ClairS-TO into the single VCF {output.vcf}."
     shell:
         """
         bcftools concat {params.extra} -a -Oz -o {output.tmp} {input.snv} {input.indel} 2> {log}
