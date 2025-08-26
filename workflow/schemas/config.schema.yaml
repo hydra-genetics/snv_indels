@@ -122,6 +122,39 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
+  clairs_to_call:
+    type: object
+    description: parameters for clairs_to_call
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      platform:
+        type: string
+        description: choose which platform, which chemistry, and which model to use (same as for the basecalling)
+    required:
+      - platform
+
+  clairs_to_concat:
+    type: object
+    description: parameters for clairs_to_concat
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
   deepmosaic_draw:
     type: object
     description: parameters for deepmosaic_draw
@@ -529,3 +562,4 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
+

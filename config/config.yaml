@@ -16,6 +16,10 @@ bcbio_variation_recall_ensemble:
     - gatk_mutect2
     - freebayes
 
+clairs_to_call:
+  container: "docker://hkubal/clairs-to:latest"
+  platform: "ont_r10_guppy_sup_4khz"
+
 deepmosaic_draw:
   container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
 

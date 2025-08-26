@@ -1,5 +1,13 @@
 # Generate a dag graph and place it here
 cd .tests/integration
-snakemake --rulegraph -s ../../workflow/Snakefile --configfile config.yaml > snv_indels.dot
+snakemake --rulegraph -s ../../workflow/Snakefile --configfile config.yaml > snv_indels_SR.dot
+snakemake --rulegraph -s ../../workflow/Snakefile --configfile config_clairs_to.yaml > snv_indels_clairs_to.dot
+snakemake --rulegraph -s ../../workflow/Snakefile --configfile config_deepsomatic.yaml > snv_indels_deepsomatic.dot
+snakemake --rulegraph -s ../../workflow/Snakefile --configfile config_deepvariant.yaml > snv_indels_deepvariant.dot
+snakemake --rulegraph -s ../../workflow/Snakefile --configfile config_mosaic.yaml > snv_indels_mosaic.dot
+snakemake --rulegraph -s ../../workflow/Snakefile --configfile config_pacbio.yaml > snv_indels_pacbio.dot
+snakemake --rulegraph -s ../../workflow/Snakefile --configfile config_clairs_to.yaml > snv_indels_clairs_to.dot
 # move and modify dot-file manually and then
-dot -Tpng snv_indels.dot > snv_indels.png
+dot -Tpng snv_indels_SR.dot > snv_indels_SR.png
+# create and modify dot-file manually for long-read and then
+dot -Tpng snv_indels_LR.dot > snv_indels_LR.png
