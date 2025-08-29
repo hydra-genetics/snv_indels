@@ -1,4 +1,4 @@
-name: small integration test (deepvariant)
+name: small integration test shortread deepvariant
 
 on:
   push:
@@ -31,27 +31,16 @@ jobs:
         run: |
           echo "Free space:"
           df -h
-      - name: Setup Miniforge
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-            miniforge-variant: Miniforge3
-            miniforge-version: latest
-            activate-environment: my-env
-            use-mamba: true
-      - name: Set strict channel
+      - name: Install apptainer/singularity
         run: |
-          conda config --set channel_priority strict
+          sudo add-apt-repository -y ppa:apptainer/ppa && sudo apt install -y software-properties-common && sudo apt install -y apptainer-suid
       - name: Install requirements.txt
         run: |
           pip install -r requirements.txt
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
-      - name: Integration test - small dataset (deepvariant)
+      - name: Integration test - small dataset short read deepvariant
         working-directory: .tests/integration
         run: |
-          mamba install -c conda-forge -c bioconda apptainer=1.3.2
           snakemake -s ../../workflow/Snakefile -j 1 --show-failed-logs  --configfile config_deepvariant.yaml --use-singularity --singularity-args  " --cleanenv --bind /home/runner "

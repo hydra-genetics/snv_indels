@@ -2,7 +2,7 @@ resources: "resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
 
-default_container: "docker://hydragenetics/common:0.2.0"
+default_container: "docker://hydragenetics/common:3.1.1"
 
 reference:
   fasta: ""
@@ -15,7 +15,28 @@ bcbio_variation_recall_ensemble:
     - vardict
     - gatk_mutect2
     - freebayes
+
+clairs_to_call:
+  container: "docker://hkubal/clairs-to:latest"
+  platform: "ont_r10_guppy_sup_4khz"
+
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepsomatic_t_only:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: ""
+  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+  pon: "--use_default_pon_filtering=true" # or --pon_filtering="pon.vcf" --process_somatic=true or ""
   
+deepsomatic_tn:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: ""
+  model: "WGS" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
 deeptrio_call_variants:
   container: "docker://google/deepvariant:deeptrio-1.4.0"
   model:
@@ -55,6 +76,9 @@ gatk_mutect2_merge_stats:
 
 merge_af_complex_variants:
   merge_method: "sum" 
+
+mosaicforecast:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
 
 mutect2_pass_filter:
   pass_filters:

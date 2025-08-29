@@ -130,6 +130,196 @@ properties:
             type: string
             description: the compressed `.vcf.gz` file
 
+  clairs_to_call:
+    type: object
+    description: input and output parameters for clairs_to_call
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file
+          bai:
+            type: string
+            description: index file for `.bam` file
+          bed:
+            type: string
+            description: the region where variants should be called
+          ref:
+            type: string
+            description: fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          snv:
+            type: string
+            description: vcf file with snv calls only
+          indel:
+            type: string
+            description: vcf file with indel calls only
+
+  clairs_to_concat:
+    type: object
+    description: input and output parameters for clairs_to_concat
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          snv:
+            type: string
+            description: vcf file with snv calls only
+          indel:
+            type: string
+            description: vcf file with indel calls only
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: vcf file with position-sorted snv and indel calls
+
+  deepmosaic_draw:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          annovar:
+            type: string
+            description: the path to where annovar is installed
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file
+          txt:
+            type: string
+            description: info file with sample_id, '.bam' and '.vcf' file locations, depth and sex
+          vcf:
+            type: string
+            description: the `.vcf` file, preferrably from deepSomatic or Mutect2 (a tool that can find somatic/mosaic variation)
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          outdir:
+            type: string
+            description: vcf file with snv and indels calls (add "--output_gvcf={path to output gVCF}" to rule for .g.vcf)
+          txt:
+            type: string
+            description: a '.txt' file with the features extracted for the candidates to use in deepmosaic_predict
+
+  deepmosaic_input:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file
+          sex:
+            type: string
+            description: file containing predicted sex based on bioinformatics (e.g Peddy)
+          vcf:
+            type: string
+            description: the `.vcf` file, preferrably from deepSomatic or Mutect2 (a tool that can find somatic/mosaic variation)
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          txt:
+            type: string
+            description: info file with sample_id, '.bam' and '.vcf' file locations, depth and sex to be used in deepmosaic_draw
+
+  deepmosaic_predict:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          txt:
+            type: string
+            description: a '.txt' file with the features extracted for the candidates from deepmosaic_draw
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          txt:
+            type: string
+            description: a '.txt' file with the predictions based on the features 
+
+  deepsomatic_t_only:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file
+          bai:
+            type: string
+            description: index file for `.bam` file
+          bed:
+            type: string
+            description: the region where variants should be called
+          ref:
+            type: string
+            description: fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: vcf file with snv and indels calls (add "--output_gvcf={path to output gVCF}" to rule for .g.vcf)
+
+  deepsomatic_tn:
+    type: object
+    description: input and output parameters for deepsomatic
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          normal:
+            type: string
+            description: marked duplication, merged and sorted tumor `.bam` file
+          tumor:
+            type: string
+            description: marked duplication, merged and sorted normal `.bam` file
+          bai_n:
+            type: string
+            description: index file for tumor `.bam` file
+          bai_t:
+            type: string
+            description: index file for normal `.bam` file
+          bed:
+            type: string
+            description: the region where variants should be called
+          ref:
+            type: string
+            description: fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: vcf file with snv and indels calls (add "--output_gvcf={path to output gVCF}" to rule for .g.vcf)
+
   deeptrio_make_examples:
     type: object
     description: input and output parameters for deeptrio_make_examples
@@ -458,6 +648,61 @@ properties:
           vcf:
             type: string
             description: vcf file with snv and indels calls
+  
+  hiphase:
+    type: object
+    description: input and output parameters for hiphase
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: bam file with aligned HIFI Pacbio reads
+          bai:
+            type: string
+            description: index for the bam file
+          ref:
+            type: string
+            description: fasta reference genome file
+          snv_vcf:
+            type: string
+            description: Deepvariant vcf file
+          snv_tbi:
+            type: string
+            description: Deepvariant vcf file tabix index
+          sv_vcf:
+            type: string
+            description: PBSV vcf file
+          sv_tbi:
+            type: string
+            description: PBSV vcf file index
+          str_vcf:
+            type: string
+            description: TRGT vcf file
+          str_tbi:
+            type: string
+            description: TRGT vcf file index
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          bam:
+            type: string
+            description: Haplotagged bam file with aligned HIFI Pacbio reads
+          bai:
+            type: string
+            description: Haplotagged bam file index
+          snv_vcf:
+            type: string
+            description: Phased Deepvariant vcf file
+          sv_vcf:
+            type: string
+            description: Phased PBSV vcf file
+          str_vcf:
+            type: string
+            description: Phased TRGT vcf file
 
   merge_af_complex_variants:
     type: object
@@ -481,6 +726,53 @@ properties:
             type: string
             description: vcf file with only one (if merge_method max or sum) record per complex variant
 
+  mosaicforecast_input:
+    type: object
+    description: input and output parameters for mosaicforecast_input
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: the .vcf file, preferrably from deepSomatic or Mutect2 (a tool that can find somatic/mosaic variation)
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          variants:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+
+  mosaicforecast:
+    type: object
+    description: input and output parameters for mosaicforecast
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          fasta:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+          path:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+          variants:
+            type: string
+            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          path:
+            type: string
+            description: path to output directory
+          phase:
+            type: string
+            description: file with phase information for all variants that had it and mosaic predictions
+
   mutect2_pass_filter:
     type: object
     description: input and output parameters for mutect2_pass_filter
@@ -499,7 +791,7 @@ properties:
           vcf:
             type: string
             description: hard filtered vcf file with snv amd indels calls
-
+  
   tabix:
     type: object
     description: input and output parameters for tabix

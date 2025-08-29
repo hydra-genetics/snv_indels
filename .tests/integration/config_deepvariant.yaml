@@ -2,9 +2,7 @@ resources: "resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
 
-default_container: "docker://hydragenetics/common:0.2.0"
-
-run_deepvariant: true
+default_container: "docker://hydragenetics/common:3.1.1"
 
 reference:
   fasta: "reference/HES45.fna"

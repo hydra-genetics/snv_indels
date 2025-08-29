@@ -138,6 +138,170 @@ Compress a `.vcf` file using bgzip.
 
 ---
 
+## [clairs_to_call](https://github.com/HKU-BAL/ClairS-TO)
+ClairS-TO (Somatic Tumor-Only) is a deep-learning tool in the Clair series 
+to support long-read tumor-only somatic small variant calling.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__clairs_to__clairs_to_call#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__clairs_to__clairs_to_call#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__clairs_to_call#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__clairs_to_call#
+
+---
+
+## [clairs_to_concat](https://samtools.github.io/bcftools/bcftools.html)
+ClairS-TO creates separate VCF output for indel and SNV calls while those types of variants 
+are treated together in the hydra-genetics module.
+They are therefore concatenated together and sorted with bcftools.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__clairs_to__clairs_to_concat#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__clairs_to__clairs_to_concat#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__clairs_to_concat#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__clairs_to_concat#
+
+---
+
+## [deepmosaic_draw](https://github.com/shishenyxx/DeepMosaic)
+DeepMosaic is a deep-learning-based mosaic single nucleotide classification tool without the need of matched control information. Firstly, feature extraction and visualization of the candidate mosaic variants (Visualization Module)
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepmosaic__deepmosaic_draw#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepmosaic__deepmosaic_draw#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepmosaic_draw#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepmosaic_draw#
+
+---
+
+## [deepmosaic_input]
+Run python script to create the information txt-file needed in deepmosaic_draw. It contains sample_id, path to .bam and .vcf file, average depth and sex (predicted with Peddy).
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepmosaic__deepmosaic_input#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepmosaic__deepmosaic_input#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepmosaic_input#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepmosaic_input#
+
+---
+
+## [deepsomatic_predict](https://github.com/shishenyxx/DeepMosaic)
+DeepMosaic is a deep-learning-based mosaic single nucleotide classification tool without the need of matched control information. Secondly, prediction for mosaicism (Classification Module)
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepmosaic__deepmosaic_predict#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepmosaic__deepmosaic_predict#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepmosaic_predict#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepmosaic_predict#
+
+---
+
+## [deepsomatic_t_only](https://github.com/google/deepsomatic)
+Using only tumor to call somatic SNV and indel variant from both short and long-read with DeepSomatic. The tool is the somatic version of DeepVariant. 
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepsomatic__deepsomatic_t_only#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepsomatic__deepsomatic_t_only#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepsomatic_t_only#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepsomatic_t_only#
+
+---
+
+## [deepsomatic_tn](https://github.com/google/deepsomatic)
+Tumor/normal analysis to call somatic SNV and indel variant from both short and long-read with DeepSomatic. The tool is the somatic version of DeepVariant. 
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__deepsomatic__deepsomatic_tn#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__deepsomatic__deepsomatic_tn#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__deepsomatic_tn#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__deepsomatic_tn#
+
+---
+
 ## [deeptrio_call_variants](https://github.com/google/deepvariant)
 Step 2 of 3 in the calling of SNVs and INDELs using deeptrio.
 
@@ -413,6 +577,29 @@ Germline variant caller for SNVs and INDELs.
 
 ---
 
+## [hiphase](https://github.com/PacificBiosciences/HiPhase)
+Hiphase jointly phases small, structural, and tandem repeat variants for PacBio sequencing data
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__hiphase__hiphase#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__hiphase__hiphase#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__hiphase#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__hiphase#
+
+---
+
 ## [merge_af_complex_variants](https://github.com/hydra-genetics/snv_indels/blob/develop/workflow/scripts/merge_af.py)
 Python script for handling complex variants with several vcf record.
 
@@ -446,6 +633,52 @@ sum the allele frequencies from all records with the same allele and position.
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__merge_af_complex_variants#
+
+---
+
+## [mosaicforecast](https://github.com/parklab/MosaicForecast)
+A machine learning method that leverages read-based phasing and read-level features to accurately detect mosaic SNVs (SNPs, small indels) from NGS data. It builds on existing algorithms to achieve a multifold increase in specificity.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__mosaicforecast__mosaicforecast#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__mosaicforecast__mosaicforecast#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__mosaicforecast#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__mosaicforecast#
+
+---
+
+## [mosaicforecast_input]
+Getting the information needed from the .vcf-file for MosaicForecast. A list of the position that should be evaluated for their mosaic potential. 
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__mosaicforecast__mosaicforecast_input#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__mosaicforecast__mosaicforecast_input#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__mosaicforecast_input#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__mosaicforecast_input#
 
 ---
 

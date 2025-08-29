@@ -20,9 +20,21 @@
 The module contains rules to call variants from `.bam`-files per chromosome, merging
 the resulting `.vcf`-files, fixing the allele frequency field followed by decomposing
 and normalizing steps to finally combine the results from different callers using
-an ensemble approach. Available callers are [Mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2),
-[Freebayes](https://github.com/freebayes/freebayes) and [VarDict](https://github.com/AstraZeneca-NGS/VarDict) and [Haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller).
+an ensemble approach. Available callers in the standard setup are [Mutect2](https://gatk.broadinstitute.
+org/hc/en-us/articles/360037593851-Mutect2),
+[Freebayes](https://github.com/freebayes/freebayes), [VarDict](https://github.com/AstraZeneca-NGS/VarDict) and 
+[Haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller).
 Mutect2 is also used to generate a genomic `.vcf`-file.
+
+Other variant callers can be added by providing caller-specific configurations: 
+[DeepVariant](https://github.com/google/deepvariant), 
+[DeepSomatic](https://github.com/google/deepsomatic), and 
+[ClairS-TO](https://github.com/HKU-BAL/ClairS-TO).
+The output of those variant callers can also be processed with decomposition and normalization steps if the user 
+wishes so.
+Moreover, the output of DeepSomatic in tumor-only settings can be piped into [DeepMosaic](https://github.com/XiaoxuYangLab/DeepMosaic) and 
+[MosaicForecast](https://github.com/parklab/MosaicForecast) to identify mosaic variants.
+
 
 ## :heavy_exclamation_mark: Dependencies
 
@@ -44,6 +56,8 @@ Input data should be added to [`samples.tsv`](https://github.com/hydra-genetics/
 and [`units.tsv`](https://github.com/hydra-genetics/prealignment/blob/develop/config/units.tsv).
 The following information need to be added to these files:
 
+#### Short-read data
+
 | Column Id | Description |
 | --- | --- |
 | **`samples.tsv`** |
@@ -60,6 +74,28 @@ The following information need to be added to these files:
 | fastq1/2 | absolute path to forward and reverse reads |
 | adapter | adapter sequences to be trimmed, separated by comma |
 
+#### Long-read data
+
+| Column Id           | Description                                                                                                  |
+|---------------------|--------------------------------------------------------------------------------------------------------------|
+| **`samples.tsv`**   |
+| sample              | unique sample/patient id, one per row                                                                        |
+| (tumor_content)     | ratio of tumor cells to total cells (not relevant if data for constitutional disease analysis)               |
+| (sex)               | sex prediction from somalier (relevant if data for constitutional disease analysis)                          |
+| (trioid)            | ID of the trio (relevant if data for constitutional disease analysis)                                        |
+| (trio_member)       | code of the sample in the trio (relevant if data for constitutional disease analysis)                        |
+| **`units.tsv`**     |
+| sample              | same sample/patient id as in `samples.tsv`                                                                   |
+| type                | data type identifier (one letter), can be one of **T**umor, **N**ormal, **R**NA                              |
+| platform            | type of sequencing platform, e.g. `PACBIO` or `ONT`                                                          |
+| machine             | specific machine id, e.g. PacBio instrument `REVIO`                                                          |
+| processing_unit     | processing unit id, e.g. `@Axxxxx`                                                                           |
+| (run_id)            | run id of the sequencing run, e.g. `run1` (not relevant if PacBio data)                                      |
+| barcode             | sequence library barcode/index, connect forward and reverse indices by `+`, e.g. `ATGC+ATGC`                 |
+| methylation         | whether methylation is called, e.g. `true` or `false`                                                        |
+| (basecalling_model) | basecalling model used, e.g. `dna_r10.4.1_e8.2_400bps_sup@v5.0.0` for ONT data (not relevant if PacBio data) |
+| bam                 | absolute path to the directory with the `.bam` file, e.g. `/path/to/bam`                                     |
+
 ### Reference data
 
 A reference `.fasta`-file should be specified in `config.yaml` in the section `reference` and `fasta`.
@@ -73,8 +109,15 @@ The workflow repository contains a small test dataset `.tests/integration` which
 
 ```bash
 $ cd .tests/integration
-$ snakemake -s ../../Snakefile -j1 --use-singularity
+$ apptainer remote add --no-login SylabsCloud cloud.sycloud.io  # if using DeepVariant or DeepMosaic
+$ snakemake -s ../../workflow/Snakefile -j1 --configfile <config_caller>.yaml --use-singularity --singularity-args " --cleanenv"
 ```
+
+To test the standard pipeline for short-read data, replace `<config_caller>` with `config.yaml`.
+`<config_caller>` should be replaced with the name of the caller-specific configuration file 
+if you want to use long-read and/or deep-learning-based variant callers, e.g. `config_deepvariant.yaml`.
+Note that using a caller-specific configuration file will turn off the standard pipeline that uses short-read 
+variant callers like Mutect2, VarDict and Freebayes.
 
 ## :rocket: Usage
 
@@ -117,6 +160,23 @@ The following output files should be targeted via another rule:
 | `snv_indels/deepvariant/{sample}_{type}.merged.g.vcf.gz` | genomic `.g.vcf.gz` for deepvariant |
 | `snv_indels/glnexus/{sample}_{type}.vcf.gz` | trio `.vcf.gz` with proband sample id generated by glnexus from deeptrio genomic `.g.vcf.gz` |
 
+The following output files require to add a caller-specific configurations for the pipeline:
+
+| File                                                          | Description                                                                  |
+|---------------------------------------------------------------|------------------------------------------------------------------------------|
+| `snv_indels/deepsomatic_tn/{sample}_{type}.vcf.gz`            | `.vcf.gz` with called variants by deepsomatic in tumor-normal samples        |
+| `snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz`        | `.vcf.gz` with called variants by deepsomatic in tumor-only samples          |
+| `snv_indels/deepmosaic/{sample}_{type}/final_predictions.txt` | list of called variants that are identified as mosaicisms by deepmosaic      |
+| `snv_indels/mosaicforecast/{sample}_{type}/all.phasing`       | list of called variants that are identified as mosaicisms by mosaicforecast  |
+| `snv_indels/clairs_to/{sample}_{type}.snv-indels.vcf.gz`      | `.vcf.gz` with called variants by deepsomatic in tumor-only samples          |
+| `snv_indels/deepvariant/{sample}_{type}.merged.vcf.gz`        | deepvariant `.vcf.gz` for PacBio data if `deepvariant: model_type: "PACBIO"` |
+| `snv_indels/deepvariant/{sample}_{type}.merged.g.vcf.gz`      | genomic `.g.vcf.gz` for PacBio data if `deepvariant: model_type: "PACBIO"`   |
+
+
 ## :judge: Rule Graph
 
-![rule_graph](images/rulegraph.svg)
+### Tools suitable for short-read data
+![rule_graph_sr](docs/images/snv_indels_SR.png)
+
+### Tools suitable for long-read data
+![rule_graph_lr](docs/images/snv_indels_LR.png)

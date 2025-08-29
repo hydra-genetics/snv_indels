@@ -33,7 +33,6 @@ properties:
         items:
             type: string
     required:
-      - design_bed
       - fasta
       - fai
 
@@ -122,7 +121,123 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
+
+  clairs_to_call:
+    type: object
+    description: parameters for clairs_to_call
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      platform:
+        type: string
+        description: choose which platform, which chemistry, and which model to use (same as for the basecalling)
+    required:
+      - platform
+
+  clairs_to_concat:
+    type: object
+    description: parameters for clairs_to_concat
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  deepmosaic_draw:
+    type: object
+    description: parameters for deepmosaic_draw
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  deepmosaic_input:
+    type: object
+    description: parameters for deepmosaic_draw
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  deepmosaic_predict:
+    type: object
+    description: parameters for deepmosaic_predict
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  deepsomatic_t_only:
+    type: object
+    description: parameters for deepsomatic
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded (e.g. --make_examples_extra_args="vsc_min_fraction_snps=0.04")
+      model:
+        type: string
+        description: choose which model to use based on the data (e.g. WGS_TUMOR_ONLY)
+      pon:
+        type: string
+        description: choose what option for panel of normal filtering of variants (FILTER flag PON) you want, "--use_default_pon_filtering=true" or --pon_filtering="pon.vcf" --process_somatic=true or ""
+    required:
+      - model
   
+  deepsomatic_tn:
+    type: object
+    description: parameters for deepsomatic
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded (e.g. --make_examples_extra_args="vsc_min_fraction_snps=0.04")
+      model:
+        type: string
+        description: choose which model to use based on the data (e.g. WGS)
+    required:
+      - model
+
   deeptrio_call_variants:
     type: object
     description: parameters for deeptrio_call_variants
@@ -315,6 +430,20 @@ properties:
         type: string
         description: parameters that should be forwarded
 
+  hiphase:
+    type: object
+    description: parameters for hiphase
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
   merge_af_complex_variants:
     type: object
     description: parameters for merge_af_complex_variants
@@ -330,6 +459,37 @@ properties:
         enum: ["skip", "max", "sum"]
         description: method to handle allele frequencies from complex variants,
                      skip, max or sum
+
+  mosaicforecast:
+    type: object
+    description: parameters for mosaicforecast_input
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  mosaicforecast_input:
+    type: object
+    description: parameters for mosaicforecast_input
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      name:
+        type: string
+        description: give the sample name
 
   mutect2_pass_filter:
     type: object
@@ -403,9 +563,3 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
-required:
-  - default_container
-  - reference
-  - resources
-  - samples
-  - units

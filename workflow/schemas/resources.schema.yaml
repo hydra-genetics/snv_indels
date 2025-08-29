@@ -149,6 +149,161 @@ properties:
         type: string
         description: max execution time
 
+  clairs_to_call:
+    type: object
+    description: resource definitions for clairs_to_call
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  clairs_to_concat:
+    type: object
+    description: resource definitions for clairs_to_concat
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  deepmosaic_draw:
+    type: object
+    description: resource definitions for deepsomatic
+    properties:
+      gres:
+        type: string
+        description: generic resource scheduling
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  deepmosaic_input:
+    type: object
+    description: resource definitions for deepsomatic
+    properties:
+      gres:
+        type: string
+        description: generic resource scheduling
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  deepmosaic_predict:
+    type: object
+    description: resource definitions for deepsomatic
+    properties:
+      gres:
+        type: string
+        description: generic resource scheduling
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  deepsomatic_t_only:
+    type: object
+    description: resource definitions for deepsomatic
+    properties:
+      gres:
+        type: string
+        description: generic resource scheduling
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  deepsomatic_tn:
+    type: object
+    description: resource definitions for deepsomatic
+    properties:
+      gres:
+        type: string
+        description: generic resource scheduling
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+      
   deeptrio_make_examples:
     type: object
     description: resource definitions for deeptrio_make_examples
@@ -394,10 +549,70 @@ properties:
       time:
         type: string
         description: max execution time
+  
+  hiphase:
+    type: object
+    description: resource definitions for hiphase
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
 
   merge_af_complex_variants:
     type: object
     description: resource definitions for merge_af_complex_variants
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  mosaicforecast:
+    type: object
+    description: resource definitions for mosaicforecast_input
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  mosaicforecast_input:
+    type: object
+    description: resource definitions for mosaicforecast_input
     properties:
       mem_mb:
         type: integer
@@ -515,5 +730,4 @@ properties:
         type: string
         description: max execution time
 
-required:
-  - default_resources
+
