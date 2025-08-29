@@ -11,14 +11,14 @@ rule whatshap_phase:
         fasta=config.get("reference", {}).get("fasta", ""),
         vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
     output:
-        vcf="annotation/whatshap_phase/{sample}_{type}.phased.vcf.gz",
+        vcf="snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz",
     params:
         extra=config.get("whatshap_phase", {}).get("extra", ""),
     log:
-        "annotation/whatshap_phase/{sample}_{type}.phased.vcf.gz.log",
+        "snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz.log",
     benchmark:
         repeat(
-            "annotation/whatshap_phase/{sample}_{type}.phased.vcf.gz.benchmark.tsv",
+            "snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz.benchmark.tsv",
             config.get("whatshap_phase", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("whatshap_phase", {}).get("threads", config["default_resources"]["threads"])
@@ -38,21 +38,21 @@ rule whatshap_phase:
 
 rule whatshap_haplotag:
     input:
-        "annotation/whatshap_phase/{sample}_{type}.phased.vcf.gz.tbi",
+        "snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz.tbi",
         "alignment/pbmm2_align/{sample}_{type}.bam.bai",
         config.get("reference", {}).get("fai", ""),
         aln="alignment/pbmm2_align/{sample}_{type}.bam",
         ref=config.get("reference", {}).get("fasta", ""),
-        vcf="annotation/whatshap_phase/{sample}_{type}.phased.vcf.gz",
+        vcf="snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz",
     output:
-        "annotation/whatshap_haplotag/{sample}_{type}.haplotagged.bam",
+        "snv_indels/whatshap_haplotag/{sample}_{type}.haplotagged.bam",
     params:
         extra=config.get("whatshap_haplotag", {}).get("extra", ""),
     log:
-        "annotation/whatshap_haplotag/{sample}_{type}.haplotagged.bam.log",
+        "snv_indels/whatshap_haplotag/{sample}_{type}.haplotagged.bam.log",
     benchmark:
         repeat(
-            "annotation/whatshap_haplotag/{sample}_{type}.haplotagged.bam.benchmark.tsv",
+            "snv_indels/whatshap_haplotag/{sample}_{type}.haplotagged.bam.benchmark.tsv",
             config.get("whatshap_haplotag", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("whatshap_haplotag", {}).get("threads", config["default_resources"]["threads"])
