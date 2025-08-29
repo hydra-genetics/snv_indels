@@ -1,5 +1,51 @@
 # Changelog
 
+## [1.2.0](https://www.github.com/hydra-genetics/snv_indels/compare/v1.1.0...v1.2.0) (2025-08-29)
+
+
+### Features
+
+* add bam with type in SM field ([35e0a8a](https://www.github.com/hydra-genetics/snv_indels/commit/35e0a8af21e12e4ed6bdfd858a6c5d017dc7893d))
+* add ClairS-TO ([2c35701](https://www.github.com/hydra-genetics/snv_indels/commit/2c35701e73bc6d5267701d16a5f140080aaf334f))
+* add DeepSomatic ([ec6e9b7](https://www.github.com/hydra-genetics/snv_indels/commit/ec6e9b735b916933ff8a46cbaecd06450ed7194d))
+* add hiphase ([c8f45a6](https://www.github.com/hydra-genetics/snv_indels/commit/c8f45a677bd7ef3dcc8f0899ecdcdee0dc0e827f))
+* add script for deepmosaic input and information around deepmosaic ([b1e9f0d](https://www.github.com/hydra-genetics/snv_indels/commit/b1e9f0d54b9d0268d6b1b0c2e5a662f6b7161311))
+* create a pacbio deepvariant rule ([c358d0b](https://www.github.com/hydra-genetics/snv_indels/commit/c358d0b092fbb4b4ea2530c7be226dc22e37e4ab))
+* create hydra-rule for deepmosaic ([0a85b35](https://www.github.com/hydra-genetics/snv_indels/commit/0a85b354173cb0f6e339e61a7399bebfe0248e74))
+* mosaicforecast ([f504e4d](https://www.github.com/hydra-genetics/snv_indels/commit/f504e4da1bfa89a3a9751ba1895118013788683f))
+
+
+### Bug Fixes
+
+* add integration stuff and fix pycodestyle ([51318fb](https://www.github.com/hydra-genetics/snv_indels/commit/51318fbbc907ed24e1a6eda8d55a9c298038506c))
+* build mkdocs github workflow ([71106e3](https://www.github.com/hydra-genetics/snv_indels/commit/71106e30b275bbf8b1a8d576a8bcb6cac8a3b432))
+* build mkdocs github workflow ([e48c91e](https://www.github.com/hydra-genetics/snv_indels/commit/e48c91e7431c3c53b32793715ea2bc3f0ecf8743))
+* build mkdocs github workflow ([367144d](https://www.github.com/hydra-genetics/snv_indels/commit/367144dea8f8a35b1a4b3ccf271cc8d9c5da7232))
+* compliant name pattern ([5a1937c](https://www.github.com/hydra-genetics/snv_indels/commit/5a1937cbcad4d3eecdd31cad54c1ea9ec6bbbff8))
+* compliant name pattern ([6108f49](https://www.github.com/hydra-genetics/snv_indels/commit/6108f499fd36334e773c9ee9b396fad582394553))
+* credentials for pulling containers ([29665b2](https://www.github.com/hydra-genetics/snv_indels/commit/29665b291804efe7fc93c76689fd9541ff09b112))
+* **deepvariant:** add missing extra params to shell ([d015a8e](https://www.github.com/hydra-genetics/snv_indels/commit/d015a8e890c3b8faca0cc85896da372804c58136))
+* give info in pon.vcf ([1e68010](https://www.github.com/hydra-genetics/snv_indels/commit/1e680105d3da36f557b57e5ffa0896a27566bcc3))
+* **hiphase:** add missing bai outputfile ([9ced9d9](https://www.github.com/hydra-genetics/snv_indels/commit/9ced9d9d73b685edbee98d6565cb2373e8f7ca88))
+* integration and snakefmt ([dd1a7a5](https://www.github.com/hydra-genetics/snv_indels/commit/dd1a7a5fe1825982c1c79e869fcae85b715c8a00))
+* linting ([faa4bcd](https://www.github.com/hydra-genetics/snv_indels/commit/faa4bcd2ee650e5040ff1acc7e049bc18a174821))
+* linting ([3a86154](https://www.github.com/hydra-genetics/snv_indels/commit/3a86154f1e1ec6ab34795b1c8db7c6d525bc03c2))
+* linting ([b9179f8](https://www.github.com/hydra-genetics/snv_indels/commit/b9179f8973c32e16e636c5f6d0f3d36a7bc7de82))
+* make deepsomatic panel of normal postprocess more flexible ([2b4d1e8](https://www.github.com/hydra-genetics/snv_indels/commit/2b4d1e824fa937dc5193368b47f9c22fbe967338))
+* phrasing ([6bd5cc7](https://www.github.com/hydra-genetics/snv_indels/commit/6bd5cc7e47af86f1995f1d73a9d7b11c8e30cf32))
+* remove unecessary output ([b88a9b2](https://www.github.com/hydra-genetics/snv_indels/commit/b88a9b2d0b5e91965adc98aef615640aa690599b))
+* remove unecessary output ([132ddac](https://www.github.com/hydra-genetics/snv_indels/commit/132ddac5582c1d477fdce5b5350e3ec45d9fedb2))
+* remove unecessary output ([9b1ac9d](https://www.github.com/hydra-genetics/snv_indels/commit/9b1ac9dba0b9bc9471072bef1bff70dcc02ac29f))
+* separate rule definition for deepvariant pacbio ([7736b3d](https://www.github.com/hydra-genetics/snv_indels/commit/7736b3d34e31e74350898b75a461f0a6455faa32))
+* typo ([b5361aa](https://www.github.com/hydra-genetics/snv_indels/commit/b5361aa859609af939c3312610b5e9a2521fa332))
+* typo ([d4cd5a9](https://www.github.com/hydra-genetics/snv_indels/commit/d4cd5a97f15d64ae624659ef2045f78b4315877c))
+* wrong model used ([f3e4f2b](https://www.github.com/hydra-genetics/snv_indels/commit/f3e4f2ba3c113116b40788a1b73578a546ae855b))
+
+
+### Documentation
+
+* infos for deep-learning based models ([640df56](https://www.github.com/hydra-genetics/snv_indels/commit/640df5607fd5645daad86983f196fc49f2d1addc))
+
 ## [1.1.0](https://www.github.com/hydra-genetics/snv_indels/compare/v1.0.0...v1.1.0) (2024-10-30)
 
 
