@@ -153,8 +153,8 @@ def get_glnexus_input(wildcards, input):
 
 def get_longread_bam(wildcards):
     """
-    This function generates the file paths for a BAM file and its corresponding index file 
-    based on the sample and type specified in the wildcards, as well as the aligner 
+    This function generates the file paths for a BAM file and its corresponding index file
+    based on the sample and type specified in the wildcards, as well as the aligner
     specified in the configuration.
 
     Args:
@@ -170,7 +170,7 @@ def get_longread_bam(wildcards):
     Notes:
         - The aligner is retrieved from the config file
         using the key "aligner". If not specified, it defaults to "minimap2".
-        - The returned paths are constructed under the "alignment" directory, with subdirectories 
+        - The returned paths are constructed under the "alignment" directory, with subdirectories
         and filenames based on the aligner, sample, and type.
     """
     aligner = config.get("aligner", "minimap2")
@@ -366,17 +366,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for suffix in files[prefix]
         ]
     elif config.get("whatshap_phase", False):
-        files = {
-            "deepsomatic_t_only": [
-                "vcf.gz"
-            ],
-            "whatshap_phase": [
-                "phased.vcf.gz"
-            ],
-            "whatshap_haplotag": [
-                "haplotagged.bam"
-            ]
-        }
+        files = {"deepsomatic_t_only": ["vcf.gz"], "whatshap_phase": ["phased.vcf.gz"], "whatshap_haplotag": ["haplotagged.bam"]}
         output_files = [
             f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
             for prefix in files.keys()
