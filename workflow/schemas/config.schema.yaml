@@ -563,3 +563,30 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
+  whatshap_haplotag:
+    type: object
+    description: parameters for whatshap_haplotag
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  whatshap_phase:
+    type: object
+    description: parameters for whatshap_phase
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded

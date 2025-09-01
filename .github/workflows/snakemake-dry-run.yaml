@@ -50,4 +50,8 @@ jobs:
       - name: snakemake dry run clairs_to
         working-directory: .tests/integration
         run: |
-          snakemake -n -s ../../workflow/Snakefile --configfile config_clairs_to.yaml  
+          snakemake -n -s ../../workflow/Snakefile --configfile config_clairs_to.yaml
+      - name: snakemake dry run whatshap
+        working-directory: .tests/integration
+        run: |
+          snakemake -n -s ../../workflow/Snakefile --configfile config_whatshap.yaml
