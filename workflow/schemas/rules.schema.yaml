@@ -894,9 +894,18 @@ properties:
           bam:
             type: string
             description: BAM file with reads to haplotag
-          fasta:
+          bai:
+            type: string
+            description: BAM file index to use for haplotagging
+          ref:
             type: string
             description: reference genome in FASTA format
+          fai:
+            type: string
+            description: index file for the reference genome
+          tbi:
+            type: string
+            description: tabix index file for the VCF
       output:
         type: object
         description: list of outputs
@@ -919,6 +928,9 @@ properties:
           bam:
             type: string
             description: BAM file with mapped reads to use for phasing
+          bai:
+            type: string
+            description: BAM file index to use for phasing
           fasta:
             type: string
             description: reference genome in FASTA format
