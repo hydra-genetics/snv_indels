@@ -160,7 +160,7 @@ def get_longread_bam(wildcards):
     Args:
         wildcards (object): A Snakemake wildcards object containing the following attributes:
           - sample: The name of the sample.
-          - type: The type of data (e.g., "longread", "shortread").
+          - type: The type of data ("T" for tumor, "N" for normal).
 
     Returns:
         tuple: A tuple containing two strings:
@@ -208,7 +208,7 @@ def get_input_bam(wildcards, default_path="alignment/samtools_merge_bam"):
         elif config.get("haplotagged_bam") is False and config.get("haplotagging") is not None:
             # Compile input BAM path using the specified haplotagging tool
             tool = config.get("haplotagging")
-            alignment_path = f"annotation/{tool}_align/{wildcards.sample}_{wildcards.type}.haplotagged.bam"
+            alignment_path = f"snv_indels/{tool}/{wildcards.sample}_{wildcards.type}.haplotagged.bam"
             index_path = f"{alignment_path}.bai"
 
         else:
