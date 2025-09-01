@@ -38,7 +38,7 @@ rule whatshap_phase:
 
 rule whatshap_haplotag:
     input:
-        aln=lambda wildcards: get_input_bam(wildcards)[0],
+        bam=lambda wildcards: get_input_bam(wildcards)[0],
         bai=lambda wildcards: get_input_bam(wildcards)[1],
         ref=config.get("reference", {}).get("fasta", ""),
         fai=config.get("reference", {}).get("fai", ""),
