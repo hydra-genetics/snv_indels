@@ -65,6 +65,6 @@ rule whatshap_haplotag:
     container:
         config.get("whatshap_haplotag", {}).get("container", config["default_container"])
     message:
-        "{rule}: do haplotagging on {input.aln}"
+        "{rule}: do haplotagging on {input.bam}"
     wrapper:
         "v6.0.0/bio/whatshap/haplotag"
