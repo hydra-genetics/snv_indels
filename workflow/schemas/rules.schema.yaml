@@ -891,7 +891,7 @@ properties:
           vcf:
             type: string
             description: phased variants in VCF format
-          bam:
+          aln:
             type: string
             description: BAM file with reads to haplotag
           bai:
