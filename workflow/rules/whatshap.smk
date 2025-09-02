@@ -38,7 +38,7 @@ rule whatshap_phase:
 
 rule whatshap_haplotag:
     input:
-        bam=lambda wildcards: get_input_bam(wildcards)[0],
+        aln=lambda wildcards: get_input_bam(wildcards)[0],
         bai=lambda wildcards: get_input_bam(wildcards)[1],
         ref=config.get("reference", {}).get("fasta", ""),
         fai=config.get("reference", {}).get("fai", ""),
@@ -65,6 +65,6 @@ rule whatshap_haplotag:
     container:
         config.get("whatshap_haplotag", {}).get("container", config["default_container"])
     message:
-        "{rule}: do haplotagging on {input.bam}"
+        "{rule}: do haplotagging on {input.aln}"
     wrapper:
         "v6.0.0/bio/whatshap/haplotag"
