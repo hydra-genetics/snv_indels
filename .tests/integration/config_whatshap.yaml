@@ -11,6 +11,12 @@ reference:
   fai: "reference/HES45.fna.fai"
   design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
 
+deepsomatic_t_only:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: ""
+  model: "PACBIO"
+  pon: "--use_default_pon_filtering=true"
+
 whatshap_haplotag:
   container: "docker://hydragenetics/whatshap:2.2"
   extra: " --ignore-read-groups"
