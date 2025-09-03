@@ -130,6 +130,59 @@ properties:
             type: string
             description: the compressed `.vcf.gz` file
 
+  clairs_to_call:
+    type: object
+    description: input and output parameters for clairs_to_call
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file
+          bai:
+            type: string
+            description: index file for `.bam` file
+          bed:
+            type: string
+            description: the region where variants should be called
+          ref:
+            type: string
+            description: fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          snv:
+            type: string
+            description: vcf file with snv calls only
+          indel:
+            type: string
+            description: vcf file with indel calls only
+
+  clairs_to_concat:
+    type: object
+    description: input and output parameters for clairs_to_concat
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          snv:
+            type: string
+            description: vcf file with snv calls only
+          indel:
+            type: string
+            description: vcf file with indel calls only
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: vcf file with position-sorted snv and indel calls
+
   deepmosaic_draw:
     type: object
     description: input and output parameters for deepsomatic
@@ -222,9 +275,6 @@ properties:
           bed:
             type: string
             description: the region where variants should be called
-          pon:
-            type: string
-            description: a `.vcf.gz` file with several samples which variants will be filtered as PON
           ref:
             type: string
             description: fasta reference genome file
@@ -829,3 +879,65 @@ properties:
           vcf:
             type: string
             description: normalized vcf file
+
+  whatshap_haplotag:
+    type: object
+    description: input and output parameters for whatshap_haplotag
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: phased variants in VCF format
+          aln:
+            type: string
+            description: BAM file with reads to haplotag
+          bai:
+            type: string
+            description: BAM file index to use for haplotagging
+          ref:
+            type: string
+            description: reference genome in FASTA format
+          fai:
+            type: string
+            description: index file for the reference genome
+          tbi:
+            type: string
+            description: tabix index file for the VCF
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          output1:
+            type: string
+            description: BAM file with haplotagged reads
+
+  whatshap_phase:
+    type: object
+    description: input and output parameters for whatshap_phase
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: variants to phase in VCF format
+          bam:
+            type: string
+            description: BAM file with mapped reads to use for phasing
+          bai:
+            type: string
+            description: BAM file index to use for phasing
+          fasta:
+            type: string
+            description: reference genome in FASTA format
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          output1:
+            type: string
+            description: phased variants in VCF format (gzipped)

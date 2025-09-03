@@ -9,6 +9,7 @@ include: "rules/bcbio_variation_recall.smk"
 include: "rules/bcftools.smk"
 include: "rules/bed_split.smk"
 include: "rules/bgzip.smk"
+include: "rules/clairs_to.smk"
 include: "rules/deepmosaic.smk"
 include: "rules/deepsomatic.smk"
 include: "rules/deeptrio.smk"
@@ -25,11 +26,14 @@ include: "rules/mutect2_pass_filter.smk"
 include: "rules/tabix.smk"
 include: "rules/vardict.smk"
 include: "rules/vt.smk"
+include: "rules/whatshap.smk"
 
 
 ruleorder: bcbio_variation_recall_ensemble > bgzip
 ruleorder: bcftools_sort > bgzip
 ruleorder: bcftools_view > bgzip
+ruleorder: clairs_to_call > bgzip
+ruleorder: clairs_to_concat > bgzip
 ruleorder: deepsomatic_t_only > bgzip
 ruleorder: deepsomatic_tn > bgzip
 ruleorder: gatk_mutect2 > bgzip

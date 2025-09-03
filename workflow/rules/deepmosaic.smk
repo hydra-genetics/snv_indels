@@ -71,7 +71,7 @@ rule deepmosaic_draw:
         {rule}: DeepMosaic draw takes input from {input.vcf} and {input.bam} to find mosaic variants
         """
     shell:
-        """deepmosaic-draw \
+        """/DeepMosaic/deepmosaic/deepmosaic-draw \
         -i {input.txt} \
         -o {output.outdir} \
         -a {input.annovar} \
@@ -110,7 +110,7 @@ rule deepmosaic_predict:
         {rule}:  DeepMosaic predict takes output from draw {input.txt} to predict mosaic variants {output.txt}.
         """
     shell:
-        """deepmosaic-predict \
+        """/DeepMosaic/deepmosaic/deepmosaic-predict \
         -i {input.txt} \
         -o {output.txt} \
         -gb hg38 \

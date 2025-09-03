@@ -1,0 +1,15 @@
+resources: "resources.yaml"
+samples: "samples.tsv"
+units: "units.tsv"
+
+default_container: "docker://hydragenetics/common:3.1.1"
+
+reference:
+  fasta: "reference/HES45.fna"
+  fai: "reference/HES45.fna.fai"
+  design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
+
+clairs_to_call:
+  container: "docker://hkubal/clairs-to:latest"
+  platform: "ont_r10_guppy_sup_4khz"
+  extra: ""

@@ -138,6 +138,55 @@ Compress a `.vcf` file using bgzip.
 
 ---
 
+## [clairs_to_call](https://github.com/HKU-BAL/ClairS-TO)
+ClairS-TO (Somatic Tumor-Only) is a deep-learning tool in the Clair series 
+to support long-read tumor-only somatic small variant calling.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__clairs_to__clairs_to_call#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__clairs_to__clairs_to_call#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__clairs_to_call#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__clairs_to_call#
+
+---
+
+## [clairs_to_concat](https://samtools.github.io/bcftools/bcftools.html)
+ClairS-TO creates separate VCF output for indel and SNV calls while those types of variants 
+are treated together in the hydra-genetics module.
+They are therefore concatenated together and sorted with bcftools.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__clairs_to__clairs_to_concat#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__clairs_to__clairs_to_concat#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__clairs_to_concat#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__clairs_to_concat#
+
+---
+
 ## [deepmosaic_draw](https://github.com/shishenyxx/DeepMosaic)
 DeepMosaic is a deep-learning-based mosaic single nucleotide classification tool without the need of matched control information. Firstly, feature extraction and visualization of the candidate mosaic variants (Visualization Module)
 
@@ -745,3 +794,4 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__vt_normalize#
+
