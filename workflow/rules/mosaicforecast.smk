@@ -40,6 +40,44 @@ rule mosaicforecast_input:
         > {output.variants} ) &> {log}"""
 
 
+rule mosaicforecast_genotype_prediction:
+    input:
+        features="snv_indels/mosaicforecast/{sample}_{type}/features.txt",
+    output:
+        predict="snv_indels/mosaicforecast/{sample}_{type}/SNP.predictions",  # SNP.predictions (Refine) or DEL.predictions (Phase) or INS.predictions (Phase)
+    params:
+        extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trained", ""),
+        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_type", ""),
+    log:
+        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.log",
+    benchmark:
+        repeat(
+            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.benchmark.tsv",
+            config.get("mosaicforecast_genotype_prediction", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("mosaicforecast_genotype_prediction", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("mosaicforecast_genotype_prediction", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("mosaicforecast_genotype_prediction", {}).get(
+            "mem_per_cpu", config["default_resources"]["mem_per_cpu"]
+            ),
+        partition=config.get("mosaicforecast_genotype_prediction", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("mosaicforecast_genotype_prediction", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("mosaicforecast_genotype_prediction", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("mosaicforecast_genotype_prediction", {}).get("container", config["default_container"])
+    message:
+        "{rule}: mosaicforecast predicts all input sites"
+    shell:
+        "(Prediction.R "
+        "{input.features} "
+        "{params.model_trained} "
+        "{params.model_type} "
+        "{output.predict} "
+        "{params.extra}) &> {log}"
+
+
 rule mosaicforecast_phasing:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
@@ -124,40 +162,4 @@ rule mosaicforecast_readlevel:
         "{params.umap} "
         "{resources.threads} "
         "{params.f_format} "
-        "{params.extra}) &> {log}"
-
-
-rule mosaicforecast_genotype_prediction:
-    input:
-        features="snv_indels/mosaicforecast/{sample}_{type}/features.txt",
-    output:
-        predict="snv_indels/mosaicforecast/{sample}_{type}/SNP.predictions", # SNP.predictions (Refine) or DEL.predictions (Phase) or INS.predictions (Phase)
-    params:
-        extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
-        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trained", ""),
-        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_type", ""),
-    log:
-        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.log",
-    benchmark:
-        repeat(
-            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.benchmark.tsv",
-            config.get("mosaicforecast_genotype_prediction", {}).get("benchmark_repeats", 1),
-        )
-    threads: config.get("mosaicforecast_genotype_prediction", {}).get("threads", config["default_resources"]["threads"])
-    resources:
-        mem_mb=config.get("mosaicforecast_genotype_prediction", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("mosaicforecast_genotype_prediction", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("mosaicforecast_genotype_prediction", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("mosaicforecast_genotype_prediction", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("mosaicforecast_genotype_prediction", {}).get("time", config["default_resources"]["time"]),
-    container:
-        config.get("mosaicforecast_genotype_prediction", {}).get("container", config["default_container"])
-    message:
-        "{rule}: mosaicforecast predicts all input sites"
-    shell:
-        "(Prediction.R "
-        "{input.features} "
-        "{params.model_trained} "
-        "{params.model_type} "
-        "{output.predict} "
         "{params.extra}) &> {log}"

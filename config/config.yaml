@@ -79,6 +79,11 @@ gatk_mutect2_merge_stats:
 merge_af_complex_variants:
   merge_method: "sum" 
 
+mosaicforecast_genotype_prediction:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  model_trained: "" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_type: ""  # Phase/Refine
+
 mosaicforecast_phasing:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
   f_format: "" # cram/bam
@@ -90,11 +95,6 @@ mosaicforecast_readlevel:
   f_format: "" # cram/bam
   path: "" # path to bam-files
   umap: "/usr/local/bin/k24.umap.wg.bw"
-
-mosaicforecast_genotype_prediction:
-  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  model_trained: "" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
-  model_type: ""  # Phase/Refine
 
 mutect2_pass_filter:
   pass_filters:

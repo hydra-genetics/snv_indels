@@ -636,31 +636,8 @@ sum the allele frequencies from all records with the same allele and position.
 
 ---
 
-## [mosaicforecast](https://github.com/parklab/MosaicForecast)
-A machine learning method that leverages read-based phasing and read-level features to accurately detect mosaic SNVs (SNPs, small indels) from NGS data. It builds on existing algorithms to achieve a multifold increase in specificity.
-
-### :snake: Rule
-
-#SNAKEMAKE_RULE_SOURCE__mosaicforecast__mosaicforecast#
-
-#### :left_right_arrow: input / output files
-
-#SNAKEMAKE_RULE_TABLE__mosaicforecast__mosaicforecast#
-
-### :wrench: Configuration
-
-#### Software settings (`config.yaml`)
-
-#CONFIGSCHEMA__mosaicforecast#
-
-#### Resources settings (`resources.yaml`)
-
-#RESOURCESSCHEMA__mosaicforecast#
-
----
-
 ## [mosaicforecast_input]
-Getting the information needed from the .vcf-file for MosaicForecast. A list of the position that should be evaluated for their mosaic potential. 
+Getting the information needed for MosaicForecast from the .vcf-file. A list of the position that should be evaluated for their mosaic potential. There are some options here, DeepSomatic vcf with filtered variants (only PASS) or Mutect2 with filters (filter suggestions in MosaicForecast article) for higher specificity.
 
 ### :snake: Rule
 
@@ -679,6 +656,75 @@ Getting the information needed from the .vcf-file for MosaicForecast. A list of 
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__mosaicforecast_input#
+
+---
+
+## [mosaicforecast_genotype_prediction](https://github.com/parklab/MosaicForecast)
+A machine learning method that leverages read-based phasing and read-level features to accurately detect mosaic SNVs (SNPs, small indels) from NGS data. It builds on existing algorithms to achieve a multifold increase in specificity.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__mosaicforecast__mosaicforecast_genotype_prediction#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__mosaicforecast__mosaicforecast_genotype_prediction#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__mosaicforecast_genotype_prediction#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__mosaicforecast_genotype_prediction#
+
+---
+
+## [mosaicforecast_phasing](https://github.com/parklab/MosaicForecast)
+Read-based phasing that predicts how many haplotypes that exist based on the variants in the bam file that is located close to the candidate variant.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__mosaicforecast__mosaicforecast_phasing#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__mosaicforecast__mosaicforecast_phasing#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__mosaicforecast_phasing#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__mosaicforecast_phasing#
+
+---
+
+## [mosaicforecast_readlevel](https://github.com/parklab/MosaicForecast)
+Using read-level features to accurately detect mosaic SNVs (SNPs, small indels) from NGS data. Calculates AF, DP and mosaic likelihood to mention a few things, at the same time as it checks the regions GC content and mapability. 
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__mosaicforecast__mosaicforecast_readlevel#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__mosaicforecast__mosaicforecast_readlevel#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__mosaicforecast_readlevel#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__mosaicforecast_readlevel#
 
 ---
 

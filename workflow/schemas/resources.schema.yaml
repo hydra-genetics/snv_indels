@@ -590,7 +590,7 @@ properties:
         type: string
         description: max execution time
 
-  mosaicforecast:
+  mosaicforecast_input:
     type: object
     description: resource definitions for mosaicforecast_input
     properties:
@@ -610,9 +610,49 @@ properties:
         type: string
         description: max execution time
 
-  mosaicforecast_input:
+  mosaicforecast_genotype_prediction:
     type: object
-    description: resource definitions for mosaicforecast_input
+    description: resource definitions for mosaicforecast_genotype_prediction
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  mosaicforecast_phasing:
+    type: object
+    description: resource definitions for mosaicforecast_phasing
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  mosaicforecast_readlevel:
+    type: object
+    description: resource definitions for mosaicforecast_readlevel
     properties:
       mem_mb:
         type: integer
