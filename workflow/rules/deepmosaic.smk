@@ -42,6 +42,7 @@ rule deepmosaic_draw:
     input:
         annovar=config.get("reference", {}).get("annovar", ""),
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         txt="snv_indels/deepmosaic/{sample}_{type}.input.txt",
         vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
     output:
@@ -87,6 +88,7 @@ rule deepmosaic_predict:
         txt="snv_indels/deepmosaic/{sample}_{type}/final_predictions.txt",
     params:
         extra=config.get("deepmosaic_predict", {}).get("extra", ""),
+        model=config.get("deepmosaic_predict", {}).get("model", ""),
     log:
         "snv_indels/deepmosaic/{sample}_{type}.predict.log",
     benchmark:
@@ -113,4 +115,5 @@ rule deepmosaic_predict:
         -o {output.txt} \
         -gb hg38 \
         -b 10 \
+        {params.model}\
         {params.extra} &> {log}"""

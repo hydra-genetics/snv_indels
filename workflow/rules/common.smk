@@ -340,6 +340,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             ],
             "mosaicforecast": [
                 "all.phasing",
+                "SNP.predictions",
             ],
         }
         output_files = [
