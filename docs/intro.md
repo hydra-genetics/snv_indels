@@ -1,21 +1,20 @@
 # Hydra-genetics snv_indels module
 
-The **snv_indels** module consists of a number of variant callers for:
 
-* Short-read (SR) data, both somatic and germline small variants, that is SNV and indels.
-
-* Long-read (LR) data, both somatic and germline variants, that is SNV and indels. 
-  Most of the variant callers for LR data are based on deep-learning models that were trained on WGS data at low coverage.
-
+The **snv_indels** module consists of a number of variant callers for:  
+* Short-read (SR) data, both somatic and germline small variants, that is SNV and indels.  
+* Long-read (LR) data, both somatic and germline variants, that is SNV and indels. Most of the variant callers for LR data are based on deep-learning models that were trained on WGS data at low coverage.
+  
 Some tools are able to handle data from tumor-only (TO) samples, while others require matched normal (MN) samples.
+<BR>
+<BR>
 
 Somatic calls can be made by:
 - freebayes, mutect2, vardict, deepsomatic, clairs-to.
 
 Germline calls can be produced by:
 - haplotypecaller, deepvariant, deeptrio, glnexus.
-
-
+<BR>
 The module also provide tools for:
 
 * variant decomposition and normalization with _VT_ (applicable to both SR and LR data),
@@ -25,9 +24,14 @@ The module also provide tools for:
 * sorting and indexing of the variants with _bcftools_ (applicable to both SR and LR data),
 
 * predict which somatic variants are likely to be mosaicisms with _deepmosaic_ or _mosaicforecast_ (applicable to both SR and LR data).
+<BR>
 
-
-The module is designed to be used in a snakemake pipeline and can be easily integrated into existing pipelines that follow the logic of [**hydra-genetics**](https://hydra-genetics.readthedocs.io/en/latest/).
+The module is designed to be used in a snakemake pipeline and can be easily integrated into existing pipelines that
+follow the logic of [**hydra-genetics**](https://hydra-genetics.readthedocs.io/en/latest/).
+<BR>
+<BR>
+<BR>
+<BR>
 
 <p align="center" width="100%">
     <img width="10%" src="images/hydragenetics.png">
@@ -57,8 +61,8 @@ The module is designed to be used in a snakemake pipeline and can be easily inte
 
 ### Long-read data
 ![Steps](images/snv_indels_LR.png)
-
-
+<BR>
+<BR>
 ## Module input files
 Aligned, duplicate marked, sorted, and indexed `.bam` files. The `.bam` files are either split into chromosomes or merged.
 
