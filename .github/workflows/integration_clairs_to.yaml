@@ -1,4 +1,4 @@
-name: small integration test shortread clair_to
+name: small integration test clair_to
 
 on:
   push:
