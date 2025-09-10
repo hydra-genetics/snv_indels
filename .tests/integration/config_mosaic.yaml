@@ -19,12 +19,12 @@ deepmosaic_predict:
 mosaicforecast_phasing:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
   path: "alignment/samtools_merge_bam/" # path to bam-files
-  f_formats: "bam" # cram/bam
+  f_format: "bam" # cram/bam
 
 mosaicforecast_readlevel:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
   path: "alignment/samtools_merge_bam/" # path to bam-files
-  f_formats: "bam" # cram/bam
+  f_format: "bam" # cram/bam
 
 mosaicforecast_genotype_prediction:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
