@@ -332,7 +332,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
-    elif config.get("mosaicforecast", False) or config.get("deepmosaic_draw", False):
+    elif config.get("mosaicforecast", False) or config.get("deepmosaic_predict", False):
         # mosaic short read
         files = {
             "deepmosaic": [
@@ -340,7 +340,6 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             ],
             "mosaicforecast": [
                 "all.phasing",
-                "SNP.predictions",
             ],
         }
         output_files = [
