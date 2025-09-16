@@ -39,6 +39,7 @@ def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
         or caller == "gatk_mutect2"
         or caller == "pbrun_deepvariant"
         or caller == "deepvariant"
+        or caller == "deepsomatic"
     ):
         header.info.add("AF", "A", "Float", "DescriptionDescription")
     elif caller == "varscan":
@@ -80,6 +81,9 @@ def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcb
         elif caller == "deepvariant":
             row.info["AF"] = row.samples[0].get("VAF")
             row.samples[0]["AF"] = row.samples[0].get("VAF")
+        elif caller == "deepsomatic":
+            row.info["AF"] = row.samples[0].get("AF")
+            row.samples[0]["AF"] = row.samples[0].get("AF")
         elif caller == "gatk_select_variants_final":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "varscan":
@@ -89,7 +93,7 @@ def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcb
             raise ValueError(
                 "{} is not a valid caller for this script. Choose between: "
                 "freebayes, haplotypecaller, gatk_mutect2, gatk_select_variants_final, "
-                "pbrun_deepvariant, deepvariant, pisces, vardict, varscan.".format(caller)
+                "pbrun_deepvariant, deepvariant, deepsomatic, pisces, vardict, varscan.".format(caller)
             )
         new_vcf.write(row)
     return
