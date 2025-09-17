@@ -83,7 +83,6 @@ def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcb
             row.samples[0]["AF"] = row.samples[0].get("VAF")
         elif caller == "clairs_to":
             row.info["AF"] = row.samples[0].get("AF")
-            row.samples[0]["AF"] = row.samples[0].get("AF")
         elif caller == "gatk_select_variants_final":
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "varscan":
