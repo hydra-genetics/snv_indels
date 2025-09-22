@@ -342,6 +342,19 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
                 "all.phasing",
             ],
         }
+
+    # Since it is not possible to create integration test without annovar or a big dataset and will  
+    # not be subjected to integration testing and we can not guarantee that it will work
+    #    files = {
+    #        "deepmosaic": [
+    #            "final_predictions.txt",
+    #        ],
+    #        "mosaicforecast": [
+    #            "all.phasing",
+    #            "SNP.predictions,
+    #        ],
+    #    }
+
         output_files = [
             f"snv_indels/{prefix}/{sample}_N/{suffix}"
             for prefix in files.keys()
