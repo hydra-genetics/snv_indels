@@ -15,18 +15,21 @@ deepmosaic_draw:
 
 deepmosaic_predict:
   container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
-  
+
 mosaicforecast_phasing:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  path: "" # path to bam-files
-  f_formats: "" # cram/bam
+  f_format: "bam" # cram/bam
+  path: "alignment/samtools_merge_bam/" # path to bam-files
+  umap: "/usr/local/bin/k24.umap.wg.bw"
 
-mosaicforecast_readlevel:
-  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  path: "" # path to bam-files
-  f_formats: "" # cram/bam
-
-mosaicforecast_genotype_prediction:
-  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  model_trained: "" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
-  model_type: ""  # Phase/Refine
+### Need small dataset to do tests ###
+# mosaicforecast_readlevel:
+#   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+#   f_format: "bam" # cram/bam
+#   path: "alignment/samtools_merge_bam/" # path to bam-files
+#   umap: "/usr/local/bin/k24.umap.wg.bw"
+#
+# mosaicforecast_genotype_prediction:
+#   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+#   model_trained: "reference/model.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+#   model_type: "Refine"  # Phase/Refine

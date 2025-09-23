@@ -332,7 +332,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
-    elif config.get("mosaicforecast", False) or config.get("deepmosaic_draw", False):
+    elif config.get("mosaicforecast", False) or config.get("deepmosaic_predict", False):
         # mosaic short read
         files = {
             "deepmosaic": [
@@ -340,9 +340,21 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             ],
             "mosaicforecast": [
                 "all.phasing",
-                "SNP.predictions",
             ],
         }
+
+        # Since it is not possible to create integration test without annovar or a big dataset and will
+        # not be subjected to integration testing and we can not guarantee that it will work
+        #    files = {
+        #        "deepmosaic": [
+        #            "final_predictions.txt",
+        #        ],
+        #        "mosaicforecast": [
+        #            "all.phasing",
+        #            "SNP.predictions,
+        #        ],
+        #    }
+
         output_files = [
             f"snv_indels/{prefix}/{sample}_N/{suffix}"
             for prefix in files.keys()

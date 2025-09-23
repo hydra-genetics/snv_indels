@@ -1,4 +1,4 @@
-name: small integration test shortread deepsomatic
+name: small integration test shortread mosaic
 
 on:
   push:

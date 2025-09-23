@@ -1,4 +1,4 @@
-name: small integration test shortread deepsomatic
+name: small integration test clair_to
 
 on:
   push:
