@@ -1,4 +1,4 @@
-name: small integration test clair_to
+name: small integration test clairs_to
 
 on:
   push:
