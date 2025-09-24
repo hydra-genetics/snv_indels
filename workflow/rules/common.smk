@@ -151,7 +151,89 @@ def get_glnexus_input(wildcards, input):
     return gvcf_input
 
 
+def get_longread_bam(wildcards):
+    """
+    This function generates the file paths for a BAM file and its corresponding index file
+    based on the sample and type specified in the wildcards, as well as the aligner
+    specified in the configuration.
+
+    Args:
+        wildcards (object): A Snakemake wildcards object containing the following attributes:
+          - sample: The name of the sample.
+          - type: The type of data ("T" for tumor, "N" for normal).
+
+    Returns:
+        tuple: A tuple containing two strings:
+            - alignment_path: The file path to the BAM file.
+            - index_path: The file path to the BAM index file.
+
+    Notes:
+        - The aligner is retrieved from the config file
+        using the key "aligner". If not specified, it defaults to "minimap2".
+        - The returned paths are constructed under the "alignment" directory, with subdirectories
+        and filenames based on the aligner, sample, and type.
+    """
+    aligner = config.get("aligner", "minimap2")
+    alignment_path = f"alignment/{aligner}_align/{wildcards.sample}_{wildcards.type}.bam"
+    index_path = f"alignment/{aligner}_align/{wildcards.sample}_{wildcards.type}.bam.bai"
+    return alignment_path, index_path
+
+
+def get_input_bam(wildcards, default_path="alignment/samtools_merge_bam"):
+    """
+    Retrieve the input BAM file for the workflow.
+
+    This function determines the appropriate BAM file path based on the configuration
+    and workflow parameters. It handles various scenarios such as pre-haplotagged BAMs,
+    alignment-based BAMs, and default paths.
+
+    Args:
+        wildcards (snakemake.io.Wildcards): Wildcards object containing sample and type information.
+        default_path (str): Default path for BAM files if no specific configuration is provided.
+
+    Returns:
+        tuple: A tuple containing the alignment BAM file path and its index file path.
+    """
+    try:
+        if config.get("haplotagged_bam") is True and config.get("aligner") is None:
+            # BAM file is already haplotagged
+            unit = units[(units["sample"] == wildcards.sample) & (units["type"] == wildcards.type)]
+            alignment_path = unit["bam"].iloc[0]
+            index_path = f"{alignment_path}.bai"
+
+        elif config.get("haplotagged_bam") is None and config.get("aligner") is not None:
+            # Use get_longread_bam to retrieve BAM paths
+            alignment_path, index_path = get_longread_bam(wildcards)
+
+        elif config.get("haplotagged_bam") is False and config.get("haplotagging") is not None:
+            # Compile input BAM path using the specified haplotagging tool
+            tool = config.get("haplotagging")
+            alignment_path = f"snv_indels/{tool}/{wildcards.sample}_{wildcards.type}.haplotagged.bam"
+            index_path = f"{alignment_path}.bai"
+
+        else:
+            # Default to the standard BAM path
+            alignment_path = f"{default_path}/{wildcards.sample}_{wildcards.type}.bam"
+            index_path = f"{alignment_path}.bai"
+
+        return alignment_path, index_path
+
+    except KeyError as e:
+        raise WorkflowError(f"Missing required configuration or data for BAM retrieval: {e}")
+    except IndexError:
+        raise WorkflowError(f"No matching BAM file found for sample '{wildcards.sample}' and type '{wildcards.type}'.")
+
+
 def compile_output_list(wildcards: snakemake.io.Wildcards):
+    """
+    Compile and return a list of expected output files for the workflow based on the configuration and sample/unit information.
+
+    Args:
+        wildcards (snakemake.io.Wildcards): Wildcards object containing sample and type information.
+
+    Returns:
+        list: A list of output file paths as strings.
+    """
     # deepvariant short read is run in a separate workflow
     # due to space constraints on standard github runners
     if config.get("deepvariant", False):
@@ -250,7 +332,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
-    elif config.get("mosaicforecast", False) or config.get("deepmosaic_draw", False):
+    elif config.get("mosaicforecast", False) or config.get("deepmosaic_predict", False):
         # mosaic short read
         files = {
             "deepmosaic": [
@@ -260,6 +342,19 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
                 "all.phasing",
             ],
         }
+
+        # Since it is not possible to create integration test without annovar or a big dataset and will
+        # not be subjected to integration testing and we can not guarantee that it will work
+        #    files = {
+        #        "deepmosaic": [
+        #            "final_predictions.txt",
+        #        ],
+        #        "mosaicforecast": [
+        #            "all.phasing",
+        #            "SNP.predictions,
+        #        ],
+        #    }
+
         output_files = [
             f"snv_indels/{prefix}/{sample}_N/{suffix}"
             for prefix in files.keys()
@@ -281,6 +376,17 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for t in get_unit_types(units, sample)
             for platform in units.loc[(sample,)].platform
             if platform not in ["ONT", "PACBIO"]
+            for suffix in files[prefix]
+        ]
+    elif config.get("whatshap_phase", False):
+        files = {"deepsomatic_t_only": ["vcf.gz"], "whatshap_phase": ["phased.vcf.gz"], "whatshap_haplotag": ["haplotagged.bam"]}
+        output_files = [
+            f"snv_indels/{prefix}/{sample}_{t}.{suffix}"
+            for prefix in files.keys()
+            for sample in get_samples(samples)
+            for t in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform in ["PACBIO"]
             for suffix in files[prefix]
         ]
     else:

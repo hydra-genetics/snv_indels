@@ -460,20 +460,6 @@ properties:
         description: method to handle allele frequencies from complex variants,
                      skip, max or sum
 
-  mosaicforecast:
-    type: object
-    description: parameters for mosaicforecast_input
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      extra:
-        type: string
-        description: parameters that should be forwarded
-
   mosaicforecast_input:
     type: object
     description: parameters for mosaicforecast_input
@@ -487,9 +473,72 @@ properties:
       extra:
         type: string
         description: parameters that should be forwarded
-      name:
+
+  mosaicforecast_genotype_prediction:
+    type: object
+    description: parameters for mosaicforecast_genotype_prediction
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
         type: string
-        description: give the sample name
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      model_trained:
+        type: string
+        description: file with the model being used (e.g. 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds)  
+      model_type:
+        type: string
+        description: the type of model used Phase or Refine
+
+  mosaicforecast_phasing:
+    type: object
+    description: parameters for mosaicforecast_phasing
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      f_format:
+        type: string
+        description: if a cram or bam file is being used
+      path:
+        type: string
+        description: the path to where the `bam` file is located
+      umap:
+        type: string
+        description: location of the k24.umap.wg.bw
+
+  mosaicforecast_readlevel:
+    type: object
+    description: parameters for mosaicforecast_readlevel
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      f_format:
+        type: string
+        description: if a cram or bam file is being used
+      path:
+        type: string
+        description: the path to where the `bam` file is located
+      umap:
+        type: string
+        description: location of the k24.umap.wg.bw
 
   mutect2_pass_filter:
     type: object
@@ -563,3 +612,30 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
+  whatshap_haplotag:
+    type: object
+    description: parameters for whatshap_haplotag
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  whatshap_phase:
+    type: object
+    description: parameters for whatshap_phase
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded

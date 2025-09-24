@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://hydra-genetics-snv-indels.readthedocs.io">https://hydra-genetics-snv-indels.readthedocs.io</a>
+<h2><a href="https://hydra-genetics-snv-indels.readthedocs.io">https://hydra-genetics-snv-indels.readthedocs.io</a><h2>
 </p>
 
 # :snake: hydra-genetics/snv_indels
@@ -20,8 +20,7 @@
 The module contains rules to call variants from `.bam`-files per chromosome, merging
 the resulting `.vcf`-files, fixing the allele frequency field followed by decomposing
 and normalizing steps to finally combine the results from different callers using
-an ensemble approach. Available callers in the standard setup are [Mutect2](https://gatk.broadinstitute.
-org/hc/en-us/articles/360037593851-Mutect2),
+an ensemble approach. Available callers in the standard setup are [Mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2),
 [Freebayes](https://github.com/freebayes/freebayes), [VarDict](https://github.com/AstraZeneca-NGS/VarDict) and 
 [Haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller).
 Mutect2 is also used to generate a genomic `.vcf`-file.
@@ -32,7 +31,7 @@ Other variant callers can be added by providing caller-specific configurations:
 [ClairS-TO](https://github.com/HKU-BAL/ClairS-TO).
 The output of those variant callers can also be processed with decomposition and normalization steps if the user 
 wishes so.
-Moreover, the output of DeepSomatic in tumor-only settings can be piped into [DeepMosaic](https://github.com/XiaoxuYangLab/DeepMosaic) and 
+Moreover, the output of DeepSomatic and Mutect2 in tumor-only settings can be piped into [DeepMosaic](https://github.com/XiaoxuYangLab/DeepMosaic) and 
 [MosaicForecast](https://github.com/parklab/MosaicForecast) to identify mosaic variants.
 
 
@@ -166,8 +165,9 @@ The following output files require to add a caller-specific configurations for t
 |---------------------------------------------------------------|------------------------------------------------------------------------------|
 | `snv_indels/deepsomatic_tn/{sample}_{type}.vcf.gz`            | `.vcf.gz` with called variants by deepsomatic in tumor-normal samples        |
 | `snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz`        | `.vcf.gz` with called variants by deepsomatic in tumor-only samples          |
-| `snv_indels/deepmosaic/{sample}_{type}/final_predictions.txt` | list of called variants that are identified as mosaicisms by deepmosaic      |
-| `snv_indels/mosaicforecast/{sample}_{type}/all.phasing`       | list of called variants that are identified as mosaicisms by mosaicforecast  |
+| `snv_indels/deepmosaic/{sample}_{type}/final_predictions.txt` | list of candidate variants and the prediction of mosaicisms by deepmosaic    |
+| `snv_indels/mosaicforecast/{sample}_{type}/all.phasing`       | list of candidate variants that been phased and prediction of mosaicisms by mosaicforecast  |
+| `snv_indels/mosaicforecast/{sample}_{type}/SNP.predictions`   | list of candidate variants and the prediction of mosaicisms by mosaicforecast  |
 | `snv_indels/clairs_to/{sample}_{type}.snv-indels.vcf.gz`      | `.vcf.gz` with called variants by deepsomatic in tumor-only samples          |
 | `snv_indels/deepvariant/{sample}_{type}.merged.vcf.gz`        | deepvariant `.vcf.gz` for PacBio data if `deepvariant: model_type: "PACBIO"` |
 | `snv_indels/deepvariant/{sample}_{type}.merged.g.vcf.gz`      | genomic `.g.vcf.gz` for PacBio data if `deepvariant: model_type: "PACBIO"`   |

@@ -745,7 +745,26 @@ properties:
             type: string
             description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
 
-  mosaicforecast:
+  mosaicforecast_genotype_prediction:
+    type: object
+    description: input and output parameters for mosaicforecast
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          features:
+            type: string
+            description: the output from mosaicforecast_readlevel, information from position
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          predict:
+            type: string
+            description: the predition if a variant is a mosaic variant or not
+
+  mosaicforecast_phasing:
     type: object
     description: input and output parameters for mosaicforecast
     properties:
@@ -755,13 +774,16 @@ properties:
         properties:
           fasta:
             type: string
-            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
-          path:
+            description: the `fasta` file used for alignment
+          bai:
             type: string
-            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+            description: the `.bam` file index (or crai)
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file (or cram), but in shell the path from params are used
           variants:
             type: string
-            description: candidate variants for mosaicforecast with info about chr, start, stop, ref, alt, and sample
+            description: candidate variants for mosaicforecast_input with info about chr, start, stop, ref, alt, and sample
       output:
         type: object
         description: list of outputs
@@ -772,6 +794,34 @@ properties:
           phase:
             type: string
             description: file with phase information for all variants that had it and mosaic predictions
+
+  mosaicforecast_readlevel:
+    type: object
+    description: input and output parameters for mosaicforecast
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          fasta:
+            type: string
+            description: the `fasta` file used for alignment
+          bai:
+            type: string
+            description: the `.bam` file index (or crai)
+          bam:
+            type: string
+            description: marked duplication, merged and sorted `.bam` file, but in shell the path from params are used
+          variants:
+            type: string
+            description: candidate variants for mosaicforecast_input with info about chr, start, stop, ref, alt, and sample
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          features:
+            type: string
+            description: information gathered about the mosaic candidates
 
   mutect2_pass_filter:
     type: object
@@ -879,3 +929,65 @@ properties:
           vcf:
             type: string
             description: normalized vcf file
+
+  whatshap_haplotag:
+    type: object
+    description: input and output parameters for whatshap_haplotag
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: phased variants in VCF format
+          aln:
+            type: string
+            description: BAM file with reads to haplotag
+          bai:
+            type: string
+            description: BAM file index to use for haplotagging
+          ref:
+            type: string
+            description: reference genome in FASTA format
+          fai:
+            type: string
+            description: index file for the reference genome
+          tbi:
+            type: string
+            description: tabix index file for the VCF
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          output1:
+            type: string
+            description: BAM file with haplotagged reads
+
+  whatshap_phase:
+    type: object
+    description: input and output parameters for whatshap_phase
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: variants to phase in VCF format
+          bam:
+            type: string
+            description: BAM file with mapped reads to use for phasing
+          bai:
+            type: string
+            description: BAM file index to use for phasing
+          fasta:
+            type: string
+            description: reference genome in FASTA format
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          output1:
+            type: string
+            description: phased variants in VCF format (gzipped)

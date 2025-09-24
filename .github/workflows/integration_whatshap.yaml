@@ -1,4 +1,4 @@
-name: small integration test shortread mosaic
+name: small integration test pacbio whatshap
 
 on:
   push:
@@ -34,16 +34,13 @@ jobs:
       - name: Install apptainer/singularity
         run: |
           sudo add-apt-repository -y ppa:apptainer/ppa && sudo apt install -y software-properties-common && sudo apt install -y apptainer-suid
-      - name: Add SylabsCloud (library) for apptainer
-        run: |
-          apptainer remote add --no-login SylabsCloud cloud.sycloud.io
       - name: Install requirements.txt
         run: |
           pip install -r requirements.txt
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
-      - name: Integration test - small dataset short read mosaic
+      - name: Integration test - small dataset pacbio whatshap
         working-directory: .tests/integration
         run: |
-          snakemake -s ../../workflow/Snakefile -j 1 --show-failed-logs  --configfile config_mosaic.yaml --use-singularity --singularity-args  " --cleanenv --bind /home/runner "
+          snakemake -s ../../workflow/Snakefile -j 1 --show-failed-logs  --configfile config_whatshap.yaml --use-singularity --singularity-args  " --cleanenv --bind /home/runner "
