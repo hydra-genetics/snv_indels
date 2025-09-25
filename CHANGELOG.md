@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.3.0](https://github.com/hydra-genetics/snv_indels/compare/v1.2.0...v1.3.0) (2025-09-24)
+
+
+### Features
+
+* add functions for compiling paths to input bam files & output files for whatshap rules ([e8d96ef](https://github.com/hydra-genetics/snv_indels/commit/e8d96ef2d6159523ecb10f68582d2b319769d2c3))
+
+
+### Bug Fixes
+
+* add umap to config_mosaic.yaml ([2db78f5](https://github.com/hydra-genetics/snv_indels/commit/2db78f5d9336070b55d0b363f526a8dbcfd9a0be))
+* change callers name to clairs_to in fix_af.py ([e68a3af](https://github.com/hydra-genetics/snv_indels/commit/e68a3af69cbb57ae9f48164fa2e14d593191149e))
+* correct alignment path in get_input_bam() ([e2c36ee](https://github.com/hydra-genetics/snv_indels/commit/e2c36ee9fd4e83f04e6b4c05472e26973c69e5b0))
+* flexible bam input to deepsomatic_t_only ([579a52a](https://github.com/hydra-genetics/snv_indels/commit/579a52aecacfbff4978663ec74a9f9535dbfb03e))
+* input.bam in message not input.aln ([262b227](https://github.com/hydra-genetics/snv_indels/commit/262b2275cf89f14461d619071c50ae9e129bac89))
+* remove redundant line ([d41441e](https://github.com/hydra-genetics/snv_indels/commit/d41441e36de8c17f58c2b863e0fe2b25f689e47c))
+* update fix_af.py ([08d33ba](https://github.com/hydra-genetics/snv_indels/commit/08d33ba9301b14115445c2f26b41cb584ca3a2bc))
+* use aln not bam in input to whatshap_haplotag ([9aac4c8](https://github.com/hydra-genetics/snv_indels/commit/9aac4c8b484249200eb7f6f78cc7d5a14cc09f5e))
+
+
+### Documentation
+
+* add whatshap rules to DAG ([124bd59](https://github.com/hydra-genetics/snv_indels/commit/124bd598fa6e9fd1190105f46daefd43d76700e7))
+* list all inputs alogn with their names in whatshap rules ([fdd67da](https://github.com/hydra-genetics/snv_indels/commit/fdd67dab77a3dd63c5c28ac500f62bbd357ab6bf))
+* update pull_request_template.md ([71d82e1](https://github.com/hydra-genetics/snv_indels/commit/71d82e1cef1960d958a3d38bdd972f0950b9f625))
+* update whatshap_haplotag in rules.schema.yaml ([9d20025](https://github.com/hydra-genetics/snv_indels/commit/9d20025efdca62fae71dfdc24fbba401269191b3))
+
 ## [1.2.0](https://www.github.com/hydra-genetics/snv_indels/compare/v1.1.0...v1.2.0) (2025-08-29)
 
 
