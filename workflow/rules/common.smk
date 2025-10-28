@@ -5,7 +5,7 @@ __license__ = "GPL-3"
 
 import pandas as pd
 
-from hydra_genetics.utils.misc import extract_chr
+from hydra_genetics.utils.misc import extract_chr, get_input_aligned_bam, get_longread_bam
 from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
