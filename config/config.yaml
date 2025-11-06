@@ -87,13 +87,11 @@ mosaicforecast_genotype_prediction:
 mosaicforecast_phasing:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
   f_format: "" # cram/bam
-  path: "" # path to bam-files
   umap: "/usr/local/bin/k24.umap.wg.bw"
 
 mosaicforecast_readlevel:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
   f_format: "" # cram/bam
-  path: "" # path to bam-files
   umap: "/usr/local/bin/k24.umap.wg.bw"
 
 mutect2_pass_filter:

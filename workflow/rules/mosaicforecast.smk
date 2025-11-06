@@ -90,7 +90,7 @@ rule mosaicforecast_phasing:
     params:
         extra=config.get("mosaicforecast_phasing", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_phasing", {}).get("f_format", ""),
-        path=config.get("mosaicforecast_phasing", {}).get("path", ""),
+        path=lambda w, input: os.path.dirname(input[0]),
         umap=config.get("mosaicforecast_phasing", {}).get("umap", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
@@ -133,7 +133,7 @@ rule mosaicforecast_readlevel:
     params:
         extra=config.get("mosaicforecast_readlevel", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_readlevel", {}).get("f_format", ""),
-        path=config.get("mosaicforecast_readlevel", {}).get("path", ""),
+        path=lambda w, input: os.path.dirname(input[0]),
         umap=config.get("mosaicforecast_readlevel", {}).get("umap", ""),
     log:
         "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
