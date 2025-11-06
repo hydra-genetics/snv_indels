@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/hydra-genetics/snv_indels/compare/v1.3.0...v1.3.1) (2025-11-06)
+
+
+### Bug Fixes
+
+* **mosaicforecast:** Update path parameter to use input directory ([e10fd45](https://github.com/hydra-genetics/snv_indels/commit/e10fd45df3001c5f7675437a6fb144923ee4bde5))
+
 ## [1.3.0](https://github.com/hydra-genetics/snv_indels/compare/v1.2.0...v1.3.0) (2025-09-24)
 
 
