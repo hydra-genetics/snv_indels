@@ -6,12 +6,12 @@ __license__ = "GPL-3"
 
 rule whatshap_phase:
     input:
-        bam=lambda wildcards: get_input_bam(wildcards)[0],
-        bai=lambda wildcards: get_input_bam(wildcards)[1],
+        bam=lambda wildcards: get_input_aligned_bam(wildcards, config)[0],
+        bai=lambda wildcards: get_input_aligned_bam(wildcards, config)[1],
         fasta=config.get("reference", {}).get("fasta", ""),
         vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
     output:
-        vcf="snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz",
+        vcf=temp("snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz"),
     params:
         extra=config.get("whatshap_phase", {}).get("extra", ""),
     log:
@@ -38,14 +38,14 @@ rule whatshap_phase:
 
 rule whatshap_haplotag:
     input:
-        aln=lambda wildcards: get_input_bam(wildcards)[0],
-        bai=lambda wildcards: get_input_bam(wildcards)[1],
+        aln=lambda wildcards: get_input_aligned_bam(wildcards, config)[0],
+        bai=lambda wildcards: get_input_aligned_bam(wildcards, config)[1],
         ref=config.get("reference", {}).get("fasta", ""),
         fai=config.get("reference", {}).get("fai", ""),
         vcf="snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz",
         tbi="snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz.tbi",
     output:
-        "snv_indels/whatshap_haplotag/{sample}_{type}.haplotagged.bam",
+        temp("snv_indels/whatshap_haplotag/{sample}_{type}.haplotagged.bam"),
     params:
         extra=config.get("whatshap_haplotag", {}).get("extra", ""),
     log:
