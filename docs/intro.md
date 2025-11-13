@@ -28,6 +28,7 @@ The module also provide tools for:
 
 The module is designed to be used in a snakemake pipeline and can be easily integrated into existing pipelines that
 follow the logic of [**hydra-genetics**](https://hydra-genetics.readthedocs.io/en/latest/).
+Certain tools in this module (e.g. deepsomatic, clairs-to) use functions to compile paths to input BAM files. Read more about these functions [here](https://hydra-genetics.readthedocs.io/en/latest/development/input_functions/).
 <BR>
 <BR>
 <BR>
