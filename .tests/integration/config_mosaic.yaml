@@ -22,12 +22,20 @@ mosaicforecast_phasing:
   umap: "/usr/local/bin/k24.umap.wg.bw"
 
 ### Need small dataset to do tests ###
+
+# mosaicforecast_input:
+#   extra: "-f PASS --exclude 'FORMAT/DP<8'"
+
 # mosaicforecast_readlevel:
 #   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
 #   f_format: "bam" # cram/bam
 #   umap: "/usr/local/bin/k24.umap.wg.bw"
-#
+
 # mosaicforecast_genotype_prediction:
 #   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-#   model_trained: "reference/model.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
-#   model_type: "Refine"  # Phase/Refine
+#   model_trained_SNP: "reference/150xRFmodel_addRMSK_Refine.rds" 
+#   model_trained_INS: "reference/insertions_250x.RF.rds" 
+#   model_trained_DEL: "reference/deletions_250x.RF.rds"
+#   model_type_SNP: "Refine"  # phase/refine
+#   model_type_INS: "Phase"  # phase/refine
+#   model_type_DEL: "Phase"  # phase/refine
