@@ -12,7 +12,7 @@ rule mosaicforecast_input:
         extra=config.get("mosaicforecast_input", {}).get("extra", ""),
         name=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
     log:
-        "snv_indels/mosaicforecast/{sample}_{type}.input.log",
+        "snv_indels/mosaicforecast_input/{sample}_{type}.input.log",
     benchmark:
         repeat(
             "snv_indels/mosaicforecast_input/{sample}_{type}.input_benchmark.tsv",
