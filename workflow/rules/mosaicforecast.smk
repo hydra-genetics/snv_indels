@@ -32,7 +32,7 @@ rule mosaicforecast_input:
     shell:
         "(bcftools query "
         "{params.extra} "
-        "-f '%CHROM\t%POS0\t%END\t%REF\t%ALT\t{params.name}\n'"
+        "-f '%CHROM\t%POS0\t%END\t%REF\t%ALT\t{params.name}\n' "
         "{input.vcf} "
         "> {output.variants} ) &> {log}"
 
