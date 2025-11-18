@@ -88,10 +88,10 @@ rule mosaicforecast_phasing:
         fasta=config.get("reference", {}).get("fasta", ""),
         variants="snv_indels/mosaicforecast_input/{sample}_{type}.input",
     output:
-        all_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_candidates"),
-        candidates=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.merged.inforSNPs.pos"),
+        all_candidates=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_candidates"),
+        all_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.merged.inforSNPs.pos"),
         all_phasing=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing"),
-        m_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/multiple_inforSNPs.log"),
+        multi_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/multiple_inforSNPs.log"),
         phase_table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing_2by2"),
         table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_2x2table"),
         tmpdir=temp(directory("snv_indels/mosaicforecast_readlevel/{sample}_{type}/tmp")),
