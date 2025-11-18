@@ -290,22 +290,22 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for suffix in files[prefix]
         ]
 
-        # files = {
-        #     "mosaicforecast_genotype_prediction": [
-        #                 "SNP.predictions",
-        #                 "INS.predictions",
-        #                 "DEL.predictions",
-        #             ],
-        # }
+    # files = {
+    #     "mosaicforecast_genotype_prediction": [
+    #                 "SNP.predictions",
+    #                 "INS.predictions",
+    #                 "DEL.predictions",
+    #             ],
+    # }
 
-        # output_files = [
-        #     f"snv_indels/{prefix}/{sample}_N.{suffix}"
-        #     for prefix in files.keys()
-        #     for sample in get_samples(samples[pd.isnull(samples["trioid"])])
-        #     for platform in units.loc[(sample,)].platform
-        #     if platform not in ["ONT", "PACBIO"]
-        #     for suffix in files[prefix]
-        # ]
+    # output_files = [
+    #     f"snv_indels/{prefix}/{sample}_N.{suffix}"
+    #     for prefix in files.keys()
+    #     for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+    #     for platform in units.loc[(sample,)].platform
+    #     if platform not in ["ONT", "PACBIO"]
+    #     for suffix in files[prefix]
+    # ]
 
     elif config.get("clairs_to_call", False) or config.get("clairs_to_concat", False):
         files = {
