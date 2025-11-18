@@ -788,9 +788,6 @@ properties:
         type: object
         description: list of outputs
         properties:
-          phase:
-            type: string
-            description: file with phase information for all variants that had it and mosaic predictions
           all_candidates:
             type: string
             description: file with candidate variants used in phasing
