@@ -788,9 +788,6 @@ properties:
         type: object
         description: list of outputs
         properties:
-          path:
-            type: string
-            description: path to output directory
           phase:
             type: string
             description: file with phase information for all variants that had it and mosaic predictions
