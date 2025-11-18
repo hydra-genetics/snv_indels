@@ -88,8 +88,13 @@ rule mosaicforecast_phasing:
         fasta=config.get("reference", {}).get("fasta", ""),
         variants="snv_indels/mosaicforecast_input/{sample}_{type}.input",
     output:
-        path=temp(directory("snv_indels/mosaicforecast_phasing/{sample}_{type}")),
-        phase=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing"),
+        all_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_candidates"),
+        candidates=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.merged.inforSNPs.pos"),
+        all_phasing=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing"),
+        m_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/multiple_inforSNPs.log"),
+        phase_table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing_2by2"),
+        table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_2x2table"),
+        tmpdir=temp(directory("snv_indels/mosaicforecast_readlevel/{sample}_{type}/tmp")),
     params:
         extra=config.get("mosaicforecast_phasing", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_phasing", {}).get("f_format", ""),
@@ -133,7 +138,7 @@ rule mosaicforecast_readlevel:
         variants="snv_indels/mosaicforecast_input/{sample}_{type}.input",
     output:
         features=temp("snv_indels/mosaicforecast_readlevel/{sample}_{type}/features.txt"),
-        tmpdir=temp(directory("snv_indels/mosaicforecast_readlevel/{sample}_{type}/tmp")),
+        features_tmp=temp("snv_indels/mosaicforecast_readlevel/{sample}_{type}/features.txt.tmp"),
     params:
         extra=config.get("mosaicforecast_readlevel", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_readlevel", {}).get("f_format", ""),
