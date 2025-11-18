@@ -93,13 +93,15 @@ rule mosaicforecast_phasing:
         all_phasing=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing"),
         multi_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/multiple_inforSNPs.log"),
         phase_table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing_2by2"),
+        all_phasing=temp("snv_indels/mosaicforecast/{sample}_{type}/all.phasing"),
         table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_2x2table"),
         tmpdir=temp(directory("snv_indels/mosaicforecast_readlevel/{sample}_{type}/tmp")),
     params:
         extra=config.get("mosaicforecast_phasing", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_phasing", {}).get("f_format", ""),
         min_dp=config.get("mosaicforecast_phasing", {}).get("min_dp", "20"),
-        path=lambda w, input: os.path.dirname(input[0]),
+        path=lambda wildcards, input: os.path.dirname(input[0]),
+        outdir=lambda wildcards: f"snv_indels/mosaicforecast_phasing/{wildcards.sample}_{wildcards.type}",
         umap=config.get("mosaicforecast_phasing", {}).get("umap", ""),
     log:
         "snv_indels/mosaicforecast_phasing/{sample}_{type}.mosaicforecast_phasing.log",
@@ -122,7 +124,7 @@ rule mosaicforecast_phasing:
     shell:
         "(Phase.py "
         "{params.path} "
-        "{output.path} "
+        "{params.outdir} "
         "{input.fasta} "
         "{input.variants} "
         "{params.min_dp} "
