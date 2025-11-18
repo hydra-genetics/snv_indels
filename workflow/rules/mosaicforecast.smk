@@ -98,6 +98,7 @@ rule mosaicforecast_phasing:
     params:
         extra=config.get("mosaicforecast_phasing", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_phasing", {}).get("f_format", ""),
+        min_dp=config.get("mosaicforecast_phasing", {}).get("min_dp", "20"),
         path=lambda w, input: os.path.dirname(input[0]),
         umap=config.get("mosaicforecast_phasing", {}).get("umap", ""),
     log:
@@ -124,7 +125,8 @@ rule mosaicforecast_phasing:
         "{output.path} "
         "{input.fasta} "
         "{input.variants} "
-        "20 {params.umap} "
+        "{params.min_dp} "
+        "{params.umap} "
         "{resources.threads} "
         "{params.f_format} "
         "{params.extra}) &> {log}"
