@@ -94,7 +94,7 @@ rule mosaicforecast_phasing:
         multi_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/multiple_inforSNPs.log"),
         phase_table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing_2by2"),
         table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_2x2table"),
-        tmpdir=temp(directory("snv_indels/mosaicforecast_readlevel/{sample}_{type}/tmp")),
+        tmpdir=temp(directory("snv_indels/mosaicforecast_phasing/{sample}_{type}/tmp")),
     params:
         extra=config.get("mosaicforecast_phasing", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_phasing", {}).get("f_format", ""),
