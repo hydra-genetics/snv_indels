@@ -276,7 +276,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             "deepmosaic": [
                 "final_predictions.txt",
             ],
-            "mosaicforecast": [
+            "mosaicforecast_phasing": [
                 "all.phasing",
             ],
         }
