@@ -41,11 +41,15 @@ rule mosaicforecast_genotype_prediction:
     input:
         features="snv_indels/mosaicforecast_readlevel/{sample}_{type}/features.txt",
     output:
-        predict=temp("snv_indels/mosaicforecast_genotype_prediction/{sample}_{type}.{variant}.predictions"), 
+        predict=temp("snv_indels/mosaicforecast_genotype_prediction/{sample}_{type}.{variant}.predictions"),
     params:
         extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
-        model_trained=lambda wildcards: config.get("mosaicforecast_genotype_prediction", {}).get(f"model_trained_{wildcards.variant}", ""),
-        model_type=lambda wildcards: config.get("mosaicforecast_genotype_prediction", {}).get(f"model_type_{wildcards.variant}", ""),
+        model_trained=lambda wildcards: config.get("mosaicforecast_genotype_prediction", {}).get(
+            f"model_trained_{wildcards.variant}", ""
+        ),
+        model_type=lambda wildcards: config.get("mosaicforecast_genotype_prediction", {}).get(
+            f"model_type_{wildcards.variant}", ""
+        ),
     log:
         "snv_indels/mosaicforecast_genotype_prediction/{sample}_{type}.{variant}.predictions.log",
     benchmark:
@@ -67,7 +71,7 @@ rule mosaicforecast_genotype_prediction:
     message:
         "{rule}: mosaicforecast predicts all input sites"
     wildcard_constraints:
-        variant="SNP|INS|DEL"
+        variant="SNP|INS|DEL",
     shell:
         "(Prediction.R "
         "{input.features} "
