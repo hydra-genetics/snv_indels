@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.2](https://github.com/hydra-genetics/snv_indels/compare/v1.3.1...v1.3.2) (2025-11-19)
+
+
+### Bug Fixes
+
+* **mosaicforecast:** separation of rule outputs, remove hardcoded filters, wildcards for variant type ([894b165](https://github.com/hydra-genetics/snv_indels/commit/894b165b7cee6dc33927b5936e3a4fdf7105369d))
+* **mosaicsforecast:** make min_df configurable ([12c0457](https://github.com/hydra-genetics/snv_indels/commit/12c0457f41448bb73bdd06d06a795ae4a653b06e))
+* Remove unused import from common.smk ([1d9be77](https://github.com/hydra-genetics/snv_indels/commit/1d9be77f05fb9e03559dd88648cc4c486ceec819))
+
+
+### Documentation
+
+* add link to the input functions page on HG read-the-docs ([05b3d75](https://github.com/hydra-genetics/snv_indels/commit/05b3d75df2e2f9c11b321e6fa6fa326999162587))
+
 ## [1.3.1](https://github.com/hydra-genetics/snv_indels/compare/v1.3.0...v1.3.1) (2025-11-06)
 
 
