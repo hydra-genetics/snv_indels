@@ -747,7 +747,7 @@ properties:
 
   mosaicforecast_genotype_prediction:
     type: object
-    description: input and output parameters for mosaicforecast
+    description: input and output parameters for mosaicforecast_genotype_prediction
     properties:
       input:
         type: object
@@ -755,18 +755,18 @@ properties:
         properties:
           features:
             type: string
-            description: the output from mosaicforecast_readlevel, information from position
+            description: the features.txt from mosaicforecast_readlevel, information from position
       output:
         type: object
         description: list of outputs
         properties:
           predict:
             type: string
-            description: the predition if a variant is a mosaic variant or not
+            description: A text file mosaic predictions for all input site. Predictions are refhom, het, mosaic or repeat.
 
   mosaicforecast_phasing:
     type: object
-    description: input and output parameters for mosaicforecast
+    description: input and output parameters for mosaicforecast_phasing
     properties:
       input:
         type: object
@@ -788,16 +788,32 @@ properties:
         type: object
         description: list of outputs
         properties:
-          path:
+          all_candidates:
             type: string
-            description: path to output directory
-          phase:
+            description: file with candidate variants used in phasing
+          all_infor_snps:
             type: string
-            description: file with phase information for all variants that had it and mosaic predictions
+            description: all nearby inforSNPs of candidate mosaics
+          all_phasing:
+            type: string
+            description: file with all phasing information for candidate variants and informative snps
+          multi_infor_snps: 
+            type: string
+            description: Phasing results of different pairs of inforSNPs.
+          phase_table:  
+            type: string
+            description: Phasing results of mosaics and all nearby inforSNPs (2x2 table).
+          table:
+            type: string
+            description: 2x2 tables by all nearby inforSNPs
+          tmpdir:
+            type: string
+            description: temporary directory used during  mosaicforecast phasing
 
+ 
   mosaicforecast_readlevel:
     type: object
-    description: input and output parameters for mosaicforecast
+    description: input and output parameters for mosaicforecast_readlevel
     properties:
       input:
         type: object
@@ -821,7 +837,10 @@ properties:
         properties:
           features:
             type: string
-            description: information gathered about the mosaic candidates
+            description: A list of read-level features for each input site.
+          features_tmp:
+            type: string
+            description: temporary features file used during mosaicforecast readlevel
 
   mutect2_pass_filter:
     type: object
