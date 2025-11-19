@@ -7,15 +7,16 @@ rule mosaicforecast_input:
     input:
         vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
     output:
-        variants=temp("snv_indels/mosaicforecast/{sample}_{type}.input"),
+        variants=temp("snv_indels/mosaicforecast_input/{sample}_{type}.input"),
     params:
         extra=config.get("mosaicforecast_input", {}).get("extra", ""),
+        bcftools_filter=config.get("mosaicforecast_input", {}).get("bcftools_filter", ""),
         name=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
     log:
-        "snv_indels/mosaicforecast/{sample}_{type}.input.log",
+        "snv_indels/mosaicforecast_input/{sample}_{type}.input.log",
     benchmark:
         repeat(
-            "snv_indels/mosaicforecast/{sample}_{type}.input_benchmark.tsv",
+            "snv_indels/mosaicforecast_input/{sample}_{type}.input_benchmark.tsv",
             config.get("mosaicforecast_input", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("mosaicforecast_input", {}).get("threads", config["default_resources"]["threads"])
@@ -30,30 +31,32 @@ rule mosaicforecast_input:
     message:
         "{rule}: make input file for mosaic forecast by making a file with candidate variants based in {input.vcf}"
     shell:
-        """(bcftools view \
-        {input.vcf} \
-        -f PASS \
-        --exclude 'FORMAT/DP<8' \
-        {params.extra} \
-        | bcftools query \
-        -f '%CHROM\t%POS0\t%END\t%REF\t%ALT\t{params.name}\n' \
-        > {output.variants} ) &> {log}"""
+        "(bcftools query "
+        "{params.bcftools_filter} "
+        "{params.extra} "
+        "-f '%CHROM\t%POS0\t%END\t%REF\t%ALT\t{params.name}\n' "
+        "{input.vcf} "
+        "> {output.variants} ) &> {log}"
 
 
 rule mosaicforecast_genotype_prediction:
     input:
-        features="snv_indels/mosaicforecast/{sample}_{type}/features.txt",
+        features="snv_indels/mosaicforecast_readlevel/{sample}_{type}/features.txt",
     output:
-        predict="snv_indels/mosaicforecast/{sample}_{type}/SNP.predictions",  # SNP.predictions (Refine) or DEL.predictions (Phase) or INS.predictions (Phase)
+        predict=temp("snv_indels/mosaicforecast_genotype_prediction/{sample}_{type}.{variant}.predictions"),
     params:
         extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
-        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trained", ""),
-        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_type", ""),
+        model_trained=lambda wildcards: config.get("mosaicforecast_genotype_prediction", {}).get(
+            f"model_trained_{wildcards.variant}", ""
+        ),
+        model_type=lambda wildcards: config.get("mosaicforecast_genotype_prediction", {}).get(
+            f"model_type_{wildcards.variant}", ""
+        ),
     log:
-        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.log",
+        "snv_indels/mosaicforecast_genotype_prediction/{sample}_{type}.{variant}.predictions.log",
     benchmark:
         repeat(
-            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_prediction.benchmark.tsv",
+            "snv_indels/mosaicforecast_genotype_prediction/{sample}_{type}.{variant}.predictions.benchmark.tsv",
             config.get("mosaicforecast_genotype_prediction", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("mosaicforecast_genotype_prediction", {}).get("threads", config["default_resources"]["threads"])
@@ -69,6 +72,8 @@ rule mosaicforecast_genotype_prediction:
         config.get("mosaicforecast_genotype_prediction", {}).get("container", config["default_container"])
     message:
         "{rule}: mosaicforecast predicts all input sites"
+    wildcard_constraints:
+        variant="SNP|INS|DEL",
     shell:
         "(Prediction.R "
         "{input.features} "
@@ -83,20 +88,27 @@ rule mosaicforecast_phasing:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         fasta=config.get("reference", {}).get("fasta", ""),
-        variants="snv_indels/mosaicforecast/{sample}_{type}.input",
+        variants="snv_indels/mosaicforecast_input/{sample}_{type}.input",
     output:
-        path=directory("snv_indels/mosaicforecast/{sample}_{type}"),
-        phase="snv_indels/mosaicforecast/{sample}_{type}/all.phasing",
+        all_candidates=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_candidates"),
+        all_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.merged.inforSNPs.pos"),
+        all_phasing=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing"),
+        multi_infor_snps=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/multiple_inforSNPs.log"),
+        phase_table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all.phasing_2by2"),
+        table=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_2x2table"),
+        tmpdir=temp(directory("snv_indels/mosaicforecast_phasing/{sample}_{type}/tmp")),
     params:
         extra=config.get("mosaicforecast_phasing", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_phasing", {}).get("f_format", ""),
-        path=lambda w, input: os.path.dirname(input[0]),
+        min_dp=config.get("mosaicforecast_phasing", {}).get("min_dp", "20"),
+        path=lambda wildcards, input: os.path.dirname(input[0]),
+        outdir=lambda wildcards: f"snv_indels/mosaicforecast_phasing/{wildcards.sample}_{wildcards.type}",
         umap=config.get("mosaicforecast_phasing", {}).get("umap", ""),
     log:
-        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
+        "snv_indels/mosaicforecast_phasing/{sample}_{type}.mosaicforecast_phasing.log",
     benchmark:
         repeat(
-            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.benchmark.tsv",
+            "snv_indels/mosaicforecast_phasing/{sample}_{type}.mosaicforecast_phasing.benchmark.tsv",
             config.get("mosaicforecast_phasing", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("mosaicforecast_phasing", {}).get("threads", config["default_resources"]["threads"])
@@ -113,10 +125,11 @@ rule mosaicforecast_phasing:
     shell:
         "(Phase.py "
         "{params.path} "
-        "{output.path} "
+        "{params.outdir} "
         "{input.fasta} "
         "{input.variants} "
-        "20 {params.umap} "
+        "{params.min_dp} "
+        "{params.umap} "
         "{resources.threads} "
         "{params.f_format} "
         "{params.extra}) &> {log}"
@@ -127,19 +140,20 @@ rule mosaicforecast_readlevel:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         fasta=config.get("reference", {}).get("fasta", ""),
-        variants="snv_indels/mosaicforecast/{sample}_{type}.input",
+        variants="snv_indels/mosaicforecast_input/{sample}_{type}.input",
     output:
-        features="snv_indels/mosaicforecast/{sample}_{type}/features.txt",
+        features=temp("snv_indels/mosaicforecast_readlevel/{sample}_{type}/features.txt"),
+        features_tmp=temp("snv_indels/mosaicforecast_readlevel/{sample}_{type}/features.txt.tmp"),
     params:
         extra=config.get("mosaicforecast_readlevel", {}).get("extra", ""),
         f_format=config.get("mosaicforecast_readlevel", {}).get("f_format", ""),
         path=lambda w, input: os.path.dirname(input[0]),
         umap=config.get("mosaicforecast_readlevel", {}).get("umap", ""),
     log:
-        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.log",
+        "snv_indels/mosaicforecast_readlevel/{sample}_{type}.mosaicforecast_readlevel.log",
     benchmark:
         repeat(
-            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast.vcf.benchmark.tsv",
+            "snv_indels/mosaicforecast_readlevel/{sample}_{type}.mosaicforecast_readlevel.benchmark.tsv",
             config.get("mosaicforecast_readlevel", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("mosaicforecast_readlevel", {}).get("threads", config["default_resources"]["threads"])

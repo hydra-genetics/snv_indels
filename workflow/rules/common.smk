@@ -265,22 +265,21 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             "deepmosaic": [
                 "final_predictions.txt",
             ],
-            "mosaicforecast": [
+            "mosaicforecast_phasing": [
                 "all.phasing",
             ],
         }
 
         # Since it is not possible to create integration test without annovar or a big dataset and will
         # not be subjected to integration testing and we can not guarantee that it will work
-        #    files = {
-        #        "deepmosaic": [
-        #            "final_predictions.txt",
-        #        ],
-        #        "mosaicforecast": [
-        #            "all.phasing",
-        #            "SNP.predictions,
-        #        ],
-        #    }
+        files = {
+            "deepmosaic": [
+                "final_predictions.txt",
+            ],
+            "mosaicforecast_phasing": [
+                "all.phasing",
+            ],
+        }
 
         output_files = [
             f"snv_indels/{prefix}/{sample}_N/{suffix}"
@@ -290,6 +289,24 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform not in ["ONT", "PACBIO"]
             for suffix in files[prefix]
         ]
+
+    # files = {
+    #     "mosaicforecast_genotype_prediction": [
+    #                 "SNP.predictions",
+    #                 "INS.predictions",
+    #                 "DEL.predictions",
+    #             ],
+    # }
+
+    # output_files = [
+    #     f"snv_indels/{prefix}/{sample}_N.{suffix}"
+    #     for prefix in files.keys()
+    #     for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+    #     for platform in units.loc[(sample,)].platform
+    #     if platform not in ["ONT", "PACBIO"]
+    #     for suffix in files[prefix]
+    # ]
+
     elif config.get("clairs_to_call", False) or config.get("clairs_to_concat", False):
         files = {
             "clairs_to": [
