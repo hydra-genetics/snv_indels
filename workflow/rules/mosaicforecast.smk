@@ -10,6 +10,7 @@ rule mosaicforecast_input:
         variants=temp("snv_indels/mosaicforecast_input/{sample}_{type}.input"),
     params:
         extra=config.get("mosaicforecast_input", {}).get("extra", ""),
+        bcftools_filter=config.get("mosaicforecast_input", {}).get("bcftools_filter", ""),
         name=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
     log:
         "snv_indels/mosaicforecast_input/{sample}_{type}.input.log",
@@ -31,6 +32,7 @@ rule mosaicforecast_input:
         "{rule}: make input file for mosaic forecast by making a file with candidate variants based in {input.vcf}"
     shell:
         "(bcftools query "
+        "{params.bcftools_filter} "
         "{params.extra} "
         "-f '%CHROM\t%POS0\t%END\t%REF\t%ALT\t{params.name}\n' "
         "{input.vcf} "

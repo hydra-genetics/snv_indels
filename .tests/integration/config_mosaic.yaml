@@ -24,7 +24,7 @@ mosaicforecast_phasing:
 ### Need small dataset to do tests ###
 
 # mosaicforecast_input:
-#   extra: "-f PASS --exclude 'FORMAT/DP<8'"
+#   bcftools_filter: "--exclude 'FILTER!=\"PASS\" || FORMAT/DP<8'"
 
 # mosaicforecast_readlevel:
 #   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
