@@ -394,6 +394,23 @@ properties:
         type: string
         description: name or path to docker/singularity container
 
+  gatk_split_n_cigar_reads:
+    type: object
+    description: parameters for gatk_split_n_cigar_reads
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      java_opts:
+        type: string
+        description: java options
+
   glnexus:
     type: object
     description: parameters for gatk_mutect2_merge_stats
@@ -639,3 +656,5 @@ properties:
       extra:
         type: string
         description: parameters that should be forwarded
+
+

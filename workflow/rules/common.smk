@@ -333,6 +333,21 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             if platform in ["PACBIO"]
             for suffix in files[prefix]
         ]
+    elif config.get("gatk_split_n_cigar_reads", False):
+        files = {
+            "gatk_split_n_cigar_reads": [
+                "bam",
+            ],
+        }
+        output_files = [
+            f"snv_indels/{prefix}/{sample}_R.{suffix}"
+            for prefix in files.keys()
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            for t in get_unit_types(units, sample)
+            for platform in units.loc[(sample,)].platform
+            if platform not in ["ONT", "PACBIO"]
+            for suffix in files[prefix]
+        ]
     else:
         files = {
             "bcbio_variation_recall_ensemble": [

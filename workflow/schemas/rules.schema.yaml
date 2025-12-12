@@ -580,6 +580,32 @@ properties:
             type: string
             description: soft filtered `.vcf.gz` file with called snv and indels
 
+  gatk_split_n_cigar_reads:
+    type: object
+    description: input and output parameters for gatk_split_n_cigar_reads
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: aligned bam file from star aligner
+          bai:
+            type: string
+            description: bam index file
+          ref:
+            type: string
+            description: fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          bam:
+            type: string
+            description: bam file with split reads
+
+
   gatk_mutect2_merge_stats:
     type: object
     description: input and output parameters for gatk_mutect2_merge_stats
@@ -1010,3 +1036,27 @@ properties:
           output1:
             type: string
             description: phased variants in VCF format (gzipped)
+
+
+# Entry added using Hydra-Genetics CLI - please move it into alphabetically sorted order
+  gatk_split_n_cigar_reads:
+    type: object
+    description: input and output parameters for gatk_split_n_cigar_reads
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          input1:
+            type: string
+            description: description input1
+            #value: set to override value in table, else remove
+
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          output1:
+            type: string
+            description: description output1
+            #value: set to override value in table, else remove

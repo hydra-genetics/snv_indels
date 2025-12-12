@@ -531,6 +531,30 @@ Step 2 of 4 of Mutect2 variant calling merging the statistics file.
 
 ---
 
+## [gatk_split_n_cigar_reads](https://gatk.broadinstitute.org/hc/en-us/articles/360036858811-SplitNCigarReads)
+Splits reads that contain Ns in their cigar string (e.g. spanning splicing events).
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__gatk__gatk_split_n_cigar_reads#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__gatk__gatk_split_n_cigar_reads#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__gatk_split_n_cigar_reads#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__gatk_split_n_cigar_reads#
+
+---
+
+
 ## [glnexus](https://github.com/dnanexus-rnd/GLnexus)
 Joint variant caller based on `.g.vcf` files from deeptrio or other sources. Can be used for family trios as well as larger cohorts.
 
