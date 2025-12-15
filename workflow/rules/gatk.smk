@@ -141,3 +141,35 @@ rule gatk_mutect2_merge_stats:
         "(gatk MergeMutectStats "
         "-O {output.stats} "
         "-stats {params.stats}) &> {log}"
+
+
+rule gatk_split_n_cigar_reads:
+    input:
+        bam="alignment/star/{sample}_{type}.bam",
+        bai="alignment/star/{sample}_{type}.bam.bai",
+        ref=config.get("reference", {}).get("fasta", ""),
+    output:
+        bam=temp("snv_indels/gatk_split_n_cigar_reads/{sample}_{type}.bam"),
+    params:
+        extra=config.get("gatk_split_n_cigar_reads", {}).get("extra", ""),
+        java_opts=config.get("gatk_split_n_cigar_reads", {}).get("java_opts", ""),
+    log:
+        "snv_indels/gatk_split_n_cigar_reads/{sample}_{type}.bam.log",
+    benchmark:
+        repeat(
+            "snv_indels/gatk_split_n_cigar_reads/{sample}_{type}.bam.benchmark.tsv",
+            config.get("gatk_split_n_cigar_reads", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("gatk_split_n_cigar_reads", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("gatk_split_n_cigar_reads", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("gatk_split_n_cigar_reads", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("gatk_split_n_cigar_reads", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("gatk_split_n_cigar_reads", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("gatk_split_n_cigar_reads", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("gatk_split_n_cigar_reads", {}).get("container", config["default_container"])
+    message:
+        "{rule}: split n cigar reads on {input.bam}"
+    wrapper:
+        "v3.3.0/bio/gatk/splitncigarreads"

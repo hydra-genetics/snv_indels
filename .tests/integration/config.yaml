@@ -29,6 +29,9 @@ haplotypecaller:
 gatk_mutect2:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
+gatk_split_n_cigar_reads:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
 gatk_mutect2_filter:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 

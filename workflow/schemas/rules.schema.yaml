@@ -580,6 +580,32 @@ properties:
             type: string
             description: soft filtered `.vcf.gz` file with called snv and indels
 
+  gatk_split_n_cigar_reads:
+    type: object
+    description: input and output parameters for gatk_split_n_cigar_reads
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: aligned bam file from star aligner
+          bai:
+            type: string
+            description: bam index file
+          ref:
+            type: string
+            description: fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          bam:
+            type: string
+            description: bam file with split reads
+
+
   gatk_mutect2_merge_stats:
     type: object
     description: input and output parameters for gatk_mutect2_merge_stats
