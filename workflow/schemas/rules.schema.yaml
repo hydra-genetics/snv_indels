@@ -1036,27 +1036,3 @@ properties:
           output1:
             type: string
             description: phased variants in VCF format (gzipped)
-
-
-# Entry added using Hydra-Genetics CLI - please move it into alphabetically sorted order
-  gatk_split_n_cigar_reads:
-    type: object
-    description: input and output parameters for gatk_split_n_cigar_reads
-    properties:
-      input:
-        type: object
-        description: list of inputs
-        properties:
-          input1:
-            type: string
-            description: description input1
-            #value: set to override value in table, else remove
-
-      output:
-        type: object
-        description: list of outputs
-        properties:
-          output1:
-            type: string
-            description: description output1
-            #value: set to override value in table, else remove
