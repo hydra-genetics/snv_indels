@@ -343,6 +343,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             ],
             "haplotypecaller": [
                 "normalized.sorted.vcf.gz",
+                "bcftools_norm.sorted.vcf.gz",
             ],
         }
         output_files = [

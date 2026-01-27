@@ -54,6 +54,26 @@ properties:
             type: string
             description: concatenated `.vcf` file.
 
+  bcftools_norm:
+    type: object
+    description: input and output parameters for bcftools_norm
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          input1:
+            type: string
+            description: vcf to be normalised
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: normalised vcf
+
+
   bcftools_sort:
     type: object
     description: input and output parameters for bcftools_sort
@@ -1010,3 +1030,4 @@ properties:
           output1:
             type: string
             description: phased variants in VCF format (gzipped)
+
