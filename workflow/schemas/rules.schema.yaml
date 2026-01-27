@@ -62,9 +62,12 @@ properties:
         type: object
         description: list of inputs
         properties:
-          input1:
+          vcf:
             type: string
             description: vcf to be normalised
+          ref:
+            type: string
+            description: fasta reference genome file
       output:
         type: object
         description: list of outputs
