@@ -46,6 +46,29 @@ Concatenate `.vcf` files from different chromosomes using bcftools concat.
 
 ---
 
+## [bcftools_norm](https://samtools.github.io/bcftools/bcftools.html)
+Normalise a `.vcf` file with bcftools norm
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__bcftools__bcftools_norm#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__bcftools__bcftools_norm#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__bcftools_norm#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__bcftools_norm#
+
+---
+
 ## [bcftools_sort](https://samtools.github.io/bcftools/bcftools.html)
 Sort a `.vcf` file using bcfools sort.
 

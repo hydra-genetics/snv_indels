@@ -16,6 +16,9 @@ bcbio_variation_recall_ensemble:
     - gatk_mutect2
     - freebayes
 
+bcftools_norm:
+  extra: "-m - "
+
 glnexus:
   container: "docker://hydragenetics/glnexus:1.4.1"
   configfile: "DeepVariantWES"

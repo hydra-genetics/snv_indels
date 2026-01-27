@@ -74,6 +74,20 @@ properties:
       extra:
         type: string
         description: parameters that should be forwarded
+  
+  bcftools_norm:
+    type: object
+    description: parameters for bcftools_norm
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
 
   bcftools_sort:
     type: object
