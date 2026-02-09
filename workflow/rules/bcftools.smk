@@ -98,3 +98,33 @@ rule bcftools_view:
         "{rule}: convert {input.bcf} to {output.vcf}"
     wrapper:
         "v1.25.0/bio/bcftools/view"
+
+
+rule bcftools_norm:
+    input:
+        vcf="snv_indels/{caller}/{sample}_{type}.fix_af.vcf.gz",
+        ref=config.get("reference", {}).get("fasta", ""),
+    output:
+        vcf="snv_indels/{caller}/{sample}_{type}.bcftools_norm.vcf.gz",
+    params:
+        extra=config.get("bcftools_norm", {}).get("extra", ""),
+    log:
+        "snv_indels/{caller}/{sample}_{type}.bcftools_norm.vcf.gz.log",
+    benchmark:
+        repeat(
+            "snv_indels/{caller}/{sample}_{type}.bcftools_norm.vcf.gz.benchmark.tsv",
+            config.get("bcftools_norm", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("bcftools_norm", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("bcftools_norm", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("bcftools_norm", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("bcftools_norm", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("bcftools_norm", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("bcftools_norm", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("bcftools_norm", {}).get("container", config["default_container"])
+    message:
+        "{rule}: normalize {input.vcf}"
+    wrapper:
+        "v1.25.0/bio/bcftools/norm"
