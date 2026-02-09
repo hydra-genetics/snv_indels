@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/hydra-genetics/snv_indels/compare/v2.0.0...v2.1.0) (2026-02-09)
+
+
+### Features
+
+* add bcftools norm ([b26fd27](https://github.com/hydra-genetics/snv_indels/commit/b26fd27cb1706d698df9691c6fb7a1883e91571b))
+
 ## [1.3.1](https://github.com/hydra-genetics/snv_indels/compare/v1.3.0...v1.3.1) (2025-11-06)
 
 
