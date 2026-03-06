@@ -864,3 +864,49 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 
 #RESOURCESSCHEMA__vt_normalize#
 
+---
+
+## [whatshap_haplotag](https://whatshap.readthedocs.io/en/latest/guide.html#whatshap-haplotag)
+If you already have a phased VCF and would like to know which reads in an alignment file belong to which haplotype, you can use whatshap haplotag. The tagged reads can then be visualized along with the variants.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__whatshap__whatshap_haplotag#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__whatshap__whatshap_haplotag#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__whatshap_haplotag#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__whatshap_haplotag#
+
+---
+
+## [whatshap_phase](https://whatshap.readthedocs.io/en/latest/guide.html)
+WhatsHap is a read-based phasing tool. In the typical case, it expects 1) a VCF file with variants of an individual and 2) a BAM or CRAM file with sequencing reads from that same individual. WhatsHap uses the sequencing reads to reconstruct the haplotypes and then writes out the input VCF augmented with phasing information.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__whatshap__whatshap_phase#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__whatshap__whatshap_phase#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__whatshap_phase#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__whatshap_phase#
+
