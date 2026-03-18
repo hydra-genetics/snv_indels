@@ -204,7 +204,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-simg
       - name: Add SylabsCloud remote for Apptainer
-        run: apptainer remote add --no-login SylabsCloud cloud.sycloud.io
+        run: |
+          apptainer remote list | grep -q 'SylabsCloud' || \
+          apptainer remote add --no-login SylabsCloud cloud.sycloud.io
       - name: Integration test - short read
         working-directory: .tests/integration
         run: |
