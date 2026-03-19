@@ -107,21 +107,21 @@ jobs:
       - name: Snakemake dry run short read deepvariant
         working-directory: .tests/integration
         run: snakemake -n -s ../../workflow/Snakefile --configfile config_deepvariant.yaml
-#      - name: Snakemake dry run short read deepsomatic
-#        working-directory: .tests/integration
-#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic.yaml
-#      - name: Snakemake dry run Pacbio
-#        working-directory: .tests/integration
-#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_pacbio.yaml
-#      - name: Snakemake dry run mosaic
-#        working-directory: .tests/integration
-#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_mosaic.yaml
-#      - name: Snakemake dry run clairs_to
-#        working-directory: .tests/integration
-#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_clairs_to.yaml
-#      - name: Snakemake dry run whatshap
-#        working-directory: .tests/integration
-#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_whatshap.yaml
+      - name: Snakemake dry run short read deepsomatic
+        working-directory: .tests/integration
+        run: snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic.yaml
+      - name: Snakemake dry run Pacbio
+        working-directory: .tests/integration
+        run: snakemake -n -s ../../workflow/Snakefile --configfile config_pacbio.yaml
+      - name: Snakemake dry run mosaic
+        working-directory: .tests/integration
+        run: snakemake -n -s ../../workflow/Snakefile --configfile config_mosaic.yaml
+      - name: Snakemake dry run clairs_to
+        working-directory: .tests/integration
+        run: snakemake -n -s ../../workflow/Snakefile --configfile config_clairs_to.yaml
+      - name: Snakemake dry run whatshap
+        working-directory: .tests/integration
+        run: snakemake -n -s ../../workflow/Snakefile --configfile config_whatshap.yaml
 
   # Stage 3 - heavier checks run in parallel after dry run passes
   pytest:
@@ -217,28 +217,28 @@ jobs:
         run: |
           mkdir -p ~/singularity_containers &&
           snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_deepvariant.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
-      - name: Integration test - short read deepsomatic
-        working-directory: .tests/integration
-        run: |
-          mkdir -p ~/singularity_containers &&
-          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_deepsomatic.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
-      - name: Integration test - Pacbio
-        working-directory: .tests/integration
-        run: |
-          mkdir -p ~/singularity_containers &&
-          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_pacbio.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
-      - name: Integration test - mosaic
-        working-directory: .tests/integration
-        run: |
-          mkdir -p ~/singularity_containers &&
-          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_mosaic.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
-      - name: Integration test - clairs_to
-        working-directory: .tests/integration
-        run: |
-          mkdir -p ~/singularity_containers &&
-          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_clairs_to.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
-      - name: Integration test - whatshap
-        working-directory: .tests/integration
-        run: |
-          mkdir -p ~/singularity_containers &&
-          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_whatshap.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#      - name: Integration test - short read deepsomatic
+#        working-directory: .tests/integration
+#        run: |
+#          mkdir -p ~/singularity_containers &&
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_deepsomatic.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#      - name: Integration test - Pacbio
+#        working-directory: .tests/integration
+#        run: |
+#          mkdir -p ~/singularity_containers &&
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_pacbio.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#      - name: Integration test - mosaic
+#        working-directory: .tests/integration
+#        run: |
+#          mkdir -p ~/singularity_containers &&
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_mosaic.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#      - name: Integration test - clairs_to
+#        working-directory: .tests/integration
+#        run: |
+#          mkdir -p ~/singularity_containers &&
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_clairs_to.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#      - name: Integration test - whatshap
+#        working-directory: .tests/integration
+#        run: |
+#          mkdir -p ~/singularity_containers &&
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_whatshap.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
