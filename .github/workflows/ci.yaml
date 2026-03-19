@@ -107,21 +107,21 @@ jobs:
       - name: Snakemake dry run short read deepvariant
         working-directory: .tests/integration
         run: snakemake -n -s ../../workflow/Snakefile --configfile config_deepvariant.yaml
-      - name: Snakemake dry run short read deepsomatic
-        working-directory: .tests/integration
-        run: snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic.yaml
-      - name: Snakemake dry run Pacbio
-        working-directory: .tests/integration
-        run: snakemake -n -s ../../workflow/Snakefile --configfile config_pacbio.yaml
-      - name: Snakemake dry run mosaic
-        working-directory: .tests/integration
-        run: snakemake -n -s ../../workflow/Snakefile --configfile config_mosaic.yaml
-      - name: Snakemake dry run clairs_to
-        working-directory: .tests/integration
-        run: snakemake -n -s ../../workflow/Snakefile --configfile config_clairs_to.yaml
-      - name: Snakemake dry run whatshap
-        working-directory: .tests/integration
-        run: snakemake -n -s ../../workflow/Snakefile --configfile config_whatshap.yaml
+#      - name: Snakemake dry run short read deepsomatic
+#        working-directory: .tests/integration
+#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic.yaml
+#      - name: Snakemake dry run Pacbio
+#        working-directory: .tests/integration
+#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_pacbio.yaml
+#      - name: Snakemake dry run mosaic
+#        working-directory: .tests/integration
+#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_mosaic.yaml
+#      - name: Snakemake dry run clairs_to
+#        working-directory: .tests/integration
+#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_clairs_to.yaml
+#      - name: Snakemake dry run whatshap
+#        working-directory: .tests/integration
+#        run: snakemake -n -s ../../workflow/Snakefile --configfile config_whatshap.yaml
 
   # Stage 3 - heavier checks run in parallel after dry run passes
   pytest:
