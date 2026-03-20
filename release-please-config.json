@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "package-name": "snv_indels",
+      "changelog-path": "CHANGELOG.md",
+      "include-v-in-tag": true,
+      "include-component-in-tag": false,
+      "draft": false,
+      "prerelease": false
+    }
+  },
+  "bootstrap-sha": "c2cd92464b701455eef5d0089a18ee897db7bb09"
+}
