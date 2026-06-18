@@ -508,6 +508,29 @@ Mutect2 is used to generate a genome vcf file containing allele information for 
 
 ---
 
+## [gatk_selectvariants_gvcf_to_vcf](https://gatk.broadinstitute.org/hc/en-us/articles/360037052712-SelectVariants)
+Extracts variant-only sites from a Mutect2 gVCF, replacing a separate VCF-mode Mutect2 call and saving approximately half the Mutect2 compute time. The Mutect2 stats file is passed through from the gVCF run so that downstream filtering steps (`gatk_mutect2_merge_stats`, `gatk_mutect2_filter`) continue to work unchanged. Activate in a pipeline with `ruleorder: gatk_selectvariants_gvcf_to_vcf > gatk_mutect2`.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__gatk__gatk_selectvariants_gvcf_to_vcf#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__gatk__gatk_selectvariants_gvcf_to_vcf#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__gatk_selectvariants_gvcf_to_vcf#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__gatk_selectvariants_gvcf_to_vcf#
+
+---
+
 ## [gatk_mutect2_filter](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2)
 Step 3 of 4 of Mutect2 variant calling filtering the called variants using the merged statistics file.
 

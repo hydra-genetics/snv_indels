@@ -75,6 +75,53 @@ rule gatk_mutect2_gvcf:
         "v1.5.0/bio/gatk/mutect"
 
 
+rule gatk_selectvariants_gvcf_to_vcf:
+    """Extract variant-only sites from a Mutect2 gVCF, replacing a separate
+    VCF-mode Mutect2 call. The gVCF stats are passed through unchanged so that
+    downstream gatk_mutect2_merge_stats / gatk_mutect2_filter rules continue to
+    work without modification.
+
+    Enable in a pipeline with:
+        ruleorder: gatk_selectvariants_gvcf_to_vcf > gatk_mutect2
+    """
+    input:
+        gvcf="snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz",
+        tbi="snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.tbi",
+        stats="snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.stats",
+        fasta=config.get("reference", {}).get("fasta", ""),
+    output:
+        vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz"),
+        tbi=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.tbi"),
+        stats=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.stats"),
+    params:
+        extra=config.get("gatk_selectvariants_gvcf_to_vcf", {}).get("extra", "--exclude-non-variants --remove-unused-alternates"),
+    log:
+        "snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.selectvariants.log",
+    benchmark:
+        repeat(
+            "snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.selectvariants.benchmark.tsv",
+            config.get("gatk_selectvariants_gvcf_to_vcf", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("gatk_selectvariants_gvcf_to_vcf", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("gatk_selectvariants_gvcf_to_vcf", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("gatk_selectvariants_gvcf_to_vcf", {}).get(
+            "mem_per_cpu", config["default_resources"]["mem_per_cpu"]
+        ),
+        partition=config.get("gatk_selectvariants_gvcf_to_vcf", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("gatk_selectvariants_gvcf_to_vcf", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("gatk_selectvariants_gvcf_to_vcf", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("gatk_selectvariants_gvcf_to_vcf", {}).get("container", config["default_container"])
+    message:
+        "{rule}: extract variants from gVCF {input.gvcf}"
+    shell:
+        """
+        gatk SelectVariants -R {input.fasta} -V {input.gvcf} -O {output.vcf} {params.extra} 2> {log}
+        cp {input.stats} {output.stats}
+        """
+
+
 rule gatk_mutect2_filter:
     input:
         vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz",

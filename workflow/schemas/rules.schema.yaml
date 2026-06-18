@@ -575,6 +575,40 @@ properties:
             type: string
             description: tabix file index (`.g.vcf.gz.tbi`)
 
+  gatk_selectvariants_gvcf_to_vcf:
+    type: object
+    description: input and output parameters for gatk_selectvariants_gvcf_to_vcf
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          gvcf:
+            type: string
+            description: compressed gVCF produced by gatk_mutect2_gvcf
+          tbi:
+            type: string
+            description: tabix index for the gVCF
+          stats:
+            type: string
+            description: Mutect2 stats file produced alongside the gVCF
+          fasta:
+            type: string
+            description: fasta reference genome file
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: compressed VCF containing only variant sites extracted from the gVCF (same path as gatk_mutect2 output)
+          tbi:
+            type: string
+            description: tabix index for the VCF
+          stats:
+            type: string
+            description: Mutect2 stats file passed through from the gVCF run (same path as gatk_mutect2 stats output)
+
   gatk_mutect2_filter:
     type: object
     description: input and output parameters for gatk_mutect2_filter

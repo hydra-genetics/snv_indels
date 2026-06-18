@@ -397,6 +397,20 @@ properties:
         type: string
         description: parameters that should be forwarded
 
+  gatk_selectvariants_gvcf_to_vcf:
+    type: object
+    description: parameters for gatk_selectvariants_gvcf_to_vcf — extracts variant-only sites from a Mutect2 gVCF, replacing a separate gatk_mutect2 VCF-mode call. Activate with ruleorder gatk_selectvariants_gvcf_to_vcf > gatk_mutect2.
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: additional SelectVariants parameters (default -- exclude-non-variants --remove-unused-alternates)
+
   gatk_mutect2_merge_stats:
     type: object
     description: parameters for gatk_mutect2_merge_stats
