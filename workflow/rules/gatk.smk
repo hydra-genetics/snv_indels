@@ -48,6 +48,8 @@ rule gatk_mutect2_gvcf:
         fasta=config.get("reference", {}).get("fasta", ""),
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
+        bam=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.bam"),
+        bai=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.bai"),
         stats=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.stats"),
         vcf=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz"),
         tbi=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.tbi"),
@@ -77,9 +79,10 @@ rule gatk_mutect2_gvcf:
 
 rule gatk_selectvariants_gvcf_to_vcf:
     """Extract variant-only sites from a Mutect2 gVCF, replacing a separate
-    VCF-mode Mutect2 call. The gVCF stats are passed through unchanged so that
-    downstream gatk_mutect2_merge_stats / gatk_mutect2_filter rules continue to
-    work without modification.
+    VCF-mode Mutect2 call. The gVCF stats and the locally reassembled bam are
+    passed through unchanged so that downstream gatk_mutect2_merge_stats /
+    gatk_mutect2_filter / alignment_samtools_merge_bam_mutect2-style rules
+    continue to work without modification.
 
     Enable in a pipeline with:
         ruleorder: gatk_selectvariants_gvcf_to_vcf > gatk_mutect2
@@ -88,11 +91,15 @@ rule gatk_selectvariants_gvcf_to_vcf:
         gvcf="snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz",
         tbi="snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.tbi",
         stats="snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.stats",
+        bam="snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.bam",
+        bai="snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.bai",
         fasta=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz"),
         tbi=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.tbi"),
         stats=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.stats"),
+        bam=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.bam"),
+        bai=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.bai"),
     params:
         extra=config.get("gatk_selectvariants_gvcf_to_vcf", {}).get("extra", "--exclude-non-variants --remove-unused-alternates"),
     log:
@@ -119,6 +126,8 @@ rule gatk_selectvariants_gvcf_to_vcf:
         """
         gatk SelectVariants -R {input.fasta} -V {input.gvcf} -O {output.vcf} {params.extra} 2> {log}
         cp {input.stats} {output.stats}
+        cp {input.bam} {output.bam}
+        cp {input.bai} {output.bai}
         """
 
 
