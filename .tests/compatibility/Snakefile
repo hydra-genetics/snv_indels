@@ -44,3 +44,10 @@ module snv_indels:
 
 
 use rule * from snv_indels as snv_indels_*
+
+
+# gatk_mutect2 and gatk_selectvariants_gvcf_to_vcf both produce
+# snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.{vcf.gz,vcf.gz.tbi,vcf.gz.stats,bam,bai} -
+# the module takes no default stance, so every consumer must declare its own
+# preference. This mirrors the default (non-speedup) behavior.
+ruleorder: snv_indels_gatk_mutect2 > snv_indels_gatk_selectvariants_gvcf_to_vcf
