@@ -36,11 +36,12 @@ ruleorder: clairs_to_call > bgzip
 ruleorder: clairs_to_concat > bgzip
 ruleorder: deepsomatic_t_only > bgzip
 ruleorder: deepsomatic_tn > bgzip
-#ruleorder: gatk_mutect2 > gatk_selectvariants_gvcf_to_vcf
 ruleorder: gatk_mutect2 > bgzip
 ruleorder: gatk_mutect2 > tabix
 ruleorder: gatk_mutect2_gvcf > bgzip
 ruleorder: gatk_mutect2_gvcf > tabix
+ruleorder: gatk_selectvariants_gvcf_to_vcf > bgzip
+ruleorder: gatk_selectvariants_gvcf_to_vcf > tabix
 ruleorder: gatk_mutect2_filter > bgzip
 ruleorder: mutect2_pass_filter > bgzip
 ruleorder: vt_decompose > bgzip
