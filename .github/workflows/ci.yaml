@@ -47,7 +47,7 @@ jobs:
         run: pip install -r requirements.txt
       - name: Linting
         working-directory: .tests/integration
-        run: snakemake --lint -n -s ../../workflow/Snakefile --configfile config.yaml
+        run: snakemake --lint -n -s Snakefile.test --configfile config.yaml
 
   pycodestyle:
     name: pycodestyle
@@ -103,7 +103,7 @@ jobs:
           pip install -r requirements.txt
       - name: Snakemake dry run short read
         working-directory: .tests/integration
-        run: snakemake -n -s ../../workflow/Snakefile --configfile config.yaml
+        run: snakemake -n -s Snakefile.test all --configfile config.yaml
       - name: Snakemake dry run short read deepvariant
         working-directory: .tests/integration
         run: snakemake -n -s ../../workflow/Snakefile --configfile config_deepvariant.yaml
@@ -211,7 +211,7 @@ jobs:
         working-directory: .tests/integration
         run: |
           mkdir -p ~/singularity_containers &&
-          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+          snakemake -s Snakefile.test all -j 4 --show-failed-logs --configfile config.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
       - name: Integration test - short read deepvariant
         working-directory: .tests/integration
         run: |
