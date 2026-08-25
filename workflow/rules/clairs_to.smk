@@ -18,7 +18,7 @@ rule clairs_to_call:
         platform=config.get("clairs_to_call", {}).get("platform", ""),
         snv_min_af=config.get("clairs_to_call", {}).get("snv_min_af", 0.05),
         indel_min_af=config.get("clairs_to_call", {}).get("indel_min_af", 0.1),
-        outdir=directory(lambda w, output: os.path.dirname(output[0])),
+        outdir=lambda w, output: os.path.dirname(output[0]),
     log:
         "snv_indels/clairs_to/{sample}_{type}.output.log",
     benchmark:

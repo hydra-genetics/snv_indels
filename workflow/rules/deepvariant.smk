@@ -11,9 +11,11 @@ rule deepvariant:
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/deepvariant/{sample}_{type}_{chr}.vcf.gz"),
-        gvcf=temp("snv_indels/deepvariant/{sample}_{type}_{chr}.g.vcf.gz")
-        if config.get("deepvariant", {}).get("output_gvcf", False)
-        else [],
+        gvcf=(
+            temp("snv_indels/deepvariant/{sample}_{type}_{chr}.g.vcf.gz")
+            if config.get("deepvariant", {}).get("output_gvcf", False)
+            else []
+        ),
     params:
         model_type=config.get("deepvariant", {}).get("model_type", ""),
         output_gvcf=lambda wildcards: get_gvcf_output(wildcards, "deepvariant"),
@@ -58,9 +60,11 @@ rule deepvariant_pacbio:
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/deepvariant/{sample}_{type}_{chr}.vcf.gz"),
-        gvcf=temp("snv_indels/deepvariant/{sample}_{type}_{chr}.g.vcf.gz")
-        if config.get("deepvariant", {}).get("output_gvcf", False)
-        else [],
+        gvcf=(
+            temp("snv_indels/deepvariant/{sample}_{type}_{chr}.g.vcf.gz")
+            if config.get("deepvariant", {}).get("output_gvcf", False)
+            else []
+        ),
     params:
         model_type=config.get("deepvariant", {}).get("model_type", "PACBIO"),
         output_gvcf=lambda wildcards: get_gvcf_output(wildcards, "deepvariant"),

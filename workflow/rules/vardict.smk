@@ -33,4 +33,4 @@ rule vardict:
     message:
         "{rule}: call variants in {input.bam}"
     wrapper:
-        "v1.3.1/bio/vardict"
+        "v9.16.0/bio/vardict"

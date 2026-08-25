@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 description: snakemake rule input and output files description file
 type: object
 properties:
@@ -481,7 +481,7 @@ properties:
           ref:
             type: string
             description: fasta reference genome file
-          samples:
+          alns:
             type: string
             description: chromosome split bam file
           indexes:
@@ -537,7 +537,7 @@ properties:
           tbi:
             type: string
             description: tabix file index (`.vcf.gz.tbi`)
-          f1f2:
+          f1r2:
             type: string
             description: file with an orientation bias model that can be used for variant filtering
 

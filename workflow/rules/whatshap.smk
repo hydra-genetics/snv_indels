@@ -67,4 +67,4 @@ rule whatshap_haplotag:
     message:
         "{rule}: do haplotagging on {input.aln}"
     wrapper:
-        "v6.0.0/bio/whatshap/haplotag"
+        "v9.16.0/bio/whatshap/haplotag"

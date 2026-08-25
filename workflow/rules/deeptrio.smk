@@ -72,9 +72,11 @@ rule deeptrio_call_variants:
     output:
         outfile=temp("snv_indels/deeptrio/{sample}_{type}/call_variants_output_{trio_member}.tfrecord.gz"),
     params:
-        cuda="CUDA_VISIBLE_DEVICES={}".format(os.getenv("CUDA_VISIBLE_DEVICES"))
-        if os.getenv("CUDA_VISIBLE_DEVICES") is not None
-        else "",
+        cuda=(
+            "CUDA_VISIBLE_DEVICES={}".format(os.getenv("CUDA_VISIBLE_DEVICES"))
+            if os.getenv("CUDA_VISIBLE_DEVICES") is not None
+            else ""
+        ),
         examples=lambda wildcards, output: get_make_examples_tfrecord(
             wildcards, output, config.get("deeptrio_make_examples", {}).get("n_shards", 2), program="deeptrio"
         ),

@@ -3,17 +3,21 @@ __copyright__ = "Copyright 2021, Patrik Smeds"
 __email__ = "patrik.smeds@scilifelab.uu.se"
 __license__ = "GPL-3"
 
+import os
 import pandas as pd
+import re
+import sys
 
 from hydra_genetics.utils.misc import extract_chr, get_input_aligned_bam
 from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
 from snakemake.exceptions import WorkflowError
+from snakemake.iocontainers import Namedlist, Wildcards
 from snakemake.utils import min_version
 from snakemake.utils import validate
 
-min_version("7.8.0")
+min_version("9.0.0")
 
 ### Set and validate config file
 
@@ -46,17 +50,17 @@ wildcard_constraints:
     chr="[^.]+",
     flowcell="[A-Z0-9]+",
     lane="L[0-9]+",
-    sample="|".join(get_samples(samples)),
+    sample="|".join(re.escape(s) for s in get_samples(samples)),
     type="N|T|R",
     vcf="vcf|g.vcf|unfiltered.vcf",
-    file="^snv_indels/.+",
+    file="snv_indels/.+",
 
 
-def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
+def get_bvre_params_sort_order(wildcards: Wildcards):
     return ",".join(config.get("bcbio_variation_recall_ensemble", {}).get("callers", ""))
 
 
-def get_java_opts(wildcards: snakemake.io.Wildcards):
+def get_java_opts(wildcards: Wildcards):
     java_opts = config.get("haplotypecaller", {}).get("java_opts", "")
     if "-Xmx" in java_opts:
         raise WorkflowError("You are not allowed to use -Xmx in java_opts. Set mem_mb in resources instead.")
@@ -64,22 +68,10 @@ def get_java_opts(wildcards: snakemake.io.Wildcards):
     return java_opts
 
 
-def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
-    extra = "{} {}".format(
-        config.get(name, {}).get("extra", ""),
-        "--intervals snv_indels/bed_split/design_bedfile_{}.bed".format(
-            wildcards.chr,
-        ),
-    )
-    if name == "gatk_mutect2":
-        extra = "{} {}".format(
-            extra,
-            "--f1r2-tar-gz snv_indels/gatk_mutect2/{}_{}_{}.unfiltered.f1r2.tar.gz".format(
-                wildcards.sample,
-                wildcards.type,
-                wildcards.chr,
-            ),
-        )
+def get_gatk_mutect2_extra(wildcards: Wildcards, name: str):
+    # --intervals and --f1r2-tar-gz are added by the wrapper from input.intervals
+    # and output.f1r2, so they must not be repeated here.
+    extra = config.get(name, {}).get("extra", "")
     if name == "gatk_mutect2_gvcf":
         extra = "{} {}".format(extra, "-ERC BP_RESOLUTION")
     return extra
@@ -110,9 +102,7 @@ def get_parent_bams(wildcards):
     return bam_list
 
 
-def get_make_examples_tfrecord(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, nshards: int, program="deepvariant"
-):
+def get_make_examples_tfrecord(wildcards: Wildcards, input: Namedlist, nshards: int, program="deepvariant"):
     examples_path = os.path.split(input[0])[0]
 
     if program == "deepvariant":
@@ -133,9 +123,7 @@ def get_deeptrio_model(wildcards):
     return model_file
 
 
-def deeptrio_postprocess_variants_args(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, me_config: str, extra: str
-):
+def deeptrio_postprocess_variants_args(wildcards: Wildcards, input: Namedlist, me_config: str, extra: str):
     me_path = os.path.split(input.call_variants_record)[0]
     nshards = config.get(me_config).get("n_shards", 2)
     gvcf_tfrecord = "{}/gvcf_{}.tfrecord@{}.gz".format(me_path, wildcards.trio_member, nshards)
@@ -151,12 +139,12 @@ def get_glnexus_input(wildcards, input):
     return gvcf_input
 
 
-def compile_output_list(wildcards: snakemake.io.Wildcards):
+def compile_output_list(wildcards: Wildcards):
     """
     Compile and return a list of expected output files for the workflow based on the configuration and sample/unit information.
 
     Args:
-        wildcards (snakemake.io.Wildcards): Wildcards object containing sample and type information.
+        wildcards (Wildcards): Wildcards object containing sample and type information.
 
     Returns:
         list: A list of output file paths as strings.

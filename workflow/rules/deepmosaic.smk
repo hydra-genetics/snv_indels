@@ -40,7 +40,7 @@ rule deepmosaic_input:
 
 rule deepmosaic_draw:
     input:
-        annovar=config.get("reference", {}).get("annovar", ""),
+        annovar=config.get("reference", {}).get("annovar", []),
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         txt="snv_indels/deepmosaic/{sample}_{type}.input.txt",
