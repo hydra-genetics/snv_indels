@@ -515,7 +515,7 @@ properties:
           fasta:
             type: string
             description: fasta reference genome file
-          bed:
+          intervals:
             type: string
             description: chromosome split bed file with regions in that should be used in calling
       output:
@@ -558,7 +558,7 @@ properties:
           fasta:
             type: string
             description: fasta reference genome file
-          bed:
+          intervals:
             type: string
             description: chromosome split bed file with regions in that should be used in calling
       output:
