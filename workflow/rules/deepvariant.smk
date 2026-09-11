@@ -8,7 +8,7 @@ rule deepvariant:
     input:
         bam="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
         bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
-        ref=config.get("reference", {}).get("fasta", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
     output:
         vcf=temp("snv_indels/deepvariant/{sample}_{type}_{chr}.vcf.gz"),
         gvcf=(
@@ -17,7 +17,7 @@ rule deepvariant:
             else []
         ),
     params:
-        model_type=config.get("deepvariant", {}).get("model_type", ""),
+        model_type=lambda wildcards: get_config_value("deepvariant", "model_type"),
         output_gvcf=lambda wildcards: get_gvcf_output(wildcards, "deepvariant"),
         int_res=lambda wildcards: f"snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}_{wildcards.chr}",
         regions=lambda wildcards: f" --regions {wildcards.chr} ",
@@ -57,7 +57,7 @@ rule deepvariant_pacbio:
     input:
         bam="alignment/pbmm2_align/{sample}_{type}.bam",
         bai="alignment/pbmm2_align/{sample}_{type}.bam.bai",
-        ref=config.get("reference", {}).get("fasta", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
     output:
         vcf=temp("snv_indels/deepvariant/{sample}_{type}_{chr}.vcf.gz"),
         gvcf=(

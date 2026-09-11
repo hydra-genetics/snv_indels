@@ -87,7 +87,7 @@ rule mosaicforecast_phasing:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
-        fasta=config.get("reference", {}).get("fasta", ""),
+        fasta=lambda wildcards: get_config_value("reference", "fasta"),
         variants="snv_indels/mosaicforecast_input/{sample}_{type}.input",
     output:
         all_candidates=temp("snv_indels/mosaicforecast_phasing/{sample}_{type}/all_candidates"),
@@ -99,11 +99,11 @@ rule mosaicforecast_phasing:
         tmpdir=temp(directory("snv_indels/mosaicforecast_phasing/{sample}_{type}/tmp")),
     params:
         extra=config.get("mosaicforecast_phasing", {}).get("extra", ""),
-        f_format=config.get("mosaicforecast_phasing", {}).get("f_format", ""),
+        f_format=lambda wildcards: get_config_value("mosaicforecast_phasing", "f_format"),
         min_dp=config.get("mosaicforecast_phasing", {}).get("min_dp", "20"),
         path=lambda wildcards, input: os.path.dirname(input[0]),
         outdir=lambda wildcards: f"snv_indels/mosaicforecast_phasing/{wildcards.sample}_{wildcards.type}",
-        umap=config.get("mosaicforecast_phasing", {}).get("umap", ""),
+        umap=lambda wildcards: get_config_value("mosaicforecast_phasing", "umap"),
     log:
         "snv_indels/mosaicforecast_phasing/{sample}_{type}.mosaicforecast_phasing.log",
     benchmark:
@@ -139,16 +139,16 @@ rule mosaicforecast_readlevel:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
-        fasta=config.get("reference", {}).get("fasta", ""),
+        fasta=lambda wildcards: get_config_value("reference", "fasta"),
         variants="snv_indels/mosaicforecast_input/{sample}_{type}.input",
     output:
         features=temp("snv_indels/mosaicforecast_readlevel/{sample}_{type}/features.txt"),
         features_tmp=temp("snv_indels/mosaicforecast_readlevel/{sample}_{type}/features.txt.tmp"),
     params:
         extra=config.get("mosaicforecast_readlevel", {}).get("extra", ""),
-        f_format=config.get("mosaicforecast_readlevel", {}).get("f_format", ""),
+        f_format=lambda wildcards: get_config_value("mosaicforecast_readlevel", "f_format"),
         path=lambda w, input: os.path.dirname(input[0]),
-        umap=config.get("mosaicforecast_readlevel", {}).get("umap", ""),
+        umap=lambda wildcards: get_config_value("mosaicforecast_readlevel", "umap"),
     log:
         "snv_indels/mosaicforecast_readlevel/{sample}_{type}.mosaicforecast_readlevel.log",
     benchmark:

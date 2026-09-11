@@ -8,7 +8,7 @@ rule gatk_mutect2:
     input:
         map="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
         bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
-        fasta=config.get("reference", {}).get("fasta", ""),
+        fasta=lambda wildcards: get_config_value("reference", "fasta"),
         intervals="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         bam=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.bam"),
@@ -45,7 +45,7 @@ rule gatk_mutect2_gvcf:
     input:
         map="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
         bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
-        fasta=config.get("reference", {}).get("fasta", ""),
+        fasta=lambda wildcards: get_config_value("reference", "fasta"),
         intervals="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         stats=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.stats"),
@@ -80,7 +80,7 @@ rule gatk_mutect2_filter:
         vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz",
         tbi="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz.tbi",
         stats="snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats",
-        ref=config.get("reference", {}).get("fasta", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
     output:
         vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz"),
     params:

@@ -8,14 +8,14 @@ rule clairs_to_call:
     input:
         bam=lambda wildcards: get_input_aligned_bam(wildcards, config)[0],
         bai=lambda wildcards: get_input_aligned_bam(wildcards, config)[1],
-        ref=config.get("reference", {}).get("fasta", ""),
-        bed=config.get("reference", {}).get("design_bed", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
+        bed=lambda wildcards: get_config_value("reference", "design_bed"),
     output:
         snv=temp("snv_indels/clairs_to/{sample}_{type}_snv.vcf.gz"),
         indel=temp("snv_indels/clairs_to/{sample}_{type}_indel.vcf.gz"),
     params:
         extra=config.get("clairs_to_call", {}).get("extra", ""),
-        platform=config.get("clairs_to_call", {}).get("platform", ""),
+        platform=lambda wildcards: get_config_value("clairs_to_call", "platform"),
         snv_min_af=config.get("clairs_to_call", {}).get("snv_min_af", 0.05),
         indel_min_af=config.get("clairs_to_call", {}).get("indel_min_af", 0.1),
         outdir=lambda w, output: os.path.dirname(output[0]),

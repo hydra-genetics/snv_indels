@@ -103,7 +103,7 @@ rule bcftools_view:
 rule bcftools_norm:
     input:
         vcf="snv_indels/{caller}/{sample}_{type}.fix_af.vcf.gz",
-        ref=config.get("reference", {}).get("fasta", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
     output:
         vcf="snv_indels/{caller}/{sample}_{type}.bcftools_norm.vcf.gz",
     params:

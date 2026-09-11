@@ -5,9 +5,9 @@ units: "units.tsv"
 default_container: "docker://hydragenetics/common:3.1.1"
 
 reference:
-  fasta: ""
-  fai: ""
-  design_bed: ""
+  fasta: "reference/HES45.fna"
+  fai: "reference/HES45.fna.fai"
+  design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
 
 bcbio_variation_recall_ensemble:
   container: "docker://gmsuppsala/somatic:develop"
@@ -81,17 +81,17 @@ merge_af_complex_variants:
 
 mosaicforecast_genotype_prediction:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  model_trained: "" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
-  model_type: ""  # Phase/Refine
+  model_trained: "200xRFmodel_addRMSK_Refine.rds" # or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_type: "Refine"  # Phase/Refine
 
 mosaicforecast_phasing:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  f_format: "" # cram/bam
+  f_format: "bam" # cram/bam
   umap: "/usr/local/bin/k24.umap.wg.bw"
 
 mosaicforecast_readlevel:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  f_format: "" # cram/bam
+  f_format: "bam" # cram/bam
   umap: "/usr/local/bin/k24.umap.wg.bw"
 
 mutect2_pass_filter:

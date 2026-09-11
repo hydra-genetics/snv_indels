@@ -56,8 +56,45 @@ wildcard_constraints:
     file="snv_indels/.+",
 
 
+# Sentinel separating "no default given, so this entry is required" from a default of
+# None, [] or "", each of which is a value a caller may legitimately want back.
+_REQUIRED = object()
+
+
+def get_config_value(*keys, default=_REQUIRED):
+    """
+    Fetch a value from the config, failing with a message that names the missing entry.
+
+    Defaulting to "" is not usable here: an empty string reaches Snakemake either as
+    a rule input, where it aborts with a MissingInputException that lists no file, or
+    as a params value, where it silently produces a malformed shell command. Call this
+    from an input/params function so the check stays lazy -- a workflow that never uses
+    the rule does not have to configure it.
+
+    Pass default=[] for an input file that the rule can run without. Snakemake reads an
+    empty list as "no file", which is what "" was never able to express. Without a
+    default the entry is required, and a missing or blank one raises.
+    """
+    value = config
+    for i, key in enumerate(keys):
+        if not isinstance(value, dict) or key not in value:
+            if default is not _REQUIRED:
+                return default
+            missing = ":".join(keys[: i + 1])
+            raise WorkflowError(f"snv_indels: missing config entry '{missing}', required by the rule being run")
+        value = value[key]
+
+    if not isinstance(value, str) or not value.strip():
+        if default is not _REQUIRED:
+            return default
+        name = ":".join(keys)
+        raise WorkflowError(f"snv_indels: config entry '{name}' must be a non-empty string, got {repr(value)}")
+
+    return value
+
+
 def get_bvre_params_sort_order(wildcards: Wildcards):
-    return ",".join(config.get("bcbio_variation_recall_ensemble", {}).get("callers", ""))
+    return ",".join(config.get("bcbio_variation_recall_ensemble", {}).get("callers", []))
 
 
 def get_java_opts(wildcards: Wildcards):
@@ -114,13 +151,9 @@ def get_make_examples_tfrecord(wildcards: Wildcards, input: Namedlist, nshards: 
 
 
 def get_deeptrio_model(wildcards):
-    models_config = config.get("deeptrio_call_variants", {}).get("model", "")
-    if wildcards.trio_member in ["parent1", "parent2"]:
-        model_file = models_config.get("parent", "")
-    else:
-        model_file = models_config.get("child", "")
+    member = "parent" if wildcards.trio_member in ["parent1", "parent2"] else "child"
 
-    return model_file
+    return get_config_value("deeptrio_call_variants", "model", member)
 
 
 def deeptrio_postprocess_variants_args(wildcards: Wildcards, input: Namedlist, me_config: str, extra: str):

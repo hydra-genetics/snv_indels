@@ -9,7 +9,7 @@ rule deeptrio_make_examples:
         child_bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         child_bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         parent_bams=lambda wildcards: get_parent_bams(wildcards),
-        ref=config.get("reference", {}).get("fasta", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
     output:
         examples=temp(
             expand(
@@ -117,7 +117,7 @@ rule deeptrio_postprocess_variants:
             shard=[f"{x:05}" for x in range(config.get("deeptrio_make_examples", {}).get("n_shards", 2))],
             nshards=config.get("deeptrio_make_examples", {}).get("n_shards", 2),
         ),
-        ref=config.get("reference", {}).get("fasta", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
     output:
         vcf="snv_indels/deeptrio/{sample}_{type}/{trio_member}.vcf",
         gvcf="snv_indels/deeptrio/{sample}_{type}/{trio_member}.g.vcf",
