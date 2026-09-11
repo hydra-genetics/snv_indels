@@ -8,15 +8,15 @@ rule gatk_mutect2:
     input:
         map="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
         bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
-        fasta=config.get("reference", {}).get("fasta", ""),
-        bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
+        fasta=lambda wildcards: get_config_value("reference", "fasta"),
+        intervals="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         bam=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.bam"),
         bai=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.bai"),
         stats=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.stats"),
         vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz"),
         tbi=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.vcf.gz.tbi"),
-        f1f2=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.f1r2.tar.gz"),
+        f1r2=temp("snv_indels/gatk_mutect2/{sample}_{type}_{chr}.unfiltered.f1r2.tar.gz"),
     params:
         extra=lambda wildcards: get_gatk_mutect2_extra(wildcards, "gatk_mutect2"),
     log:
@@ -38,15 +38,15 @@ rule gatk_mutect2:
     message:
         "{rule}: call variants in {input.map}"
     wrapper:
-        "v1.5.0/bio/gatk/mutect"
+        "v9.16.0/bio/gatk/mutect"
 
 
 rule gatk_mutect2_gvcf:
     input:
         map="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
         bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
-        fasta=config.get("reference", {}).get("fasta", ""),
-        bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
+        fasta=lambda wildcards: get_config_value("reference", "fasta"),
+        intervals="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
         stats=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz.stats"),
         vcf=temp("snv_indels/gatk_mutect2_gvcf/{sample}_{type}_{chr}.g.vcf.gz"),
@@ -72,7 +72,7 @@ rule gatk_mutect2_gvcf:
     message:
         "{rule}: generate gvcf from {input.map}"
     wrapper:
-        "v1.5.0/bio/gatk/mutect"
+        "v9.16.0/bio/gatk/mutect"
 
 
 rule gatk_mutect2_filter:
@@ -80,7 +80,7 @@ rule gatk_mutect2_filter:
         vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz",
         tbi="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz.tbi",
         stats="snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats",
-        ref=config.get("reference", {}).get("fasta", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
     output:
         vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz"),
     params:
@@ -104,7 +104,7 @@ rule gatk_mutect2_filter:
     message:
         "{rule}: softfilter mutect2 variants in {input.vcf} to {output.vcf}"
     wrapper:
-        "v1.5.0/bio/gatk/filtermutectcalls"
+        "v9.16.0/bio/gatk/filtermutectcalls"
 
 
 rule gatk_mutect2_merge_stats:

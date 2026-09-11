@@ -41,7 +41,7 @@ rule bcftools_concat:
     message:
         "{rule}: concatenate {input.calls}"
     wrapper:
-        "v1.25.0/bio/bcftools/concat"
+        "v9.16.0/bio/bcftools/concat"
 
 
 rule bcftools_sort:
@@ -68,7 +68,7 @@ rule bcftools_sort:
     message:
         "{rule}: sort {input.vcf}"
     wrapper:
-        "v1.25.0/bio/bcftools/sort"
+        "v9.16.0/bio/bcftools/sort"
 
 
 rule bcftools_view:
@@ -97,13 +97,13 @@ rule bcftools_view:
     message:
         "{rule}: convert {input.bcf} to {output.vcf}"
     wrapper:
-        "v1.25.0/bio/bcftools/view"
+        "v9.16.0/bio/bcftools/view"
 
 
 rule bcftools_norm:
     input:
         vcf="snv_indels/{caller}/{sample}_{type}.fix_af.vcf.gz",
-        ref=config.get("reference", {}).get("fasta", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
     output:
         vcf="snv_indels/{caller}/{sample}_{type}.bcftools_norm.vcf.gz",
     params:
@@ -127,4 +127,4 @@ rule bcftools_norm:
     message:
         "{rule}: normalize {input.vcf}"
     wrapper:
-        "v1.25.0/bio/bcftools/norm"
+        "v9.16.0/bio/bcftools/norm"

@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: "3.12"
           cache: "pip"
           cache-dependency-path: requirements.txt
       - name: Install dependencies
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: "3.12"
           cache: "pip"
           cache-dependency-path: |
             requirements.txt
@@ -75,15 +75,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_SNAKEMAKE_SNAKEFMT: true
-          OUTPUT_FOLDER: .github/linters/report
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: requirements.test.txt
+      - name: Install dependencies
+        run: pip install -r requirements.test.txt
+      - name: Check snakemake formatting
+        run: snakefmt --check --config .github/linters/.snakefmt.toml workflow/
 
   # Stage 2 - dry run after stage 1 passes
   dry-run:
@@ -94,7 +94,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: "3.12"
           cache: "pip"
           cache-dependency-path: |
             requirements.txt
@@ -132,7 +132,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: "3.12"
           cache: "pip"
           cache-dependency-path: |
             requirements.txt
@@ -155,7 +155,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: "3.12"
           cache: "pip"
           cache-dependency-path: |
             requirements.txt
@@ -176,7 +176,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: "3.12"
           cache: "pip"
           cache-dependency-path: |
             requirements.txt
@@ -195,14 +195,14 @@ jobs:
           apptainer-version: 1.4.5
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Cache SIMG images
-        id: cache-simg
+      - name: Cache Apptainer images
+        id: cache-apptainer
         uses: actions/cache@v4
         with:
           path: ~/singularity_containers
-          key: ${{ runner.os }}-simg-${{ hashFiles('config/**/*.yaml', '.tests/integration/*.yaml', 'workflow/Snakefile') }}
+          key: ${{ runner.os }}-apptainer-${{ hashFiles('config/**/*.yaml', '.tests/integration/*.yaml', 'workflow/Snakefile') }}
           restore-keys: |
-            ${{ runner.os }}-simg
+            ${{ runner.os }}-apptainer
       - name: Add SylabsCloud remote for Apptainer
         run: |
           apptainer remote list | grep -q 'SylabsCloud' || \
@@ -211,34 +211,34 @@ jobs:
         working-directory: .tests/integration
         run: |
           mkdir -p ~/singularity_containers &&
-          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config.yaml --software-deployment-method apptainer --apptainer-args "--cleanenv --bind /home/runner" --apptainer-prefix ~/singularity_containers/
       - name: Integration test - short read deepvariant
         working-directory: .tests/integration
         run: |
           mkdir -p ~/singularity_containers &&
-          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_deepvariant.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_deepvariant.yaml --software-deployment-method apptainer --apptainer-args "--cleanenv --bind /home/runner" --apptainer-prefix ~/singularity_containers/
 #      - name: Integration test - short read deepsomatic
 #        working-directory: .tests/integration
 #        run: |
 #          mkdir -p ~/singularity_containers &&
-#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_deepsomatic.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_deepsomatic.yaml --software-deployment-method apptainer --apptainer-args "--cleanenv --bind /home/runner" --apptainer-prefix ~/singularity_containers/
 #      - name: Integration test - Pacbio
 #        working-directory: .tests/integration
 #        run: |
 #          mkdir -p ~/singularity_containers &&
-#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_pacbio.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_pacbio.yaml --software-deployment-method apptainer --apptainer-args "--cleanenv --bind /home/runner" --apptainer-prefix ~/singularity_containers/
 #      - name: Integration test - mosaic
 #        working-directory: .tests/integration
 #        run: |
 #          mkdir -p ~/singularity_containers &&
-#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_mosaic.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_mosaic.yaml --software-deployment-method apptainer --apptainer-args "--cleanenv --bind /home/runner" --apptainer-prefix ~/singularity_containers/
 #      - name: Integration test - clairs_to
 #        working-directory: .tests/integration
 #        run: |
 #          mkdir -p ~/singularity_containers &&
-#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_clairs_to.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_clairs_to.yaml --software-deployment-method apptainer --apptainer-args "--cleanenv --bind /home/runner" --apptainer-prefix ~/singularity_containers/
 #      - name: Integration test - whatshap
 #        working-directory: .tests/integration
 #        run: |
 #          mkdir -p ~/singularity_containers &&
-#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_whatshap.yaml --use-singularity --singularity-args " --cleanenv --bind /home/runner " --singularity-prefix ~/singularity_containers/
+#          snakemake -s ../../workflow/Snakefile -j 4 --show-failed-logs --configfile config_whatshap.yaml --software-deployment-method apptainer --apptainer-args "--cleanenv --bind /home/runner" --apptainer-prefix ~/singularity_containers/

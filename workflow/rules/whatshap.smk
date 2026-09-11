@@ -8,7 +8,7 @@ rule whatshap_phase:
     input:
         bam=lambda wildcards: get_input_aligned_bam(wildcards, config)[0],
         bai=lambda wildcards: get_input_aligned_bam(wildcards, config)[1],
-        fasta=config.get("reference", {}).get("fasta", ""),
+        fasta=lambda wildcards: get_config_value("reference", "fasta"),
         vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
     output:
         vcf=temp("snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz"),
@@ -40,8 +40,8 @@ rule whatshap_haplotag:
     input:
         aln=lambda wildcards: get_input_aligned_bam(wildcards, config)[0],
         bai=lambda wildcards: get_input_aligned_bam(wildcards, config)[1],
-        ref=config.get("reference", {}).get("fasta", ""),
-        fai=config.get("reference", {}).get("fai", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
+        fai=lambda wildcards: get_config_value("reference", "fai"),
         vcf="snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz",
         tbi="snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz.tbi",
     output:
@@ -67,4 +67,4 @@ rule whatshap_haplotag:
     message:
         "{rule}: do haplotagging on {input.aln}"
     wrapper:
-        "v6.0.0/bio/whatshap/haplotag"
+        "v9.16.0/bio/whatshap/haplotag"

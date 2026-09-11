@@ -8,7 +8,7 @@ rule hiphase:
     input:
         bam="alignment/pbmm2_align/{sample}_{type}.bam",
         bai="alignment/pbmm2_align/{sample}_{type}.bam.bai",
-        ref=config.get("reference", {}).get("fasta", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
         snv_vcf="snv_indels/deepvariant/{sample}_{type}.merged.vcf.gz",
         snv_tbi="snv_indels/deepvariant/{sample}_{type}.merged.vcf.gz.tbi",
         sv_vcf="cnv_sv/pbsv/{sample}_{type}.vcf.gz" if config.get("hiphase", {}).get("sv_caller", False) else [],
@@ -19,26 +19,38 @@ rule hiphase:
         bam=temp("snv_indels/hiphase/{sample}_{type}.haplotagged.bam"),
         bai=temp("snv_indels/hiphase/{sample}_{type}.haplotagged.bam.bai"),
         snv_vcf=temp("snv_indels/hiphase/{sample}_{type}.deepvariant.phased.vcf.gz"),
-        sv_vcf=temp("snv_indels/hiphase/{sample}_{type}.pbsv.phased.vcf.gz")
-        if config.get("hiphase", {}).get("sv_caller", False)
-        else [],
-        str_vcf=temp("snv_indels/hiphase/{sample}_{type}.trgt.phased.vcf.gz")
-        if config.get("hiphase", {}).get("str_caller", False)
-        else [],
+        sv_vcf=(
+            temp("snv_indels/hiphase/{sample}_{type}.pbsv.phased.vcf.gz")
+            if config.get("hiphase", {}).get("sv_caller", False)
+            else []
+        ),
+        str_vcf=(
+            temp("snv_indels/hiphase/{sample}_{type}.trgt.phased.vcf.gz")
+            if config.get("hiphase", {}).get("str_caller", False)
+            else []
+        ),
     params:
         extra=config.get("hiphase", {}).get("extra", ""),
-        in_sv_vcf=lambda wildcards: f"--vcf cnv_sv/pbsv/{wildcards.sample}_{wildcards.type}.vcf.gz"
-        if config.get("hiphase", {}).get("sv_caller", False)
-        else "",
-        out_sv_vcf=lambda wildcards: f"--output-vcf snv_indels/hiphase/{wildcards.sample}_{wildcards.type}.pbsv.phased.vcf.gz"
-        if config.get("hiphase", {}).get("sv_caller", False)
-        else "",
-        in_str_vcf=lambda wildcards: f"--vcf cnv_sv/trgt/{wildcards.sample}_{wildcards.type}.vcf.gz"
-        if config.get("hiphase", {}).get("str_caller", False)
-        else "",
-        out_str_vcf=lambda wildcards: f"--output-vcf snv_indels/hiphase/{wildcards.sample}_{wildcards.type}.trgt.phased.vcf.gz"
-        if config.get("hiphase", {}).get("str_caller", False)
-        else "",
+        in_sv_vcf=lambda wildcards: (
+            f"--vcf cnv_sv/pbsv/{wildcards.sample}_{wildcards.type}.vcf.gz"
+            if config.get("hiphase", {}).get("sv_caller", False)
+            else ""
+        ),
+        out_sv_vcf=lambda wildcards: (
+            f"--output-vcf snv_indels/hiphase/{wildcards.sample}_{wildcards.type}.pbsv.phased.vcf.gz"
+            if config.get("hiphase", {}).get("sv_caller", False)
+            else ""
+        ),
+        in_str_vcf=lambda wildcards: (
+            f"--vcf cnv_sv/trgt/{wildcards.sample}_{wildcards.type}.vcf.gz"
+            if config.get("hiphase", {}).get("str_caller", False)
+            else ""
+        ),
+        out_str_vcf=lambda wildcards: (
+            f"--output-vcf snv_indels/hiphase/{wildcards.sample}_{wildcards.type}.trgt.phased.vcf.gz"
+            if config.get("hiphase", {}).get("str_caller", False)
+            else ""
+        ),
     log:
         "snv_indels/hiphase/{sample}_{type}.haplotagged.bam.log",
     benchmark:

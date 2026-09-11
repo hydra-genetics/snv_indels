@@ -3,17 +3,21 @@ __copyright__ = "Copyright 2021, Patrik Smeds"
 __email__ = "patrik.smeds@scilifelab.uu.se"
 __license__ = "GPL-3"
 
+import os
 import pandas as pd
+import re
+import sys
 
 from hydra_genetics.utils.misc import extract_chr, get_input_aligned_bam
 from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
 from snakemake.exceptions import WorkflowError
+from snakemake.iocontainers import Namedlist, Wildcards
 from snakemake.utils import min_version
 from snakemake.utils import validate
 
-min_version("7.8.0")
+min_version("9.0.0")
 
 ### Set and validate config file
 
@@ -46,17 +50,54 @@ wildcard_constraints:
     chr="[^.]+",
     flowcell="[A-Z0-9]+",
     lane="L[0-9]+",
-    sample="|".join(get_samples(samples)),
+    sample="|".join(re.escape(s) for s in get_samples(samples)),
     type="N|T|R",
     vcf="vcf|g.vcf|unfiltered.vcf",
-    file="^snv_indels/.+",
+    file="snv_indels/.+",
 
 
-def get_bvre_params_sort_order(wildcards: snakemake.io.Wildcards):
-    return ",".join(config.get("bcbio_variation_recall_ensemble", {}).get("callers", ""))
+# Sentinel separating "no default given, so this entry is required" from a default of
+# None, [] or "", each of which is a value a caller may legitimately want back.
+_REQUIRED = object()
 
 
-def get_java_opts(wildcards: snakemake.io.Wildcards):
+def get_config_value(*keys, default=_REQUIRED):
+    """
+    Fetch a value from the config, failing with a message that names the missing entry.
+
+    Defaulting to "" is not usable here: an empty string reaches Snakemake either as
+    a rule input, where it aborts with a MissingInputException that lists no file, or
+    as a params value, where it silently produces a malformed shell command. Call this
+    from an input/params function so the check stays lazy -- a workflow that never uses
+    the rule does not have to configure it.
+
+    Pass default=[] for an input file that the rule can run without. Snakemake reads an
+    empty list as "no file", which is what "" was never able to express. Without a
+    default the entry is required, and a missing or blank one raises.
+    """
+    value = config
+    for i, key in enumerate(keys):
+        if not isinstance(value, dict) or key not in value:
+            if default is not _REQUIRED:
+                return default
+            missing = ":".join(keys[: i + 1])
+            raise WorkflowError(f"snv_indels: missing config entry '{missing}', required by the rule being run")
+        value = value[key]
+
+    if not isinstance(value, str) or not value.strip():
+        if default is not _REQUIRED:
+            return default
+        name = ":".join(keys)
+        raise WorkflowError(f"snv_indels: config entry '{name}' must be a non-empty string, got {repr(value)}")
+
+    return value
+
+
+def get_bvre_params_sort_order(wildcards: Wildcards):
+    return ",".join(config.get("bcbio_variation_recall_ensemble", {}).get("callers", []))
+
+
+def get_java_opts(wildcards: Wildcards):
     java_opts = config.get("haplotypecaller", {}).get("java_opts", "")
     if "-Xmx" in java_opts:
         raise WorkflowError("You are not allowed to use -Xmx in java_opts. Set mem_mb in resources instead.")
@@ -64,22 +105,10 @@ def get_java_opts(wildcards: snakemake.io.Wildcards):
     return java_opts
 
 
-def get_gatk_mutect2_extra(wildcards: snakemake.io.Wildcards, name: str):
-    extra = "{} {}".format(
-        config.get(name, {}).get("extra", ""),
-        "--intervals snv_indels/bed_split/design_bedfile_{}.bed".format(
-            wildcards.chr,
-        ),
-    )
-    if name == "gatk_mutect2":
-        extra = "{} {}".format(
-            extra,
-            "--f1r2-tar-gz snv_indels/gatk_mutect2/{}_{}_{}.unfiltered.f1r2.tar.gz".format(
-                wildcards.sample,
-                wildcards.type,
-                wildcards.chr,
-            ),
-        )
+def get_gatk_mutect2_extra(wildcards: Wildcards, name: str):
+    # --intervals and --f1r2-tar-gz are added by the wrapper from input.intervals
+    # and output.f1r2, so they must not be repeated here.
+    extra = config.get(name, {}).get("extra", "")
     if name == "gatk_mutect2_gvcf":
         extra = "{} {}".format(extra, "-ERC BP_RESOLUTION")
     return extra
@@ -110,9 +139,7 @@ def get_parent_bams(wildcards):
     return bam_list
 
 
-def get_make_examples_tfrecord(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, nshards: int, program="deepvariant"
-):
+def get_make_examples_tfrecord(wildcards: Wildcards, input: Namedlist, nshards: int, program="deepvariant"):
     examples_path = os.path.split(input[0])[0]
 
     if program == "deepvariant":
@@ -124,18 +151,12 @@ def get_make_examples_tfrecord(
 
 
 def get_deeptrio_model(wildcards):
-    models_config = config.get("deeptrio_call_variants", {}).get("model", "")
-    if wildcards.trio_member in ["parent1", "parent2"]:
-        model_file = models_config.get("parent", "")
-    else:
-        model_file = models_config.get("child", "")
+    member = "parent" if wildcards.trio_member in ["parent1", "parent2"] else "child"
 
-    return model_file
+    return get_config_value("deeptrio_call_variants", "model", member)
 
 
-def deeptrio_postprocess_variants_args(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, me_config: str, extra: str
-):
+def deeptrio_postprocess_variants_args(wildcards: Wildcards, input: Namedlist, me_config: str, extra: str):
     me_path = os.path.split(input.call_variants_record)[0]
     nshards = config.get(me_config).get("n_shards", 2)
     gvcf_tfrecord = "{}/gvcf_{}.tfrecord@{}.gz".format(me_path, wildcards.trio_member, nshards)
@@ -151,12 +172,12 @@ def get_glnexus_input(wildcards, input):
     return gvcf_input
 
 
-def compile_output_list(wildcards: snakemake.io.Wildcards):
+def compile_output_list(wildcards: Wildcards):
     """
     Compile and return a list of expected output files for the workflow based on the configuration and sample/unit information.
 
     Args:
-        wildcards (snakemake.io.Wildcards): Wildcards object containing sample and type information.
+        wildcards (Wildcards): Wildcards object containing sample and type information.
 
     Returns:
         list: A list of output file paths as strings.
