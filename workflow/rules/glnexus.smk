@@ -12,7 +12,7 @@ rule glnexus:
         dir=temp(directory("snv_indels/glnexus/{sample}_{type}/GLnexus.DB")),
     params:
         extra=config.get("glnexus", {}).get("extra", ""),
-        glnexus_config=config.get("glnexus", {}).get("configfile", ""),
+        glnexus_config=lambda wildcards: get_config_value("glnexus", "configfile"),
         in_gvcf=lambda wildcards, input: get_glnexus_input(wildcards, input),
     log:
         "snv_indels/glnexus/{sample}_{type}.bcf.log",

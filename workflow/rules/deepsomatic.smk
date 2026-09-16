@@ -8,14 +8,14 @@ rule deepsomatic_t_only:
     input:
         bam=lambda wildcards: get_input_aligned_bam(wildcards, config)[0],
         bai=lambda wildcards: get_input_aligned_bam(wildcards, config)[1],
-        ref=config.get("reference", {}).get("fasta", ""),
-        bed=config.get("reference", {}).get("design_bed", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
+        bed=lambda wildcards: get_config_value("reference", "design_bed"),
     output:
         tmpdir=temp(directory("snv_indels/deepsomatic_t_only/{sample}_{type}.tmp")),
         vcf=temp("snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz"),
     params:
         extra=config.get("deepsomatic_t_only", {}).get("extra", ""),
-        model=config.get("deepsomatic_t_only", {}).get("model", ""),
+        model=lambda wildcards: get_config_value("deepsomatic_t_only", "model"),
         name=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
         pon=config.get("deepsomatic_t_only", {}).get("pon", ""),
     log:
@@ -60,14 +60,14 @@ rule deepsomatic_tn:
         tumor="alignment/samtools_merge_bam/{sample}_T.bam",
         bai_n="alignment/samtools_merge_bam/{sample}_N.bam.bai",
         bai_t="alignment/samtools_merge_bam/{sample}_T.bam.bai",
-        ref=config.get("reference", {}).get("fasta", ""),
-        bed=config.get("reference", {}).get("design_bed", ""),
+        ref=lambda wildcards: get_config_value("reference", "fasta"),
+        bed=lambda wildcards: get_config_value("reference", "design_bed"),
     output:
         tmpdir=temp(directory("snv_indels/deepsomatic_tn/{sample}.tmp")),
         vcf=temp("snv_indels/deepsomatic_tn/{sample}.vcf.gz"),
     params:
         extra=config.get("deepsomatic_tn", {}).get("extra", ""),
-        model=config.get("deepsomatic_tn", {}).get("model", ""),
+        model=lambda wildcards: get_config_value("deepsomatic_tn", "model"),
         name_n=lambda wildcards: f"{wildcards.sample}_N",
         name_t=lambda wildcards: f"{wildcards.sample}_T",
     log:

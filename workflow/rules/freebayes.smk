@@ -7,7 +7,7 @@ __license__ = "GPL-3"
 rule freebayes:
     input:
         ref=config["reference"]["fasta"],
-        samples="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        alns="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
         indexes="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         regions="snv_indels/bed_split/design_bedfile_{chr}.bed",
     output:
@@ -31,6 +31,6 @@ rule freebayes:
     container:
         config.get("freebayes", {}).get("container", config["default_container"])
     message:
-        "{rule}: call variants in {input.samples}"
+        "{rule}: call variants in {input.alns}"
     wrapper:
-        "v1.3.1/bio/freebayes"
+        "v9.16.0/bio/freebayes"

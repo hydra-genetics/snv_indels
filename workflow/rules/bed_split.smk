@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule bed_split:
     input:
-        bed=config.get("reference", {}).get("design_bed", ""),
+        bed=lambda wildcards: get_config_value("reference", "design_bed"),
     output:
         bed=temp("snv_indels/bed_split/design_bedfile_{chr}.bed"),
     log:

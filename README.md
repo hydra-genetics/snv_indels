@@ -6,12 +6,8 @@
 
 #### Snakemake module containing steps to call snv and small indels
 
-![Lint](https://github.com/hydra-genetics/snv_indels/actions/workflows/lint.yaml/badge.svg?branch=develop)
-![Snakefmt](https://github.com/hydra-genetics/snv_indels/actions/workflows/snakefmt.yaml/badge.svg?branch=develop)
-![pycodestyle](https://github.com/hydra-genetics/snv_indels/actions/workflows/pycodestyle.yaml/badge.svg?branch=develop)
-![pytest](https://github.com/hydra-genetics/snv_indels/actions/workflows/pytest.yaml/badge.svg?branch=develop)
-![snakemake dry run](https://github.com/hydra-genetics/prealignment/actions/workflows/snakemake-dry-run.yaml/badge.svg?branch=develop)
-![integration test](https://github.com/hydra-genetics/prealignment/actions/workflows/integration.yaml/badge.svg?branch=develop)
+[![CI](https://github.com/hydra-genetics/snv_indels/actions/workflows/ci.yaml/badge.svg?branch=develop)](https://github.com/hydra-genetics/snv_indels/actions/workflows/ci.yaml)
+[![build mkdocs](https://github.com/hydra-genetics/snv_indels/actions/workflows/test-build-mkdocs.yaml/badge.svg?branch=develop)](https://github.com/hydra-genetics/snv_indels/actions/workflows/test-build-mkdocs.yaml)
 
 [![License: GPL-3](https://img.shields.io/badge/License-GPL3-yellow.svg)](https://opensource.org/licenses/gpl-3.0.html)
 
@@ -39,11 +35,11 @@ Moreover, the output of DeepSomatic and Mutect2 in tumor-only settings can be pi
 
 In order to use this module, the following dependencies are required:
 
-[![hydra-genetics](https://img.shields.io/badge/hydragenetics-v0.9.2-blue)](https://github.com/hydra-genetics/)
+[![hydra-genetics](https://img.shields.io/badge/hydragenetics-3.4.0-blue)](https://github.com/hydra-genetics/)
 [![pandas](https://img.shields.io/badge/pandas-1.3.1-blue)](https://pandas.pydata.org/)
-[![python](https://img.shields.io/badge/python-3.8-blue)](https://www.python.org/)
-[![snakemake](https://img.shields.io/badge/snakemake-6.10.0-blue)](https://snakemake.readthedocs.io/en/stable/)
-[![singularity](https://img.shields.io/badge/singularity-3.0.0-blue)](https://sylabs.io/docs/)
+[![python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
+[![snakemake](https://img.shields.io/badge/snakemake-9.0.0-blue)](https://snakemake.readthedocs.io/en/stable/)
+[![apptainer](https://img.shields.io/badge/apptainer-1.4.5-blue)](https://apptainer.org/)
 
 *Note! Releases of snv_indels <= v0.2.0 needs tabulate<0.9.0 added in requirements.txt**
 
@@ -109,7 +105,8 @@ The workflow repository contains a small test dataset `.tests/integration` which
 ```bash
 $ cd .tests/integration
 $ apptainer remote add --no-login SylabsCloud cloud.sycloud.io  # if using DeepVariant or DeepMosaic
-$ snakemake -s ../../workflow/Snakefile -j1 --configfile <config_caller>.yaml --use-singularity --singularity-args " --cleanenv"
+$ snakemake -s ../../workflow/Snakefile -j1 --configfile <config_caller>.yaml \
+    --software-deployment-method apptainer --apptainer-args "--cleanenv"
 ```
 
 To test the standard pipeline for short-read data, replace `<config_caller>` with `config.yaml`.
