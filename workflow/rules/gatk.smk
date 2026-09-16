@@ -111,9 +111,7 @@ rule gatk_mutect2_merge_stats:
     input:
         stats=expand(
             "snv_indels/gatk_mutect2/{{sample}}_{{type}}_{chr}.unfiltered.vcf.gz.stats",
-            chr=extract_chr(
-                "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
-            ),
+            chr=chroms,
         ),
     output:
         stats=temp("snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats"),

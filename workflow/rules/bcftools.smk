@@ -8,15 +8,11 @@ rule bcftools_concat:
     input:
         calls=expand(
             "{{file}}_{chr}.{{vcf}}.gz",
-            chr=extract_chr(
-                "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
-            ),
+            chr=chroms,
         ),
         index=expand(
             "{{file}}_{chr}.{{vcf}}.gz.tbi",
-            chr=extract_chr(
-                "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
-            ),
+            chr=chroms,
         ),
     output:
         vcf=temp("{file}.merged.{vcf}"),

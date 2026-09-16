@@ -8,6 +8,7 @@ import pandas as pd
 import re
 import sys
 
+from hydra_genetics.utils.config import config_accessor
 from hydra_genetics.utils.misc import extract_chr, get_input_aligned_bam
 from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
@@ -42,13 +43,20 @@ if units.platform[0] in ["PACBIO", "ONT"]:
 else:  # assume that the platform Illumina data with a lane and flowcell columns
     units = units.set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False).sort_index()
 
+### Contigs the per-chromosome rules fan out over
+# Computed once here so the wildcard constraint below and the expand() calls in
+# bcftools.smk / gatk.smk cannot drift apart -- if they disagree, rules stop matching.
+chroms = extract_chr(
+    "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
+)
+
 ### Set wildcard constraints
 
 
 wildcard_constraints:
-    barcode="[A-Z+]+",
-    chr="[^.]+",
-    flowcell="[A-Z0-9]+",
+    barcode="[A-Z+-]+",
+    chr="|".join(re.escape(c) for c in chroms),
+    flowcell="[A-Z0-9-]+",
     lane="L[0-9]+",
     sample="|".join(re.escape(s) for s in get_samples(samples)),
     type="N|T|R",
@@ -56,41 +64,7 @@ wildcard_constraints:
     file="snv_indels/.+",
 
 
-# Sentinel separating "no default given, so this entry is required" from a default of
-# None, [] or "", each of which is a value a caller may legitimately want back.
-_REQUIRED = object()
-
-
-def get_config_value(*keys, default=_REQUIRED):
-    """
-    Fetch a value from the config, failing with a message that names the missing entry.
-
-    Defaulting to "" is not usable here: an empty string reaches Snakemake either as
-    a rule input, where it aborts with a MissingInputException that lists no file, or
-    as a params value, where it silently produces a malformed shell command. Call this
-    from an input/params function so the check stays lazy -- a workflow that never uses
-    the rule does not have to configure it.
-
-    Pass default=[] for an input file that the rule can run without. Snakemake reads an
-    empty list as "no file", which is what "" was never able to express. Without a
-    default the entry is required, and a missing or blank one raises.
-    """
-    value = config
-    for i, key in enumerate(keys):
-        if not isinstance(value, dict) or key not in value:
-            if default is not _REQUIRED:
-                return default
-            missing = ":".join(keys[: i + 1])
-            raise WorkflowError(f"snv_indels: missing config entry '{missing}', required by the rule being run")
-        value = value[key]
-
-    if not isinstance(value, str) or not value.strip():
-        if default is not _REQUIRED:
-            return default
-        name = ":".join(keys)
-        raise WorkflowError(f"snv_indels: config entry '{name}' must be a non-empty string, got {repr(value)}")
-
-    return value
+get_config_value = config_accessor(config, module="snv_indels")
 
 
 def get_bvre_params_sort_order(wildcards: Wildcards):
