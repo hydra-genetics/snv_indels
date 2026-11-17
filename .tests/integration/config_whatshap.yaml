@@ -14,8 +14,8 @@ reference:
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
   extra: ""
-  model: "PACBIO"
-  pon: "--use_default_pon_filtering=true"
+  model: "PACBIO_TUMOR_ONLY"
+  use_default_pon: true
 
 whatshap_haplotag:
   container: "docker://hydragenetics/whatshap:2.2"

@@ -12,10 +12,11 @@ reference:
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
   extra: ""
-  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
-  pon: "--use_default_pon_filtering=true" # or --pon_filtering="pon.vcf" --process_somatic=true or ""
+  model: "WGS_TUMOR_ONLY" # WGS_TUMOR_ONLY,WES_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY,FFPE_WGS_TUMOR_ONLY,FFPE_WES_TUMOR_ONLY
+  use_default_pon: true # use the PON bundled with DeepSomatic
+  # pon: "path/to/pon.vcf.gz" # custom PON, cannot be combined with use_default_pon: true
 
 deepsomatic_tn:
   container: "docker://google/deepsomatic:1.8.0"
   extra: ""
-  model: "WGS" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+  model: "WGS" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES

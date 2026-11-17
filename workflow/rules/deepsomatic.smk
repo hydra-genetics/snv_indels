@@ -10,6 +10,7 @@ rule deepsomatic_t_only:
         bai=lambda wildcards: get_input_aligned_bam(wildcards, config)[1],
         ref=config.get("reference", {}).get("fasta", ""),
         bed=config.get("reference", {}).get("design_bed", ""),
+        pon=config.get("deepsomatic_t_only", {}).get("pon") or [],
     output:
         tmpdir=temp(directory("snv_indels/deepsomatic_t_only/{sample}_{type}.tmp")),
         vcf=temp("snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz"),
@@ -17,7 +18,7 @@ rule deepsomatic_t_only:
         extra=config.get("deepsomatic_t_only", {}).get("extra", ""),
         model=config.get("deepsomatic_t_only", {}).get("model", ""),
         name=lambda wildcards: f"{wildcards.sample}_{wildcards.type}",
-        pon=config.get("deepsomatic_t_only", {}).get("pon", ""),
+        pon_arg=lambda wildcards, input: get_deepsomatic_pon_arg(input, config),
     log:
         "snv_indels/deepsomatic_t_only/{sample}_{type}.deepsomatic.log",
     benchmark:
@@ -35,7 +36,7 @@ rule deepsomatic_t_only:
     container:
         config.get("deepsomatic_t_only", {}).get("container", config["default_container"])
     message:
-        "{rule}: Calling small variants from short read data in tumour only sample with DeepSomatic from {input.bam}"
+        "{rule}: Calling small variants in tumour-only sample with DeepSomatic ({params.model}) from {input.bam}"
     shell:
         """
         run_deepsomatic \
@@ -49,8 +50,8 @@ rule deepsomatic_t_only:
         --vcf_stats_report=true \
         --intermediate_results_dir {output.tmpdir} \
         --regions={input.bed} \
-        {params.pon} \
-        {params.extra} 
+        {params.pon_arg} \
+        {params.extra}
         """
 
 
@@ -87,7 +88,7 @@ rule deepsomatic_tn:
     container:
         config.get("deepsomatic_tn", {}).get("container", config["default_container"])
     message:
-        "{rule}: Calling small variants from short read data in tumour/normal samples with DeepSomatic from {input.tumor}"
+        "{rule}: Calling small variants in tumour/normal samples with DeepSomatic ({params.model}) from {input.tumor}"
     shell:
         """
         run_deepsomatic \

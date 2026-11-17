@@ -296,6 +296,25 @@ Using only tumor to call somatic SNV and indel variant from both short and long-
 
 #CONFIGSCHEMA__deepsomatic_t_only#
 
+#### Panel of normals (PON) filtering
+
+Use either option below, not both:
+
+* `use_default_pon: true` uses the PON bundled with DeepSomatic for the selected model.
+* `pon: "path/to/pon.vcf.gz"` uses a custom PON. The file is a rule input, so it must exist and a change to it triggers a rerun.
+
+`model` must be a tumour-only model (`*_TUMOR_ONLY`). Tumour/normal models are only accepted by `deepsomatic_tn`.
+
+!!! warning "Migrating from older versions"
+    `pon` used to take raw command-line flags. It now takes a path. The workflow stops with an error if `pon` starts with `--`.
+
+    | Old config | New config |
+    | --- | --- |
+    | `pon: "--use_default_pon_filtering=true"` | `use_default_pon: true` |
+    | `pon: '--pon_filtering="pon.vcf" --process_somatic=true'` | `pon: "pon.vcf"` |
+    | `pon: ""` | remove `pon` (or set `use_default_pon: false`) |
+    | `model: "PACBIO"` (in `deepsomatic_t_only`) | `model: "PACBIO_TUMOR_ONLY"` |
+
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__deepsomatic_t_only#
