@@ -303,7 +303,10 @@ properties:
             description: fasta reference genome file
           pon:
             type: string
-            description: optional panel of normals VCF used for PON filtering (from config `deepsomatic_t_only.pon`)
+            description: optional bgzipped panel of normals VCF used for PON filtering (from config `deepsomatic_t_only.pon`)
+          pon_tbi:
+            type: string
+            description: tabix index of the panel of normals VCF, required when `pon` is set
       output:
         type: object
         description: list of outputs

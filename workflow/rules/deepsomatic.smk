@@ -11,6 +11,7 @@ rule deepsomatic_t_only:
         ref=config.get("reference", {}).get("fasta", ""),
         bed=config.get("reference", {}).get("design_bed", ""),
         pon=config.get("deepsomatic_t_only", {}).get("pon") or [],
+        pon_tbi=(f'{config["deepsomatic_t_only"]["pon"]}.tbi' if config.get("deepsomatic_t_only", {}).get("pon") else []),
     output:
         tmpdir=temp(directory("snv_indels/deepsomatic_t_only/{sample}_{type}.tmp")),
         vcf=temp("snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz"),

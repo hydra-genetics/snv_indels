@@ -110,6 +110,9 @@ jobs:
       - name: Snakemake dry run short read deepsomatic
         working-directory: .tests/integration
         run: snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic.yaml
+      - name: Snakemake dry run short read deepsomatic with custom PON
+        working-directory: .tests/integration
+        run: snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic_pon.yaml
       - name: Snakemake dry run Pacbio
         working-directory: .tests/integration
         run: snakemake -n -s ../../workflow/Snakefile --configfile config_pacbio.yaml

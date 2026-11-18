@@ -235,18 +235,21 @@ properties:
           - ONT_TUMOR_ONLY
           - FFPE_WGS_TUMOR_ONLY
           - FFPE_WES_TUMOR_ONLY
-        description: tumour-only DeepSomatic model matching the data type (passed to --model_type)
+        description: >
+          tumour-only DeepSomatic model matching the data type (passed to --model_type).
+          WES_TUMOR_ONLY, FFPE_WGS_TUMOR_ONLY and FFPE_WES_TUMOR_ONLY need DeepSomatic >= 1.9.0
       pon:
         type: string
+        pattern: "^$|\\.vcf\\.gz$"
         description: >
-          path to a panel of normals VCF; matching variants get the PON filter (passed as --pon_filtering).
-          Cannot be combined with `use_default_pon: true`
+          path to a bgzipped panel of normals VCF with a tabix index (`<pon>.tbi`) next to it; matching variants
+          get the PON filter (passed as --pon_filtering). Cannot be combined with `use_default_pon: true`
       use_default_pon:
         type: boolean
         default: false
         description: >
           use the panel of normals bundled with DeepSomatic for the chosen model (--use_default_pon_filtering=true).
-          Cannot be combined with `pon`
+          Cannot be combined with `pon`. For WES_TUMOR_ONLY this needs DeepSomatic >= 1.10.0; 1.9.0 silently skips it
     not:
       required:
         - pon

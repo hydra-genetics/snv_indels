@@ -25,7 +25,7 @@ repos:
 
       - id: snakemake-dry-run
         name: Snakemake dry run
-        entry: bash -c 'cd .tests/integration && snakemake -n -s ../../workflow/Snakefile --configfile config.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_deepvariant.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_pacbio.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_mosaic.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_clairs_to.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_whatshap.yaml'
+        entry: bash -c 'cd .tests/integration && snakemake -n -s ../../workflow/Snakefile --configfile config.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_deepvariant.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_deepsomatic_pon.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_pacbio.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_mosaic.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_clairs_to.yaml && snakemake -n -s ../../workflow/Snakefile --configfile config_whatshap.yaml'
         language: system
         pass_filenames: false
         files: ^(workflow/|\.tests/integration/config.*\.yaml)$

@@ -301,9 +301,16 @@ Using only tumor to call somatic SNV and indel variant from both short and long-
 Use either option below, not both:
 
 * `use_default_pon: true` uses the PON bundled with DeepSomatic for the selected model.
-* `pon: "path/to/pon.vcf.gz"` uses a custom PON. The file is a rule input, so it must exist and a change to it triggers a rerun.
+* `pon: "path/to/pon.vcf.gz"` uses a custom PON. It must be bgzipped and have a tabix index (`path/to/pon.vcf.gz.tbi`) next to it; DeepSomatic looks variants up in the PON by region, which needs the index. Both files are rule inputs, so they must exist, and a PON file newer than the outputs triggers a rerun. If you replace the PON with a file that has an older timestamp, force the rerun yourself (e.g. `--forcerun deepsomatic_t_only`).
+
+PON flags (`--pon_filtering`, `--use_default_pon_filtering`) are not allowed in `extra`; use `pon` or `use_default_pon` instead.
 
 `model` must be a tumour-only model (`*_TUMOR_ONLY`). Tumour/normal models are only accepted by `deepsomatic_tn`.
+
+DeepSomatic version requirements:
+
+* `WES_TUMOR_ONLY`, `FFPE_WGS_TUMOR_ONLY` and `FFPE_WES_TUMOR_ONLY` need DeepSomatic 1.9.0 or later. 1.8.0 rejects them at start-up.
+* `use_default_pon: true` with `WES_TUMOR_ONLY` needs DeepSomatic 1.10.0 or later. 1.9.0 runs without PON filtering and gives no warning.
 
 !!! warning "Migrating from older versions"
     `pon` used to take raw command-line flags. It now takes a path. The workflow stops with an error if `pon` starts with `--`.
@@ -311,8 +318,8 @@ Use either option below, not both:
     | Old config | New config |
     | --- | --- |
     | `pon: "--use_default_pon_filtering=true"` | `use_default_pon: true` |
-    | `pon: '--pon_filtering="pon.vcf" --process_somatic=true'` | `pon: "pon.vcf"` |
-    | `pon: ""` | remove `pon` (or set `use_default_pon: false`) |
+    | `pon: '--pon_filtering="pon.vcf.gz" --process_somatic=true'` | `pon: "pon.vcf.gz"` (bgzipped, with `pon.vcf.gz.tbi`) |
+    | `pon: ""` | remove `pon`, and make sure `use_default_pon` is `false` or absent |
     | `model: "PACBIO"` (in `deepsomatic_t_only`) | `model: "PACBIO_TUMOR_ONLY"` |
 
 #### Resources settings (`resources.yaml`)

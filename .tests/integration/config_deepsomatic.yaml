@@ -10,13 +10,13 @@ reference:
   design_bed: "reference/twist_DNA_solid.HES45.annotated.bed"
 
 deepsomatic_t_only:
-  container: "docker://google/deepsomatic:1.8.0"
+  container: "docker://google/deepsomatic:1.10.0"
   extra: ""
   model: "WGS_TUMOR_ONLY" # WGS_TUMOR_ONLY,WES_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY,FFPE_WGS_TUMOR_ONLY,FFPE_WES_TUMOR_ONLY
   use_default_pon: true # use the PON bundled with DeepSomatic
-  # pon: "path/to/pon.vcf.gz" # custom PON, cannot be combined with use_default_pon: true
+  # pon: "path/to/pon.vcf.gz" # custom bgzipped PON with .tbi index, cannot be combined with use_default_pon: true
 
 deepsomatic_tn:
-  container: "docker://google/deepsomatic:1.8.0"
+  container: "docker://google/deepsomatic:1.10.0"
   extra: ""
   model: "WGS" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES
