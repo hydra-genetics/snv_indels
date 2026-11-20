@@ -115,6 +115,29 @@ Convert bcftools `.bcf` binary file format to a `.vcf` file using bcftools.
 
 ---
 
+## [bcftools_view_tumor](https://samtools.github.io/bcftools/bcftools.html)
+Select the tumor sample by name from the filtered paired Mutect2 VCF.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__bcftools__bcftools_view_tumor#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__bcftools__bcftools_view_tumor#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__bcftools_view_tumor#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__bcftools_view_tumor#
+
+---
+
 ## [bed_split](https://linux.die.net/man/1/awk)
 Split a bed file into chromosomes using an awk command going by the first column (chromosome).
 
@@ -536,6 +559,7 @@ Mutect2 is used to generate a genome vcf file containing allele information for 
 
 ## [gatk_mutect2_filter](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2)
 Step 3 of 4 of Mutect2 variant calling filtering the called variants using the merged statistics file.
+The rule supports both `gatk_mutect2` and `gatk_mutect2_tn` through the `mutect_caller` wildcard, using the same filtering settings.
 
 ### :snake: Rule
 
@@ -559,6 +583,7 @@ Step 3 of 4 of Mutect2 variant calling filtering the called variants using the m
 
 ## [gatk_mutect2_merge_stats](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2)
 Step 2 of 4 of Mutect2 variant calling merging the statistics file.
+The rule supports both `gatk_mutect2` and `gatk_mutect2_tn` through the `mutect_caller` wildcard.
 
 ### :snake: Rule
 
@@ -577,6 +602,32 @@ Step 2 of 4 of Mutect2 variant calling merging the statistics file.
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__gatk_mutect2_merge_stats#
+
+---
+
+## [gatk_mutect2_tn](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2)
+Paired Mutect2 calling generates chromosome-split unfiltered VCFs, statistics, realigned BAMs and F1R2 counts.
+Default BAM read-group `SM` values are `{sample}_T` and `{sample}_N`.
+After filtering, the tumor is selected for AF harmonization and normalization.
+For review, target `snv_indels/gatk_mutect2_tn/{sample}_T.merged.softfiltered.vcf.gz` to retain both samples and rejected calls with filter labels.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__gatk__gatk_mutect2_tn#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__gatk__gatk_mutect2_tn#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__gatk_mutect2_tn#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__gatk_mutect2_tn#
 
 ---
 

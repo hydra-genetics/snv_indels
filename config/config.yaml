@@ -16,6 +16,9 @@ bcbio_variation_recall_ensemble:
     - gatk_mutect2
     - freebayes
 
+bcftools_view_tumor:
+  container: "docker://hydragenetics/common:3.1.1"
+
 clairs_to_call:
   container: "docker://hkubal/clairs-to:latest"
   platform: "ont_r10_guppy_sup_4khz"
@@ -75,6 +78,9 @@ gatk_mutect2_gvcf:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 gatk_mutect2_merge_stats:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+gatk_mutect2_tn:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 merge_af_complex_variants:

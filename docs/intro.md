@@ -83,6 +83,7 @@ Heterogeneity in the VAF-related fields and in the way of computing the VAF are 
 * `snv_indels/deepvariant/{sample}_{type}.merged.sorted.vcf.gz`
 * `snv_indels/freebayes/{sample}_{type}.merged.sorted.vcf.gz`
 * `snv_indels/gatk_mutect2/{sample}_{type}.merged.sorted.vcf.gz`
+* `snv_indels/gatk_mutect2_tn/{sample}_T.normalized.merged_af.sorted.vcf.gz` (tumor sample selected from paired calls)
 * `snv_indels/glnexus/{sample}_{type}.vcf.gz`
 * `snv_indels/haplotypecaller/{sample}_{type}.merged.sorted.vcf.gz`
 * `snv_indels/vardict/{sample}_{type}.merged.sorted.vcf.gz`

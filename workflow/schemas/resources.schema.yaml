@@ -129,6 +129,26 @@ properties:
         type: string
         description: max execution time
 
+  bcftools_view_tumor:
+    type: object
+    description: resource definitions for bcftools_view_tumor
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
   bed_split:
     type: object
     description: resource definitions for bed_split
@@ -472,7 +492,7 @@ properties:
 
   gatk_mutect2_filter:
     type: object
-    description: resource definitions for gatk_mutect2_filter
+    description: filtering resource definitions shared by gatk_mutect2 and gatk_mutect2_tn
     properties:
       mem_mb:
         type: integer
@@ -512,7 +532,27 @@ properties:
 
   gatk_mutect2_merge_stats:
     type: object
-    description: resource definitions for gatk_mutect2_merge_stats
+    description: statistics merging resource definitions shared by gatk_mutect2 and gatk_mutect2_tn
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
+  gatk_mutect2_tn:
+    type: object
+    description: resource definitions for gatk_mutect2_tn
     properties:
       mem_mb:
         type: integer
@@ -692,7 +732,7 @@ properties:
 
   mutect2_pass_filter:
     type: object
-    description: resource definitions for mutect2_pass_filter
+    description: accepted call selection resource definitions shared by gatk_mutect2 and gatk_mutect2_tn
     properties:
       mem_mb:
         type: integer

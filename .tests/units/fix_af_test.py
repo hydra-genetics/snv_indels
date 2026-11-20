@@ -88,6 +88,15 @@ class TestModifyHeader(unittest.TestCase):
                     ).header,
                 ),
                 TestCase(
+                    name="Caller is gatk_mutect2_tn",
+                    caller="gatk_mutect2_tn",
+                    header=pysam.libcbcf.VariantHeader(),
+                    expected=pysam.VariantFile(
+                        ".tests/units/.tests/"
+                        "fix_af.modifyHeader.mutect2.expected.vcf"
+                    ).header,
+                ),
+                TestCase(
                     name="Caller is varscan",
                     caller="varscan",
                     header=pysam.libcbcf.VariantHeader(),
@@ -159,6 +168,15 @@ class TestFixFreebayes(unittest.TestCase):
 
 
 class TestWriteNewVcf(unittest.TestCase):
+    def test_requires_one_sample(self):
+        for samples in ([], ["sample1", "sample2"]):
+            with self.subTest(samples=samples):
+                header = pysam.VariantHeader()
+                for sample in samples:
+                    header.add_sample(sample)
+                with self.assertRaisesRegex(ValueError, "exactly one sample"):
+                    writeNewVcf("unused.vcf", header, None, "gatk_mutect2")
+
     def test_modifyheader(self):
         @dataclass
         class TestCase:
@@ -212,6 +230,22 @@ class TestWriteNewVcf(unittest.TestCase):
                         "fix_af.writeNewVcf.mutect2_vardict.vcf.vcf"
                     ),
                     caller="gatk_mutect2",
+                    expected=(
+                        ".tests/units/.tests/"
+                        "fix_af.writeNewVcf.mutect2_vardict.expected.vcf"
+                    ),
+                ),
+                TestCase(
+                    name="Caller is gatk_mutect2_tn",
+                    path=(
+                        ".tests/units/.tests/"
+                        "fix_af.writeNewVcf.actual.vcf"
+                    ),
+                    vcf=pysam.VariantFile(
+                        ".tests/units/.tests/"
+                        "fix_af.writeNewVcf.mutect2_vardict.vcf.vcf"
+                    ),
+                    caller="gatk_mutect2_tn",
                     expected=(
                         ".tests/units/.tests/"
                         "fix_af.writeNewVcf.mutect2_vardict.expected.vcf"
