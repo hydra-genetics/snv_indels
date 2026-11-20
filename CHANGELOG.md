@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/hydra-genetics/snv_indels/compare/v2.1.0...v3.0.0) (2026-11-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* deepsomatic_t_only config format changed.   pon: "--use_default_pon_filtering=true"  ->  use_default_pon: true   pon: '--pon_filtering="x.vcf" ...'        ->  pon: "x.vcf"   pon: ""                                   ->  remove pon deepsomatic_t_only.model must be a *_TUMOR_ONLY model, and deepsomatic_tn.model must not be one.
+
+### Miscellaneous Chores
+
+* dev to master ([#209](https://github.com/hydra-genetics/snv_indels/issues/209)) ([a2ef228](https://github.com/hydra-genetics/snv_indels/commit/a2ef228b243500e19a6ddd5e8a9a4fc74995cbd9))
+
 ## [2.1.0](https://github.com/hydra-genetics/snv_indels/compare/v2.0.0...v2.1.0) (2026-02-09)
 
 
