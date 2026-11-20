@@ -23,7 +23,9 @@ The module also provide tools for:
 
 * sorting and indexing of the variants with _bcftools_ (applicable to both SR and LR data),
 
-* predict which somatic variants are likely to be mosaicisms with _deepmosaic_ or _mosaicforecast_ (applicable to both SR and LR data).
+* predict which somatic variants are likely to be mosaicisms with _deepmosaic_ or _mosaicforecast_ (applicable to both SR and LR data),
+
+* read-based phasing of variants and haplotagging of reads with _whatshap_ (applicable to both SR and LR data).
 <BR>
 
 The module is designed to be used in a snakemake pipeline and can be easily integrated into existing pipelines that
@@ -103,3 +105,10 @@ Small variants in GVCF format:
 
 * `snv_indels/deeptrio/{sample}_{type}/{trio_member}.g.vcf.gz`
 * `snv_indels/gatk_mutect2_gvcf/{sample}_{type}.merged.g.vcf.gz`
+
+<br/>
+
+Phased variants and haplotagged reads:
+
+* `snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz`
+* `snv_indels/whatshap_haplotag/{sample}_{type}.haplotagged.bam`

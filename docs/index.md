@@ -1,7 +1,9 @@
 # [SNV_indels module](https://github.com/hydra-genetics/snv_indels)
 
-The **snv_indels** module consists of a number of variant callers for:  
-* Short-read (SR) data, both somatic and germline variants.  
+The **snv_indels** module consists of a number of variant callers for:
+
+* Short-read (SR) data, both somatic and germline variants,
+
 * Long-read (LR) data, both somatic and germline variants. Most of the variant callers for LR data are based on deep-learning models.
   
 Some tools are able to handle data from tumor-only (TO) samples, while others require matched normal (MN) samples.
@@ -22,7 +24,9 @@ The module also provide tools for:
 
 * sorting and indexing of the variants with _bcftools_ (applicable to both SR and LR data),
 
-* predict which somatic variants are likely to be mosaicisms with _deepmosaic_ or _mosaicforecast_ (applicable to both SR and LR data).
+* predict which somatic variants are likely to be mosaicisms with _deepmosaic_ or _mosaicforecast_ (applicable to both SR and LR data),
+
+* read-based phasing of variants and haplotagging of reads with _whatshap_ (applicable to both SR and LR data).
 <BR>
 
 The module is designed to be used in a snakemake pipeline and can be easily integrated into existing pipelines that

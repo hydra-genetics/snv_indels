@@ -45,7 +45,7 @@ rule whatshap_haplotag:
         vcf="snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz",
         tbi="snv_indels/whatshap_phase/{sample}_{type}.phased.vcf.gz.tbi",
     output:
-        temp("snv_indels/whatshap_haplotag/{sample}_{type}.haplotagged.bam"),
+        bam=temp("snv_indels/whatshap_haplotag/{sample}_{type}.haplotagged.bam"),
     params:
         extra=config.get("whatshap_haplotag", {}).get("extra", ""),
     log:

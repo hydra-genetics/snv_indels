@@ -301,6 +301,12 @@ properties:
           ref:
             type: string
             description: fasta reference genome file
+          pon:
+            type: string
+            description: optional bgzipped panel of normals VCF used for PON filtering (from config `deepsomatic_t_only.pon`)
+          pon_tbi:
+            type: string
+            description: tabix index of the panel of normals VCF, required when `pon` is set
       output:
         type: object
         description: list of outputs
@@ -319,16 +325,16 @@ properties:
         properties:
           normal:
             type: string
-            description: marked duplication, merged and sorted tumor `.bam` file
+            description: marked duplication, merged and sorted normal `.bam` file
           tumor:
             type: string
-            description: marked duplication, merged and sorted normal `.bam` file
+            description: marked duplication, merged and sorted tumor `.bam` file
           bai_n:
             type: string
-            description: index file for tumor `.bam` file
+            description: index file for normal `.bam` file
           bai_t:
             type: string
-            description: index file for normal `.bam` file
+            description: index file for tumor `.bam` file
           bed:
             type: string
             description: the region where variants should be called
@@ -1002,7 +1008,7 @@ properties:
         type: object
         description: list of outputs
         properties:
-          output1:
+          bam:
             type: string
             description: BAM file with haplotagged reads
 
@@ -1030,7 +1036,7 @@ properties:
         type: object
         description: list of outputs
         properties:
-          output1:
+          vcf:
             type: string
             description: phased variants in VCF format (gzipped)
 

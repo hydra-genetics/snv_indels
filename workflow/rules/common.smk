@@ -21,6 +21,29 @@ if not workflow.overwrite_configfiles:
     sys.exit("At least one config file must be passed using --configfile/--configfiles, by command line or a profile!")
 
 
+# deepsomatic_t_only PON settings. These checks run before schema validation so that an old-style config gets
+# a migration message rather than a generic schema error. Fail loudly instead of guessing what was meant.
+_deepsomatic_t_only = config.get("deepsomatic_t_only") or {}
+if isinstance(_deepsomatic_t_only, dict):
+    # pon used to be pasted into the shell command as raw flags; it is now a path to a PON VCF.
+    _deepsomatic_pon = _deepsomatic_t_only.get("pon") or ""
+    if isinstance(_deepsomatic_pon, str) and _deepsomatic_pon.strip().startswith("--"):
+        raise WorkflowError(
+            f"deepsomatic_t_only.pon must now be a path to a panel of normals VCF, not command-line flags "
+            f"(got: '{_deepsomatic_pon}'). To use DeepSomatic's built-in PON, set 'use_default_pon: true' and remove "
+            f"'pon'. For a custom PON, set 'pon: path/to/pon.vcf.gz' (bgzipped, with a .tbi index). "
+            f"Pass any other flags via 'extra'."
+        )
+    # A PON given through extra would not be tracked as an input and could conflict with pon/use_default_pon.
+    _deepsomatic_extra = _deepsomatic_t_only.get("extra") or ""
+    if isinstance(_deepsomatic_extra, str) and any(
+        flag in _deepsomatic_extra for flag in ("--pon_filtering", "--use_default_pon_filtering")
+    ):
+        raise WorkflowError(
+            "deepsomatic_t_only.extra must not set PON flags (--pon_filtering, --use_default_pon_filtering). "
+            "Use 'pon: path/to/pon.vcf.gz' for a custom PON or 'use_default_pon: true' for the built-in PON."
+        )
+
 validate(config, schema="../schemas/config.schema.yaml")
 config = load_resources(config, config["resources"])
 validate(config, schema="../schemas/resources.schema.yaml")
@@ -149,6 +172,15 @@ def get_glnexus_input(wildcards, input):
     gvcf_input = "-i {}".format(" -i ".join(input.gvcfs))
 
     return gvcf_input
+
+
+def get_deepsomatic_pon_arg(input, config):
+    """Build the PON argument for run_deepsomatic from the declared input and config."""
+    if input.get("pon"):
+        return f"--pon_filtering={input.pon}"
+    if config.get("deepsomatic_t_only", {}).get("use_default_pon", False):
+        return "--use_default_pon_filtering=true"
+    return ""
 
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):

@@ -296,6 +296,32 @@ Using only tumor to call somatic SNV and indel variant from both short and long-
 
 #CONFIGSCHEMA__deepsomatic_t_only#
 
+#### Panel of normals (PON) filtering
+
+Use either option below, not both:
+
+* `use_default_pon: true` uses the PON bundled with DeepSomatic for the selected model.
+* `pon: "path/to/pon.vcf.gz"` uses a custom PON. It must be bgzipped and have a tabix index (`path/to/pon.vcf.gz.tbi`) next to it; DeepSomatic looks variants up in the PON by region, which needs the index. Both files are rule inputs, so they must exist, and a PON file newer than the outputs triggers a rerun. If you replace the PON with a file that has an older timestamp, force the rerun yourself (e.g. `--forcerun deepsomatic_t_only`).
+
+PON flags (`--pon_filtering`, `--use_default_pon_filtering`) are not allowed in `extra`; use `pon` or `use_default_pon` instead.
+
+`model` must be a tumour-only model (`*_TUMOR_ONLY`). Tumour/normal models are only accepted by `deepsomatic_tn`.
+
+DeepSomatic version requirements:
+
+* `WES_TUMOR_ONLY`, `FFPE_WGS_TUMOR_ONLY` and `FFPE_WES_TUMOR_ONLY` need DeepSomatic 1.9.0 or later. 1.8.0 rejects them at start-up.
+* `use_default_pon: true` with `WES_TUMOR_ONLY` needs DeepSomatic 1.10.0 or later. 1.9.0 runs without PON filtering and gives no warning.
+
+!!! warning "Migrating from older versions"
+    `pon` used to take raw command-line flags. It now takes a path. The workflow stops with an error if `pon` starts with `--`.
+
+    | Old config | New config |
+    | --- | --- |
+    | `pon: "--use_default_pon_filtering=true"` | `use_default_pon: true` |
+    | `pon: '--pon_filtering="pon.vcf.gz" --process_somatic=true'` | `pon: "pon.vcf.gz"` (bgzipped, with `pon.vcf.gz.tbi`) |
+    | `pon: ""` | remove `pon`, and make sure `use_default_pon` is `false` or absent |
+    | `model: "PACBIO"` (in `deepsomatic_t_only`) | `model: "PACBIO_TUMOR_ONLY"` |
+
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__deepsomatic_t_only#
@@ -863,4 +889,50 @@ Normalization of vcf files. Left aligns INDELs and adds one reference allele. Af
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__vt_normalize#
+
+---
+
+## [whatshap_haplotag](https://whatshap.readthedocs.io/en/latest/guide.html#whatshap-haplotag)
+If you already have a phased VCF and would like to know which reads in an alignment file belong to which haplotype, you can use whatshap haplotag. The tagged reads can then be visualized along with the variants.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__whatshap__whatshap_haplotag#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__whatshap__whatshap_haplotag#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__whatshap_haplotag#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__whatshap_haplotag#
+
+---
+
+## [whatshap_phase](https://whatshap.readthedocs.io/en/latest/guide.html)
+WhatsHap is a read-based phasing tool. In the typical case, it expects 1) a VCF file with variants of an individual and 2) a BAM or CRAM file with sequencing reads from that same individual. WhatsHap uses the sequencing reads to reconstruct the haplotypes and then writes out the input VCF augmented with phasing information.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__whatshap__whatshap_phase#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__whatshap__whatshap_phase#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__whatshap_phase#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__whatshap_phase#
 
