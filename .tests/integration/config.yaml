@@ -19,6 +19,9 @@ bcbio_variation_recall_ensemble:
 bcftools_norm:
   extra: "-m - "
 
+bcftools_view_tumor:
+  container: "docker://hydragenetics/common:3.1.1"
+
 glnexus:
   container: "docker://hydragenetics/glnexus:1.4.1"
   configfile: "DeepVariantWES"
@@ -39,6 +42,9 @@ gatk_mutect2_gvcf:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 gatk_mutect2_merge_stats:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+gatk_mutect2_tn:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 glnexus:

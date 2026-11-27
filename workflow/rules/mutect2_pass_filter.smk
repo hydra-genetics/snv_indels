@@ -6,16 +6,18 @@ __license__ = "GPL-3"
 
 rule mutect2_pass_filter:
     input:
-        vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz",
+        vcf="snv_indels/{mutect_caller}/{sample}_{type}.merged.softfiltered.vcf.gz",
     output:
-        vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz"),
+        vcf=temp("snv_indels/{mutect_caller}/{sample}_{type}.merged.vcf.gz"),
+    wildcard_constraints:
+        mutect_caller="gatk_mutect2|gatk_mutect2_tn",
     params:
         pass_filters=config.get("mutect2_pass_filter", {}).get("pass_filters", ["PASS", "multiallelic"]),
     log:
-        "snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz.log",
+        "snv_indels/{mutect_caller}/{sample}_{type}.merged.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/gatk_mutect2/{sample}_{type}.merged.vcf.gz.benchmark.tsv",
+            "snv_indels/{mutect_caller}/{sample}_{type}.merged.vcf.gz.benchmark.tsv",
             config.get("mutect2_pass_filter", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("mutect2_pass_filter", {}).get("threads", config["default_resources"]["threads"])

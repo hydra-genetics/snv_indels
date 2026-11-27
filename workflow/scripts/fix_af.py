@@ -37,6 +37,7 @@ def modifyHeader(caller: str, header: pysam.libcbcf.VariantHeader):
         caller == "pisces"
         or caller == "pbrun_mutectcaller_T"
         or caller == "gatk_mutect2"
+        or caller == "gatk_mutect2_tn"
         or caller == "pbrun_deepvariant"
         or caller == "deepvariant"
         or caller == "clairs_to"
@@ -59,6 +60,8 @@ def fixFreebayes(header: pysam.libcbcf.VariantHeader, row: pysam.libcbcf.Variant
 
 # loop through input vcf and write modified entries to new vcf
 def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcbcf.VariantFile, caller: str):
+    if len(header.samples) != 1:
+        raise ValueError("fix_af requires a VCF containing exactly one sample.")
     new_vcf = pysam.VariantFile(path, "w", header=header)
     for row in vcf.fetch():
         if caller == "freebayes":
@@ -66,7 +69,7 @@ def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcb
             row.samples[0]["AF"] = fixFreebayes(header, row)
         elif caller == "haplotypecaller":
             row.info["AF"] = row.samples[0].get("AF")
-        elif caller == "gatk_mutect2":
+        elif caller in ("gatk_mutect2", "gatk_mutect2_tn"):
             row.info["AF"] = row.samples[0].get("AF")
         elif caller == "pisces":
             row.info["AF"] = row.samples[0].get("VF")
@@ -91,7 +94,7 @@ def writeNewVcf(path: str, header: pysam.libcbcf.VariantHeader, vcf: pysam.libcb
         else:
             raise ValueError(
                 "{} is not a valid caller for this script. Choose between: "
-                "freebayes, haplotypecaller, gatk_mutect2, gatk_select_variants_final, "
+                "freebayes, haplotypecaller, gatk_mutect2, gatk_mutect2_tn, gatk_select_variants_final, "
                 "pbrun_deepvariant, deepvariant, clairs_to, pisces, vardict, varscan.".format(caller)
             )
         new_vcf.write(row)

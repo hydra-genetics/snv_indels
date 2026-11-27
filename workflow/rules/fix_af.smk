@@ -6,7 +6,10 @@ __license__ = "GPL-3"
 
 rule fix_af:
     input:
-        vcf="snv_indels/{caller}/{sample}_{type}.merged.vcf.gz",
+        vcf=lambda wildcards: (
+            f"snv_indels/{wildcards.caller}/{wildcards.sample}_{wildcards.type}."
+            + ("tumor.vcf.gz" if wildcards.caller == "gatk_mutect2_tn" else "merged.vcf.gz")
+        ),
     output:
         vcf=temp("snv_indels/{caller}/{sample}_{type}.fix_af.vcf"),
     log:

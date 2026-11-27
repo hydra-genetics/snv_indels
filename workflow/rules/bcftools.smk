@@ -100,6 +100,36 @@ rule bcftools_view:
         "v1.25.0/bio/bcftools/view"
 
 
+rule bcftools_view_tumor:
+    input:
+        vcf="snv_indels/gatk_mutect2_tn/{sample}_T.merged.vcf.gz",
+    output:
+        vcf=temp("snv_indels/gatk_mutect2_tn/{sample}_T.tumor.vcf.gz"),
+    params:
+        sample=lambda wildcards: f"{wildcards.sample}_T",
+    log:
+        "snv_indels/gatk_mutect2_tn/{sample}_T.tumor.vcf.gz.log",
+    benchmark:
+        repeat(
+            "snv_indels/gatk_mutect2_tn/{sample}_T.tumor.vcf.gz.benchmark.tsv",
+            config.get("bcftools_view_tumor", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("bcftools_view_tumor", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("bcftools_view_tumor", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("bcftools_view_tumor", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("bcftools_view_tumor", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("bcftools_view_tumor", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("bcftools_view_tumor", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("bcftools_view_tumor", {}).get("container", config["default_container"])
+    message:
+        "{rule}: select tumor sample {params.sample} from {input.vcf}"
+    shell:
+        "(bcftools view --samples {params.sample:q} --output-type z --threads {threads} "
+        "--output {output.vcf:q} {input.vcf:q}) &> {log:q}"
+
+
 rule bcftools_norm:
     input:
         vcf="snv_indels/{caller}/{sample}_{type}.fix_af.vcf.gz",
