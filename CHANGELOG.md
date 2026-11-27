@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.0](https://github.com/hydra-genetics/snv_indels/compare/v3.0.0...v3.1.0) (2026-11-27)
+
+
+### Features
+
+* Add gatk-mutect2-tn rule for paired SNV calling ([6e8b151](https://github.com/hydra-genetics/snv_indels/commit/6e8b15144525d5b77e3fd89e91d87fe624bcdf2d))
+* connect paired Mutect2 calls to tumor selection and normalization ([2adeb14](https://github.com/hydra-genetics/snv_indels/commit/2adeb14bd159063a72b5795953bad9c191f374a6))
+
 ## [3.0.0](https://github.com/hydra-genetics/snv_indels/compare/v2.1.0...v3.0.0) (2026-11-20)
 
 
